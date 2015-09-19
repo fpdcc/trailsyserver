@@ -3,6 +3,10 @@
 worker_processes Integer(ENV['WEB_CONCURRENCY'] || 3)
 timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
+listen "/tmp/unicorn_trailsyserver.sock"
+pid "/tmp/unicorn_trailsyserver.pid"
+stdout_path "/var/www/log/unicorn_trailsyserver.log"
+stderr_path "/var/www/log/unicorn_trailsyserver.log"
 
 before_fork do |server, worker|
 

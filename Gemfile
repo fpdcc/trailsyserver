@@ -56,11 +56,11 @@ gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 
-group :development, :development_aws, :production, :test do
+group :development, :development_aws, :production, :test, :staging do
   gem 'rack-cors', :require => 'rack/cors'
 end
 
 group :production do
-  gem 'rails_12factor'
-  gem 'heroku_rails_deflate'
+  #gem 'rails_12factor'
+  #gem 'heroku_rails_deflate'
 end
