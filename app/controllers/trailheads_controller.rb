@@ -211,7 +211,7 @@ class TrailheadsController < ApplicationController
     def trailhead_params
       params.require(:trailhead).permit(:name, :park, :address, :city, :state, :zip, :source_id, :trail1, :trail2, 
         :trail3, :geom, :distance, :steward_id, :parking, :drinkwater, :restrooms, 
-        :kiosk, :trail4, :trail5, :trail6)
+        :kiosk, :trail4, :trail5, :trail6, :poi_type)
     end
 
     def sort_by_distance(trailheads)

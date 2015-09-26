@@ -39,6 +39,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>POI Type</th>
       <th>Source</th>
       <th>Steward</th>
       <th>Trails</th>
@@ -50,6 +51,7 @@
     <% @trailheads.each do |trailhead| %>
       <tr>
         <td><%= trailhead.name %></td>
+        <td><%= trailhead.poi_type %></td>
         <td><%= trailhead.source.code %></td>
         <td><%= trailhead.steward.code %></td>
         <td>
