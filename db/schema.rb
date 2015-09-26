@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131101182924) do
+ActiveRecord::Schema.define(version: 20150926155504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20131101182924) do
     t.string   "city"
     t.string   "state"
     t.string   "zip"
+    t.string   "poi_type"
   end
 
   create_table "trails", force: true do |t|
