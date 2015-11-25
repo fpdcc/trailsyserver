@@ -26,6 +26,9 @@
       Trailhead Name
     </th>
     <th>
+      Trailhead ID
+    </th>
+    <th>
       Import errors
     </th>
   </tr>
@@ -40,6 +43,9 @@
     </td>
     <td>
       <%= added_trailhead[:trailhead].name %>
+    </td>
+    <td>
+      <%= added_trailhead[:trailhead].trailhead_id %>
     </td>
     <td>
       <%= added_trailhead[:message] %>
@@ -57,6 +63,9 @@
     </td>
     <td>
       <%= removed_trailhead[:trailhead].name %>
+    </td>
+    <td>
+      <%= removed_trailhead[:trailhead].trailhead_id %>
     </td>
     <td>
       <%= removed_trailhead[:trailhead].created_at %>

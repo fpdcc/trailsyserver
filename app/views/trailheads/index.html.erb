@@ -42,6 +42,9 @@
       <th>POI Type</th>
       <th>Source</th>
       <th>Steward</th>
+      <th>Trailhead ID</th>
+      <th>Segment IDs</th>
+      <th>Trail IDs</th>
       <th>Trails</th>
       <th colspan=3>Action</th>
     </tr>
@@ -54,6 +57,9 @@
         <td><%= trailhead.poi_type %></td>
         <td><%= trailhead.source.code %></td>
         <td><%= trailhead.steward.code %></td>
+        <td><%= trailhead.trailhead_id %></td>
+        <td><%= trailhead.segment_ids %></td>
+        <td><%= trailhead.trail_ids %></td>
         <td>
           <ul>
           <% %w[trail1 trail2 trail3 trail4 trail5 trail6].each do |trail| %>

@@ -95,6 +95,18 @@
     <span class='h3-Edit'><%= f.label :trail6 %></span>
     <%= f.text_field :trail6, size: 50 %>
   </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :segments_ids %></span>
+    <%= f.text_field :segment_ids, size: 50 %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :trailhead_id %></span>
+    <%= f.text_field :trailhead_id, size: 50 %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :trail_ids %></span>
+    <%= f.text_field :trail_ids, size: 50 %>
+  </div>
   <div class="actions">
     <%= f.submit %>
     <%= f.submit :Cancel %>
