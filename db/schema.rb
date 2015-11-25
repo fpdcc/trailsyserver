@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150926155504) do
+ActiveRecord::Schema.define(version: 20151125202545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20150926155504) do
     t.string   "restrooms"
     t.string   "kiosk"
     t.string   "contactnum"
-    t.spatial  "geom",       limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "geom",         limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "park"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 20150926155504) do
     t.string   "state"
     t.string   "zip"
     t.string   "poi_type"
+    t.text     "segment_ids",                                                           default: [], array: true
+    t.string   "trailhead_id"
+    t.text     "trail_ids",                                                             default: [], array: true
   end
 
   create_table "trails", force: true do |t|
@@ -89,13 +92,16 @@ ActiveRecord::Schema.define(version: 20150926155504) do
     t.string   "statustext"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "segment_ids", default: [], array: true
+    t.string   "trail_id"
+    t.text     "part_of",     default: [], array: true
   end
 
   create_table "trailsegments", force: true do |t|
     t.integer  "source_id"
     t.integer  "steward_id"
     t.decimal  "length"
-    t.spatial  "geom",       limit: {:srid=>4326, :type=>"multi_line_string", :geographic=>true}
+    t.spatial  "geom",           limit: {:srid=>4326, :type=>"multi_line_string", :geographic=>true}
     t.string   "trail1"
     t.string   "trail2"
     t.string   "trail3"
@@ -113,6 +119,13 @@ ActiveRecord::Schema.define(version: 20150926155504) do
     t.string   "dogs"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "segment_id"
+    t.string   "foot"
+    t.string   "bicycle"
+    t.string   "horse"
+    t.string   "ski"
+    t.string   "wheelchair"
+    t.string   "motor_vehicles"
   end
 
   create_table "users", force: true do |t|
