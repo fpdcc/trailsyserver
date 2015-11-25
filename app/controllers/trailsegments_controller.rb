@@ -256,7 +256,7 @@ class TrailsegmentsController < ApplicationController
     def trailsegment_params
       params.require(:trailsegment).permit(:length, :source_id, :steward, :geom, 
         :trail1, :trail2, :trail3, :steward_id, :accessible, :hike, :equestrian, 
-        :xcntryski, :dogs, :roadbike, :mtnbike, :trail4, :trail5, :trail6)
+        :xcntryski, :dogs, :roadbike, :mtnbike, :trail4, :trail5, :trail6, :segment_id, :foot, :bicycle, :horse, :ski, :wheelchair, :motor_vehicles)
     end
 
     def check_for_cancel
