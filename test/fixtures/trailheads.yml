@@ -6,6 +6,10 @@ one:
   trail1: MyString
   trail2: MyString
   trail3: MyString
+  poi_type: MyString
+  segment_ids: "{Mystring}"
+  trailhead_id: MyString
+  trail_ids: "{MyString}"
   geom: 
 
 two:
@@ -14,4 +18,8 @@ two:
   trail1: MyString
   trail2: MyString
   trail3: MyString
+  poi_type: MyString
+  segment_ids: "{MyString}"
+  trailhead_id: MyString
+  trail_ids: "{MyString}"
   geom: 

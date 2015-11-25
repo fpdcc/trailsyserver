@@ -4,10 +4,24 @@ one:
   length: 9.99
   source: MyString
   steward: MyString
+  segment_id: MyString
+  foot: MyString
+  bicycle: MyString
+  horse: MyString
+  ski: MyString
+  wheelchair: MyString
+  motor_vehicles: MyString
   geom: 
 
 two:
   length: 9.99
   source: MyString
   steward: MyString
+  segment_id: MyString
+  foot: MyString
+  bicycle: MyString
+  horse: MyString
+  ski: MyString
+  wheelchair: MyString
+  motor_vehicles: MyString
   geom: 

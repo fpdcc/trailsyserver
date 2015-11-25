@@ -16,13 +16,14 @@ class TrailsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create trail" do
-    assert_difference('Trail.count') do
-      post :create, trail: { bikes: @trail.bikes, description: @trail.description, difficulty: @trail.difficulty, dogs: @trail.dogs, hike_time: @trail.hike_time, horses: @trail.horses, length: @trail.length, name: @trail.name, opdmd_access: @trail.opdmd_access, print_map_url: @trail.print_map_url, source: @trail.source, steward: @trail.steward, surface: @trail.surface }
-    end
+  # Create is currently disabled
+  # test "should create trail" do
+  #   assert_difference('Trail.count') do
+  #     post :create, trail: { bikes: @trail.bikes, description: @trail.description, dogs: @trail.dogs, length: @trail.length, name: @trail.name, map_url: @trail.map_url, source: @trail.source, steward: @trail.steward, trlsurface: @trail.trlsurface, trail_id: @trail.trail_id, segment_ids: @trail.segment_ids, part_of: @trail.part_of }
+  #   end
 
-    assert_redirected_to trail_path(assigns(:trail))
-  end
+  #   assert_redirected_to trail_path(assigns(:trail))
+  # end
 
   test "should show trail" do
     get :show, id: @trail
@@ -35,7 +36,7 @@ class TrailsControllerTest < ActionController::TestCase
   end
 
   test "should update trail" do
-    patch :update, id: @trail, trail: { bikes: @trail.bikes, description: @trail.description, difficulty: @trail.difficulty, dogs: @trail.dogs, hike_time: @trail.hike_time, horses: @trail.horses, length: @trail.length, name: @trail.name, opdmd_access: @trail.opdmd_access, print_map_url: @trail.print_map_url, source: @trail.source, steward: @trail.steward, surface: @trail.surface }
+    patch :update, id: @trail, trail: { bikes: @trail.bikes, description: @trail.description, dogs: @trail.dogs, length: @trail.length, name: @trail.name, map_url: @trail.map_url, source: @trail.source, steward: @trail.steward, trlsurface: @trail.trlsurface, trail_id: @trail.trail_id, segment_ids: @trail.segment_ids, part_of: @trail.part_of }
     assert_redirected_to trail_path(assigns(:trail))
   end
 

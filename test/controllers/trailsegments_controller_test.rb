@@ -16,13 +16,14 @@ class TrailsegmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create trailsegment" do
-    assert_difference('Trailsegment.count') do
-      post :create, trailsegment: { geom: @trailsegment.geom, length: @trailsegment.length, name1: @trailsegment.name1, name2: @trailsegment.name2, name3: @trailsegment.name3, source: @trailsegment.source, steward: @trailsegment.steward }
-    end
+  # Trailsegment Create is curently disabled
+  # test "should create trailsegment" do
+  #   assert_difference('Trailsegment.count') do
+  #     post :create, trailsegment: { geom: @trailsegment.geom, length: @trailsegment.length, name1: @trailsegment.name1, name2: @trailsegment.name2, name3: @trailsegment.name3, source: @trailsegment.source, steward: @trailsegment.steward, segment_id: @trailsegment.segment_id, foot: @trailsegment.foot, bicycle: @trailsegment.bicycle, horse: @trailsegment.horse, ski: @trailsegment.ski, wheelchair: @trailsegment.wheelchair, motor_vehicles: @trailsegment.motor_vehicles }
+  #   end
 
-    assert_redirected_to trailsegment_path(assigns(:trailsegment))
-  end
+  #   assert_redirected_to trailsegment_path(assigns(:trailsegment))
+  # end
 
   test "should show trailsegment" do
     get :show, id: @trailsegment
@@ -35,7 +36,7 @@ class TrailsegmentsControllerTest < ActionController::TestCase
   end
 
   test "should update trailsegment" do
-    patch :update, id: @trailsegment, trailsegment: { geom: @trailsegment.geom, length: @trailsegment.length, name1: @trailsegment.name1, name2: @trailsegment.name2, name3: @trailsegment.name3, source: @trailsegment.source, steward: @trailsegment.steward }
+    patch :update, id: @trailsegment, trailsegment: { geom: @trailsegment.geom, length: @trailsegment.length, name1: @trailsegment.name1, name2: @trailsegment.name2, name3: @trailsegment.name3, source: @trailsegment.source, steward: @trailsegment.steward, segment_id: @trailsegment.segment_id, foot: @trailsegment.foot, bicycle: @trailsegment.bicycle, horse: @trailsegment.horse, ski: @trailsegment.ski, wheelchair: @trailsegment.wheelchair, motor_vehicles: @trailsegment.motor_vehicles }
     assert_redirected_to trailsegment_path(assigns(:trailsegment))
   end
 
