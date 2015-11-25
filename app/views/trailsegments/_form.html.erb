@@ -86,6 +86,34 @@
     <%= f.select :mtnbike, ["y", "n"], {include_blank: true} %>
   </div>
 
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :segment_id, "Segment ID" %></span>
+    <%= f.text_field :segment_id %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :foot, "Foot / Walking" %></span>
+    <%= f.select :foot, ["y", "n"], {include_blank: true} %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :bicycle, "Bicycle" %></span>
+    <%= f.select :bicycle, ["y", "n"], {include_blank: true} %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :horse, "Horse" %></span>
+    <%= f.select :horse, ["y", "n"], {include_blank: true} %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :ski, "Ski" %></span>
+    <%= f.select :ski, ["y", "n"], {include_blank: true} %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :wheelchair, "Wheelchair" %></span>
+    <%= f.select :wheelchair, ["y", "n"], {include_blank: true} %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :motor_vehicles, "Motor Vehicles" %></span>
+    <%= f.select :motor_vehicles, ["y", "n"], {include_blank: true} %>
+  </div>
 
   <div class="actions">
     <%= f.submit %>

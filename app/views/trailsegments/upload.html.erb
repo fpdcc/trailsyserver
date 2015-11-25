@@ -11,6 +11,9 @@
       Status
     </th>
     <th>
+      Segment ID
+    </th>
+    <th>
       Trailsegment Name
     </th>
     <th>
@@ -25,6 +28,9 @@
       <% else %>
       <b><%= @confirmed ? "Not Added" : "Would Not Be Added" %></b> 
       <% end %>
+    </td>
+    <td>
+      <% added_trailsegment[:trailsegment].segment_id %>
     </td>
     <td>
       <% segment_list = [added_trailsegment[:trailsegment].trail1,
@@ -48,6 +54,9 @@
       <% else %>
       <b><%= @confirmed ? "Not Deleted" : "Would Not Be Deleted" %></b>
       <% end %>
+    </td>
+    <td>
+      <% removed_trailsegment[:trailsegment].segment_id %>
     </td>
     <td>
       <% segment_list = [removed_trailsegment[:trailsegment].trail1,
