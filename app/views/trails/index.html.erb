@@ -41,6 +41,9 @@ Note: The data standard includes a field for allowing dogs on the trails, but du
       <th>Status</th>
       <th>Status Text</th>
       <th>Description</th>
+      <th>Trail ID</th>
+      <th>Segment IDs</th>
+      <th>Part of</th>
       <th>Source</th>
       <th>Steward</th>
       <th>Photo</th>
@@ -63,6 +66,9 @@ Note: The data standard includes a field for allowing dogs on the trails, but du
       </td>
       <td><%= truncate(trail.statustext, length: 50) %></td>
       <td><%= truncate(trail.description, length: 50) %></td>
+      <td><%= trail.trail_id %></td>
+      <td><%= trail.segment_ids %></td>
+      <td><%= trail.part_of %></td>
       <td><%= trail.source.code if trail.source %></td>
       <td><%= trail.steward.code if trail.steward %></td>
       <td>

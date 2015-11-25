@@ -22,6 +22,21 @@
   </h3>
 
   <h3>
+    Trail ID:
+    <span class='formAnswer'><%= @trail.trail_id %></span>
+  </h3>
+
+  <h3>
+    Segment IDs:
+    <span class='formAnswer'><%= @trail.segment_ids %></span>
+  </h3>
+
+  <h3>
+    Part of:
+    <span class='formAnswer'><%= @trail.part_of %></span>
+  </h3>
+
+  <h3>
     Photo
     <span class='formAnswer'><% if @trail.photorecord && @trail.photorecord.photo? %>
       <span class='h3-Photo'>medium</span>
