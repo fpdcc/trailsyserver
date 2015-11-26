@@ -4,7 +4,7 @@ class Trailhead < ActiveRecord::Base
   validates :name, presence: true
   validates :source, presence: true
   validates :steward, presence: true
-  validates :trail1, presence: true
+  #validates :trail1, presence: true
 
   belongs_to :steward, class_name: 'Organization', foreign_key: "steward_id"
   belongs_to :source, class_name: 'Organization', foreign_key: "source_id"
