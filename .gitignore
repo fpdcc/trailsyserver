@@ -17,3 +17,4 @@
 
 # Ignore server settings
 /config/database.yml
+config/database.yml
