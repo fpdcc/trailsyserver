@@ -226,7 +226,7 @@ class TrailsegmentsController < ApplicationController
   end
 
   def create_json_attributes(trailsegment)
-    json_attributes = trailsegment.attributes.except("geom", "wkt", "created_at", "updated_at")
+    json_attributes = trailsegment.attributes.except("geom", "wkt", "created_at", "updated_at", "trail1", "trail2", "trail3", "trail4", "trail5", "trail6", "accessible", "roadbike", "mtnbike", "hike", "equestrian", "xcntryski")
     if trailsegment.source
       json_attributes["source"] = trailsegment.source.code
       json_attributes["source_fullname"] = trailsegment.source.full_name

@@ -7,8 +7,8 @@ timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
 listen "/tmp/trailsyserver-#{rails_env}.sock"
 pid "/tmp/trailsyserver-#{rails_env}.pid"
-stdout_path "/var/www/log/unicorn_trailsyserver.log"
-stderr_path "/var/www/log/unicorn_trailsyserver.log"
+stdout_path "/var/www/log/unicorn_trailsyserver-#{rails_env}.log"
+stderr_path "/var/www/log/unicorn_trailsyserver-#{rails_env}.log"
 
 before_fork do |server, worker|
 
