@@ -179,7 +179,7 @@ class TrailheadsController < ApplicationController
   end
 
   def create_json_attributes(trailhead)
-    json_attributes = trailhead.attributes.except("geom", "wkt", "created_at", "updated_at", "source_id", "steward_id")
+    json_attributes = trailhead.attributes.except("id","trailhead_id","geom", "trail1", "trail2", "trail3", "trail4", "trail5", "trail6", "wkt", "created_at", "updated_at", "source_id", "steward_id")
     if trailhead.source
       json_attributes["source"] = trailhead.source.code
       json_attributes["source_fullname"] = trailhead.source.full_name
@@ -193,6 +193,7 @@ class TrailheadsController < ApplicationController
       json_attributes["steward_url"] = trailhead.steward.url
     end
     json_attributes["distance"] = trailhead.distance
+    json_attributes["id"] = trailhead.trailhead_id
     json_attributes
   end
 

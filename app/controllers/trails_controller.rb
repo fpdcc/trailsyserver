@@ -207,7 +207,7 @@ class TrailsController < ApplicationController
   end
 
   def create_json_attributes(trail)
-    json_attributes = trail.attributes.clone.except!("created_at", "updated_at", "source_id", "steward_id")
+    json_attributes = trail.attributes.clone.except!("trail_id", "id", "created_at", "updated_at", "source_id", "steward_id")
     if trail.source
       json_attributes["source"] = trail.source.code
       json_attributes["source_fullname"] = trail.source.full_name
@@ -228,6 +228,7 @@ class TrailsController < ApplicationController
       json_attributes["thumb_photo_url"] = trail.photorecord.photo.url(:thumb)
       json_attributes["photo_credit"] = trail.photorecord.credit
     end
+    json_attributes["id"] = trail.trail_id
     json_attributes
   end
 
