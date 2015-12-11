@@ -1,0 +1,35 @@
+<h1>Listing activities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Activities</th>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Parking entrance</th>
+      <th>Nameid</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%= activity.activities_id %></td>
+        <td><%= activity.type %></td>
+        <td><%= activity.name %></td>
+        <td><%= activity.parking_entrance_id %></td>
+        <td><%= activity.nameid %></td>
+        <td><%= link_to 'Show', activity %></td>
+        <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
+        <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Activity', new_activity_path %>

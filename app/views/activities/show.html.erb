@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Activities:</strong>
+  <%= @activity.activities_id %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @activity.type %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @activity.name %>
+</p>
+
+<p>
+  <strong>Parking entrance:</strong>
+  <%= @activity.parking_entrance_id %>
+</p>
+
+<p>
+  <strong>Nameid:</strong>
+  <%= @activity.nameid %>
+</p>
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

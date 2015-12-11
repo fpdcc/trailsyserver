@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  activities_id: MyString
+  type: 
+  name: MyString
+  parking_entrance_id: MyString
+  nameid: MyString
+
+two:
+  activities_id: MyString
+  type: 
+  name: MyString
+  parking_entrance_id: MyString
+  nameid: MyString
