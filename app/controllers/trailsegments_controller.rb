@@ -240,7 +240,21 @@ class TrailsegmentsController < ApplicationController
       json_attributes["steward_url"] = trailsegment.steward.url
     end
     json_attributes["id"] = trailsegment.segment_id
+    # json_attributes["trail_ids"] = create_trail_id_list(trailsegment.segment_id)
     json_attributes
+  end
+
+  def create_trail_id_list(segment_id)
+    trailids = []
+    Trail.all.each do |trail|
+      segments = trail.segment_ids
+      segments.each do |segment|
+        if segment == segment_id
+          trailids.push(trail.trail_id)
+        end
+      end
+    end
+    return trailids 
   end
 
   private
@@ -255,7 +269,7 @@ class TrailsegmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trailsegment_params
-      params.require(:trailsegment).permit(:length, :source_id, :steward, :geom, 
+      params.require(:trailsegment).permit(:length, :trail_ids, :trail_names, :source_id, :steward, :geom, 
         :trail1, :trail2, :trail3, :steward_id, :accessible, :hike, :equestrian, 
         :xcntryski, :dogs, :roadbike, :mtnbike, :trail4, :trail5, :trail6, :segment_id, :foot, :bicycle, :horse, :ski, :wheelchair, :motor_vehicles)
     end
