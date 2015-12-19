@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211174334) do
+ActiveRecord::Schema.define(version: 20151218030143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,12 +19,13 @@ ActiveRecord::Schema.define(version: 20151211174334) do
 
   create_table "activities", force: true do |t|
     t.string   "activities_id"
-    t.string   "type"
+    t.string   "activity_type"
     t.string   "name"
     t.string   "parking_entrance_id"
     t.string   "nameid"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.spatial  "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
   create_table "organizations", force: true do |t|
@@ -68,7 +69,7 @@ ActiveRecord::Schema.define(version: 20151211174334) do
     t.string   "restrooms"
     t.string   "kiosk"
     t.string   "contactnum"
-    t.spatial  "geom",         limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "geom",           limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "park"
@@ -77,9 +78,42 @@ ActiveRecord::Schema.define(version: 20151211174334) do
     t.string   "state"
     t.string   "zip"
     t.string   "poi_type"
-    t.text     "segment_ids",                                                           default: [], array: true
+    t.text     "segment_ids",                                                             default: [], array: true
     t.string   "trailhead_id"
-    t.text     "trail_ids",                                                             default: [], array: true
+    t.text     "trail_ids",                                                               default: [], array: true
+    t.integer  "large_capacity"
+    t.integer  "gas_powered"
+    t.integer  "boat_rental"
+    t.integer  "picnic_grove"
+    t.integer  "shelter"
+    t.integer  "hiking"
+    t.integer  "cycling"
+    t.integer  "in_line_sk"
+    t.integer  "cross_country"
+    t.integer  "ecological"
+    t.integer  "equestrian"
+    t.integer  "birding"
+    t.integer  "fishing"
+    t.integer  "canoe"
+    t.integer  "snowmobile"
+    t.integer  "m_boat"
+    t.integer  "m_airplace"
+    t.integer  "camping"
+    t.integer  "dog_friendly"
+    t.integer  "sledding"
+    t.integer  "toboggan_a"
+    t.integer  "boat_ramp"
+    t.integer  "nature_center"
+    t.integer  "swimming"
+    t.integer  "golf"
+    t.integer  "no_alcohol"
+    t.integer  "no_parking"
+    t.integer  "comfortstation"
+    t.integer  "drinkingwater"
+    t.integer  "natureplay"
+    t.integer  "ada"
+    t.integer  "pavillion"
+    t.integer  "trailacces"
   end
 
   create_table "trails", force: true do |t|

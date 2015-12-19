@@ -56,6 +56,13 @@ gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-unicorn'
+end
+
 group :development, :development_aws, :production, :test, :staging do
   gem 'rack-cors', :require => 'rack/cors'
 end

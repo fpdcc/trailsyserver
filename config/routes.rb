@@ -1,4 +1,10 @@
 Trailsyserver::Application.routes.draw do
+  resources :activities do
+    collection do
+      post 'upload'
+    end
+  end
+
   resources :organizations
 
   devise_for :users, :controllers => { :registrations => "registrations" }

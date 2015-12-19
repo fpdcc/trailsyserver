@@ -16,12 +16,16 @@
     <%= f.text_field :activities_id %>
   </div>
   <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
+    <%= f.label :activity_type %><br>
+    <%= f.text_field :activity_type %>
   </div>
   <div class="field">
     <%= f.label :name %><br>
     <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <span class='h3-Edit'><%= f.label :location %></span>
+    <span class='formAnswer'><%= @activity.geom %></span>
   </div>
   <div class="field">
     <%= f.label :parking_entrance_id %><br>

@@ -14,14 +14,27 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
+
+staging:
+  adapter: postgis
+  encoding: unicode
+  database: trailsy_staging
+  pool: 5
+  username: trailsy_db_staging
+  password: 'hjhvndknvkfdnk'
+  su_username: trailsy_db_staging
+  su_password: 'hjhvndknvkfdnk'
+  schema_search_path: "public,postgis"
+  postgis_extension: true
+
 development:
   adapter: postgis
   encoding: unicode
-  database: trailsy
+  database: trailsy_ot11
   pool: 5
-  username: davery
+  username: josh
   password:
-  su_username: davery
+  su_username: josh
   su_password:
   schema_search_path: "public,postgis"
   postgis_extension: true
@@ -63,9 +76,9 @@ development_aws:
 test:
   adapter: postgis
   encoding: unicode
-  database: trailsy_test
+  database: trailsy_test_ot11
   pool: 5
-  username: davery
+  username: josh
   password:
 
 production:
