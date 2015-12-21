@@ -212,7 +212,11 @@ class TrailheadsController < ApplicationController
     def trailhead_params
       params.require(:trailhead).permit(:name, :park, :address, :city, :state, :zip, :source_id, :trail1, :trail2, 
         :trail3, :geom, :distance, :steward_id, :parking, :drinkwater, :restrooms, 
-        :kiosk, :trail4, :trail5, :trail6, :poi_type, :segment_ids, :trailhead_id, :trail_ids)
+        :kiosk, :trail4, :trail5, :trail6, :poi_type, :segment_ids, :trailhead_id, :trail_ids,
+        :large_capacity, :gas_powered,:boat_rental,:picnic_grove,:shelter,:hiking,:cycling,:in_line_sk,:cross_country,
+        :ecological,:equestrian,:birding,:fishing,:canoe,:snowmobile,:m_boat,:m_airplace,:camping,:dog_friendly,
+        :sledding,:toboggan_a,:boat_ramp,:nature_center,:swimming,:golf,:no_alcohol,:no_parking,:comfortstation,
+        :drinkingwater,:natureplay,:ada,:pavillion,:trailacces)
     end
 
     def sort_by_distance(trailheads)
