@@ -4,6 +4,11 @@ class TrailheadsController < ApplicationController
   before_action :set_show_all_param
   before_action :check_for_cancel, only: [:update]
 
+  after_action :set_trailheads_cache_key , only: [:destroy, :update, :upload]
+
+  max_updated_at = Trailhead.maximum(:updated_at).try(:utc).try(:to_s, :number)
+  @@trailheads_cache_key = "trailheads/all-#{max_updated_at}"
+
   # GET /trailheads
   # GET /trailheads.json
   def index
@@ -17,11 +22,15 @@ class TrailheadsController < ApplicationController
         end
       end
       format.json do
-        @trailheads = Trailhead.order("name")
-        entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        @trailheads = cached_all_by_name
         if (params[:loc])
           @trailheads = sort_by_distance(@trailheads)
         end
+        #if stale?(@trailheads)
+        #fresh_when last_modified: @trailheads.maximum(:updated_at)
+        
+        entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        
         features = []
         @trailheads.each do |trailhead|
           json_attributes = create_json_attributes(trailhead)
@@ -32,7 +41,10 @@ class TrailheadsController < ApplicationController
         end
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
-        render json: Oj.dump(my_geojson)
+        ojDump = Oj.dump(my_geojson)
+        #if stale?(ojDump, public: true)
+          render json: ojDump
+        #end
       end
     end
   end
@@ -180,28 +192,48 @@ class TrailheadsController < ApplicationController
 
   def create_json_attributes(trailhead)
     json_attributes = trailhead.attributes.except("id","trailhead_id","geom", "trail1", "trail2", "trail3", "trail4", "trail5", "trail6", "wkt", "created_at", "updated_at", "source_id", "steward_id")
-    if trailhead.source
-      json_attributes["source"] = trailhead.source.code
-      json_attributes["source_fullname"] = trailhead.source.full_name
-      json_attributes["source_phone"] = trailhead.source.phone
-      json_attributes["source_url"] = trailhead.source.url
-    end
-    if trailhead.steward
-      json_attributes["steward"] = trailhead.steward.code
-      json_attributes["steward_fullname"] = trailhead.steward.full_name
-      json_attributes["steward_phone"] = trailhead.steward.phone
-      json_attributes["steward_url"] = trailhead.steward.url
-    end
+    # if trailhead.source
+    #   json_attributes["source"] = trailhead.source.code
+    #   json_attributes["source_fullname"] = trailhead.source.full_name
+    #   json_attributes["source_phone"] = trailhead.source.phone
+    #   json_attributes["source_url"] = trailhead.source.url
+    # end
+    # if trailhead.steward
+    #   json_attributes["steward"] = trailhead.steward.code
+    #   json_attributes["steward_fullname"] = trailhead.steward.full_name
+    #   json_attributes["steward_phone"] = trailhead.steward.phone
+    #   json_attributes["steward_url"] = trailhead.steward.url
+    # end
     json_attributes["distance"] = trailhead.distance
     json_attributes["id"] = trailhead.trailhead_id
     json_attributes
   end
 
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_trailhead
       @trailhead = Trailhead.find(params[:id])
+    end
+
+    def set_trailheads_cache_key
+      max_updated_at = Trailhead.maximum(:updated_at).try(:utc).try(:to_s, :number)
+      @@trailheads_cache_key = "trailheads/all-#{max_updated_at}"
+      puts "NEW trailheads_cache_key: #{@@trailheads_cache_key}"
+    end  
+
+    def cached_all_by_name
+        puts @@trailheads_cache_key
+      if @@trailheads_cache_key.blank?
+        set_trailheads_cache_key
+        puts "Initial Trailhead cache key is: #{@@trailheads_cache_key}"
+      end
+      Rails.cache.fetch("#{@@trailheads_cache_key}/trailheads", expires_in: 12.hour) do
+        Trailhead.order("name")
+        # last_update = @trailheads.maximum(:updated_at)
+      end
+    
     end
 
     def authorized?

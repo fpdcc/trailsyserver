@@ -4,6 +4,11 @@ class TrailsController < ApplicationController
   before_action :set_show_all_param
   before_action :check_for_cancel, only: [:update]
 
+  after_action :set_trails_cache_key , only: [:destroy, :update, :upload]
+
+  max_updated_at = Trail.maximum(:updated_at).try(:utc).try(:to_s, :number)
+  @@trails_cache_key = "trails/all-#{max_updated_at}"
+  
   # GET /trails
   # GET /trails.json
   def index    
@@ -24,10 +29,12 @@ class TrailsController < ApplicationController
       end
       format.json do
         if params[:source_id].nil?
-          @trails = Trail.includes([:photorecord]).order("name")
+          @trails = cached_all_by_name
         else
           @trails = Trail.includes([:photorecord]).where(source_id: params[:source_id]).order("name")
         end
+
+        if stale?(@trails)
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         features = []
         @trails.each do |trail|
@@ -38,7 +45,10 @@ class TrailsController < ApplicationController
         end
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
-        render json: Oj.dump(my_geojson)
+        ojDump = Oj.dump(my_geojson)
+        #if stale?(ojDump)
+          render json: ojDump
+        end
       end
       format.csv do
         if params[:source_id].nil?
@@ -236,6 +246,25 @@ class TrailsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_trail
       @trail = Trail.find(params[:id])
+    end
+
+    def set_trails_cache_key
+      max_updated_at = Trail.maximum(:updated_at).try(:utc).try(:to_s, :number)
+      @@trails_cache_key = "trails/all-#{max_updated_at}"
+      puts "NEW trails_cache_key: #{@@trails_cache_key}"
+    end  
+
+    def cached_all_by_name
+        puts @@trails_cache_key
+      if @@trails_cache_key.blank?
+        set_trails_cache_key
+        puts "Initial Trail cache key is: #{@@trails_cache_key}"
+      end
+      Rails.cache.fetch("#{@@trails_cache_key}/trails", expires_in: 12.hour) do
+        Trail.includes([:photorecord]).order("name")
+        # last_update = @trailheads.maximum(:updated_at)
+      end
+    
     end
 
     def authorized?

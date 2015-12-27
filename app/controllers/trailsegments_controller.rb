@@ -3,6 +3,11 @@ class TrailsegmentsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_show_all_param
   before_action :check_for_cancel, only: [:update]
+
+  after_action :set_trailsegments_cache_key , only: [:destroy, :update, :upload]
+
+  max_updated_at = Trailsegment.maximum(:updated_at).try(:utc).try(:to_s, :number)
+  @@trailsegments_cache_key = "trails/all-#{max_updated_at}"
   
   # GET /trailsegments
   # GET /trailsegments.json
@@ -37,11 +42,11 @@ class TrailsegmentsController < ApplicationController
               OR trail5 = ?
               OR trail6 = ?", trail_name, trail_name, trail_name, trail_name, trail_name, trail_name)
           else
-            @trailsegments = Trailsegment.all
+            @trailsegments = cached_all_by_name
           end
         end
 
-
+        if stale?(@trailsegments)
         @entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         line_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
         features = []
@@ -82,7 +87,10 @@ class TrailsegmentsController < ApplicationController
         end
         collection = @entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
-        render json: Oj.dump(my_geojson)
+        ojDump = Oj.dump(my_geojson)
+        #if stale?(ojDump)
+          render json: ojDump
+        end
       end
     end
   end
@@ -261,6 +269,25 @@ class TrailsegmentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_trailsegment
       @trailsegment = Trailsegment.find(params[:id])
+    end
+
+    def set_trailsegments_cache_key
+      max_updated_at = Trailsegment.maximum(:updated_at).try(:utc).try(:to_s, :number)
+      @@trailsegments_cache_key = "trailsegments/all-#{max_updated_at}"
+      puts "NEW trailsegments_cache_key: #{@@trailsegments_cache_key}"
+    end  
+
+    def cached_all_by_name
+        puts @@trailsegments_cache_key
+      if @@trailsegments_cache_key.blank?
+        set_trailsegments_cache_key
+        puts "Initial Trail cache key is: #{@@trailsegments_cache_key}"
+      end
+      Rails.cache.fetch("#{@@trailsegments_cache_key}/trailsegments", expires_in: 12.hour) do
+        Trailsegment.all
+        # last_update = @trailheads.maximum(:updated_at)
+      end
+    
     end
 
     def authorized?
