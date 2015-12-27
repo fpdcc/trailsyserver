@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151227201452) do
+ActiveRecord::Schema.define(version: 20151227203027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,8 @@ ActiveRecord::Schema.define(version: 20151227201452) do
     t.string   "motor_vehicles"
     t.text     "trail_ids",                                                                           default: [], array: true
     t.text     "trail_names",                                                                         default: [], array: true
+    t.text     "trail_systems",                                                                       default: [], array: true
+    t.text     "trail_colors",                                                                        default: [], array: true
   end
 
   create_table "users", force: true do |t|
