@@ -170,6 +170,6 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:activities_id, :activity_type, :name, :parking_entrance_id, :nameid, :geom)
+      params.require(:activity).permit(:activities_id, :trailhead_id, :activity_type, :name, :parking_entrance_id, :nameid, :geom)
     end
 end
