@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160214195300) do
+ActiveRecord::Schema.define(version: 20160214232126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20160214195300) do
     t.integer  "source_id"
     t.integer  "steward_id"
     t.decimal  "length"
-    t.spatial  "geom",           limit: {:srid=>4326, :type=>"multi_line_string", :geographic=>true}
+    t.spatial  "geom",                limit: {:srid=>4326, :type=>"multi_line_string", :geographic=>true}
     t.string   "trail1"
     t.string   "trail2"
     t.string   "trail3"
@@ -174,10 +174,11 @@ ActiveRecord::Schema.define(version: 20160214195300) do
     t.string   "ski"
     t.string   "wheelchair"
     t.string   "motor_vehicles"
-    t.text     "trail_ids",                                                                           default: [], array: true
-    t.text     "trail_names",                                                                         default: [], array: true
-    t.text     "trail_systems",                                                                       default: [], array: true
-    t.text     "trail_colors",                                                                        default: [], array: true
+    t.text     "trail_ids",                                                                                default: [], array: true
+    t.text     "trail_names",                                                                              default: [], array: true
+    t.text     "trail_systems",                                                                            default: [], array: true
+    t.text     "trail_colors",                                                                             default: [], array: true
+    t.text     "secondary_trail_ids",                                                                      default: [], array: true
   end
 
   create_table "users", force: true do |t|
