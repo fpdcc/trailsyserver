@@ -275,7 +275,7 @@ class TrailsController < ApplicationController
     def trail_params
       params.require(:trail).permit(:name, :status, :statustext, :description, 
         :source, :source_id, :steward, :steward_id, :length, :accessible, :hike, :equestrian, :xcntryski, :dogs, :trail_system, :trail_color,
-        :roadbike, :mtnbike, :conditions, :map_url, :trlsurface, :segment_ids, :trail_id, :part_of, :delete_photo, :photorecord_attributes => [:photo, :source, :source_id, :name, :id, :credit])
+        :roadbike, :mtnbike, :conditions, :map_url, :trlsurface, :trail_type, :segment_ids, :trail_id, :part_of, :delete_photo, :photorecord_attributes => [:photo, :source, :source_id, :name, :id, :credit])
     end
 
 

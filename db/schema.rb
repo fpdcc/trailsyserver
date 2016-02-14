@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151228213942) do
+ActiveRecord::Schema.define(version: 20160214195300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20151228213942) do
     t.text     "part_of",      default: [], array: true
     t.string   "trail_system"
     t.string   "trail_color"
+    t.string   "trail_type"
   end
 
   create_table "trailsegments", force: true do |t|
