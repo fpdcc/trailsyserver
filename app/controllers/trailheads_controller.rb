@@ -248,7 +248,9 @@ class TrailheadsController < ApplicationController
         :large_capacity, :gas_powered,:boat_rental,:picnic_grove,:shelter,:hiking,:cycling,:in_line_sk,:cross_country,
         :ecological,:equestrian,:birding,:fishing,:canoe,:snowmobile,:m_boat,:m_airplace,:camping,:dog_friendly,
         :sledding,:toboggan_a,:boat_ramp,:nature_center,:swimming,:golf,:no_alcohol,:no_parking,:comfortstation,
-        :drinkingwater,:natureplay,:ada,:pavillion,:trailacces)
+        :drinkingwater,:natureplay,:ada,:pavillion,:trailacces,
+        :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish,
+        :vol_link, :vol_link2, :picnic_link, :event_link)
     end
 
     def sort_by_distance(trailheads)

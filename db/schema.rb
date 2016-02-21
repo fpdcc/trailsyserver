@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160214232126) do
+ActiveRecord::Schema.define(version: 20160221032637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20160214232126) do
     t.string   "restrooms"
     t.string   "kiosk"
     t.string   "contactnum"
-    t.spatial  "geom",           limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "geom",             limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "park"
@@ -79,9 +79,9 @@ ActiveRecord::Schema.define(version: 20160214232126) do
     t.string   "state"
     t.string   "zip"
     t.string   "poi_type"
-    t.text     "segment_ids",                                                             default: [], array: true
+    t.text     "segment_ids",                                                               default: [], array: true
     t.string   "trailhead_id"
-    t.text     "trail_ids",                                                               default: [], array: true
+    t.text     "trail_ids",                                                                 default: [], array: true
     t.integer  "large_capacity"
     t.integer  "gas_powered"
     t.integer  "boat_rental"
@@ -115,6 +115,17 @@ ActiveRecord::Schema.define(version: 20160214232126) do
     t.integer  "ada"
     t.integer  "pavillion"
     t.integer  "trailacces"
+    t.string   "hours1"
+    t.string   "hours2"
+    t.string   "phone"
+    t.text     "description"
+    t.string   "web_link"
+    t.string   "map_link"
+    t.string   "map_link_spanish"
+    t.string   "vol_link"
+    t.string   "vol_link2"
+    t.string   "picnic_link"
+    t.string   "event_link"
   end
 
   create_table "trails", force: true do |t|
