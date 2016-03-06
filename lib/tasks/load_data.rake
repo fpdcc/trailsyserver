@@ -11,7 +11,7 @@ namespace :load do
     if ENV['TRAILS_INPUT']
       input_file_names = [ENV['TRAILS_INPUT']]
     else
-      input_file_names = ["lib/cvnp_traildata.csv", "lib/mpssc_traildata.csv"]
+      input_file_names = ["lib/named_trails.csv"]
     end
     input_file_names.each do |input_file_name|
       if input_file_name =~ /csv$/
@@ -35,7 +35,7 @@ namespace :load do
     if ENV['TRAILHEADS_INPUT']
       input_file_names = [ENV['TRAILHEADS_INPUT']]
     else
-      input_file_names = ["lib/cvnp_trailheads.geojson", "lib/mpssc_trailheads.geojson"]
+      input_file_names = ["lib/trailheads.geojson"]
     end
     input_file_names.each do |input_file_name|
       parsed_trailheads = Trailhead.parse_geojson(input_file_name)
@@ -54,7 +54,7 @@ namespace :load do
     if ENV['SEGMENTS_INPUT']
       input_file_names = [ENV['SEGMENTS_INPUT']]
     else
-      input_file_names = ["lib/cvnp_segments.geojson", "lib/mpssc_segments.geojson"]
+      input_file_names = ["lib/trail_segments.geojson"]
     end
     input_file_names.each do |input_file_name|
       parsed_segments = Trailsegment.parse_geojson(input_file_name)
@@ -68,16 +68,16 @@ namespace :load do
   end
 
   task :activities => :environment do
-    Activities.destroy_all
+    Activity.destroy_all
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
       input_file_names = ["lib/activities.geojson"]
     end
     input_file_names.each do |input_file_name|
-      parsed_activities = Activities.parse_geojson(input_file_name)
+      parsed_activities = Activity.parse_geojson(input_file_name)
       parsed_activities.each do |activity|
-        p "#{activity.source.code}: activity added."
+        p "#{activity.name}: activity added."
         if !activity.save
           p activity.errors.full_messages
         end
