@@ -30,6 +30,16 @@ cmp = Organization.create({
   url: "http://clevelandmetroparks.com"
   })
 
+fpdcc = Organization.create({
+  code: "FPDCC",
+  full_name: "Cook County Forest Preserves",
+  phone: "",
+  url: ""
+  })
+
+
+
+
 admin = User.find_by(email: ADMIN_USER.dup)
 admin.destroy unless admin.nil?
 User.create({ 
