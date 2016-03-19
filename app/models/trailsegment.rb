@@ -1,6 +1,10 @@
 class Trailsegment < ActiveRecord::Base
+
+  # 3/19/2016: set_rgeo_factory_for_column was removed from rgeo-activerecord
   #set_rgeo_factory_for_column(:geom, RGeo::Geographic.spherical_factory(:srid => 4326))
-  validates_uniqueness_of :geom
+
+  # 3/19/2016: validates_uniqueness_of caused upload to fail. Disabling for now
+  #validates_uniqueness_of :geom
 
   validates :source, presence: true
   validates :steward, presence: true

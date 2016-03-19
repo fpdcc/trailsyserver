@@ -174,6 +174,7 @@ class TrailsegmentsController < ApplicationController
     source_id = params[:source_id]
     @source = Organization.find(source_id)
     parsed_trailsegments = Trailsegment.parse(params[:trailsegments])
+    logger.info "parsed_trailsegments count = #{parsed_trailsegments.length}"
     if parsed_trailsegments.nil?
       redirect_to trailsegments_url, notice: "Unable to parse file #{params[:trailsegments].orginial_filename}. Make sure it is a valid GeoJSON file or zipped shapefile."
       return
