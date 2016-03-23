@@ -1,4 +1,5 @@
 Trailsyserver::Application.routes.draw do
+  resources :statuses
   resources :activities do
     collection do
       post 'upload'
