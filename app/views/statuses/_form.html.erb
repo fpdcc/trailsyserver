@@ -35,17 +35,17 @@
   
   <div class="field">
     <span class='h3-Edit'><%= f.label :start_date %></span>
-    <%= f.select_date :start_date %>
+    <%= f.date_select :start_date %>
   </div>
 
   <div class="field">
     <span class='h3-Edit'><%= f.label :end_date %></span>
-    <%= f.select_date :end_date %>
+    <%= f.date_select :end_date %>
   </div>
 
   <div class="field">
     <span class='h3-Edit'><%= f.label :statusable_type, "Status on Entrance" %></span>
-    <%= form.hidden_field :statusable_type, :value => 'Trailhead' %>
+    <%= f.hidden_field :statusable_type, :value => 'Trailhead' %>
   </div>
 
   <div class="field">
