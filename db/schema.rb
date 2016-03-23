@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160221032637) do
+ActiveRecord::Schema.define(version: 20160323201849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,20 @@ ActiveRecord::Schema.define(version: 20160221032637) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.string   "credit",             limit: 255
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.integer  "type"
+    t.string   "reason"
+    t.string   "title"
+    t.string   "description"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "statusable_type"
+    t.string   "statusable_id"
+    t.integer  "created_by"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "trailheads", force: :cascade do |t|
