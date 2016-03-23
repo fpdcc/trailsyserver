@@ -69,6 +69,6 @@ class StatusesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def status_params
-      params.require(:status).permit(:type, :reason, :title, :description, :start_date, :end_date, :statusable_type, :statusable_id, :created_by)
+      params.require(:status).permit(:status_type, :reason, :title, :description, :start_date, :end_date, :statusable_type, :statusable_id, :created_by)
     end
 end
