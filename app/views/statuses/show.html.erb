@@ -1,4 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_status_path(@status) %> |
-<%= link_to 'Back', statuses_path %>
+<div class='formContent-Show'>
+  <h3>
+    Feature Type:
+    <span class='formAnswer'><%= @status.statusable_type %></span>
+  </h3>
+  <h3>
+    Feature ID:
+    <span class='formAnswer'><%= @status.statusable_id %></span>
+  </h3>
+  <h3>
+    Status Type:
+    <span class='formAnswer'><%= @status.status_type %></span>
+  </h3>
+  <h3>
+    Reason for Closure (if closure):
+    <span class='formAnswer'><%= @status.reason %></span>
+  </h3>
+  <h3>
+    Alert Title:
+    <span class='formAnswer'><%= @status.title %></span>
+  </h3>
+  <h3>
+    Alert Description:
+    <span class='formAnswer'><%= @status.description %></span>
+  </h3>
+  <h3>
+    Start Date:
+    <span class='formAnswer'><%= @status.start_date %></span>
+  </h3>
+  <h3>
+    End Date:
+    <span class='formAnswer'><%= @status.end_date %></span>
+  </h3>
+</div>
+
+<div class='formButtons'>
+  <span class='addNewButton'>
+    <%= link_to 'Edit', edit_status_path(@status) %>
+  </span>
+  <span class='BackButton'>
+    <%= link_to 'Back', statuses_path %>
+  </span>
+</div>
