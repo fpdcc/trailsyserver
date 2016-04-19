@@ -17,13 +17,13 @@
   </div>
 
   <div class="field">
-    <span class='h3-Edit'><%= f.label :reason, "Reason for Closure" %></span>
+    <span class='h3-Edit closure-field'><%= f.label :reason, "Reason for Closure" %></span>
     <span class='finePrint'>This field will be ignored for Alerts.</span>
     <%= f.select :reason, ["Snow / Ice", "Flooding", "Weather Conditions", "Construction", "Other"], {include_blank: true} %>
   </div>
 
   <div class="field">
-    <span class='h3-Edit'><%= f.label :title, "Alert Title" %></span>
+    <span class='h3-Edit alert-field'><%= f.label :title, "Alert Title" %></span>
     <span class='finePrint'>This field will be ignored for Closures.</span>
     <%= f.text_field :title, size: 40 %>
   </div>
