@@ -106,14 +106,16 @@ class StatusesController < ApplicationController
   end
 
   def create_json_attributes(status)
-    json_attributes = status.attributes.clone.except!("created_at", "updated_at")
-    # if status.source
-    #   json_attributes["source"] = trail.source.code
+    json_attributes = status.attributes.clone.except!("created_at", "updated_at", "statusable_id")
+    if status.statusable_type == "Trailhead"
+      json_attributes["statusable_id"] = status.statusable.trailhead_id
+    elsif status.statusable_type == "Trail"
+      json_attributes["statusable_id"] = status.statusable.trail_id
     #   json_attributes["source_fullname"] = trail.source.full_name
     #   json_attributes["source_phone"] = trail.source.phone
     #   json_attributes["source_url"] = trail.source.url
     #   json_attributes["source_logo_url"] = trail.source.logo.url(:medium)
-    # end
+    end
     # if trail.steward 
     #   json_attributes["steward"] = trail.steward.code
     #   json_attributes["steward_fullname"] = trail.steward.full_name
