@@ -13,6 +13,7 @@ class Trail < ActiveRecord::Base
   accepts_nested_attributes_for :photorecord, allow_destroy: true
 
   has_many :statuses, as: :statusable
+  has_many :trailsegments
 
 
   def self.parse_csv(file)

@@ -1,4 +1,6 @@
 class Activity < ActiveRecord::Base
+
+  belongs_to :trailhead, foreign_key: "trailhead_id"
   #set_rgeo_factory_for_column(:geom, RGeo::Geographic.spherical_factory(:srid => 4326))
 
   #validates :name, presence: true

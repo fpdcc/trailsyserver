@@ -12,6 +12,7 @@ class Trailsegment < ActiveRecord::Base
 
   belongs_to :steward, class_name: 'Organization', foreign_key: "steward_id"
   belongs_to :source, class_name: 'Organization', foreign_key: "source_id"
+  belongs_to :trail
 
   def self.parse_geojson(file)
     logger.info file.class
