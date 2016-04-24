@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Feature Type</th>
       <th>Location ID</th>
       <th>Status Type</th>
       <th>Reason</th>
@@ -19,6 +20,7 @@
   <tbody>
     <% @statuses.each do |status| %>
       <tr>
+        <td><%= status.statusable_type %></td>
         <td><%= status.statusable_id %></td>
         <td><%= status.status_type %></td>
         <td><%= status.reason %></td>

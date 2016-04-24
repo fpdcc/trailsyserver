@@ -20,8 +20,10 @@
   <div id="MenuBar">
 
     <ul >
+      <li class="<%= 'active' if current_page?(controller: '/statuses') %>"><%= link_to "Status/Alerts", statuses_path, :class => "MenuItem" %></li>
       <li class="<%= 'active' if current_page?(controller: '/trails') %>"><%= link_to "Trails", trails_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trailheads') %>"><%= link_to "Trailheads", trailheads_path, :class => "MenuItem" %></li>
+      <li class="<%= 'active' if current_page?(controller: '/trailheads') %>"><%= link_to "Entrances/POIs", trailheads_path, :class => "MenuItem" %></li>
+      <li class="<%= 'active' if current_page?(controller: '/activities') %>"><%= link_to "Activities", activities_path, :class => "MenuItem" %></li>
       <li class="<%= 'active' if current_page?(controller: '/trailsegments') %>"><%= link_to "Segments", trailsegments_path, :class => "MenuItem" %></li>
       <li class="<%= 'active' if current_page?(controller: '/organizations') %>"><%= link_to "Organizations", organizations_path, :class => "MenuItem" %></li>
       <% if current_user && current_user.admin? %>

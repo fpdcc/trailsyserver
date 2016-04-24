@@ -44,12 +44,12 @@
   </div>
 
   <div class="field">
-    <span class='h3-Edit'><%= f.label :statusable_type, "Status on Entrance" %></span>
-    <%= f.hidden_field :statusable_type, :value => 'Trailhead' %>
+    <span class='h3-Edit'><%= f.label :statusable_type, "Entrance/POI or Trail" %></span>
+    <%= f.select :statusable_type, ["entrance", "trail"] %>
   </div>
 
   <div class="field">
-    <span class='h3-Edit'><%= f.label :statusable_id, "Entrance ID" %></span>
+    <span class='h3-Edit'><%= f.label :statusable_id, "Entrance/POI or Trail ID" %></span>
     <%= f.text_field :statusable_id, size: 20 %>
   </div>
 
