@@ -66,6 +66,32 @@
     Kiosk:
     <span class='formAnswer'><%= @trailhead.kiosk %></span>
   </h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Status Type</th>
+        <th>Reason</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @trailhead.statuses.each do |status| %>
+        <tr>
+          <td><%= status.status_type %></td>
+          <td><%= status.reason %></td>
+          <td><%= status.title %></td>
+          <td><%= status.description %></td>
+          <td><%= status.start_date %></td>
+          <td><%= status.end_date %></td>
+
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   
 </div>
 
