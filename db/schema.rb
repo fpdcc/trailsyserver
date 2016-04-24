@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323213401) do
+
+ActiveRecord::Schema.define(version: 20160419014837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,32 +71,32 @@ ActiveRecord::Schema.define(version: 20160323213401) do
   end
 
   create_table "trailheads", force: :cascade do |t|
-    t.string    "name",             limit: 255
+    t.string    "name",                limit: 255
     t.integer   "steward_id"
     t.integer   "source_id"
-    t.string    "trail1",           limit: 255
-    t.string    "trail2",           limit: 255
-    t.string    "trail3",           limit: 255
-    t.string    "trail4",           limit: 255
-    t.string    "trail5",           limit: 255
-    t.string    "trail6",           limit: 255
-    t.string    "parking",          limit: 255
-    t.string    "drinkwater",       limit: 255
-    t.string    "restrooms",        limit: 255
-    t.string    "kiosk",            limit: 255
-    t.string    "contactnum",       limit: 255
-    t.geography "geom",             limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.string    "trail1",              limit: 255
+    t.string    "trail2",              limit: 255
+    t.string    "trail3",              limit: 255
+    t.string    "trail4",              limit: 255
+    t.string    "trail5",              limit: 255
+    t.string    "trail6",              limit: 255
+    t.string    "parking",             limit: 255
+    t.string    "drinkwater",          limit: 255
+    t.string    "restrooms",           limit: 255
+    t.string    "kiosk",               limit: 255
+    t.string    "contactnum",          limit: 255
+    t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime  "created_at"
     t.datetime  "updated_at"
-    t.string    "park",             limit: 255
-    t.string    "address",          limit: 255
-    t.string    "city",             limit: 255
-    t.string    "state",            limit: 255
-    t.string    "zip",              limit: 255
-    t.string    "poi_type",         limit: 255
-    t.text      "segment_ids",                                                               default: [], array: true
-    t.string    "trailhead_id",     limit: 255
-    t.text      "trail_ids",                                                                 default: [], array: true
+    t.string    "park",                limit: 255
+    t.string    "address",             limit: 255
+    t.string    "city",                limit: 255
+    t.string    "state",               limit: 255
+    t.string    "zip",                 limit: 255
+    t.string    "poi_type",            limit: 255
+    t.text      "segment_ids",                                                                  default: [], array: true
+    t.string    "trailhead_id",        limit: 255
+    t.text      "trail_ids",                                                                    default: [], array: true
     t.integer   "large_capacity"
     t.integer   "gas_powered"
     t.integer   "boat_rental"
@@ -129,17 +130,23 @@ ActiveRecord::Schema.define(version: 20160323213401) do
     t.integer   "ada"
     t.integer   "pavillion"
     t.integer   "trailacces"
-    t.string    "hours1",           limit: 255
-    t.string    "hours2",           limit: 255
-    t.string    "phone",            limit: 255
+    t.string    "hours1",              limit: 255
+    t.string    "hours2",              limit: 255
+    t.string    "phone",               limit: 255
     t.text      "description"
-    t.string    "web_link",         limit: 255
-    t.string    "map_link",         limit: 255
-    t.string    "map_link_spanish", limit: 255
-    t.string    "vol_link",         limit: 255
-    t.string    "vol_link2",        limit: 255
-    t.string    "picnic_link",      limit: 255
-    t.string    "event_link",       limit: 255
+    t.string    "web_link",            limit: 255
+    t.string    "map_link",            limit: 255
+    t.string    "map_link_spanish",    limit: 255
+    t.string    "vol_link",            limit: 255
+    t.string    "vol_link2",           limit: 255
+    t.string    "picnic_link",         limit: 255
+    t.string    "event_link",          limit: 255
+    t.string    "season1"
+    t.string    "season2"
+    t.string    "special_hours"
+    t.string    "special_description"
+    t.string    "special_link"
+    t.string    "photo_link"
   end
 
   create_table "trails", force: :cascade do |t|

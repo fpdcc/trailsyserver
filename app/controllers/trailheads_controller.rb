@@ -250,7 +250,8 @@ class TrailheadsController < ApplicationController
         :sledding,:toboggan_a,:boat_ramp,:nature_center,:swimming,:golf,:no_alcohol,:no_parking,:comfortstation,
         :drinkingwater,:natureplay,:ada,:pavillion,:trailacces,
         :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish,
-        :vol_link, :vol_link2, :picnic_link, :event_link)
+        :vol_link, :vol_link2, :picnic_link, :event_link, :season1, :season2, 
+        :special_hours, :special_description, :special_link, :photo_link)
     end
 
     def sort_by_distance(trailheads)
