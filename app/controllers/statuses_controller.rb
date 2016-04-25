@@ -17,7 +17,7 @@ class StatusesController < ApplicationController
         @statuses = Status.all
       end
       format.json do
-          @statuses = Status.all
+          @statuses_current = Status.where("start_date <= ? and end_date >= ?", Time.zone.now.beginning_of_day, Time.zone.now.beginning_of_day)
         # if params[:source_id].nil?
         #   @trails = cached_all_by_name
         # else
@@ -27,7 +27,7 @@ class StatusesController < ApplicationController
         #if stale?(@trails)
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         features = []
-        @statuses.each do |status|
+        @statuses_current.each do |status|
           # taking a trip to Null Island, because RGeo::GeoJSON chokes on empty geometry here
           json_attributes = create_json_attributes(status)
           feature = entity_factory.feature(RGeo::Geographic.spherical_factory.point(0,0), status.id, json_attributes)
@@ -106,7 +106,8 @@ class StatusesController < ApplicationController
   end
 
   def create_json_attributes(status)
-    json_attributes = status.attributes.clone.except!("created_at", "updated_at", "statusable_id")
+    json_attributes = status.attributes.clone.except!("created_by", "created_at", "updated_at", "statusable_id", "status_type")
+    json_attributes["status_type"] = status.status_type
     if status.statusable_type == "Trailhead"
       json_attributes["statusable_id"] = status.statusable.trailhead_id
     elsif status.statusable_type == "Trail"
