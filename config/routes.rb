@@ -1,4 +1,6 @@
 Trailsyserver::Application.routes.draw do
+  resources :alertings
+  resources :alerts
   resources :statuses
   resources :activities do
     collection do
