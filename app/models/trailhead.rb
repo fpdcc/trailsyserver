@@ -13,6 +13,10 @@ class Trailhead < ActiveRecord::Base
   validates :length, absence: true
 
   has_many :statuses, as: :statusable
+
+  has_many :alertings, :as => :alertable
+  has_many :alerts, :through => :alertings
+  
   has_many :activities, foreign_key: "trailhead_id"
 
   def self.parse_geojson(file)

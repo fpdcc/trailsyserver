@@ -27,7 +27,7 @@ class AlertsController < ApplicationController
     @alert = Alert.new(alert_params)
 
     respond_to do |format|
-      if @alert.save
+      if @alert.with_user(current_user).save
         format.html { redirect_to @alert, notice: 'Alert was successfully created.' }
         format.json { render action: 'show', status: :created, location: @alert }
       else
@@ -41,7 +41,7 @@ class AlertsController < ApplicationController
   # PATCH/PUT /alerts/1.json
   def update
     respond_to do |format|
-      if @alert.update(alert_params)
+      if @alert.with_user(current_user).update(alert_params)
         format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
         format.json { head :no_content }
       else

@@ -8,6 +8,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
+# this enables us to know who created a user or updated a user.
+require './lib/with_user'
+
 class ActiveRecordOverrideRailtie < Rails::Railtie
   initializer "active_record.initialize_database.override" do |app|
 

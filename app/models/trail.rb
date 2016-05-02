@@ -13,6 +13,10 @@ class Trail < ActiveRecord::Base
   accepts_nested_attributes_for :photorecord, allow_destroy: true
 
   has_many :statuses, as: :statusable, foreign_key: "trail_id"
+
+  has_many :alertings, :as => :alertable
+  has_many :alerts, :through => :alertings
+
   has_many :trailsegments
 
 

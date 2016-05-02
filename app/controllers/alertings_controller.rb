@@ -27,7 +27,7 @@ class AlertingsController < ApplicationController
     @alerting = Alerting.new(alerting_params)
 
     respond_to do |format|
-      if @alerting.save
+      if @alerting.with_user(current_user).save
         format.html { redirect_to @alerting, notice: 'Alerting was successfully created.' }
         format.json { render action: 'show', status: :created, location: @alerting }
       else
@@ -41,7 +41,7 @@ class AlertingsController < ApplicationController
   # PATCH/PUT /alertings/1.json
   def update
     respond_to do |format|
-      if @alerting.update(alerting_params)
+      if @alerting.with_user(current_user).update(alerting_params)
         format.html { redirect_to @alerting, notice: 'Alerting was successfully updated.' }
         format.json { head :no_content }
       else

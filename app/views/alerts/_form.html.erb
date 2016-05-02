@@ -11,13 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <!-- <div class="field">
     <%= f.label :alert_id %><br>
     <%= f.number_field :alert_id %>
-  </div>
+  </div> -->
   <div class="field">
     <%= f.label :alert_type %><br>
-    <%= f.number_field :alert_type %>
+    <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
@@ -26,10 +26,6 @@
   <div class="field">
     <%= f.label :link %><br>
     <%= f.text_field :link %>
-  </div>
-  <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
   </div>
   <div class="actions">
     <%= f.submit %>
