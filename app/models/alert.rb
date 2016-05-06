@@ -9,4 +9,6 @@ class Alert < ActiveRecord::Base
     validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1 }
 
+	validates :link, format: { with: URI.regexp }, allow_blank: true
+
 end
