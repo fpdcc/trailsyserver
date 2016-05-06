@@ -21,7 +21,8 @@
   </div>
   <div class="field">
     <%= f.label :alert_id %><br>
-    <%= f.number_field :alert_id %>
+    <%= f.select(:alert_id, Alert.all.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Select Alert'}) %>
+
   </div>
   <div class="field">
     <%= f.label :starts_at %><br>

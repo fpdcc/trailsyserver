@@ -24,6 +24,9 @@ class AlertingsController < ApplicationController
   # POST /alertings
   # POST /alertings.json
   def create
+    
+    #@alert = Alert.find_or_initialize_by(name: params[:tagging].delete(:name))
+    #@alert.created_by ||= current_user.id
     @alerting = Alerting.new(alerting_params)
 
     respond_to do |format|
