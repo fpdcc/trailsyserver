@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :alertable_type %><br>
-    <%= f.text_field :alertable_type %>
+    <%= f.select :alertable_type, [['POI', 'Trailhead'], ['Trail', 'Trail']] %>
   </div>
   <div class="field">
     <%= f.label :alertable_id %><br>
@@ -25,15 +25,11 @@
   </div>
   <div class="field">
     <%= f.label :starts_at %><br>
-    <%= f.datetime_select :starts_at %>
+    <%= f.date_select :starts_at %>
   </div>
   <div class="field">
     <%= f.label :ends_at %><br>
-    <%= f.datetime_select :ends_at %>
-  </div>
-  <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
+    <%= f.date_select :ends_at %>
   </div>
   <div class="actions">
     <%= f.submit %>
