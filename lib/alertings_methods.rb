@@ -3,17 +3,20 @@
 module AlertingsMethods
   # alerts_active: Current or future alerts (so where end_date is not in the past)
   def alerts_active
-    "hello"
+  	self.alertings.where("ends_at >= ? or ends_at is null", Time.now)
   end
 
   # alerts_current: Current alerts (start_date <= Time.now <= end_date)
   def alerts_current
-    "hello"
+    a = self.alertings.where("starts_at <= ? and ends_at >= ?", Time.now, Time.now)
+    b = self.alertings.where("starts_at <= ? and ends_at is null", Time.now)
+    return a + b
   end
 
   # closure_current: Current closure (start_date <= Time.now <= end_date).
   # Should only be one of these.
   def closure_current
+  	self.alerts_current.joins(:alert).where("alert_type = ?", Alert.alert_types[:closure])
     "hello"
   end
 
