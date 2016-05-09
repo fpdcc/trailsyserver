@@ -10,6 +10,8 @@ Bundler.require(:default, Rails.env)
 
 # this enables us to know who created a user or updated a user.
 require './lib/with_user'
+# Extra methods for alertings
+require './lib/alertings_methods'
 
 class ActiveRecordOverrideRailtie < Rails::Railtie
   initializer "active_record.initialize_database.override" do |app|

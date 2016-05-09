@@ -1,5 +1,7 @@
 class Trail < ActiveRecord::Base
 
+  include AlertingsMethods
+  
   attr_accessor :delete_photo
 
   validates :name, uniqueness: { scope: :source, message: " has already been taken for this source"}
