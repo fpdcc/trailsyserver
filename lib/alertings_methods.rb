@@ -8,16 +8,13 @@ module AlertingsMethods
 
   # alerts_current: Current alerts (start_date <= Time.now <= end_date)
   def alerts_current
-    a = self.alertings.where("starts_at <= ? and ends_at >= ?", Time.now, Time.now)
-    b = self.alertings.where("starts_at <= ? and ends_at is null", Time.now)
-    return a + b
+    a = self.alertings.where("starts_at <= ? and (ends_at >= ? OR ends_at is null)", Time.now, Time.now)
   end
 
   # closure_current: Current closure (start_date <= Time.now <= end_date).
   # Should only be one of these.
   def closure_current
   	self.alerts_current.joins(:alert).where("alert_type = ?", Alert.alert_types[:closure])
-    "hello"
   end
 
 

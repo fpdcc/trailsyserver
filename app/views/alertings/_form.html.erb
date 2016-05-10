@@ -26,8 +26,9 @@
   </div>
   <div class="field">
     <%= f.label :starts_at %><br>
-    <%= f.date_select :starts_at %>
-  </div>
+    <%= f.text_field :starts_at, :class => 'text_field datepicker' %>
+<!--     <%= f.date_select :starts_at %>
+ -->  </div>
   <div class="field">
     <%= f.label :ends_at %><br>
     <%= f.date_select :ends_at %>

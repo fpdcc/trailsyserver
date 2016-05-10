@@ -12,13 +12,15 @@ class Alerting < ActiveRecord::Base
   	validates :alertable_id, presence: true
   	validates :alert_id, presence: true
   	validates :starts_at, presence: true
+
   	#scope :alert_type, lambda {|alert_type| joins(:alerts).where('alerts.alert_type = ?', alert_type)}
 
 
   	#validates :alert, uniqueness: {scope: :alertable }, if: self.alert.closure?
-  	validate :only_one_current_closure
-	def only_one_current_closure
-	  # if self.alert.closure?
+  	#validate :only_one_current_closure
+	#def only_one_current_closure
+	#  if self.alert.closure?
+	#  	current_closure_count = self.alertable.closure_current.count
 	  # 	# use validates_overlap gem to check for other closures that overlap
 	  # 	existing_closures = self.alertable.alertings.joins(:alert).where(
 	  # 		#starts_at: ((Time.now - 1.day)..Time.now)
@@ -31,6 +33,6 @@ class Alerting < ActiveRecord::Base
 	  # end
 	  #posted = exists.where(user: user).where("DATE(created_at) = DATE(?)", Time.now)
 	  #errors.add(:base, "Error message") if posted
-	end
+	#end
 
 end
