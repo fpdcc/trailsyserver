@@ -12,6 +12,21 @@ class Alerting < ActiveRecord::Base
   	validates :alertable_id, presence: true
   	validates :alert_id, presence: true
   	validates :starts_at, presence: true
+  	validate :end_date_is_after_start_date
+
+
+	#######
+	private
+	#######
+
+	def end_date_is_after_start_date
+	  return if ends_at.blank? || starts_at.blank?
+
+	  if ends_at < starts_at
+	    errors.add(:ends_at, "cannot be before the start date") 
+	  end 
+	end
+
 
   	#scope :alert_type, lambda {|alert_type| joins(:alerts).where('alerts.alert_type = ?', alert_type)}
 
