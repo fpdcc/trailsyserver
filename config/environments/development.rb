@@ -27,5 +27,18 @@ Trailsyserver::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = true
+
+  # Generate digests for assets URLs.
+  #config.assets.digest = true
+
+  # Version of your assets, change this if you want to expire all your assets.
+  #config.assets.version = '1.0'
+
+  # Enable Rails's static asset server (Apache or nginx will already do this).
+  config.serve_static_assets = true
+
+
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
