@@ -24,7 +24,7 @@ h1 {
   text-transform: uppercase;
   color: #00adef;
   font-size: 20px;
-  margin-left: 200px;
+  margin-left: 10px;
   margin-bottom: 5px;
   margin-top:30px;
 }
@@ -37,7 +37,7 @@ p, ol, ul, td {
 
 p {
   color: #58595b;
-  margin-left: 60px;
+  margin-left: 30px;
 }
 pre {
   background-color: #eee;
@@ -109,8 +109,8 @@ div {
 }
 
 .admin-logo {
-  width:329px; 
-  height:37px;
+  width:207px; 
+  height:40px;
   margin-left:-30px;
   display:inline;
   margin-bottom:-15px;
@@ -206,6 +206,31 @@ div {
   }
 }
 
+.MenuItemTop {
+  font-family: 'mission_gothiclight';
+  color:#00adef;
+  text-transform: uppercase;
+  text-align: left;
+  margin-top:10px;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:10px;
+  padding-bottom: 10px;
+  /* display:block; */
+  text-decoration: none;
+  &:hover {
+    color:white;
+    background-color: #00adef;
+/* other possibilities
+    border-top-left-radius:30px;
+    border-bottom-left-radius:30px;
+    -moz-border-radius-topleft:30px;
+    -moz-border-radius-bottomleft:30px;
+    border-bottom: 1px solid gray;
+    */
+  }
+}
+
 li.active a {
   color:white;
   background-color: #00adef;
@@ -244,14 +269,14 @@ tr:nth-child(odd) {
 }
 
 table {
-  margin-left: 200px;
+  margin-left: 20px;
   margin-right: 30px;
   border-collapse: collapse;
   border-spacing: 0;
 }
 
 ul {
-  list-style-type: none
+  list-style-type: square;
 }
 
 .tableCaption {
@@ -363,11 +388,11 @@ ul {
 
 /* styles for 'show' & 'edit' pages ------------------------------ */
 .formContent {
-  margin-left: 200px;
+  margin-left: 20px;
 }
 
 .formContent-Show {
-  margin-left: 200px;
+  margin-left: 20px;
   margin-top: 30px;
 }
 h3 {
@@ -398,7 +423,7 @@ h3 {
 }
 
 .formButtons {
-  margin-left: 200px;
+  margin-left: 20px;
   margin-top: 30px;
   margin-bottom: 50px;
   text-decoration: none;
