@@ -17,5 +17,16 @@ module AlertingsMethods
   	self.alerts_current.joins(:alert).where("alert_type = ?", Alert.alert_types[:closure])
   end
 
+  # alerts_current: Current alerts (start_date <= Time.now <= end_date)
+  def alerts_future
+    a = self.alertings.where("starts_at > ?", Time.now)
+  end
+
+  # closure_current: Current closure (start_date <= Time.now <= end_date).
+  # Should only be one of these.
+  def closure_future
+    self.alerts_future.joins(:alert).where("alert_type = ?", Alert.alert_types[:closure])
+  end
+
 
 end
