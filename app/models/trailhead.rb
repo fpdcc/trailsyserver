@@ -20,6 +20,16 @@ class Trailhead < ActiveRecord::Base
   
   has_many :activities, foreign_key: "trailhead_id"
 
+  def trail_systems
+    trail_systems = []
+    if self.trail_ids.present?
+      self.trail_ids.each do |trail_id|
+        this_trail = Trail.find_by trail_id: trail_id
+        trail_systems << this_trail.trail_system
+      end
+    end
+  end
+
   def self.parse_geojson(file)
     if file.class == ActionDispatch::Http::UploadedFile
       feature_collection = RGeo::GeoJSON.decode(File.read(file.path), json_parser: :json)
