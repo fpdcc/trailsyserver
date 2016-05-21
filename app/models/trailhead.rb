@@ -28,6 +28,24 @@ class Trailhead < ActiveRecord::Base
         trail_systems << this_trail.trail_system
       end
     end
+    trail_systems = trail_systems.uniq
+  end
+
+  def indirect_trail_ids
+    indirect_trail_ids = []
+    if self.trail_systems.present?
+      self.trail_systems.each do |trail_system|
+        trails = Trail.where("trail_system = ?", trail_system)
+        trails.each do |trail|
+          if trail.part_of.length > 0
+            if !(self.trail_ids.include? trail.trail_id)
+              indirect_trail_ids << trail.trail_id
+            end
+          end
+        end
+      end
+    end
+    return indirect_trail_ids
   end
 
   def self.parse_geojson(file)

@@ -205,6 +205,7 @@ class TrailheadsController < ApplicationController
     #   json_attributes["steward_url"] = trailhead.steward.url
     # end
     json_attributes["trail_systems"] = trailhead.trail_systems
+    json_attributes["indirect_trail_ids"] = trailhead.indirect_trail_ids
     json_attributes["distance"] = trailhead.distance
     json_attributes["id"] = trailhead.trailhead_id
     json_attributes
