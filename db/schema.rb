@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704200002) do
+ActiveRecord::Schema.define(version: 20160704221348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,20 @@ ActiveRecord::Schema.define(version: 20160704200002) do
     t.string    "special_description"
     t.string    "special_link"
     t.string    "photo_link"
+    t.integer   "bike_parking"
+    t.integer   "bike_rental"
+    t.integer   "disc_golf"
+    t.integer   "dog_leash"
+    t.integer   "drone"
+    t.integer   "ice_fishing"
+    t.integer   "indoor_rental"
+    t.integer   "overlook"
+    t.integer   "skating_ice"
+    t.integer   "skating_inline"
+    t.integer   "toboggan"
+    t.integer   "volunteer"
+    t.integer   "zip_line"
+    t.string    "custom_link"
   end
 
   create_table "trails", force: :cascade do |t|
