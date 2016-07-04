@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160502200043) do
+ActiveRecord::Schema.define(version: 20160704200002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,7 +201,6 @@ ActiveRecord::Schema.define(version: 20160502200043) do
     t.integer   "source_id"
     t.integer   "steward_id"
     t.decimal   "length"
-    t.geography "geom",                limit: {:srid=>4326, :type=>"multi_line_string", :geographic=>true}
     t.string    "trail1",              limit: 255
     t.string    "trail2",              limit: 255
     t.string    "trail3",              limit: 255
@@ -226,11 +225,12 @@ ActiveRecord::Schema.define(version: 20160502200043) do
     t.string    "ski",                 limit: 255
     t.string    "wheelchair",          limit: 255
     t.string    "motor_vehicles",      limit: 255
-    t.text      "trail_ids",                                                                                default: [], array: true
-    t.text      "trail_names",                                                                              default: [], array: true
-    t.text      "trail_systems",                                                                            default: [], array: true
-    t.text      "trail_colors",                                                                             default: [], array: true
-    t.text      "secondary_trail_ids",                                                                      default: [], array: true
+    t.text      "trail_ids",                                                                          default: [], array: true
+    t.text      "trail_names",                                                                        default: [], array: true
+    t.text      "trail_systems",                                                                      default: [], array: true
+    t.text      "trail_colors",                                                                       default: [], array: true
+    t.text      "secondary_trail_ids",                                                                default: [], array: true
+    t.geography "geom",                limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
   end
 
   create_table "users", force: :cascade do |t|
