@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Parking entrance:</strong>
+  <%= @parking_entrance.parking_entrance_id %>
+</p>
+
+<p>
+  <strong>Geom:</strong>
+  <%= @parking_entrance.geom %>
+</p>
+
+<%= link_to 'Edit', edit_parking_entrance_path(@parking_entrance) %> |
+<%= link_to 'Back', parking_entrances_path %>

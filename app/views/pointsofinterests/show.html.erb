@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Pointsofinterest:</strong>
+  <%= @pointsofinterest.pointsofinterest_id %>
+</p>
+
+<p>
+  <strong>Geom:</strong>
+  <%= @pointsofinterest.geom %>
+</p>
+
+<%= link_to 'Edit', edit_pointsofinterest_path(@pointsofinterest) %> |
+<%= link_to 'Back', pointsofinterests_path %>

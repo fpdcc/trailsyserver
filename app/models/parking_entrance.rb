@@ -1,7 +1,7 @@
-class PoiDesc < ActiveRecord::Base
-	self.primary_key = 'poi_desc_id'
+class ParkingEntrance < ActiveRecord::Base
+	self.primary_key='parking_entrance_id'
 
-	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+	has_one :parking_entrance_info, foreign_key: :parking_entrance_id, primary_key: :parking_entrance_id
 
 	def self.parse_csv(file)
 	    parsed_items = []
@@ -19,7 +19,7 @@ class PoiDesc < ActiveRecord::Base
 	    end
 
 	    CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
-	      new_item = PoiDesc.new
+	      new_item = ParkingEntrance.new
 	      next if (row.to_s =~ /^source/)
 
 	      row.headers.each do |header|

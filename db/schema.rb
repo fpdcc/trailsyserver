@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708171808) do
+ActiveRecord::Schema.define(version: 20160708191834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,31 @@ ActiveRecord::Schema.define(version: 20160708171808) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+  end
+
+  create_table "parking_entrance_infos", force: :cascade do |t|
+    t.integer  "parking_entrance_id"
+    t.string   "multi_entrance"
+    t.string   "private_lot"
+    t.integer  "lot"
+    t.string   "zone_name"
+    t.string   "area_name"
+    t.string   "fpd_uid"
+    t.string   "point_type"
+    t.string   "parking_entrance_addr"
+    t.string   "trailaccess"
+    t.integer  "nameid"
+    t.integer  "parking_info_id"
+    t.string   "entrance_closed"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  create_table "parking_entrances", force: :cascade do |t|
+    t.integer   "parking_entrance_id"
+    t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime  "created_at",                                                                   null: false
+    t.datetime  "updated_at",                                                                   null: false
   end
 
   create_table "photorecords", force: :cascade do |t|
@@ -193,6 +218,13 @@ ActiveRecord::Schema.define(version: 20160708171808) do
     t.integer  "alt2_nameid"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "pointsofinterests", force: :cascade do |t|
+    t.integer   "pointsofinterest_id"
+    t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime  "created_at",                                                                   null: false
+    t.datetime  "updated_at",                                                                   null: false
   end
 
   create_table "statuses", force: :cascade do |t|

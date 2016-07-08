@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Parking Entrance Infos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parking entrance</th>
+      <th>Multi entrance</th>
+      <th>Private lot</th>
+      <th>Lot</th>
+      <th>Zone name</th>
+      <th>Area name</th>
+      <th>Fpd uid</th>
+      <th>Point type</th>
+      <th>Parking entrance addr</th>
+      <th>Trailaccess</th>
+      <th>Nameid</th>
+      <th>Parking info</th>
+      <th>Entrance closed</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @parking_entrance_infos.each do |parking_entrance_info| %>
+      <tr>
+        <td><%= parking_entrance_info.parking_entrance_id %></td>
+        <td><%= parking_entrance_info.multi_entrance %></td>
+        <td><%= parking_entrance_info.private_lot %></td>
+        <td><%= parking_entrance_info.lot %></td>
+        <td><%= parking_entrance_info.zone_name %></td>
+        <td><%= parking_entrance_info.area_name %></td>
+        <td><%= parking_entrance_info.fpd_uid %></td>
+        <td><%= parking_entrance_info.point_type %></td>
+        <td><%= parking_entrance_info.parking_entrance_addr %></td>
+        <td><%= parking_entrance_info.trailaccess %></td>
+        <td><%= parking_entrance_info.nameid %></td>
+        <td><%= parking_entrance_info.parking_info_id %></td>
+        <td><%= parking_entrance_info.entrance_closed %></td>
+        <td><%= link_to 'Show', parking_entrance_info %></td>
+        <td><%= link_to 'Edit', edit_parking_entrance_info_path(parking_entrance_info) %></td>
+        <td><%= link_to 'Destroy', parking_entrance_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Parking entrance info', new_parking_entrance_info_path %>

@@ -1,0 +1,2 @@
+module ParkingEntranceInfosHelper
+end

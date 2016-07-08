@@ -1,4 +1,7 @@
 Trailsyserver::Application.routes.draw do
+  resources :pointsofinterests
+  resources :parking_entrance_infos
+  resources :parking_entrances
   resources :poi_amenities
   resources :poi_descs
   resources :poi_infos

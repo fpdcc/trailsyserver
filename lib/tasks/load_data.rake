@@ -174,5 +174,59 @@ namespace :load do
       end
     end
   end
+
+  task :parking_entrances => :environment do
+    ParkingEntrance.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/parking_entrances.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = ParkingEntrance.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.parking_entrance_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :parking_entrance_infos => :environment do
+    ParkingEntranceInfo.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/parking_entrance_infos.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = ParkingEntranceInfo.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.parking_info_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :pointsofinterests => :environment do
+    Pointsofinterest.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/pointsofinterests.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = Pointsofinterest.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.pointsofinterest_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
  
 end
