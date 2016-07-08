@@ -120,7 +120,7 @@ group :development, :development_fpcc, :test do
   gem 'poltergeist'
 end
 
-group :development, :development_aws, :production, :test, :staging do
+group :development, :development_aws, :development_fpcc, :production, :test, :staging do
   gem 'rack-cors', :require => 'rack/cors'
 end
 
