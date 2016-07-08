@@ -58,11 +58,66 @@ gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 
-group :development do
+group :development, :development_fpcc do
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'capistrano3-unicorn'
+
+  # this whole group makes finding performance issues much friendlier
+  gem 'rack-mini-profiler'
+  gem 'flamegraph'
+  gem 'stackprof' # ruby 2.1+ only
+  gem 'memory_profiler'
+  gem 'ruby-prof'
+
+  # n+1 killer.
+  gem 'bullet'
+
+  # what attributes does this model actually have?
+  gem 'annotate'
+
+  #a console in your tests, to find out what's actually happening
+  gem 'pry-rails'
+
+  # a console in your browser, when you want to interrogate views.
+  gem 'web-console'
+
+  # silences logging of requests for assets
+  gem 'quiet_assets'
+
+end
+
+
+group :testing do
+  # mock tests w/mocha
+  gem 'mocha', :require => false
+
+  gem 'sqlite3', :platform => [:ruby, :mswin, :mingw]
+
+  # for JRuby
+  gem 'jdbc-sqlite3', :platform => :jruby
+  gem 'memory_test_fix' # in memory DB, for the speedy
+
+  # generate fake data w/faker: http://rubydoc.info/github/stympy/faker/master/frames
+  gem 'faker'
+  gem 'rubocop', require: false
+end
+
+group :development, :development_fpcc, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'guard'
+  gem 'guard-rspec', require: false
+  gem 'guard-minitest'
+  gem 'guard-rubocop'
+  gem 'guard-bundler', require: false
+  gem 'capybara'
+  gem 'capybara-email'
+  gem 'pry'
+  gem 'factory_girl_rails'
+  gem 'shoulda-matchers', '~> 3.1.1', require: false
+  gem 'database_cleaner'
+  gem 'poltergeist'
 end
 
 group :development, :development_aws, :production, :test, :staging do
