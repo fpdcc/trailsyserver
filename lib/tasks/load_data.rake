@@ -228,5 +228,23 @@ namespace :load do
       end
     end
   end
+
+  task :new_trails => :environment do
+    NewTrail.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/new_trails.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = NewTrail.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trails_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
  
 end
