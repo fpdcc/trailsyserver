@@ -37,8 +37,9 @@ Trailsyserver::Application.configure do
   #config.assets.version = '1.0'
 
   # Enable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = true
+  config.serve_static_files = true
 
+  config.web_console.development_only = false
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
