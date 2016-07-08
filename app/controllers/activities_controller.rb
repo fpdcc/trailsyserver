@@ -72,13 +72,13 @@ class ActivitiesController < ApplicationController
       format.html do 
         authenticate_user!
         if params[:all] == "true" || current_user.admin?
-          @activities = Activity.order("name")
+          @activities = Activity.order("activities_id")
         else
-          @activities = Activity.joins(:source).merge(Organization.where(id: current_user.organization)).order("name")
+          @activities = Activity.joins(:source).merge(Organization.where(id: current_user.organization)).order("activities_id")
         end
       end
       format.json do
-        @activities = Activity.order("name")
+        @activities = Activity.order("activities_id")
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         # if (params[:loc])
         #   @activities = sort_by_distance(@activities)
@@ -170,6 +170,6 @@ class ActivitiesController < ApplicationController
     end
 
     def activity_params
-      params.require(:activity).permit(:activities_id, :trailhead_id, :activity_type, :name, :parking_entrance_id, :nameid, :geom)
+      params.require(:activity).permit(:activities_id, :nameid, :atype, :aname, :poi_info_id, :trail_info_id, :parking_info_id, :geom)
     end
 end

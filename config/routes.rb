@@ -1,4 +1,11 @@
 Trailsyserver::Application.routes.draw do
+  resources :poi_amenities
+  resources :poi_descs
+  resources :poi_infos
+  resources :names
+  resources :new_trails
+  resources :trails_descs
+  resources :trails_infos
   resources :alertings
   resources :alerts
   resources :statuses

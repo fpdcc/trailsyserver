@@ -75,8 +75,8 @@ namespace :load do
       input_file_names = ["lib/activities.geojson"]
     end
     input_file_names.each do |input_file_name|
-      parsed_activities = Activity.parse_geojson(input_file_name)
-      parsed_activities.each do |activity|
+      parsed_poi_infos = Activity.parse_geojson(input_file_name)
+      parsed_poi_infos.each do |activity|
         p "#{activity.name}: activity added."
         if !activity.save
           p activity.errors.full_messages
@@ -85,5 +85,94 @@ namespace :load do
     end
   end
 
+  task :activitiesCSV => :environment do
+    Activity.destroy_all
+    if ENV['ACTIVITIES_INPUT']
+      input_file_names = [ENV['ACTIVITIES_INPUT']]
+    else
+      input_file_names = ["lib/activities.csv"]
+    end
+    input_file_names.each do |input_file_name|
+      parsed_poi_infos = Activity.parse_csv(input_file_name)
+      parsed_poi_infos.each do |activity|
+        p "#{activity.activities_id}: activity added."
+        if !activity.save
+          p activity.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :poi_infos => :environment do
+    PoiInfo.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/poi_infos.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_poi_infos = PoiInfo.parse_csv(input_file_name)
+      parsed_poi_infos.each do |poi_info|
+        p "#{poi_info.poi_info_id}: poi_info added."
+        if !poi_info.save
+          p poi_info.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :poi_amenities => :environment do
+    PoiAmenity.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/poi_amenities.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_poi_amenities = PoiAmenity.parse_csv(input_file_name)
+      parsed_poi_amenities.each do |poi_amenity|
+        p "#{poi_amenity.poi_amenity_id}: poi_amenity added."
+        if !poi_amenity.save
+          p poi_amenity.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :poi_descs => :environment do
+    PoiDesc.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/poi_descs.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = PoiDesc.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.poi_desc_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :names => :environment do
+    Name.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/names.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = Name.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.nameid}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
  
 end

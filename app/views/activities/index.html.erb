@@ -41,9 +41,9 @@
     <% @activities.each do |activity| %>
       <tr>
         <td><%= activity.activities_id %></td>
-        <td><%= activity.activity_type %></td>
-        <td><%= activity.name %></td>
-        <td><%= activity.parking_entrance_id %></td>
+        <td><%= activity.atype %></td>
+        <td><%= activity.aname %></td>
+        <td><%= activity.poi_info_id %></td>
         <td><%= activity.nameid %></td>
         <td><%= link_to 'Show', activity %></td>
         <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
