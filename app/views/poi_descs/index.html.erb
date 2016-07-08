@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Poi Descs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Poi info</th>
+      <th>Hours1</th>
+      <th>Hours2</th>
+      <th>Phone</th>
+      <th>Description</th>
+      <th>Web link</th>
+      <th>Map link</th>
+      <th>Map link spanish</th>
+      <th>Vol link</th>
+      <th>Vol link2</th>
+      <th>Picnic link</th>
+      <th>Event link</th>
+      <th>Custom link</th>
+      <th>Season1</th>
+      <th>Season2</th>
+      <th>Special hours</th>
+      <th>Special description</th>
+      <th>Special link</th>
+      <th>Photo link</th>
+      <th>Poi desc</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @poi_descs.each do |poi_desc| %>
+      <tr>
+        <td><%= poi_desc.poi_info_id %></td>
+        <td><%= poi_desc.hours1 %></td>
+        <td><%= poi_desc.hours2 %></td>
+        <td><%= poi_desc.phone %></td>
+        <td><%= poi_desc.description %></td>
+        <td><%= poi_desc.web_link %></td>
+        <td><%= poi_desc.map_link %></td>
+        <td><%= poi_desc.map_link_spanish %></td>
+        <td><%= poi_desc.vol_link %></td>
+        <td><%= poi_desc.vol_link2 %></td>
+        <td><%= poi_desc.picnic_link %></td>
+        <td><%= poi_desc.event_link %></td>
+        <td><%= poi_desc.custom_link %></td>
+        <td><%= poi_desc.season1 %></td>
+        <td><%= poi_desc.season2 %></td>
+        <td><%= poi_desc.special_hours %></td>
+        <td><%= poi_desc.special_description %></td>
+        <td><%= poi_desc.special_link %></td>
+        <td><%= poi_desc.photo_link %></td>
+        <td><%= poi_desc.poi_desc_id %></td>
+        <td><%= link_to 'Show', poi_desc %></td>
+        <td><%= link_to 'Edit', edit_poi_desc_path(poi_desc) %></td>
+        <td><%= link_to 'Destroy', poi_desc, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Poi desc', new_poi_desc_path %>

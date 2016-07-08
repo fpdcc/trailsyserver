@@ -1,0 +1,71 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Poi Infos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Poi info</th>
+      <th>Point type</th>
+      <th>Addr</th>
+      <th>Zip</th>
+      <th>Zipmuni</th>
+      <th>Municipality</th>
+      <th>Public access</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>Commdist</th>
+      <th>Zone name</th>
+      <th>Zonemapno</th>
+      <th>Dwmapno</th>
+      <th>Nameid</th>
+      <th>Pointsofinterest</th>
+      <th>Fpd uid</th>
+      <th>Web poi</th>
+      <th>Web street addr</th>
+      <th>Web muni addr</th>
+      <th>Parking connection</th>
+      <th>Parking info</th>
+      <th>Alt nameid</th>
+      <th>Alt2 nameid</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @poi_infos.each do |poi_info| %>
+      <tr>
+        <td><%= poi_info.poi_info_id %></td>
+        <td><%= poi_info.point_type %></td>
+        <td><%= poi_info.addr %></td>
+        <td><%= poi_info.zip %></td>
+        <td><%= poi_info.zipmuni %></td>
+        <td><%= poi_info.municipality %></td>
+        <td><%= poi_info.public_access %></td>
+        <td><%= poi_info.latitude %></td>
+        <td><%= poi_info.longitude %></td>
+        <td><%= poi_info.commdist %></td>
+        <td><%= poi_info.zone_name %></td>
+        <td><%= poi_info.zonemapno %></td>
+        <td><%= poi_info.dwmapno %></td>
+        <td><%= poi_info.nameid %></td>
+        <td><%= poi_info.pointsofinterest_id %></td>
+        <td><%= poi_info.fpd_uid %></td>
+        <td><%= poi_info.web_poi %></td>
+        <td><%= poi_info.web_street_addr %></td>
+        <td><%= poi_info.web_muni_addr %></td>
+        <td><%= poi_info.parking_connection_id %></td>
+        <td><%= poi_info.parking_info_id %></td>
+        <td><%= poi_info.alt_nameid %></td>
+        <td><%= poi_info.alt2_nameid %></td>
+        <td><%= link_to 'Show', poi_info %></td>
+        <td><%= link_to 'Edit', edit_poi_info_path(poi_info) %></td>
+        <td><%= link_to 'Destroy', poi_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Poi info', new_poi_info_path %>

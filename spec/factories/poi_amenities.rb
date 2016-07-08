@@ -1,0 +1,49 @@
+FactoryGirl.define do
+  factory :poi_amenity do
+    poi_info_id 1
+    ada 1
+    bike_parking 1
+    bike_rental 1
+    birding 1
+    boat_ramp 1
+    boat_rental 1
+    camping 1
+    canoe 1
+    comfortstation 1
+    cross_country 1
+    cycling 1
+    disc_golf 1
+    dog_friendly 1
+    dog_leash 1
+    drinkingwater 1
+    drone 1
+    ecological 1
+    equestrian 1
+    fishing 1
+    ice_fishing 1
+    gas_powered 1
+    golf 1
+    hiking 1
+    indoor_rental 1
+    large_capacity 1
+    m_airplane 1
+    m_boat 1
+    nature_center 1
+    natureplay 1
+    no_alcohol 1
+    no_parking 1
+    overlook 1
+    pavillion 1
+    picnic_grove 1
+    shelter 1
+    skating_ice 1
+    skating_inline 1
+    sledding 1
+    snowmobile 1
+    swimming 1
+    toboggan 1
+    volunteer 1
+    zip_line 1
+    poi_amenity_id 1
+  end
+end

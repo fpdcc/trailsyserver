@@ -1,0 +1,115 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Poi Amenities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Poi info</th>
+      <th>Ada</th>
+      <th>Bike parking</th>
+      <th>Bike rental</th>
+      <th>Birding</th>
+      <th>Boat ramp</th>
+      <th>Boat rental</th>
+      <th>Camping</th>
+      <th>Canoe</th>
+      <th>Comfortstation</th>
+      <th>Cross country</th>
+      <th>Cycling</th>
+      <th>Disc golf</th>
+      <th>Dog friendly</th>
+      <th>Dog leash</th>
+      <th>Drinkingwater</th>
+      <th>Drone</th>
+      <th>Ecological</th>
+      <th>Equestrian</th>
+      <th>Fishing</th>
+      <th>Ice fishing</th>
+      <th>Gas powered</th>
+      <th>Golf</th>
+      <th>Hiking</th>
+      <th>Indoor rental</th>
+      <th>Large capacity</th>
+      <th>M airplane</th>
+      <th>M boat</th>
+      <th>Nature center</th>
+      <th>Natureplay</th>
+      <th>No alcohol</th>
+      <th>No parking</th>
+      <th>Overlook</th>
+      <th>Pavillion</th>
+      <th>Picnic grove</th>
+      <th>Shelter</th>
+      <th>Skating ice</th>
+      <th>Skating inline</th>
+      <th>Sledding</th>
+      <th>Snowmobile</th>
+      <th>Swimming</th>
+      <th>Toboggan</th>
+      <th>Volunteer</th>
+      <th>Zip line</th>
+      <th>Poi amenity</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @poi_amenities.each do |poi_amenity| %>
+      <tr>
+        <td><%= poi_amenity.poi_info_id %></td>
+        <td><%= poi_amenity.ada %></td>
+        <td><%= poi_amenity.bike_parking %></td>
+        <td><%= poi_amenity.bike_rental %></td>
+        <td><%= poi_amenity.birding %></td>
+        <td><%= poi_amenity.boat_ramp %></td>
+        <td><%= poi_amenity.boat_rental %></td>
+        <td><%= poi_amenity.camping %></td>
+        <td><%= poi_amenity.canoe %></td>
+        <td><%= poi_amenity.comfortstation %></td>
+        <td><%= poi_amenity.cross_country %></td>
+        <td><%= poi_amenity.cycling %></td>
+        <td><%= poi_amenity.disc_golf %></td>
+        <td><%= poi_amenity.dog_friendly %></td>
+        <td><%= poi_amenity.dog_leash %></td>
+        <td><%= poi_amenity.drinkingwater %></td>
+        <td><%= poi_amenity.drone %></td>
+        <td><%= poi_amenity.ecological %></td>
+        <td><%= poi_amenity.equestrian %></td>
+        <td><%= poi_amenity.fishing %></td>
+        <td><%= poi_amenity.ice_fishing %></td>
+        <td><%= poi_amenity.gas_powered %></td>
+        <td><%= poi_amenity.golf %></td>
+        <td><%= poi_amenity.hiking %></td>
+        <td><%= poi_amenity.indoor_rental %></td>
+        <td><%= poi_amenity.large_capacity %></td>
+        <td><%= poi_amenity.m_airplane %></td>
+        <td><%= poi_amenity.m_boat %></td>
+        <td><%= poi_amenity.nature_center %></td>
+        <td><%= poi_amenity.natureplay %></td>
+        <td><%= poi_amenity.no_alcohol %></td>
+        <td><%= poi_amenity.no_parking %></td>
+        <td><%= poi_amenity.overlook %></td>
+        <td><%= poi_amenity.pavillion %></td>
+        <td><%= poi_amenity.picnic_grove %></td>
+        <td><%= poi_amenity.shelter %></td>
+        <td><%= poi_amenity.skating_ice %></td>
+        <td><%= poi_amenity.skating_inline %></td>
+        <td><%= poi_amenity.sledding %></td>
+        <td><%= poi_amenity.snowmobile %></td>
+        <td><%= poi_amenity.swimming %></td>
+        <td><%= poi_amenity.toboggan %></td>
+        <td><%= poi_amenity.volunteer %></td>
+        <td><%= poi_amenity.zip_line %></td>
+        <td><%= poi_amenity.poi_amenity_id %></td>
+        <td><%= link_to 'Show', poi_amenity %></td>
+        <td><%= link_to 'Edit', edit_poi_amenity_path(poi_amenity) %></td>
+        <td><%= link_to 'Destroy', poi_amenity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Poi amenity', new_poi_amenity_path %>

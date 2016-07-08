@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing New Trails</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trails</th>
+      <th>Geom</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @new_trails.each do |new_trail| %>
+      <tr>
+        <td><%= new_trail.trails_id %></td>
+        <td><%= new_trail.geom %></td>
+        <td><%= link_to 'Show', new_trail %></td>
+        <td><%= link_to 'Edit', edit_new_trail_path(new_trail) %></td>
+        <td><%= link_to 'Destroy', new_trail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New New trail', new_new_trail_path %>

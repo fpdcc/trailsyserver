@@ -1,0 +1,25 @@
+<%= form_for(@new_trail) do |f| %>
+  <% if @new_trail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@new_trail.errors.count, "error") %> prohibited this new_trail from being saved:</h2>
+
+      <ul>
+      <% @new_trail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :trails_id %><br>
+    <%= f.number_field :trails_id %>
+  </div>
+  <div class="field">
+    <%= f.label :geom %><br>
+    <%= f.text_field :geom %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

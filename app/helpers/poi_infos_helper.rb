@@ -1,0 +1,2 @@
+module PoiInfosHelper
+end

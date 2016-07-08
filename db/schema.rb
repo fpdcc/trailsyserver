@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704221348) do
+ActiveRecord::Schema.define(version: 20160708043532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,14 +19,15 @@ ActiveRecord::Schema.define(version: 20160704221348) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "activities_id"
-    t.string   "activity_type"
-    t.string   "name"
-    t.string   "parking_entrance_id"
     t.string   "nameid"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.point    "geom"
-    t.string   "trailhead_id"
+    t.string   "atype"
+    t.string   "aname"
+    t.integer  "poi_info_id"
+    t.integer  "trail_info_id"
+    t.integer  "parking_info_id"
   end
 
   create_table "alertings", force: :cascade do |t|
@@ -48,6 +49,21 @@ ActiveRecord::Schema.define(version: 20160704221348) do
     t.integer  "created_by"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "names", force: :cascade do |t|
+    t.integer  "nameid"
+    t.string   "name"
+    t.integer  "old_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "new_trails", force: :cascade do |t|
+    t.integer   "trails_id"
+    t.geography "geom",       limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
+    t.datetime  "created_at",                                                                null: false
+    t.datetime  "updated_at",                                                                null: false
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -74,6 +90,109 @@ ActiveRecord::Schema.define(version: 20160704221348) do
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
     t.string   "credit"
+  end
+
+  create_table "poi_amenities", force: :cascade do |t|
+    t.integer  "poi_info_id"
+    t.integer  "ada"
+    t.integer  "bike_parking"
+    t.integer  "bike_rental"
+    t.integer  "birding"
+    t.integer  "boat_ramp"
+    t.integer  "boat_rental"
+    t.integer  "camping"
+    t.integer  "canoe"
+    t.integer  "comfortstation"
+    t.integer  "cross_country"
+    t.integer  "cycling"
+    t.integer  "disc_golf"
+    t.integer  "dog_friendly"
+    t.integer  "dog_leash"
+    t.integer  "drinkingwater"
+    t.integer  "drone"
+    t.integer  "ecological"
+    t.integer  "equestrian"
+    t.integer  "fishing"
+    t.integer  "ice_fishing"
+    t.integer  "gas_powered"
+    t.integer  "golf"
+    t.integer  "hiking"
+    t.integer  "indoor_rental"
+    t.integer  "large_capacity"
+    t.integer  "m_airplane"
+    t.integer  "m_boat"
+    t.integer  "nature_center"
+    t.integer  "natureplay"
+    t.integer  "no_alcohol"
+    t.integer  "no_parking"
+    t.integer  "overlook"
+    t.integer  "pavillion"
+    t.integer  "picnic_grove"
+    t.integer  "shelter"
+    t.integer  "skating_ice"
+    t.integer  "skating_inline"
+    t.integer  "sledding"
+    t.integer  "snowmobile"
+    t.integer  "swimming"
+    t.integer  "toboggan"
+    t.integer  "volunteer"
+    t.integer  "zip_line"
+    t.integer  "poi_amenity_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "poi_descs", force: :cascade do |t|
+    t.integer  "poi_info_id"
+    t.string   "hours1"
+    t.string   "hours2"
+    t.string   "phone"
+    t.string   "description"
+    t.string   "web_link"
+    t.string   "map_link"
+    t.string   "map_link_spanish"
+    t.string   "vol_link"
+    t.string   "vol_link2"
+    t.string   "picnic_link"
+    t.string   "event_link"
+    t.string   "custom_link"
+    t.string   "season1"
+    t.string   "season2"
+    t.string   "special_hours"
+    t.string   "special_description"
+    t.string   "special_link"
+    t.string   "photo_link"
+    t.integer  "poi_desc_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "poi_infos", force: :cascade do |t|
+    t.integer  "poi_info_id"
+    t.string   "point_type"
+    t.string   "addr"
+    t.string   "zip"
+    t.string   "zipmuni"
+    t.string   "municipality"
+    t.string   "public_access"
+    t.decimal  "latitude"
+    t.decimal  "longitude"
+    t.integer  "commdist"
+    t.string   "zone_name"
+    t.integer  "zonemapno"
+    t.integer  "dwmapno"
+    t.integer  "nameid"
+    t.integer  "pointsofinterest_id"
+    t.integer  "fpd_uid"
+    t.string   "web_poi"
+    t.string   "web_street_addr"
+    t.string   "web_muni_addr"
+    t.integer  "parking_connection_id"
+    t.integer  "parking_info_id"
+    t.integer  "alt_nameid"
+    t.integer  "alt2_nameid"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -209,6 +328,44 @@ ActiveRecord::Schema.define(version: 20160704221348) do
     t.string   "trail_system"
     t.string   "trail_color"
     t.string   "trail_type"
+  end
+
+  create_table "trails_descs", force: :cascade do |t|
+    t.integer  "trail_desc_id",    null: false
+    t.string   "trail_subsystem"
+    t.string   "alt_name"
+    t.string   "trail_desc"
+    t.string   "map_link"
+    t.string   "map_link_spanish"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  create_table "trails_infos", force: :cascade do |t|
+    t.string   "trail_system",        null: false
+    t.string   "trail_subsystem",     null: false
+    t.string   "trail_color"
+    t.string   "trail_surface"
+    t.string   "trail_type"
+    t.string   "trail_difficulty"
+    t.string   "regional_trail_name"
+    t.string   "trail_desc"
+    t.string   "gps"
+    t.string   "comment"
+    t.string   "alt_name"
+    t.string   "cambr_name"
+    t.string   "on_street"
+    t.string   "crossing_type"
+    t.string   "unrecognized",        null: false
+    t.decimal  "length_mi"
+    t.integer  "trails_id",           null: false
+    t.string   "off_fpdcc",           null: false
+    t.string   "web_trail",           null: false
+    t.string   "maintenance"
+    t.decimal  "length_ft"
+    t.integer  "trail_info_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "trailsegments", force: :cascade do |t|

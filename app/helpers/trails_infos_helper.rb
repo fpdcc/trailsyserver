@@ -1,0 +1,2 @@
+module TrailsInfosHelper
+end

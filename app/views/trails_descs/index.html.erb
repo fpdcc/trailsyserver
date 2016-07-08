@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trails Descs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trail desc</th>
+      <th>Trail subsystem</th>
+      <th>Alt name</th>
+      <th>Trail desc</th>
+      <th>Map link</th>
+      <th>Map link spanish</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trails_descs.each do |trails_desc| %>
+      <tr>
+        <td><%= trails_desc.trail_desc_id %></td>
+        <td><%= trails_desc.trail_subsystem %></td>
+        <td><%= trails_desc.alt_name %></td>
+        <td><%= trails_desc.trail_desc %></td>
+        <td><%= trails_desc.map_link %></td>
+        <td><%= trails_desc.map_link_spanish %></td>
+        <td><%= link_to 'Show', trails_desc %></td>
+        <td><%= link_to 'Edit', edit_trails_desc_path(trails_desc) %></td>
+        <td><%= link_to 'Destroy', trails_desc, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trails desc', new_trails_desc_path %>

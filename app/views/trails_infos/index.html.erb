@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trails Infos</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trail system</th>
+      <th>Trail subsystem</th>
+      <th>Trail color</th>
+      <th>Trail surface</th>
+      <th>Trail type</th>
+      <th>Trail difficulty</th>
+      <th>Regional trail name</th>
+      <th>Trail desc</th>
+      <th>Gps</th>
+      <th>Comment</th>
+      <th>Alt name</th>
+      <th>Cambr name</th>
+      <th>On street</th>
+      <th>Crossing type</th>
+      <th>Unrecognized</th>
+      <th>Length mi</th>
+      <th>Trails</th>
+      <th>Off fpdcc</th>
+      <th>Web trail</th>
+      <th>Maintenance</th>
+      <th>Length ft</th>
+      <th>Trail info</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trails_infos.each do |trails_info| %>
+      <tr>
+        <td><%= trails_info.trail_system %></td>
+        <td><%= trails_info.trail_subsystem %></td>
+        <td><%= trails_info.trail_color %></td>
+        <td><%= trails_info.trail_surface %></td>
+        <td><%= trails_info.trail_type %></td>
+        <td><%= trails_info.trail_difficulty %></td>
+        <td><%= trails_info.regional_trail_name %></td>
+        <td><%= trails_info.trail_desc %></td>
+        <td><%= trails_info.gps %></td>
+        <td><%= trails_info.comment %></td>
+        <td><%= trails_info.alt_name %></td>
+        <td><%= trails_info.cambr_name %></td>
+        <td><%= trails_info.on_street %></td>
+        <td><%= trails_info.crossing_type %></td>
+        <td><%= trails_info.unrecognized %></td>
+        <td><%= trails_info.length_mi %></td>
+        <td><%= trails_info.trails_id %></td>
+        <td><%= trails_info.off_fpdcc %></td>
+        <td><%= trails_info.web_trail %></td>
+        <td><%= trails_info.maintenance %></td>
+        <td><%= trails_info.length_ft %></td>
+        <td><%= trails_info.trail_info_id %></td>
+        <td><%= link_to 'Show', trails_info %></td>
+        <td><%= link_to 'Edit', edit_trails_info_path(trails_info) %></td>
+        <td><%= link_to 'Destroy', trails_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trails info', new_trails_info_path %>
