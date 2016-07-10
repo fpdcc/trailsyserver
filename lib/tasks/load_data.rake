@@ -246,5 +246,41 @@ namespace :load do
       end
     end
   end
+
+  task :trails_infos => :environment do
+    TrailsInfo.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/trails_infos.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = TrailsInfo.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trail_info_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :poi_to_trails => :environment do
+    PoiToTrail.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/poi_to_trails.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = PoiToTrail.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trail_info_id} - #{item.poi_info_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
  
 end

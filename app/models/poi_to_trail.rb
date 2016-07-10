@@ -1,8 +1,8 @@
-class TrailsInfo < ActiveRecord::Base
-	self.primary_key = 'trail_info_id'
-	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trails_id
-	has_many :poi_to_trails, foreign_key: :trail_info_id, primary_key: :trail_info_id
-	has_many :poi_infos, through: :poi_to_trails
+class PoiToTrail < ActiveRecord::Base
+	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+	belongs_to :trails_info, foreign_key: :trail_info_id, primary_key: :trail_info_id
+	default_scope {order(distance: :asc)}
+
 
 	def self.parse_csv(file)
 	    parsed_items = []
@@ -20,7 +20,7 @@ class TrailsInfo < ActiveRecord::Base
 	    end
 
 	    CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
-	      new_item = TrailsInfo.new
+	      new_item = PoiToTrail.new
 	      next if (row.to_s =~ /^source/)
 
 	      row.headers.each do |header|
@@ -47,5 +47,4 @@ class TrailsInfo < ActiveRecord::Base
 	    end
 	    parsed_items
 	end
-
 end

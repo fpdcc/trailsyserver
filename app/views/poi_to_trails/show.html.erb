@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Trail info:</strong>
+  <%= @poi_to_trail.trail_info_id %>
+</p>
+
+<p>
+  <strong>Poi info:</strong>
+  <%= @poi_to_trail.poi_info_id %>
+</p>
+
+<p>
+  <strong>Distance:</strong>
+  <%= @poi_to_trail.distance %>
+</p>
+
+<%= link_to 'Edit', edit_poi_to_trail_path(@poi_to_trail) %> |
+<%= link_to 'Back', poi_to_trails_path %>

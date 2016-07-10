@@ -1,0 +1,29 @@
+<%= form_for(@poi_to_trail) do |f| %>
+  <% if @poi_to_trail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@poi_to_trail.errors.count, "error") %> prohibited this poi_to_trail from being saved:</h2>
+
+      <ul>
+      <% @poi_to_trail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :trail_info_id %><br>
+    <%= f.number_field :trail_info_id %>
+  </div>
+  <div class="field">
+    <%= f.label :poi_info_id %><br>
+    <%= f.number_field :poi_info_id %>
+  </div>
+  <div class="field">
+    <%= f.label :distance %><br>
+    <%= f.text_field :distance %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160708191834) do
+ActiveRecord::Schema.define(version: 20160710010754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,6 +218,14 @@ ActiveRecord::Schema.define(version: 20160708191834) do
     t.integer  "alt2_nameid"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "poi_to_trails", force: :cascade do |t|
+    t.integer  "trail_info_id"
+    t.integer  "poi_info_id"
+    t.decimal  "distance"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "pointsofinterests", force: :cascade do |t|
