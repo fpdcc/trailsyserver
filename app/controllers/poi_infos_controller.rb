@@ -164,8 +164,8 @@ class PoiInfosController < ApplicationController
         json_attributes["special_description"] = this_poi_desc.special_description
       end
     end
-    this_trails_infos = poi_info.trails_infos.limit(5)
-    trail_subsystems = this_trails_infos.pluck('trail_subsystem').uniq
+    this_trails_infos = poi_info.trails_infos.limit(1)
+    trail_subsystems = this_trails_infos.pluck('trail_subsystem')
     if trail_subsystems.length > 0
       json_attributes["trail_subsystems"] = trail_subsystems
       json_attributes["direct_trail_ids"] = this_trails_infos.pluck('trail_subsystem','trail_color','trail_type').uniq
