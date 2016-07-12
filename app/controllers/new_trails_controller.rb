@@ -3,8 +3,43 @@ class NewTrailsController < ApplicationController
 
   # GET /new_trails
   # GET /new_trails.json
-  def index
-    @new_trails = NewTrail.all
+  # def index
+  #   @new_trails = NewTrail.all
+  # end
+
+   def index
+    respond_to do |format|
+      format.html do 
+        authenticate_user!
+        @new_trails = NewTrail.all
+      end
+      format.json do
+        #@trailheads = cached_all_by_name
+        @new_trails = NewTrail.joins(:trails_info).select(:trails_id, :geom, :'trails_infos.web_trail', :'trails_infos.trail_subsystem', :'trails_infos.trail_color', :'trails_infos.trail_type')
+        # if (params[:loc])
+        #   @trailheads = sort_by_distance(@trailheads)
+        # end
+        #if stale?(@trailheads)
+        #fresh_when last_modified: @trailheads.maximum(:updated_at)
+        
+        entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        
+        features = []
+        @new_trails.each do |new_trail|
+          json_attributes = create_json_attributes(new_trail)
+          feature = entity_factory.feature(new_trail.geom, 
+           new_trail.id, 
+           json_attributes)
+          features.push(feature)
+        end
+        collection = entity_factory.feature_collection(features)
+        my_geojson = RGeo::GeoJSON::encode(collection)
+        ojDump = Oj.dump(my_geojson)
+        #if stale?(ojDump, public: true)
+          render json: ojDump
+        #end
+      end
+    end
   end
 
   # GET /new_trails/1
@@ -59,6 +94,12 @@ class NewTrailsController < ApplicationController
       format.html { redirect_to new_trails_url }
       format.json { head :no_content }
     end
+  end
+
+  def create_json_attributes(new_trail)
+    json_attributes = new_trail.attributes.except('created_at', 'updated_at', 'geom')
+  
+    json_attributes
   end
 
   private
