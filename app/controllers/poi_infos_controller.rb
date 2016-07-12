@@ -101,11 +101,15 @@ class PoiInfosController < ApplicationController
    
     json_attributes["id"] = poi_info.poi_info_id
     json_attributes["name"] = poi_info.name.name
+    alt_names = []
     if (poi_info.name_alt1)
-      json_attributes["name_alt1"] = poi_info.name_alt1.name
+      alt_names = alt_names.push(poi_info.name_alt1.name)
     end
     if (poi_info.name_alt2)
-      json_attributes["name_alt2"] = poi_info.name_alt2.name
+      alt_names = alt_names.push(poi_info.name_alt2.name)
+    end
+    if (alt_names.present?)
+      json_attributes["alt_names"] = alt_names
     end
     if (poi_info.activities)
       json_attributes["activities"] = poi_info.activities.pluck('activities_id')
@@ -164,11 +168,18 @@ class PoiInfosController < ApplicationController
         json_attributes["special_description"] = this_poi_desc.special_description
       end
     end
-    this_trails_infos = poi_info.trails_infos.limit(1)
-    trail_subsystems = this_trails_infos.pluck('trail_subsystem')
-    if trail_subsystems.length > 0
-      json_attributes["trail_subsystems"] = trail_subsystems
-      json_attributes["direct_trail_ids"] = this_trails_infos.pluck('trail_subsystem','trail_color','trail_type').uniq
+    this_trails_info = poi_info.trails_infos.limit(1)[0]
+    if this_trails_info
+      json_attributes["trail_subsystem"] = this_trails_info.trail_subsystem
+      json_attributes['subtrail_length_mi'] = this_trails_info.subtrail_length_mi
+      json_attributes['trail_subsystem_alt_names'] = this_trails_info.trail_subsystem_alt_names
+      json_attributes['trail_color'] = this_trails_info.trail_color
+      json_attributes['trail_type'] = this_trails_info.trail_type
+      json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type
+      if this_trails_info.trails_desc
+        json_attributes['trail_desc_id'] = this_trails_info.trails_desc.trail_desc_id
+      end
+       #PoiInfo.first.trails_infos.limit(1)[0].trails_desc.trail_desc
     end
 
 

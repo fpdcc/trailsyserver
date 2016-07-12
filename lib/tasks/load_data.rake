@@ -282,5 +282,23 @@ namespace :load do
       end
     end
   end
+
+  task :trails_descs => :environment do
+    TrailsDesc.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/trails_descs.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = TrailsDesc.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trail_desc_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
  
 end

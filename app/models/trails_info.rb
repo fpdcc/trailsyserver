@@ -3,6 +3,20 @@ class TrailsInfo < ActiveRecord::Base
 	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trails_id
 	has_many :poi_to_trails, foreign_key: :trail_info_id, primary_key: :trail_info_id
 	has_many :poi_infos, through: :poi_to_trails
+	has_one  :trails_desc, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+	default_scope {where(web_trail: 'y')}
+	#scope :unique_styles, -> {group("trail_subsystem"), order("trail_subsystem asc")}
+
+	#named_scope :small, :group => {:trail_subsystem, :trail_color}}
+
+	# subtrail_length_mi finds the total length for all trail segments with the same trail_subsystem, trail_color, and trail_type. This is used to show length on detail panel trail segments.
+	def subtrail_length_mi
+		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type).sum(:length_mi)
+	end
+
+	def trail_subsystem_alt_names
+		TrailsInfo.where(trail_subsystem: trail_subsystem).pluck('alt_name').uniq.reject(&:blank?)
+	end
 
 	def self.parse_csv(file)
 	    parsed_items = []

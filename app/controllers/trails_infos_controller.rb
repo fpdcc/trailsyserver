@@ -3,8 +3,40 @@ class TrailsInfosController < ApplicationController
 
   # GET /trails_infos
   # GET /trails_infos.json
+  # def index
+  #   @trails_infos = TrailsInfo.all
+  # end
+
   def index
-    @trails_infos = TrailsInfo.all
+    respond_to do |format|
+      format.html do 
+        authenticate_user!
+        @trails_infos = TrailsInfo.order(:trail_system, :trail_subsystem, :trail_color, :trail_type, :alt_name)
+
+      end
+      format.json do
+        #@trailheads = cached_all_by_name
+        #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
+        @trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct
+
+        entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        
+        features = []
+        @trails_infos.each do |trails_info|
+          json_attributes = create_json_attributes(trails_info)
+          feature = entity_factory.feature(RGeo::Geographic.spherical_factory.point(0,0), 
+           trails_info.id, 
+           json_attributes)
+          features.push(feature)
+        end
+        collection = entity_factory.feature_collection(features)
+        my_geojson = RGeo::GeoJSON::encode(collection)
+        ojDump = Oj.dump(my_geojson)
+        #if stale?(ojDump, public: true)
+          render json: ojDump
+        #end
+      end
+    end
   end
 
   # GET /trails_infos/1
@@ -59,6 +91,12 @@ class TrailsInfosController < ApplicationController
       format.html { redirect_to trails_infos_url }
       format.json { head :no_content }
     end
+  end
+
+  def create_json_attributes(trails_info)
+    json_attributes = trails_info.attributes.except('created_at', 'updated_at', 'trail_info_id')
+    json_attributes["subtrail_length_mi"] = trails_info.subtrail_length_mi
+    json_attributes
   end
 
   private
