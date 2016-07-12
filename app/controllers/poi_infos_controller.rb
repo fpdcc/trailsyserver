@@ -178,6 +178,7 @@ class PoiInfosController < ApplicationController
       json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type
       if this_trails_info.trails_desc
         json_attributes['trail_desc_id'] = this_trails_info.trails_desc.trail_desc_id
+        json_attributes['trail_desc'] = this_trails_info.trails_desc.trail_desc
       end
        #PoiInfo.first.trails_infos.limit(1)[0].trails_desc.trail_desc
     end
