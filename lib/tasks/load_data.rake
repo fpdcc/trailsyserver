@@ -11,7 +11,7 @@ namespace :load do
     if ENV['TRAILS_INPUT']
       input_file_names = [ENV['TRAILS_INPUT']]
     else
-      input_file_names = ["lib/named_trails.csv"]
+      input_file_names = ["lib/data/named_trails.csv"]
     end
     input_file_names.each do |input_file_name|
       if input_file_name =~ /csv$/
@@ -72,7 +72,7 @@ namespace :load do
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
-      input_file_names = ["lib/activities.geojson"]
+      input_file_names = ["lib/data/activities.geojson"]
     end
     input_file_names.each do |input_file_name|
       parsed_poi_infos = Activity.parse_geojson(input_file_name)
@@ -90,7 +90,7 @@ namespace :load do
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
-      input_file_names = ["lib/activities.csv"]
+      input_file_names = ["lib/data/activities.csv"]
     end
     input_file_names.each do |input_file_name|
       parsed_poi_infos = Activity.parse_csv(input_file_name)
@@ -108,7 +108,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/poi_infos.csv"]
+      input_file_names = ["lib/data/poi_infos.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_poi_infos = PoiInfo.parse_csv(input_file_name)
