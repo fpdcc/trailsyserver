@@ -17,7 +17,8 @@ class TrailsInfosController < ApplicationController
       format.json do
         #@trailheads = cached_all_by_name
         #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
-        @trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct
+        
+        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
 
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
@@ -96,6 +97,8 @@ class TrailsInfosController < ApplicationController
   def create_json_attributes(trails_info)
     json_attributes = trails_info.attributes.except('created_at', 'updated_at', 'trail_info_id')
     json_attributes["subtrail_length_mi"] = trails_info.subtrail_length_mi
+    json_attributes["direct_trail_id"] = trails_info.trail_subsystem + "-" + trails_info.trail_color + "-" + trails_info.trail_type
+
     json_attributes
   end
 

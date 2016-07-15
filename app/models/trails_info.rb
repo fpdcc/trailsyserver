@@ -14,6 +14,10 @@ class TrailsInfo < ActiveRecord::Base
 		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type).sum(:length_mi)
 	end
 
+	def self.sorted_by_subtrail_length_mi
+	  TrailsInfo.all.sort_by(&:subtrail_length_mi).reverse
+	end
+
 	def trail_subsystem_alt_names
 		TrailsInfo.where(trail_subsystem: trail_subsystem).pluck('alt_name').uniq.reject(&:blank?)
 	end
