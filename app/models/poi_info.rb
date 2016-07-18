@@ -11,11 +11,11 @@ class PoiInfo < ActiveRecord::Base
   has_many :trails_infos, through: :poi_to_trails
 
   def geom
-    if parking_connection_id.present?
-      p "Parking Connection Present."
-      return ParkingEntrance.find(parking_connection_id).geom;
+    if ( (parking_info_id.present?) && (parking_info_id != 331) )
+      p "Parking Info Present."
+      return ParkingEntranceInfo.find(parking_info_id).parking_entrance.geom;
     else
-      p "Parking Connection Not Present."
+      p "Parking Info Not Present."
       return Pointsofinterest.find(pointsofinterest_id).geom;
     end
   end
