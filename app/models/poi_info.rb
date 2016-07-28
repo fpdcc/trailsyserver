@@ -30,102 +30,144 @@ class PoiInfo < ActiveRecord::Base
 
   def tags
     this_amenity = self.poi_amenity
-    tags = []
+    tags = {}
+    panelTags = [];
+    searchTags = [];
     if (this_amenity)
       if (this_amenity.bike_rental == 1)
-        tags.push("bike_rental", "bike rental", "bicycle rental")
+        panelTags.push("bike_rental")
+        searchTags.push("bike rental", "bicycle rental")
       end
       if (this_amenity.birding == 1)
-        tags.push("birding", "birdwatching", "bird")
+        panelTags.push("birding")
+        searchTags.push("birdwatching", "bird")
+      end
+      if (this_amenity.boat_ramp == 1)
+        panelTags.push("boat_ramp")
+      end
+      if (this_amenity.canoe == 1)
+        panelTags.push("canoe")
+      end
+      if (this_amenity.boat_rental == 1)
+        panelTags.push("boat_rental")
       end
       if ( (this_amenity.boat_ramp == 1) or (this_amenity.canoe == 1) or (this_amenity.boat_rental == 1) )
-        tags.push("boat_rental","boat rental", "canoe", "boat_ramp", "boat ramp", "canoe rental", "kayak rental", "boating center", "canoeing", "kayaking", "boating", "kayak", "boat")
+        searchTags.push("boat_rental","boat rental", "canoe", "boat_ramp", "boat ramp", "canoe rental", "kayak rental", "boating center", "canoeing", "kayaking", "boating", "kayak", "boat")
       end
       if (this_amenity.camping == 1)
-        tags.push("camping","camp","campground")
+        panelTags.push("camping")
+        searchTags.push("camp","campground")
       end
       if (this_amenity.cross_country == 1)
-        tags.push("cross_country","cross-country skiing","ski")
+        panelTags.push("cross_country")
+        searchTags.push("cross-country skiing","ski")
       end
       if (this_amenity.cycling == 1)
-        tags.push("cycling","biking", "bicycle", "bike", "mtb", "mountain")
+        panelTags.push("cycling")
+        searchTags.push("biking", "bicycle", "bike", "mtb", "mountain")
       end
       if (this_amenity.disc_golf == 1)
-        tags.push("disc_golf","disc golf","frisbee")
+        panelTags.push("disc_golf")
+        searchTags.push("disc golf","frisbee")
       end
       if (this_amenity.dog_friendly == 1)
-        tags.push("dog_friendly","dog friendly", "off-leash", "dog", "dogs")
+        panelTags.push("dog_friendly")
+        searchTags.push("dog friendly", "off-leash", "dog", "dogs")
       end
       if (this_amenity.dog_leash == 1)
-        tags.push("dog_leash","dog leash", "dog", "dogs")
+        panelTags.push("dog_leash")
+        searchTags.push("dog leash", "dog", "dogs")
       end
       if (this_amenity.drone == 1)
-        tags.push("drone","drone flying")
+        panelTags.push("drone")
+        searchTags.push("drone flying")
       end
       if (this_amenity.ecological == 1)
-        tags.push("ecological")
+        panelTags.push("ecological")
       end
       if (this_amenity.equestrian == 1)
-        tags.push("equestrian","horse riding", "horse")
+        panelTags.push("equestrian")
+        searchTags.push("horse riding", "horse")
       end
       if (this_amenity.fishing == 1)
-        tags.push("fishing")
+        panelTags.push("fishing")
       end
       if (this_amenity.ice_fishing == 1)
-        tags.push("ice_fishing", "ice fishing")
+        panelTags.push("ice_fishing")
+        searchTags.push("ice fishing")
       end
       if (this_amenity.golf == 1)
-        tags.push("golf", "golfing")
+        panelTags.push("golf")
+        searchTags.push("golfing")
       end
       if (this_amenity.hiking == 1)
-        tags.push("hiking","walking", "running", "hike", "walk", "run", "jog", "jogging")
+        panelTags.push("hiking")
+        searchTags.push("walking", "running", "hike", "walk", "run", "jog", "jogging")
       end
       if (this_amenity.indoor_rental == 1)
-        tags.push("indoor_rental","wedding", "meeting")
+        panelTags.push("indoor_rental")
+        searchTags.push("wedding", "meeting")
       end
       if (this_amenity.m_airplane == 1)
-        tags.push("m_airplane","model airplane flying")
+        panelTags.push("m_airplane")
+        searchTags.push("model airplane flying")
       end
       if (this_amenity.m_boat == 1)
-        tags.push("m_boat","model boat")
+        panelTags.push("m_boat")
+        searchTags.push("model boat")
       end
       if (this_amenity.nature_center == 1)
-        tags.push("nature_center", "nature center", "museum", "education")
+        panelTags.push("nature_center")
+        searchTags.push("nature center", "museum", "education")
       end
       if (this_amenity.no_alcohol == 1)
-        tags.push("no_alcohol")
+        panelTags.push("no_alcohol")
       end
       if (this_amenity.no_parking == 1)
-        tags.push("no_parking")
+        panelTags.push("no_parking")
       end
       if (this_amenity.overlook == 1)
-        tags.push("overlook")
+        panelTags.push("overlook")
       end
       if (this_amenity.pavillion == 1)
-        tags.push("pavillion")
+        panelTags.push("pavillion")
+      end
+      if (this_amenity.picnic_grove == 1)
+        panelTags.push("picnic_grove")
+      end
+      if (this_amenity.shelter == 1)
+        panelTags.push("shelter")
       end
       if ( (this_amenity.picnic_grove == 1) or (this_amenity.shelter == 1) )
-        tags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
+        searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
       end
       if (this_amenity.skating_ice == 1)
-        tags.push("skating_ice", "ice skating", "ice skate")
+        panelTags.push("skating_ice")
+        searchTags.push("ice skating", "ice skate")
       end
       if (this_amenity.sledding == 1)
-        tags.push("sledding","sled", "coasting")
+        panelTags.push("sledding")
+        searchTags.push("sled", "coasting")
       end
       if (this_amenity.snowmobile == 1)
-        tags.push("snowmobile","snowmachine")
+        panelTags.push("snowmobile")
+        searchTags.push("snowmachine")
       end
       if (this_amenity.swimming == 1)
-        tags.push("swimming","swim", "pool", "aquatic")
+        panelTags.push("swimming")
+        searchTags.push("swim", "pool", "aquatic")
       end
       if (this_amenity.volunteer == 1)
-        tags.push("volunteer","volunteering", "restoration")
+        panelTags.push("volunteer")
+        searchTags.push("volunteering", "restoration")
       end
       if (this_amenity.zip_line == 1)
-        tags.push("zip_line","zip line", "treetop adventure")
+        panelTags.push("zip_line")
+        searchTags.push("zip line", "treetop adventure")
       end
-      tags = tags.uniq
+      panelTags = panelTags.uniq
+      searchTags = searchTags.uniq
+      tags = {panel: panelTags, search: searchTags}
       p tags
       tags
     end
