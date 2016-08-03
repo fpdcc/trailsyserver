@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803200811) do
+ActiveRecord::Schema.define(version: 20160803232720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,9 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.integer   "parking_info_id"
     t.geography "geom",            limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
+
+  add_index "activities", ["activities_id"], name: "index_activities_on_activities_id", unique: true, using: :btree
+  add_index "activities", ["poi_info_id"], name: "index_activities_on_poi_info_id", using: :btree
 
   create_table "alertings", force: :cascade do |t|
     t.string   "alertable_type"
@@ -59,12 +62,16 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "names", ["nameid"], name: "index_names_on_nameid", unique: true, using: :btree
+
   create_table "new_trails", force: :cascade do |t|
     t.integer   "trails_id"
     t.geography "geom",       limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
     t.datetime  "created_at",                                                                null: false
     t.datetime  "updated_at",                                                                null: false
   end
+
+  add_index "new_trails", ["trails_id"], name: "index_new_trails_on_trails_id", unique: true, using: :btree
 
   create_table "organizations", force: :cascade do |t|
     t.string   "code"
@@ -97,12 +104,17 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at",            null: false
   end
 
+  add_index "parking_entrance_infos", ["parking_entrance_id"], name: "index_parking_entrance_infos_on_parking_entrance_id", unique: true, using: :btree
+  add_index "parking_entrance_infos", ["parking_info_id"], name: "index_parking_entrance_infos_on_parking_info_id", unique: true, using: :btree
+
   create_table "parking_entrances", force: :cascade do |t|
     t.integer   "parking_entrance_id"
     t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime  "created_at",                                                                   null: false
     t.datetime  "updated_at",                                                                   null: false
   end
+
+  add_index "parking_entrances", ["parking_entrance_id"], name: "index_parking_entrances_on_parking_entrance_id", unique: true, using: :btree
 
   create_table "photorecords", force: :cascade do |t|
     t.integer  "source_id"
@@ -135,6 +147,7 @@ ActiveRecord::Schema.define(version: 20160803200811) do
   end
 
   add_index "picnicgroves", ["picnicgrove_id"], name: "index_picnicgroves_on_picnicgrove_id", unique: true, using: :btree
+  add_index "picnicgroves", ["status"], name: "index_picnicgroves_on_status", using: :btree
 
   create_table "poi_amenities", force: :cascade do |t|
     t.integer  "poi_info_id"
@@ -186,6 +199,9 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "poi_amenities", ["poi_amenity_id"], name: "index_poi_amenities_on_poi_amenity_id", unique: true, using: :btree
+  add_index "poi_amenities", ["poi_info_id"], name: "index_poi_amenities_on_poi_info_id", unique: true, using: :btree
+
   create_table "poi_descs", force: :cascade do |t|
     t.integer  "poi_info_id"
     t.string   "hours1"
@@ -210,6 +226,9 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
+
+  add_index "poi_descs", ["poi_desc_id"], name: "index_poi_descs_on_poi_desc_id", unique: true, using: :btree
+  add_index "poi_descs", ["poi_info_id"], name: "index_poi_descs_on_poi_info_id", unique: true, using: :btree
 
   create_table "poi_infos", force: :cascade do |t|
     t.integer  "poi_info_id"
@@ -239,6 +258,8 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at",            null: false
   end
 
+  add_index "poi_infos", ["poi_info_id"], name: "index_poi_infos_on_poi_info_id", unique: true, using: :btree
+
   create_table "poi_to_trails", force: :cascade do |t|
     t.integer  "trail_info_id"
     t.integer  "poi_info_id"
@@ -247,12 +268,17 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at",    null: false
   end
 
+  add_index "poi_to_trails", ["poi_info_id"], name: "index_poi_to_trails_on_poi_info_id", using: :btree
+  add_index "poi_to_trails", ["trail_info_id"], name: "index_poi_to_trails_on_trail_info_id", using: :btree
+
   create_table "pointsofinterests", force: :cascade do |t|
     t.integer   "pointsofinterest_id"
     t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime  "created_at",                                                                   null: false
     t.datetime  "updated_at",                                                                   null: false
   end
+
+  add_index "pointsofinterests", ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true, using: :btree
 
   create_table "statuses", force: :cascade do |t|
     t.integer  "status_type"
@@ -400,6 +426,9 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "updated_at",       null: false
   end
 
+  add_index "trails_descs", ["trail_desc_id"], name: "index_trails_descs_on_trail_desc_id", unique: true, using: :btree
+  add_index "trails_descs", ["trail_subsystem"], name: "index_trails_descs_on_trail_subsystem", using: :btree
+
   create_table "trails_infos", force: :cascade do |t|
     t.string   "trail_system",        null: false
     t.string   "trail_subsystem",     null: false
@@ -426,6 +455,10 @@ ActiveRecord::Schema.define(version: 20160803200811) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
+
+  add_index "trails_infos", ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true, using: :btree
+  add_index "trails_infos", ["trails_id"], name: "index_trails_infos_on_trails_id", using: :btree
+  add_index "trails_infos", ["web_trail"], name: "index_trails_infos_on_web_trail", using: :btree
 
   create_table "trailsegments", force: :cascade do |t|
     t.integer   "source_id"
