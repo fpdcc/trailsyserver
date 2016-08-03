@@ -171,20 +171,13 @@ class PoiInfosController < ApplicationController
         json_attributes["special_description"] = this_poi_desc.special_description
       end
     end
-    this_trails_info = poi_info.trails_infos.limit(1)[0]
-    if this_trails_info
-      #json_attributes["trail_subsystem"] = this_trails_info.trail_subsystem
-      #json_attributes['subtrail_length_mi'] = this_trails_info.subtrail_length_mi
-      #json_attributes['trail_subsystem_alt_names'] = this_trails_info.trail_subsystem_alt_names
-      #json_attributes['trail_color'] = this_trails_info.trail_color
-      #json_attributes['trail_type'] = this_trails_info.trail_type
-      json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type
-      if this_trails_info.trails_desc
-        #json_attributes['trail_desc_id'] = this_trails_info.trails_desc.trail_desc_id
-        #json_attributes['trail_desc'] = this_trails_info.trails_desc.trail_desc
+    if poi_info.has_trail_access
+      this_trails_info = poi_info.trails_infos.limit(1)[0]
+      if this_trails_info
+        json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type
       end
-       #PoiInfo.first.trails_infos.limit(1)[0].trails_desc.trail_desc
     end
+    
 
 
     json_attributes

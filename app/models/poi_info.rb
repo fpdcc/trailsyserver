@@ -25,6 +25,15 @@ class PoiInfo < ActiveRecord::Base
     trail_subsystems = this_trails_infos.pluck('trail_subsystem').uniq
   end
 
+  def has_trail_access
+    this_trailheads = self.activities.where(atype: "trailhead")
+    if this_trailheads.length > 0
+      return true
+    end
+    return false
+  end
+
+
   # def direct_trail_ids  
   # end
 

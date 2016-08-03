@@ -1,4 +1,5 @@
 Trailsyserver::Application.routes.draw do
+  resources :picnicgroves
   resources :poi_to_trails
   resources :pointsofinterests
   resources :parking_entrance_infos
