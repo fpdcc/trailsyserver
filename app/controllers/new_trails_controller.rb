@@ -15,7 +15,7 @@ class NewTrailsController < ApplicationController
       end
       format.json do
         #@trailheads = cached_all_by_name
-        @new_trails = NewTrail.joins(:trails_info).select(:trails_id, :geom, :'trails_infos.web_trail', :'trails_infos.trail_subsystem', :'trails_infos.trail_color', :'trails_infos.trail_type')
+        @new_trails = NewTrail.joins(:trails_info).select(:trails_id, :geom, :'trails_infos.web_trail', :'trails_infos.trail_subsystem', :'trails_infos.trail_color', :'trails_infos.trail_type', :'trails_infos.off_fpdcc')
         # if (params[:loc])
         #   @trailheads = sort_by_distance(@trailheads)
         # end
