@@ -11,7 +11,7 @@ class TrailsInfo < ActiveRecord::Base
 
 	# subtrail_length_mi finds the total length for all trail segments with the same trail_subsystem, trail_color, and trail_type. This is used to show length on detail panel trail segments.
 	def subtrail_length_mi
-		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type).sum(:length_mi)
+		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type, off_fpdcc: off_fpdcc).sum(:length_mi)
 	end
 
 	def self.sorted_by_subtrail_length_mi
