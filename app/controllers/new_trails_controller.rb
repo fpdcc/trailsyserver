@@ -1,5 +1,6 @@
 class NewTrailsController < ApplicationController
   before_action :set_new_trail, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:destroy, :update, :upload]
 
   # GET /new_trails
   # GET /new_trails.json
@@ -37,6 +38,7 @@ class NewTrailsController < ApplicationController
         ojDump = Oj.dump(my_geojson)
         #if stale?(ojDump, public: true)
           render json: ojDump
+          cache_page(@response, "/new_trails.json")
         #end
       end
     end
@@ -103,6 +105,10 @@ class NewTrailsController < ApplicationController
   end
 
   private
+    def expire_this_json
+      expire_page("/new_trails.json")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_new_trail
       @new_trail = NewTrail.find(params[:id])

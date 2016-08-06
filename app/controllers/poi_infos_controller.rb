@@ -1,6 +1,12 @@
 class PoiInfosController < ApplicationController
   before_action :set_poi_info, only: [:show, :edit, :update, :destroy]
 
+  after_action :set_poi_infos_cache_key , only: [:destroy, :update, :upload]
+  after_action :expire_this_json, only: [:destroy, :update, :upload]
+
+  max_updated_at = PoiInfo.maximum(:updated_at).try(:utc).try(:to_s, :number)
+  @@poi_infos_cache_key = "poi_infos/all-#{max_updated_at}"
+
   # GET /poi_infos
   # GET /poi_infos.json
   # def index
@@ -14,30 +20,35 @@ class PoiInfosController < ApplicationController
         @poi_infos = PoiInfo.order("poi_info_id")
       end
       format.json do
-        #@trailheads = cached_all_by_name
-        @poi_infos = PoiInfo.where(web_poi: 'y')
+
+        @poi_infos = PoiInfo.web_poi
+        fresh_when last_modified: @poi_infos.maximum(:updated_at)
+        #@poi_infos = cached_where_web_poi
+        #@poi_infos = PoiInfo.where(web_poi: 'y')
         # if (params[:loc])
         #   @trailheads = sort_by_distance(@trailheads)
         # end
-        #if stale?(@trailheads)
+        #if stale?(@poi_infos)
         #fresh_when last_modified: @trailheads.maximum(:updated_at)
         
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
         features = []
         @poi_infos.each do |poi_info|
-          json_attributes = create_json_attributes(poi_info)
-          feature = entity_factory.feature(poi_info.geom, 
-           poi_info.id, 
-           json_attributes)
-          features.push(feature)
+            json_attributes = create_json_attributes(poi_info)
+            feature = entity_factory.feature(poi_info.geom, 
+             poi_info.id, 
+             json_attributes)
+            features.push(feature)
         end
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
         ojDump = Oj.dump(my_geojson)
-        #if stale?(ojDump, public: true)
+        if stale?(ojDump, public: true)
+        #cache ojDump
           render json: ojDump
-        #end
+          cache_page(@response, "/poi_infos.json")
+        end
       end
     end
   end
@@ -184,6 +195,30 @@ class PoiInfosController < ApplicationController
   end
 
   private
+
+    def expire_this_json
+      expire_page("/poi_infos.json")
+    end
+
+    def set_poi_infos_cache_key
+      max_updated_at = PoiInfo.maximum(:updated_at).try(:utc).try(:to_s, :number)
+      @@poi_infos_cache_key = "poi_infos/all-#{max_updated_at}"
+      puts "NEW poi_infos_cache_key: #{@@poi_infos_cache_key}"
+    end  
+
+    def cached_where_web_poi
+        puts @@poi_infos_cache_key
+      if @@poi_infos_cache_key.blank?
+        poi_infos_cache_key
+        puts "Initial PoiInfo cache key is: #{@@poi_infos_cache_key}"
+      end
+      Rails.cache.fetch("#{@@poi_infos_cache_key}/poi_infos", expires_in: 12.hour) do
+        PoiInfo.includes(:name, :poi_desc, :activities).where(web_poi: 'y')
+        # last_update = @trailheads.maximum(:updated_at)
+      end
+    
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_poi_info
       @poi_info = PoiInfo.find(params[:id])

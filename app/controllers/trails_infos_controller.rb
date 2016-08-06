@@ -1,5 +1,6 @@
 class TrailsInfosController < ApplicationController
   before_action :set_trails_info, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:destroy, :update, :upload]
 
   # GET /trails_infos
   # GET /trails_infos.json
@@ -24,6 +25,7 @@ class TrailsInfosController < ApplicationController
         
         features = []
         @trails_infos.each do |trails_info|
+
           json_attributes = create_json_attributes(trails_info)
           feature = entity_factory.feature(RGeo::Geographic.spherical_factory.point(0,0), 
            trails_info.id, 
@@ -35,6 +37,7 @@ class TrailsInfosController < ApplicationController
         ojDump = Oj.dump(my_geojson)
         #if stale?(ojDump, public: true)
           render json: ojDump
+          cache_page(@response, "/trails_infos.json")
         #end
       end
     end
@@ -103,6 +106,11 @@ class TrailsInfosController < ApplicationController
   end
 
   private
+
+    def expire_this_json
+      expire_page("/trails_infos.json")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_trails_info
       @trails_info = TrailsInfo.find(params[:id])

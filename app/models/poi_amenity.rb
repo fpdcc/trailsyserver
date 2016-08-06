@@ -1,6 +1,8 @@
 class PoiAmenity < ActiveRecord::Base
 	self.primary_key = 'poi_amenity_id'
 
+	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id, touch: true
+
 	def self.parse_csv(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile

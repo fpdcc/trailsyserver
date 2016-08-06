@@ -10,12 +10,14 @@ class PoiInfo < ActiveRecord::Base
   has_many :poi_to_trails, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :trails_infos, through: :poi_to_trails
 
+  scope :web_poi, -> { includes(:name, :poi_desc, :activities).where(web_poi: 'y') }
+
   def geom
     if ( (parking_info_id.present?) && (parking_info_id != 331) )
-      p "Parking Info Present."
+      #p "Parking Info Present."
       return ParkingEntranceInfo.find(parking_info_id).parking_entrance.geom;
     else
-      p "Parking Info Not Present."
+      #p "Parking Info Not Present."
       return Pointsofinterest.find(pointsofinterest_id).geom;
     end
   end
@@ -174,13 +176,12 @@ class PoiInfo < ActiveRecord::Base
         panelTags.push("zip_line")
         searchTags.push("zip line", "treetop adventure")
       end
-      panelTags = panelTags.uniq
-      searchTags = searchTags.uniq
-      tags = {panel: panelTags, search: searchTags}
-      p tags
-      tags
     end
-
+    panelTags = panelTags.uniq
+    searchTags = searchTags.uniq
+    tags = {panel: panelTags, search: searchTags}
+    #p tags
+    tags
   end
 
   def self.parse_csv(file)
