@@ -177,6 +177,9 @@ class PoiInfo < ActiveRecord::Base
         searchTags.push("zip line", "treetop adventure")
       end
     end
+    if (self.has_trail_access)
+      panelTags.push("trailhead")
+    end
     panelTags = panelTags.uniq
     searchTags = searchTags.uniq
     tags = {panel: panelTags, search: searchTags}
