@@ -89,19 +89,22 @@ class PoiInfo < ActiveRecord::Base
         panelTags.push("dog_leash")
         searchTags.push("dog leash", "dog", "dogs")
       end
+      if (this_amenity.driving_range == 1)
+        panelTags.push("driving_range")
+      end
       if (this_amenity.drone == 1)
         panelTags.push("drone")
         searchTags.push("drone flying")
       end
-      # if (this_amenity.ecological == 1)
-      #   panelTags.push("ecological")
-      # end
       if (this_amenity.equestrian == 1)
         panelTags.push("equestrian")
         searchTags.push("horse riding", "horse")
       end
       if (this_amenity.fishing == 1)
         panelTags.push("fishing")
+      end
+      if (this_amenity.no_fishing == 1)
+        panelTags.push("no_fishing")
       end
       if (this_amenity.ice_fishing == 1)
         panelTags.push("ice_fishing")
@@ -137,6 +140,9 @@ class PoiInfo < ActiveRecord::Base
       if (this_amenity.no_parking == 1)
         panelTags.push("no_parking")
       end
+      if (this_amenity.no_parking == 0)
+        panelTags.push("parking")
+      end
       if (this_amenity.overlook == 1)
         panelTags.push("overlook")
       end
@@ -145,6 +151,9 @@ class PoiInfo < ActiveRecord::Base
       end
       if (this_amenity.picnic_grove == 1)
         panelTags.push("picnic_grove")
+      end
+      if (this_amenity.public_building == 1)
+        panelTags.push("public_building")
       end
       if (this_amenity.shelter == 1)
         panelTags.push("shelter")
