@@ -93,9 +93,9 @@ class PoiInfo < ActiveRecord::Base
         panelTags.push("drone")
         searchTags.push("drone flying")
       end
-      if (this_amenity.ecological == 1)
-        panelTags.push("ecological")
-      end
+      # if (this_amenity.ecological == 1)
+      #   panelTags.push("ecological")
+      # end
       if (this_amenity.equestrian == 1)
         panelTags.push("equestrian")
         searchTags.push("horse riding", "horse")
