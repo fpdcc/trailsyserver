@@ -1,7 +1,7 @@
 class PoiDesc < ActiveRecord::Base
 	self.primary_key = 'poi_desc_id'
 
-	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id, touch: true
 
 	def self.parse_csv(file)
 	    parsed_items = []

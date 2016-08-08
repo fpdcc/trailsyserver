@@ -1,6 +1,8 @@
 class Picnicgrofe < ActiveRecord::Base
 	self.primary_key = "picnicgrove_id"
 
+	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+
 	default_scope {where(status: 'active')}
 
 	def self.parse_csv(file)

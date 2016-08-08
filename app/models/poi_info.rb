@@ -4,6 +4,7 @@ class PoiInfo < ActiveRecord::Base
 	has_one :poi_desc, foreign_key: :poi_info_id, primary_key: :poi_info_id
 	has_one :poi_amenity, foreign_key: :poi_info_id, primary_key: :poi_info_id
 	has_many :activities, foreign_key: :poi_info_id, primary_key: :poi_info_id
+  has_many :picnicgroves, foreign_key: :poi_info_id, primary_key: :poi_info_id
 	has_one :name, foreign_key: :nameid, primary_key: :nameid
 	has_one :name_alt1, class_name: 'Name', foreign_key: :nameid, primary_key: :alt_nameid
 	has_one :name_alt2, class_name: 'Name', foreign_key: :nameid, primary_key: :alt2_nameid

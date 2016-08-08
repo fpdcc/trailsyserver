@@ -1,5 +1,6 @@
 class PicnicgrovesController < ApplicationController
   before_action :set_picnicgrofe, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:destroy, :update, :upload]
 
   # GET /picnicgroves
   # GET /picnicgroves.json
@@ -25,6 +26,7 @@ class PicnicgrovesController < ApplicationController
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
         render json: Oj.dump(my_geojson)
+        cache_page(@response, "/picnicgroves.json")
       end
     end
   end
@@ -84,7 +86,7 @@ class PicnicgrovesController < ApplicationController
   end
 
   def create_json_attributes(picnicgrofe)
-    json_attributes = picnicgrofe.attributes.except("id", "geom", "created_at", "updated_at")
+    json_attributes = picnicgrofe.attributes.except("status", "division", "id", "geom", "created_at", "updated_at")
     # if activity.source
     #   json_attributes["source"] = activity.source.code
     #   json_attributes["source_fullname"] = activity.source.full_name
@@ -104,6 +106,10 @@ class PicnicgrovesController < ApplicationController
   end
 
   private
+    def expire_this_json
+      expire_page("/picnicgroves.json")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_picnicgrofe
       @picnicgrofe = Picnicgrofe.find(params[:id])
