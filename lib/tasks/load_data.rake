@@ -7,7 +7,7 @@ namespace :load do
   task :all => [:trails, :trailheads, :segments, :activities]
   
   task :trails => :environment do
-    Trail.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails")
     if ENV['TRAILS_INPUT']
       input_file_names = [ENV['TRAILS_INPUT']]
     else
@@ -31,7 +31,7 @@ namespace :load do
   end
 
   task :trailheads => :environment do
-    Trailhead.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trailheads")
     if ENV['TRAILHEADS_INPUT']
       input_file_names = [ENV['TRAILHEADS_INPUT']]
     else
@@ -50,7 +50,7 @@ namespace :load do
   
 
   task :segments => :environment do
-    Trailsegment.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trailsegments")
     if ENV['SEGMENTS_INPUT']
       input_file_names = [ENV['SEGMENTS_INPUT']]
     else
@@ -68,7 +68,7 @@ namespace :load do
   end
 
   task :activities => :environment do
-    Activity.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE activities")
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
@@ -86,7 +86,7 @@ namespace :load do
   end
 
   task :activitiesCSV => :environment do
-    Activity.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE activities")
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
@@ -104,7 +104,7 @@ namespace :load do
   end
 
   task :poi_infos => :environment do
-    PoiInfo.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE poi_infos")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -122,7 +122,7 @@ namespace :load do
   end
 
   task :poi_amenities => :environment do
-    PoiAmenity.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE poi_amenities")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -140,7 +140,7 @@ namespace :load do
   end
 
   task :poi_descs => :environment do
-    PoiDesc.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE poi_descs")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -158,7 +158,7 @@ namespace :load do
   end
 
   task :names => :environment do
-    Name.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE names")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -176,7 +176,7 @@ namespace :load do
   end
 
   task :parking_entrances => :environment do
-    ParkingEntrance.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE parking_entrances")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -194,7 +194,7 @@ namespace :load do
   end
 
   task :parking_entrance_infos => :environment do
-    ParkingEntranceInfo.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE parking_entrance_infos")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -212,7 +212,7 @@ namespace :load do
   end
 
   task :pointsofinterests => :environment do
-    Pointsofinterest.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE pointsofinterests")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -230,7 +230,7 @@ namespace :load do
   end
 
   task :new_trails => :environment do
-    NewTrail.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE new_trails")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -248,7 +248,7 @@ namespace :load do
   end
 
   task :trails_infos => :environment do
-    TrailsInfo.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails_infos")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -266,7 +266,7 @@ namespace :load do
   end
 
   task :poi_to_trails => :environment do
-    PoiToTrail.destroy_all
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE poi_to_trails")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -284,6 +284,7 @@ namespace :load do
   end
 
   task :trails_descs => :environment do
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails_descs")
     TrailsDesc.destroy_all
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
@@ -294,6 +295,25 @@ namespace :load do
       parsed_items = TrailsDesc.parse_csv(input_file_name)
       parsed_items.each do |item|
         p "#{item.trail_desc_id}: item added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :picnicgroves => :environment do
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE picnicgroves")
+    #Picnicgrofe.destroy_all
+    # if ENV['ACTIVITIES_INPUT']
+    #   input_file_names = [ENV['ACTIVITIES_INPUT']]
+    # else
+      input_file_names = ["lib/data/picnicgroves.csv"]
+    #end
+    input_file_names.each do |input_file_name|
+      parsed_items = Picnicgrofe.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.picnicgrove_id}: item added."
         if !item.save
           p item.errors.full_messages
         end
