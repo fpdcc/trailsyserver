@@ -163,7 +163,7 @@ class ActivitiesController < ApplicationController
     # end
     #json_attributes["distance"] = activity.distance
     json_attributes["id"] = activity.activities_id
-    json_attributes["name"] = activity.name.name
+    json_attributes["name"] = activity.poi_info.name.name
     json_attributes
   end
 
