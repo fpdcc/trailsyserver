@@ -86,11 +86,13 @@ class ActivitiesController < ApplicationController
         # end
         features = []
         @activities.each do |activity|
-          json_attributes = create_json_attributes(activity)
-          feature = entity_factory.feature(activity.geom, 
-           activity.id, 
-           json_attributes)
-          features.push(feature)
+          if activity.geom.present?
+            json_attributes = create_json_attributes(activity)
+            feature = entity_factory.feature(activity.geom, 
+             activity.id, 
+             json_attributes)
+            features.push(feature)
+          end
         end
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
@@ -148,7 +150,7 @@ class ActivitiesController < ApplicationController
   end
 
   def create_json_attributes(activity)
-    json_attributes = activity.attributes.except("id", "geom", "created_at", "updated_at")
+    json_attributes = activity.attributes.except("id", "geom", "created_at", "updated_at", 'nameid', 'aname', 'parking_info_id')
     # if activity.source
     #   json_attributes["source"] = activity.source.code
     #   json_attributes["source_fullname"] = activity.source.full_name
