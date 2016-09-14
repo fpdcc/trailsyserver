@@ -14,7 +14,7 @@ class PoiInfo < ActiveRecord::Base
   scope :web_poi, -> { includes(:name, :poi_desc, :activities).where(web_poi: 'y') }
 
   def geom
-    if ( (parking_info_id.present?) && (parking_info_id != 331) )
+    if ( (parking_info_id.present?) && (parking_info_id > 0) )
       #p "Parking Info Present."
       return ParkingEntranceInfo.find(parking_info_id).parking_entrance.geom;
     else
@@ -90,9 +90,9 @@ class PoiInfo < ActiveRecord::Base
         panelTags.push("dog_leash")
         searchTags.push("dog leash", "dog", "dogs")
       end
-      if (this_amenity.driving_range == 1)
-        panelTags.push("driving_range")
-      end
+      # if (this_amenity.driving_range == 1)
+      #   panelTags.push("driving_range")
+      # end
       if (this_amenity.drone == 1)
         panelTags.push("drone")
         searchTags.push("drone flying")
@@ -104,9 +104,9 @@ class PoiInfo < ActiveRecord::Base
       if (this_amenity.fishing == 1)
         panelTags.push("fishing")
       end
-      if (this_amenity.no_fishing == 1)
-        panelTags.push("no_fishing")
-      end
+      # if (this_amenity.no_fishing == 1)
+      #   panelTags.push("no_fishing")
+      # end
       if (this_amenity.ice_fishing == 1)
         panelTags.push("ice_fishing")
         searchTags.push("ice fishing")
@@ -153,9 +153,9 @@ class PoiInfo < ActiveRecord::Base
       if (this_amenity.picnic_grove == 1)
         panelTags.push("picnic_grove")
       end
-      if (this_amenity.public_building == 1)
-        panelTags.push("public_building")
-      end
+      # if (this_amenity.public_building == 1)
+      #   panelTags.push("public_building")
+      # end
       if (this_amenity.shelter == 1)
         panelTags.push("shelter")
       end
