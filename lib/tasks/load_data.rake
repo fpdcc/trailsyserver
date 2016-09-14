@@ -5,6 +5,8 @@ require 'rgeo-geojson'
 
 namespace :load do
   task :all => [:trails, :trailheads, :segments, :activities]
+
+  task :all_csv => [:activitiesCSV, :poi_infos, :poi_amenities, :poi_descs, :names, :parking_entrances, :parking_entrance_infos, :pointsofinterests, :new_trails, :trails_infos, :poi_to_trails, :trails_descs, :picnicgroves]
   
   task :trails => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails")
@@ -47,7 +49,6 @@ namespace :load do
       end
     end
   end
-  
 
   task :segments => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trailsegments")
@@ -149,7 +150,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = PoiDesc.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.poi_desc_id}: item added."
+        p "#{item.poi_desc_id}: poi_desc added."
         if !item.save
           p item.errors.full_messages
         end
@@ -167,7 +168,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = Name.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.nameid}: item added."
+        p "#{item.nameid}: name added."
         if !item.save
           p item.errors.full_messages
         end
@@ -185,7 +186,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = ParkingEntrance.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.parking_entrance_id}: item added."
+        p "#{item.parking_entrance_id}: parking_entrance added."
         if !item.save
           p item.errors.full_messages
         end
@@ -203,7 +204,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = ParkingEntranceInfo.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.parking_info_id}: item added."
+        p "#{item.parking_info_id}: parking_entrance_info added."
         if !item.save
           p item.errors.full_messages
         end
@@ -221,7 +222,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = Pointsofinterest.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.pointsofinterest_id}: item added."
+        p "#{item.pointsofinterest_id}: pointsofinterest added."
         if !item.save
           p item.errors.full_messages
         end
@@ -239,7 +240,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = NewTrail.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.trails_id}: item added."
+        p "#{item.trails_id}: new_trail added."
         if !item.save
           p item.errors.full_messages
         end
@@ -257,7 +258,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = TrailsInfo.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.trail_info_id}: item added."
+        p "#{item.trail_info_id}: trail_info added."
         if !item.save
           p item.errors.full_messages
         end
@@ -275,7 +276,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = PoiToTrail.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.trail_info_id} - #{item.poi_info_id}: item added."
+        p "#{item.trail_info_id} - #{item.poi_info_id}: poi_to_trail added."
         if !item.save
           p item.errors.full_messages
         end
@@ -285,7 +286,6 @@ namespace :load do
 
   task :trails_descs => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails_descs")
-    TrailsDesc.destroy_all
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
@@ -294,7 +294,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = TrailsDesc.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.trail_desc_id}: item added."
+        p "#{item.trail_desc_id}: trails_desc added."
         if !item.save
           p item.errors.full_messages
         end
@@ -313,7 +313,7 @@ namespace :load do
     input_file_names.each do |input_file_name|
       parsed_items = Picnicgrofe.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.picnicgrove_id}: item added."
+        p "#{item.picnicgrove_id}: picnicgrove added."
         if !item.save
           p item.errors.full_messages
         end
