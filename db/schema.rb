@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160803232720) do
+ActiveRecord::Schema.define(version: 20161004002353) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,8 +195,12 @@ ActiveRecord::Schema.define(version: 20160803232720) do
     t.integer  "volunteer"
     t.integer  "zip_line"
     t.integer  "poi_amenity_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.integer  "nature_preserve"
+    t.integer  "no_fishing"
+    t.integer  "public_building"
+    t.integer  "driving_range"
   end
 
   add_index "poi_amenities", ["poi_amenity_id"], name: "index_poi_amenities_on_poi_amenity_id", unique: true, using: :btree

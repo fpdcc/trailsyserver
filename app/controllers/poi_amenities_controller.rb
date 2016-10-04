@@ -69,6 +69,6 @@ class PoiAmenitiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poi_amenity_params
-      params.require(:poi_amenity).permit(:poi_info_id, :ada, :bike_parking, :bike_rental, :birding, :boat_ramp, :boat_rental, :camping, :canoe, :comfortstation, :cross_country, :cycling, :disc_golf, :dog_friendly, :dog_leash, :drinkingwater, :drone, :ecological, :equestrian, :fishing, :ice_fishing, :gas_powered, :golf, :hiking, :indoor_rental, :large_capacity, :m_airplane, :m_boat, :nature_center, :natureplay, :no_alcohol, :no_parking, :overlook, :pavillion, :picnic_grove, :shelter, :skating_ice, :skating_inline, :sledding, :snowmobile, :swimming, :toboggan, :volunteer, :zip_line, :poi_amenity_id)
+      params.require(:poi_amenity).permit(:poi_info_id, :ada, :bike_parking, :bike_rental, :birding, :boat_ramp, :boat_rental, :camping, :canoe, :comfortstation, :cross_country, :cycling, :disc_golf, :dog_friendly, :dog_leash, :drinkingwater, :driving_range, :drone, :ecological, :equestrian, :fishing, :ice_fishing, :gas_powered, :golf, :hiking, :indoor_rental, :large_capacity, :m_airplane, :m_boat, :nature_center, :nature_preserve, :natureplay, :no_alcohol, :no_fishing, :no_parking, :overlook, :pavillion, :picnic_grove, :public_building, :shelter, :skating_ice, :skating_inline, :sledding, :snowmobile, :swimming, :toboggan, :volunteer, :zip_line, :poi_amenity_id)
     end
 end
