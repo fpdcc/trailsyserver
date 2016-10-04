@@ -11,6 +11,16 @@ namespace :load do
   desc "Expire page cache"
   task :expire_pages => :environment do
     ActionController::Base::expire_page("/")
+    ActionController::Base::expire_page("/activities.json")
+    ActionController::Base::expire_page("/activities.json.gz")
+    ActionController::Base::expire_page("/picnicgroves.json")
+    ActionController::Base::expire_page("/picnicgroves.json.gz")
+    ActionController::Base::expire_page("/poi_infos.json")
+    ActionController::Base::expire_page("/poi_infos.json.gz")
+    ActionController::Base::expire_page("/trails_infos.json")
+    ActionController::Base::expire_page("/trails_infos.json.gz")
+    ActionController::Base::expire_page("/new_trails.json")
+    ActionController::Base::expire_page("/new_trails.json.gz")
     Rails.logger.info("Removed page cache")
   end
 
@@ -95,6 +105,7 @@ namespace :load do
 
   task :activitiesCSV => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE activities")
+
     if ENV['ACTIVITIES_INPUT']
       input_file_names = [ENV['ACTIVITIES_INPUT']]
     else
