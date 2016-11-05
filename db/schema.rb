@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004002353) do
+ActiveRecord::Schema.define(version: 20161104233632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,6 +112,8 @@ ActiveRecord::Schema.define(version: 20161004002353) do
     t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime  "created_at",                                                                   null: false
     t.datetime  "updated_at",                                                                   null: false
+    t.integer   "nameid"
+    t.string    "entrance_closed"
   end
 
   add_index "parking_entrances", ["parking_entrance_id"], name: "index_parking_entrances_on_parking_entrance_id", unique: true, using: :btree
@@ -277,9 +279,68 @@ ActiveRecord::Schema.define(version: 20161004002353) do
 
   create_table "pointsofinterests", force: :cascade do |t|
     t.integer   "pointsofinterest_id"
-    t.geography "geom",                limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.datetime  "created_at",                                                                   null: false
-    t.datetime  "updated_at",                                                                   null: false
+    t.geography "geom",                  limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime  "created_at",                                                                     null: false
+    t.datetime  "updated_at",                                                                     null: false
+    t.integer   "poi_info_id"
+    t.string    "point_type"
+    t.string    "public_access"
+    t.decimal   "latitude"
+    t.decimal   "longitude"
+    t.string    "web_poi"
+    t.string    "web_street_addr"
+    t.string    "web_muni_addr"
+    t.integer   "parking_connection_id"
+    t.integer   "parking_info_id"
+    t.string    "alt_name"
+    t.string    "alt2_name"
+    t.string    "name"
+    t.integer   "ada"
+    t.integer   "bike_parking"
+    t.integer   "bike_rental"
+    t.integer   "birding"
+    t.integer   "boat_ramp"
+    t.integer   "boat_rental"
+    t.integer   "camping"
+    t.integer   "canoe"
+    t.integer   "comfortstation"
+    t.integer   "cross_country"
+    t.integer   "cycling"
+    t.integer   "disc_golf"
+    t.integer   "dog_friendly"
+    t.integer   "dog_leash"
+    t.integer   "drinkingwater"
+    t.integer   "drone"
+    t.integer   "ecological"
+    t.integer   "equestrian"
+    t.integer   "fishing"
+    t.integer   "ice_fishing"
+    t.integer   "gas_powered"
+    t.integer   "golf"
+    t.integer   "hiking"
+    t.integer   "indoor_rental"
+    t.integer   "large_capacity"
+    t.integer   "m_airplane"
+    t.integer   "m_boat"
+    t.integer   "nature_center"
+    t.integer   "natureplay"
+    t.integer   "no_alcohol"
+    t.integer   "no_parking"
+    t.integer   "overlook"
+    t.integer   "public_building"
+    t.integer   "picnic_grove"
+    t.integer   "shelter"
+    t.integer   "skating_ice"
+    t.integer   "skating_inline"
+    t.integer   "sledding"
+    t.integer   "snowmobile"
+    t.integer   "swimming"
+    t.integer   "toboggan"
+    t.integer   "volunteer"
+    t.integer   "zip_line"
+    t.integer   "nature_preserve"
+    t.integer   "no_fishing"
+    t.integer   "driving_range"
   end
 
   add_index "pointsofinterests", ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true, using: :btree
