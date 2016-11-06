@@ -174,6 +174,9 @@ class PointsofinterestsController < ApplicationController
       if (this_poi_desc.special_link?)
         json_attributes["special_link"] = this_poi_desc.special_link
       end
+      if (this_poi_desc.photo_link?)
+        json_attributes["photo_link"] = this_poi_desc.photo_link
+      end
       if (this_poi_desc.special_description?)
         json_attributes["special_description"] = this_poi_desc.special_description
       end
