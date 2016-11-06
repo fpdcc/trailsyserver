@@ -230,3 +230,5 @@ class PoiInfosController < ApplicationController
       params.require(:poi_info).permit(:poi_info_id, :point_type, :addr, :zip, :zipmuni, :municipality, :public_access, :latitude, :longitude, :commdist, :zone_name, :zonemapno, :dwmapno, :nameid, :pointsofinterest_id, :fpd_uid, :web_poi, :web_street_addr, :web_muni_addr, :parking_connection_id, :parking_info_id, :alt_nameid, :alt2_nameid)
     end
 end
+
+
