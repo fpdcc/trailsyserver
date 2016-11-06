@@ -52,9 +52,10 @@ class Pointsofinterest < ActiveRecord::Base
       end
       if (boat_rental == 1)
         panelTags.push("boat_rental")
+        searchTags.push("boat_rental", "boat rental", "canoe rental", "kayak rental", "boating center")
       end
       if ( (boat_ramp == 1) or (canoe == 1) or (boat_rental == 1) )
-        searchTags.push("boat_rental","boat rental", "canoe", "boat_ramp", "boat ramp", "canoe rental", "kayak rental", "boating center", "canoeing", "kayaking", "boating", "kayak", "boat")
+        searchTags.push("canoe", "boat_ramp", "boat ramp", "canoeing", "kayaking", "boating", "kayak", "boat")
       end
       if (camping == 1)
         panelTags.push("camping")
