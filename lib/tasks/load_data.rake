@@ -17,6 +17,8 @@ namespace :load do
     ActionController::Base::expire_page("/picnicgroves.json.gz")
     ActionController::Base::expire_page("/poi_infos.json")
     ActionController::Base::expire_page("/poi_infos.json.gz")
+    ActionController::Base::expire_page("/pointsofinterests.json")
+    ActionController::Base::expire_page("/pointsofinterests.json.gz")
     ActionController::Base::expire_page("/trails_infos.json")
     ActionController::Base::expire_page("/trails_infos.json.gz")
     ActionController::Base::expire_page("/new_trails.json")

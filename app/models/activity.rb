@@ -71,6 +71,7 @@ class Activity < ActiveRecord::Base
         value = row[header]
         next if header == "id"
         unless value.nil?
+          value = value.squish
           if value.to_s.downcase == "yes" || value == "Y"
             value = "y"
           end
