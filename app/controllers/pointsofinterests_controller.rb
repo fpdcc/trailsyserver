@@ -104,7 +104,7 @@ class PointsofinterestsController < ApplicationController
   end
 
   def create_json_attributes(pointsofinterest)
-    json_attributes = pointsofinterest.attributes.except('geom', 'created_at', 'updated_at', 'latitude', 'longitude', 'addr', 'zip', 'zipmuni', 'municipality', 'zone_name','zonemapno', 'dwmapno','name','alt_name','alt2_name', 'web_poi', 'commdist')
+    json_attributes = pointsofinterest.attributes.except('geom', 'parking_connection_id', 'created_at', 'updated_at', 'latitude', 'longitude', 'addr', 'zip', 'zipmuni', 'municipality', 'zone_name','zonemapno', 'dwmapno','name','alt_name','alt2_name', 'web_poi', 'commdist')
    
     json_attributes["id"] = pointsofinterest.poi_info_id
     json_attributes["name"] = pointsofinterest.name
@@ -187,6 +187,9 @@ class PointsofinterestsController < ApplicationController
         json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type
         json_attributes["trail_subsystem"] = this_trails_info.trail_subsystem
       end
+    end
+    if pointsofinterest.parking_connection_poi.present?
+      json_attributes["parking_connection_poi"] = pointsofinterest.parking_connection_poi.id
     end
     json_attributes
   end

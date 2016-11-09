@@ -29,6 +29,15 @@ class Pointsofinterest < ActiveRecord::Base
     return false
   end
 
+  def parking_connection_poi
+    if self.parking_connection_id.present?
+      parking_connection_pois = Pointsofinterest.where(parking_info_id: self.parking_connection_id)
+      if parking_connection_pois.present?
+        return parking_connection_pois.first
+      end
+    end
+  end
+
   # def direct_trail_ids  
   # end
 
