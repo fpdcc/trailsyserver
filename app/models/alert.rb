@@ -4,7 +4,7 @@ class Alert < ActiveRecord::Base
   	has_many :new_trails, :through => :alertings, :source => :alertable,
     	:source_type => 'Trail'
   	has_many :pointsofinterests, :through => :alertings, :source => :alertable,
-    	:source_type => 'POI'
+    	:source_type => 'Pointsofinterest'
 
     validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1 }

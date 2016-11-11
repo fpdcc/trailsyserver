@@ -15,6 +15,7 @@ class Alerting < ActiveRecord::Base
   	validate :end_date_is_after_start_date
 
 
+
 	#######
 	private
 	#######

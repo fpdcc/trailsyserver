@@ -5,6 +5,10 @@ class Pointsofinterest < ActiveRecord::Base
   has_many :picnicgroves, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :poi_to_trails, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :trails_infos, through: :poi_to_trails
+  has_many :alertings, :as => :alertable
+  has_many :alerts, :through => :alertings
+
+  include Alertable
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
 

@@ -1,0 +1,39 @@
+<h1>Dashboard#poi</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>POI #</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Issue</th>
+      <th>Add Closure</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @new_alertings.each_with_index do |alerting, index| %>
+      <tr>
+        <%= form_for([@pointsofinterests[index], alerting], remote: true) do |form| %>
+          <td><%= form.text_field :alertable_id, :value => @pointsofinterests[index].poi_info_id, :readonly => true, :class => "span1" %></td>
+          <td><%= @pointsofinterests[index].name %></td>
+          <td>Open</td>
+          <td>
+            <%= form.text_field :starts_at_visible, :placeholder => "mm/dd/yyyy", :id => "starts_at_visible", :class => 'text_field datepicker', :value => alerting.starts_at.try(:strftime, "%m/%d/%Y") %>
+    		<%= form.hidden_field :starts_at, id: "starts_at" %>
+    	  </td>
+    	  <td>
+            <%= form.text_field :ends_at_visible, :placeholder => "mm/dd/yyyy", :id => "ends_at_visible", :class => 'text_field datepicker', :value => alerting.ends_at.try(:strftime, "%m/%d/%Y") %>
+    		<%= form.hidden_field :ends_at, id: "ends_at" %>
+    	  </td>
+    	  <td>
+    		<%= form.select(:alert_id, Alert.all.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Select Alert'}) %>
+    	  </td>
+    	  <td><%= form.submit 'Add Closure', :class => "btn" %>
+    	  </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
