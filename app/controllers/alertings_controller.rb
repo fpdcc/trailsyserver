@@ -31,10 +31,11 @@ class AlertingsController < ApplicationController
 
     respond_to do |format|
       if @alerting.with_user(current_user).save
-        format.html { redirect_to @alerting, notice: 'Alerting was successfully created.' }
+        format.html { redirect_to :back, notice: 'Alerting was successfully created.' }
         format.json { render action: 'show', status: :created, location: @alerting }
       else
         format.html { render action: 'new' }
+        #format.html { redirect_to :back }
         format.json { render json: @alerting.errors, status: :unprocessable_entity }
       end
     end

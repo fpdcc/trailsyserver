@@ -4,4 +4,5 @@ module Alertable
 
   extend ActiveSupport::Concern
 
+
 end
