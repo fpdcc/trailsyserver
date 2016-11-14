@@ -15,6 +15,7 @@ class AlertingsController < ApplicationController
   # GET /alertings/new
   def new
     @alerting = Alerting.new
+    @alerting.alerts.build
   end
 
   # GET /alertings/1/edit
@@ -25,9 +26,23 @@ class AlertingsController < ApplicationController
   # POST /alertings.json
   def create
     
-    #@alert = Alert.find_or_initialize_by(name: params[:tagging].delete(:name))
-    #@alert.created_by ||= current_user.id
+    @alert = Alert.find_or_initialize_by(id: params[:alerting][:alert_id])
+    @alert.created_by ||= current_user.id
+    @alert.description ||= params[:alerting].delete(:description)
+    @alert.link ||= params[:alerting].delete(:link)
+    @alert.alert_type ||= params[:alerting].delete(:alert_type)
+    if params[:alerting][:alert_id].blank?
+      @alert.with_user(current_user).save
+    end
+
     @alerting = Alerting.new(alerting_params)
+    if params[:alerting][:starts_at].present?
+      @alerting.starts_at = Date.strptime(params[:alerting][:starts_at], '%m/%d/%Y')
+    end
+    if params[:alerting][:ends_at].present?
+      @alerting.ends_at = Date.strptime(params[:alerting][:ends_at], '%m/%d/%Y')
+    end
+    @alerting.alert_id = @alert.id
 
     respond_to do |format|
       if @alerting.with_user(current_user).save
@@ -73,6 +88,8 @@ class AlertingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alerting_params
-      params.require(:alerting).permit(:alertable_type, :alertable_id, :alert_id, :starts_at, :ends_at, :created_by)
+      params.require(:alerting).permit(:alertable_type, :alertable_id, :alert_id, :starts_at, :ends_at, :created_by, 
+        :alerts_attributes => [:alert_type, :description, :link]
+        )
     end
 end

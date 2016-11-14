@@ -1,5 +1,9 @@
+
+<p id="notice"><%= notice %></p>
+
 <h1>Dashboard#poi</h1>
 
+<h2>POIs with Active Alerts</h2>
 <table>
   <thead>
     <tr>
@@ -13,15 +17,66 @@
     </tr>
   </thead>
   <tbody>
-  	<% @pointsofinterests.each_with_index do |poi, index| %>
+  	<% @pointsofinterests_active.each_with_index do |poi, index| %>
   	  <tr>
   	    <td><%= poi.id %></td>
   	    <td><%= poi.name %></td>
-  	    <td>Count: <%= poi.alertings.count %>
+  	    <td>Total Alerts: <%= poi.alertings.active.count %>
   	     <!--  <%= label_tag("toggle-#{poi.id}-alertings", "#{poi.alertings.count}") %>
           <%= check_box_tag("toggle-#{poi.id}-alertings", poi.id) %> -->
           <div>
-          	<% if poi.alertings.count > 0 %>
+          	<% if poi.alertings.active.count > 0 %>
+	          	<ul class='dashboard'>
+	          	<% poi.alertings.active.each do |alerting| %>
+					<li class='dashboard'><%= alerting.starts_at.strftime('%m/%d/%Y') %>-<% if alerting.ends_at.present? %><%= alerting.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alerting.alert.alert_type %>: <%= alerting.alert.description %> <%= alerting.alert.link %>
+					</li>
+
+	          	<% end %>
+	          	</ul>
+	        <% end %>
+          </div>
+  	    </td>
+  	    <td>
+          <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn') %>
+          <%= check_box_tag("toggle-#{poi.id}-closure", poi.id) %>
+          <div>
+          	<%= render partial: 'form_closure', locals: {poi: poi} %>
+          </div>
+          <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn') %>
+          <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
+          <div>
+          	<%= render partial: 'form_alert', locals: {poi: poi} %>
+          </div>
+        </td>
+  	  </tr>
+  	<% end %>
+   
+  </tbody>
+</table>
+
+<h2>POIs with no Active Alerts</h2>
+<table>
+  <thead>
+    <tr>
+      <th>POI #</th>
+      <th>Name</th>
+      <th>Active Alerts</th>
+      <th>New</th>
+      <!-- <th>End Date</th>
+      <th>Issue</th>
+      <th>Add Closure</th> -->
+    </tr>
+  </thead>
+  <tbody>
+  	<% @pointsofinterests_inactive.each_with_index do |poi, index| %>
+  	  <tr>
+  	    <td><%= poi.id %></td>
+  	    <td><%= poi.name %></td>
+  	    <td>Count: <%= poi.alertings.active.count %>
+  	     <!--  <%= label_tag("toggle-#{poi.id}-alertings", "#{poi.alertings.count}") %>
+          <%= check_box_tag("toggle-#{poi.id}-alertings", poi.id) %> -->
+          <div>
+          	<% if poi.alertings.active.count > 0 %>
 	            <table>
 	              <thead>
 	                <th>Dates</th>
@@ -30,9 +85,9 @@
 	                <th>Edit</th>
 	              </thead>
 	              <tbody>
-	              	<% poi.alertings.each do |alerting| %>
+	              	<% poi.alertings.active.each do |alerting| %>
 	              	  <tr>
-	              	    <td><%= alerting.starts_at.strftime('%m/%d/%Y') %>-<%= alerting.ends_at.strftime('%m/%d/%Y') %></td>
+	              	    <td><%= alerting.starts_at.strftime('%m/%d/%Y') %>-<% if alerting.ends_at.present? %><%= alerting.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %></td>
 	              	    <td><%= alerting.alert.alert_type %></td>
 	              	    <td><%= alerting.alert.description %></td>
 	              	    <td>Future Edit Link</td>
@@ -44,40 +99,15 @@
           </div>
   	    </td>
   	    <td>
-          <%= label_tag("toggle-#{index}", "Add Closure", class: 'btn') %>
-          <%= check_box_tag("toggle-#{index}", index) %>
+          <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn') %>
+          <%= check_box_tag("toggle-#{poi.id}-closure", poi.id) %>
           <div>
-          	<%= form_for(@alerting = Alerting.new, html: {class: "form-inline"}) do |form| %>
-	            <%= form.label :starts_at %>
-	          	<%= form.text_field :starts_at_visible, :placeholder => "mm/dd/yyyy", :id => "starts_at_visible", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
-	    		<%= form.hidden_field :starts_at, id: "starts_at" %>
- 	    		<%= form.label :ends_at %>
- 	    		<%= form.text_field :ends_at_visible, :placeholder => "mm/dd/yyyy", :id => "ends_at_visible", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
-	    		<%= form.hidden_field :ends_at, id: "ends_at" %>
-	    		<%= form.label :alert_id %>
-    			<%= form.select(:alert_id, Alert.all.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Issue'}) %>
-	    		<%= form.hidden_field :alertable_type, value: "Pointsofinterest" %>
-	    		<%= form.hidden_field :alertable_id, value: poi.id %>
-	    		 <%= form.submit %>
-	    	<% end %>
+          	<%= render partial: 'form_closure', locals: {poi: poi} %>
           </div>
           <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
           <div>
-          	<%= form_for(@alerting = Alerting.new, html: {class: "form-inline"}) do |form| %>
-          		
-	            <%= form.label :starts_at %>
-	          	<%= form.text_field :starts_at_visible, :placeholder => "mm/dd/yyyy", :id => "starts_at_visible", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
-	    		<%= form.hidden_field :starts_at, id: "starts_at" %>
- 	    		<%= form.label :ends_at %>
- 	    		<%= form.text_field :ends_at_visible, :placeholder => "mm/dd/yyyy", :id => "ends_at_visible", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
-	    		<%= form.hidden_field :ends_at, id: "ends_at" %>
-	    		<%= form.label :alert_id %>
-    			<%= form.select(:alert_id, Alert.all.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Issue'}) %>
-	    		<%= form.hidden_field :alertable_type, value: "Pointsofinterest" %>
-	    		<%= form.hidden_field :alertable_id, value: poi.id %>
-	    		 <%= form.submit %>
-	    	<% end %>
+          	<%= render partial: 'form_alert', locals: {poi: poi} %>
           </div>
         </td>
   	  </tr>

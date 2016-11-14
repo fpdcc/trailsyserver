@@ -1,7 +1,13 @@
 Trailsyserver::Application.routes.draw do
+  get 'dashboard/poi'
+
+  get 'dashboard/trail'
+
   resources :picnicgroves
   resources :poi_to_trails
-  resources :pointsofinterests
+  resources :pointsofinterests do 
+    resources :alertings
+  end
   resources :parking_entrance_infos
   resources :parking_entrances
   resources :poi_amenities

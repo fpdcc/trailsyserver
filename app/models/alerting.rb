@@ -2,6 +2,10 @@ class Alerting < ActiveRecord::Base
 
 	belongs_to :alert
 
+	accepts_nested_attributes_for :alert
+
+	attr_accessor :description, :alert_type, :link
+
 	# Yes, but we want higher level users to be able to create alert when creating alerting
 	validates  :alert, presence: true
 
@@ -14,6 +18,9 @@ class Alerting < ActiveRecord::Base
   	validates :starts_at, presence: true
   	validate :end_date_is_after_start_date
 
+  	scope :active, lambda {
+      where('starts_at <= ? and (ends_at >= ? or ends_at is null)', Time.now, Time.now)
+    }
 
 
 	#######

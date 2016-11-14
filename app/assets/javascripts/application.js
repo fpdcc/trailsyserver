@@ -14,5 +14,9 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
-//= require jquery-ui/datepicker
+//= require bootstrap-datepicker
 //= require_tree .
+
+$(document).ready(function(){
+    $('.datepicker').datepicker();
+});

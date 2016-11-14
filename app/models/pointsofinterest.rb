@@ -7,10 +7,36 @@ class Pointsofinterest < ActiveRecord::Base
   has_many :trails_infos, through: :poi_to_trails
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
+  # has_many :active_alertings, -> { active }, :as => :alertable
+  # has_many :alerts, :through => :active_alertings
 
   include Alertable
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
+
+  scope :with_active_alerts, -> { includes(:alertings).references(:alertings).where('alertings.starts_at <= ? and (alertings.ends_at >= ? or alertings.ends_at is null)', Time.now, Time.now) }
+  scope :no_active_alerts, -> { includes(:alertings).references(:alertings).where(
+    "pointsofinterests.poi_info_id NOT IN (
+    SELECT DISTINCT(alertings.alertable_id) 
+    FROM alertings 
+    where 
+    alertings.alertable_type = 'Pointsofinterest'
+    and
+    alertings.starts_at <= ? 
+    and 
+    (alertings.ends_at >= ? or alertings.ends_at is null)
+    )", Time.now, Time.now) }
+
+  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('(alertings.ends_at >= ? or alertings.ends_at is null)', Time.now) }
+  scope :no_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where(
+    "pointsofinterests.poi_info_id NOT IN (
+    SELECT DISTINCT(alertings.alertable_id) 
+    FROM alertings 
+    where 
+    alertings.alertable_type = 'Pointsofinterest'
+    and
+    (alertings.ends_at >= ? or alertings.ends_at is null)
+    )", Time.now) }
 
   def geom_web
     if ( (parking_info_id.present?) && (parking_info_id > 0) )

@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
   def poi
-  	@pointsofinterests = Pointsofinterest.all
+  	@pointsofinterests_active = Pointsofinterest.with_active_alerts #.order(self.active_alerts_count)
+  	@pointsofinterests_inactive = Pointsofinterest.no_active_alerts
   	# @new_alertings = []
     # @pointsofinterests.length.times do
     #   @new_alertings << Alerting.new
