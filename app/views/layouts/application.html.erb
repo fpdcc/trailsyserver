@@ -15,12 +15,15 @@
       <%= menu_item "Home", root_path %>
       <%= menu_divider %>
       <% if user_signed_in? %>
+        <%= drop_down "Alerts/Closures" do %>
+          <%= menu_item "POIs", dashboard_poi_path %>
+        <% end %>
         <%= drop_down "Trails" do %>
           <%= menu_item "Trails Geometry", new_trails_path %>
           <%= menu_item "Trails Info", trails_infos_path %>
           <%= menu_item "Trails Desc", trails_descs_path %>
         <% end %>
-        <%= drop_down "Entrances/POIs" do %>
+       <!--  <%= drop_down "Entrances/POIs" do %>
           <%= menu_item "POI Info", poi_infos_path %>
           <%= menu_item "POI Desc", poi_descs_path %>
           <%= menu_item "POI Amenity", poi_amenities_path %>
@@ -28,13 +31,13 @@
           <%= menu_item "PointsofInterest Geometry", pointsofinterests_path %>
           <%= menu_item "Parking Entrance Geometry", parking_entrances_path %>
           <%= menu_item "Parking Entrance Info", parking_entrance_infos_path %>
-        <% end %>
+        <% end %> -->
         <%= drop_down "Activities" do %>
           <%= menu_item "Activities", activities_path %>
           <%= menu_item "Picnic Groves", picnicgroves_path %>
         <% end %>
-        <%= menu_item "Names", names_path %>
-        <%= drop_down "Hi, #{current_user.email}" do %>
+<!--         <%= menu_item "Names", names_path %>
+ -->        <%= drop_down "Hi, #{current_user.email}" do %>
           <%= menu_item 'Edit Account', edit_user_registration_path %>
           <%= menu_item 'Logout', destroy_user_session_path, :method => :delete %>
         <% end %>

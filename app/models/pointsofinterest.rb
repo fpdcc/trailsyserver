@@ -38,6 +38,8 @@ class Pointsofinterest < ActiveRecord::Base
     (alertings.ends_at >= ? or alertings.ends_at is null)
     )", Time.now) }
 
+  self.per_page = 15
+
   def geom_web
     if ( (parking_info_id.present?) && (parking_info_id > 0) )
       return ParkingEntranceInfo.find(parking_info_id).parking_entrance.geom;
