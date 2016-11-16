@@ -22,6 +22,25 @@ class Alerting < ActiveRecord::Base
       where('starts_at <= ? and (ends_at >= ? or ends_at is null)', Time.now, Time.now)
     }
 
+    scope :closure, -> { joins(:alert).where('alerts.alert_type = ?', 1).references(:alert)
+ }
+
+    validates :starts_at, :ends_at, if: :closure?, :overlap => {
+    	:scope => ["alertable_type", "alertable_id"], 
+    	:query_options => {:closure => nil}
+    }
+
+    def closure?
+    	logger.info "in closure def"
+    	if (alert.alert_type == 'closure')
+    	  logger.info "closure true"
+    	  return true
+    	else
+    	  logger.info "closure false"
+    	  return false
+    	end
+    end
+
 
 	#######
 	private

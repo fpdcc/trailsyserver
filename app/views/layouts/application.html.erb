@@ -17,6 +17,7 @@
       <% if user_signed_in? %>
         <%= drop_down "Alerts/Closures" do %>
           <%= menu_item "POIs", dashboard_poi_path %>
+          <%= menu_item "Alert/Closure Descriptions", alerts_path %>
         <% end %>
         <%= drop_down "Trails" do %>
           <%= menu_item "Trails Geometry", new_trails_path %>
