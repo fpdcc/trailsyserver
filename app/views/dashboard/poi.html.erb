@@ -54,7 +54,7 @@
   </tbody>
 </table>
 
-<h2>POIs with no Active Alerts</h2>
+<h2>All POIs</h2>
 <table>
   <thead>
     <tr>
@@ -68,7 +68,7 @@
     </tr>
   </thead>
   <tbody>
-  	<% @pointsofinterests_inactive.each_with_index do |poi, index| %>
+  	<% @pointsofinterests.each_with_index do |poi, index| %>
   	  <tr>
   	    <td><%= poi.id %></td>
   	    <td><%= poi.name %></td>
@@ -116,4 +116,4 @@
   </tbody>
 </table>
 
-<%= will_paginate @pointsofinterests_inactive, renderer: BootstrapPagination::Rails %>
+<%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>

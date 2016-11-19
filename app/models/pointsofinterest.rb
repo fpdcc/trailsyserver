@@ -27,7 +27,7 @@ class Pointsofinterest < ActiveRecord::Base
     (alertings.ends_at >= ? or alertings.ends_at is null)
     )", Time.now, Time.now) }
 
-  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('(alertings.ends_at >= ? or alertings.ends_at is null)', Time.now) }
+  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('alertings.ends_at >= ? or (alertings.starts_at is not null and alertings.ends_at is null)', Time.now) }
   scope :no_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where(
     "pointsofinterests.poi_info_id NOT IN (
     SELECT DISTINCT(alertings.alertable_id) 

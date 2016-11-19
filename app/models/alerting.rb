@@ -18,8 +18,12 @@ class Alerting < ActiveRecord::Base
   	validates :starts_at, presence: true
   	validate :end_date_is_after_start_date
 
-  	scope :active, lambda {
+  	scope :current, lambda {
       where('starts_at <= ? and (ends_at >= ? or ends_at is null)', Time.now, Time.now)
+    }
+
+    scope :active, -> {
+      where('ends_at >= ? or (starts_at is not null and ends_at is null)', Time.now)
     }
 
     scope :closure, -> { joins(:alert).where('alerts.alert_type = ?', 1).references(:alert)
