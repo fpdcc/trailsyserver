@@ -53,8 +53,16 @@
    
   </tbody>
 </table>
-
+<br>
 <h2>All POIs</h2>
+<div class='span12'> 
+  <%= form_tag dashboard_poi_path, method: :get, class: 'form-inline' %>
+    Filter: 
+    <label for="name">Name</label>
+    <%= text_field_tag :name, params[:name], class: 'input-mini', id:'name-field' %>
+    <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
+    <%= link_to "Clear Search", dashboard_poi_path, :class => "btn"  %>
+  </div>
 <table>
   <thead>
     <tr>
