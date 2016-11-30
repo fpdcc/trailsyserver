@@ -1,6 +1,6 @@
 class NewTrail < ActiveRecord::Base
 	self.primary_key = 'trails_id'
-	has_one :trails_info, foreign_key: :trails_id, primary_key: :trails_id
+	has_one :trails_info, foreign_key: :trail_info_id, primary_key: :trails_id
 
 	def self.parse_csv(file)
 	    parsed_items = []
@@ -36,7 +36,9 @@ class NewTrail < ActiveRecord::Base
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
-	        # elsif header == "source"
+	        elsif header == "trail_info_id"
+	          new_item['trails_id'] = value
+
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"
 	        #   new_item.steward = Organization.find_by code: value

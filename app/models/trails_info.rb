@@ -1,6 +1,6 @@
 class TrailsInfo < ActiveRecord::Base
 	self.primary_key = 'trail_info_id'
-	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trails_id
+	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trail_info_id
 	has_many :poi_to_trails, foreign_key: :trail_info_id, primary_key: :trail_info_id
 	has_many :poi_infos, through: :poi_to_trails
 	has_one  :trails_desc, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
@@ -60,13 +60,16 @@ class TrailsInfo < ActiveRecord::Base
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
-	         elsif header == 'type'
+	        elsif header == 'type'
 	          new_item['trail_type'] = value
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"
 	        #   new_item.steward = Organization.find_by code: value
 	        end
+	        if header == 'trail_info_id'
+	          new_item['trails_id'] = value
+	      end
 	      end
 	      parsed_items.push new_item
 	    end
