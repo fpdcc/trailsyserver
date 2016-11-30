@@ -41,6 +41,8 @@ class Picnicgrofe < ActiveRecord::Base
 	          new_item[header] = value
 	        elsif header == 'type'
 	          new_item['picnicgrove_type'] = value
+	        else
+              p "Field not in database: #{header}"
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"

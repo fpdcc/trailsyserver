@@ -37,6 +37,8 @@ class PoiDesc < ActiveRecord::Base
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
+	        else
+              p "Field not in database: #{header}"
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"

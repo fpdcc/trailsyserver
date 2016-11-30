@@ -50,10 +50,10 @@ class TrailsInfo < ActiveRecord::Base
 	        next if header == "id"
 	        unless value.nil?
 	          value = value.squish
-	          if value.to_s.downcase == "yes" || value == "Y"
+	          if value.to_s.downcase == "yes" || value == "Y" || value == "t"
 	            value = "y"
 	          end
-	          if value.to_s.downcase == "no" || value == "N"
+	          if value.to_s.downcase == "no" || value == "N" || value == "f"
 	            value = "n"
 	          end
 	        end
@@ -62,6 +62,8 @@ class TrailsInfo < ActiveRecord::Base
 	          new_item[header] = value
 	        elsif header == 'type'
 	          new_item['trail_type'] = value
+	        else
+              p "Field not in database: #{header}"
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"

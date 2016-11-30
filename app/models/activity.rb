@@ -82,6 +82,8 @@ class Activity < ActiveRecord::Base
         # next if header == "source"
         if new_activity.attributes.has_key? header
           new_activity[header] = value
+        else
+          p "Field not in database: #{header}"
         # elsif header == "source"
         #new_activity.source = Organization.find_by code: value
         # elsif header == "steward"

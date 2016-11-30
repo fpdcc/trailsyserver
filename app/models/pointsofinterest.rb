@@ -259,16 +259,18 @@ class Pointsofinterest < ActiveRecord::Base
 	        next if header == "id"
 	        unless value.nil?
 	          value = value.squish
-	          if value.to_s.downcase == "yes" || value == "Y"
+	          if value.to_s.downcase == "yes" || value == "Y" || value == "t"
 	            value = "y"
 	          end
-	          if value.to_s.downcase == "no" || value == "N"
+	          if value.to_s.downcase == "no" || value == "N" || value == "f"
 	            value = "n"
 	          end
 	        end
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
+          else
+            p "Field not in database: #{header}"
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"

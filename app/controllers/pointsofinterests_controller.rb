@@ -32,7 +32,7 @@ class PointsofinterestsController < ApplicationController
         features = []
         @pointsofinterests.each do |pointsofinterest|
             json_attributes = create_json_attributes(pointsofinterest)
-            feature = entity_factory.feature(pointsofinterest.geom_web, 
+            feature = entity_factory.feature(pointsofinterest.geom, 
              pointsofinterest.id, 
              json_attributes)
             features.push(feature)

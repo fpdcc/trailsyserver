@@ -38,6 +38,8 @@ class NewTrail < ActiveRecord::Base
 	          new_item[header] = value
 	        elsif header == "trail_info_id"
 	          new_item['trails_id'] = value
+	        # else
+         #      p "Field not in database: #{header}"
 
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"
