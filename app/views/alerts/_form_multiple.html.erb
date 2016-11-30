@@ -1,0 +1,40 @@
+<%= form_for(@alert) do |f| %>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+
+      <ul>
+      <% @alert.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :alert_type %><br>
+    <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+ </div>
+ <div class="field">
+    <%= f.label :starts_at, "Start Date" %>
+    <%= f.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
+    <%= f.label :ends_at, "End Date" %>
+    <%= f.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
+ </div>
+ <div class="field">
+    <%= f.label :link, "More Link" %><br>
+    <%= f.text_field :link %>
+  </div>
+ <div class="field">
+    <%= f.label :alertable_ids, "Trail Subsystems" %><br>
+    <%= f.select :alertable_ids, TrailsInfo.all_trail_subsystem_names.map{|record| [record['trail_subsystem'], record['trail_info_id']]}, {}, { :multiple => true } %>
+    <%= f.hidden_field :alertable_type, value: "Trail" %>
+ </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -7,6 +7,10 @@ class Pointsofinterest < ActiveRecord::Base
   has_many :trails_infos, through: :poi_to_trails
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
+
+  accepts_nested_attributes_for :alertings
+  accepts_nested_attributes_for :alerts
+
   # has_many :active_alertings, -> { active }, :as => :alertable
   # has_many :alerts, :through => :active_alertings
 

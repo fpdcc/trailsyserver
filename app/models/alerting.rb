@@ -12,11 +12,11 @@ class Alerting < ActiveRecord::Base
   	belongs_to :alertable, :polymorphic => true
   	validates  :alertable, presence: true
 
-  	validates :alertable_type, presence: true
+  	# validates :alertable_type, presence: true
   	validates :alertable_id, presence: true
-  	validates :alert_id, presence: true
-  	validates :starts_at, presence: true
-  	validate :end_date_is_after_start_date
+  	# validates :alert_id, presence: true
+  	# validates :starts_at, presence: true
+  	# validate :end_date_is_after_start_date
 
   	scope :current, lambda {
       where('starts_at <= ? and (ends_at >= ? or ends_at is null)', Time.now, Time.now)

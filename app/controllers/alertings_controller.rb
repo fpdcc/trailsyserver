@@ -15,7 +15,7 @@ class AlertingsController < ApplicationController
   # GET /alertings/new
   def new
     @alerting = Alerting.new
-    @alerting.alerts.build
+    #@alerting.alerts.build
   end
 
   # GET /alertings/1/edit
@@ -89,7 +89,7 @@ class AlertingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def alerting_params
       params.require(:alerting).permit(:alertable_type, :alertable_id, :alert_id, :starts_at, :ends_at, :created_by, 
-        :alerts_attributes => [:alert_type, :description, :link]
+        :alerts_attributes => [:alert_type, :description, :link], :alertable_types, :alertable_ids
         )
     end
 end

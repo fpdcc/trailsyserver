@@ -1,0 +1,42 @@
+<%= form_for(@alerting) do |f| %>
+  <% if @alerting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alerting.errors.count, "error") %> prohibited this alerting from being saved:</h2>
+
+      <ul>
+      <% @alerting.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :alertable_type %><br>
+    
+    <%= f.hidden_field :alertable_type, value: 'Pointsofinterest' %>
+  </div>
+  <div class="field">
+    <%= f.label :alertable_id %><br>
+    <%= f.collection_select :alertable_id, Pointsofinterest.all, :id, :name, {}, { :multiple => true } %>
+    
+  </div>
+  <div class="field">
+    <%= f.label :alert_id %><br>
+    <%= f.select(:alert_id, Alert.all.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Select Alert'}) %>
+
+  </div>
+  <div class="field">
+    <%= f.label :starts_at %><br>
+    <%= f.text_field :starts_at_visible, :placeholder => "mm/dd/yyyy", :id => "starts_at_visible", :class => 'text_field datepicker', :value => @alerting.starts_at.try(:strftime, "%m/%d/%Y") %>
+    <%= f.hidden_field :starts_at, id: "starts_at" %>
+  </div>
+  <div class="field">
+    <%= f.label :ends_at %><br>
+    <%= f.text_field :ends_at_visible, :placeholder => "mm/dd/yyyy", :id => "ends_at_visible", :class => 'text_field datepicker', :value => @alerting.ends_at.try(:strftime, "%m/%d/%Y") %>
+    <%= f.hidden_field :ends_at, id: "ends_at" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

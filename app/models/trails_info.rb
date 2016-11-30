@@ -18,6 +18,10 @@ class TrailsInfo < ActiveRecord::Base
 	  TrailsInfo.all.sort_by(&:subtrail_length_mi).reverse
 	end
 
+	def self.all_trail_subsystem_names
+	  TrailsInfo.select("DISTINCT(trails_infos.trail_subsystem), trails_infos.trail_subsystem, trails_infos.trail_info_id")
+	end
+
 	def trail_subsystem_alt_names
 		TrailsInfo.where(trail_subsystem: trail_subsystem).pluck('alt_name').uniq.reject(&:blank?)
 	end
@@ -56,6 +60,8 @@ class TrailsInfo < ActiveRecord::Base
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
+	         elsif header == 'type'
+	          new_item['trail_type'] = value
 	        # elsif header == "source"
 	        #new_item.source = Organization.find_by code: value
 	        # elsif header == "steward"
