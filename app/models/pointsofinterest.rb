@@ -46,7 +46,7 @@ class Pointsofinterest < ActiveRecord::Base
 
   def geom_web
     if ( (parking_info_id.present?) && (parking_info_id > 0) )
-      return ParkingEntranceInfo.find(parking_info_id).parking_entrance.geom;
+      return ParkingEntrance.find(parking_info_id).geom;
     else
       return Pointsofinterest.find(poi_info_id).geom;
     end
