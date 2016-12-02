@@ -186,9 +186,9 @@ class Pointsofinterest < ActiveRecord::Base
       if (overlook == 1)
         panelTags.push("overlook")
       end
-      # if (pavillion == 1)
-      #   panelTags.push("pavillion")
-      # end
+      if (pavilion == 1)
+        panelTags.push("pavilion")
+      end
       if (picnic_grove == 1)
         panelTags.push("picnic_grove")
       end
