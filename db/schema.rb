@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113210836) do
+ActiveRecord::Schema.define(version: 20161130215736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,11 @@ ActiveRecord::Schema.define(version: 20161113210836) do
     t.datetime  "updated_at",                                                                   null: false
     t.integer   "nameid"
     t.string    "entrance_closed"
+    t.integer   "parking_info_id"
+    t.string    "name"
+    t.string    "web_street_addr"
+    t.string    "web_muni_addr"
+    t.string    "web_poi"
   end
 
   add_index "parking_entrances", ["parking_entrance_id"], name: "index_parking_entrances_on_parking_entrance_id", unique: true, using: :btree
@@ -341,6 +346,8 @@ ActiveRecord::Schema.define(version: 20161113210836) do
     t.integer   "nature_preserve"
     t.integer   "no_fishing"
     t.integer   "driving_range"
+    t.string    "maintenance_div"
+    t.integer   "pavilion"
   end
 
   add_index "pointsofinterests", ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true, using: :btree
@@ -519,6 +526,7 @@ ActiveRecord::Schema.define(version: 20161113210836) do
     t.integer  "trail_info_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.string   "direction"
   end
 
   add_index "trails_infos", ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true, using: :btree

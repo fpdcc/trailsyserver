@@ -4,7 +4,6 @@ Trailsyserver::Application.routes.draw do
   get 'dashboard/trail'
 
   resources :picnicgroves
-  resources :poi_to_trails
   resources :pointsofinterests do 
     resources :alertings
   end
