@@ -140,9 +140,9 @@ class Pointsofinterest < ActiveRecord::Base
       if (fishing == 1)
         panelTags.push("fishing")
       end
-      # if (no_fishing == 1)
-      #   panelTags.push("no_fishing")
-      # end
+      if (no_fishing == 1)
+        panelTags.push("no_fishing")
+      end
       if (ice_fishing == 1)
         panelTags.push("ice_fishing")
         searchTags.push("ice fishing")
