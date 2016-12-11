@@ -4,6 +4,7 @@ class AlertsController < ApplicationController
   # GET /alerts
   # GET /alerts.json
   def index
+    authenticate_user!
     @alerts = Alert.all
   end
 
