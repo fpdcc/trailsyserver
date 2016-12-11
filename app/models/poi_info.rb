@@ -8,8 +8,6 @@ class PoiInfo < ActiveRecord::Base
 	has_one :name, foreign_key: :nameid, primary_key: :nameid
 	has_one :name_alt1, class_name: 'Name', foreign_key: :nameid, primary_key: :alt_nameid
 	has_one :name_alt2, class_name: 'Name', foreign_key: :nameid, primary_key: :alt2_nameid
-  has_many :poi_to_trails, foreign_key: :poi_info_id, primary_key: :poi_info_id
-  has_many :trails_infos, through: :poi_to_trails
 
   scope :web_poi, -> { includes(:name, :poi_desc, :activities).where(web_poi: 'y') }
 
