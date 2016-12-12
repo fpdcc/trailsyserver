@@ -40,12 +40,12 @@
           <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{poi.id}-closure", poi.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {poi: poi} %>
+          	<%= render partial: 'form_closure', locals: {alertable: poi, alertable_type: "Pointsofinterest"} %>
           </div>
           <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {poi: poi} %>
+          	<%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: "Pointsofinterest"} %>
           </div>
         </td>
   	  </tr>
@@ -110,12 +110,12 @@
           <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{poi.id}-closure", poi.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {poi: poi} %>
+          	<%= render partial: 'form_closure', locals: {alertable: poi, alertable_type: "Pointsofinterest"} %>
           </div>
           <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {poi: poi} %>
+          	<%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: "Pointsofinterest"} %>
           </div>
         </td>
   	  </tr>

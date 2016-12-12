@@ -40,12 +40,12 @@
           <%= label_tag("toggle-#{trail.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-closure", trail.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {poi: poi} %>
+          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "Trail"} %>
           </div>
           <%= label_tag("toggle-#{trail.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-alert", trail.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {poi: poi} %>
+          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "Trail"} %>
           </div>
         </td>
   	  </tr>
@@ -54,19 +54,19 @@
   </tbody>
 </table>
 <br>
-<h2>All POIs</h2>
+<h2>All Trail Subsystems</h2>
 <div class='span12'> 
-  <%= form_tag dashboard_poi_path, method: :get, class: 'form-inline' %>
+  <%= form_tag dashboard_trail_path, method: :get, class: 'form-inline' %>
     Filter: 
     <label for="name">Name</label>
     <%= text_field_tag :name, params[:name], class: 'input-mini', id:'name-field' %>
     <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
-    <%= link_to "Clear Search", dashboard_poi_path, :class => "btn"  %>
+    <%= link_to "Clear Search", dashboard_trail_path, :class => "btn"  %>
   </div>
 <table>
   <thead>
     <tr>
-      <th>POI #</th>
+      <th>ID #</th>
       <th>Name</th>
       <th>Active Alerts</th>
       <th>New</th>
@@ -76,7 +76,7 @@
     </tr>
   </thead>
   <tbody>
-  	<% @pointsofinterests.each_with_index do |poi, index| %>
+  	<% @trails.each_with_index do |trail, index| %>
   	  <tr>
   	    <td><%= trail.id %></td>
   	    <td><%= trail.name %></td>
@@ -110,12 +110,12 @@
           <%= label_tag("toggle-#{trail.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-closure", trail.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {poi: poi} %>
+          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "Trail"} %>
           </div>
           <%= label_tag("toggle-#{trail.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-alert", trail.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {poi: poi} %>
+          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "Trail"} %>
           </div>
         </td>
   	  </tr>
@@ -124,4 +124,4 @@
   </tbody>
 </table>
 
-<%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>
+<%= will_paginate @trails, renderer: BootstrapPagination::Rails %>

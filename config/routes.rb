@@ -1,4 +1,5 @@
 Trailsyserver::Application.routes.draw do
+  resources :trail_systems
   get 'dashboard/poi'
 
   get 'dashboard/trail'

@@ -1,5 +1,6 @@
 class TrailSystemsController < ApplicationController
   before_action :set_trail_system, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /trail_systems
   # GET /trail_systems.json

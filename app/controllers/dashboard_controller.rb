@@ -1,4 +1,6 @@
 class DashboardController < ApplicationController
+  before_action :authenticate_user!
+
   def poi
   	@pointsofinterests_active = Pointsofinterest.with_current_or_future_alerts #.order(self.active_alerts_count)
   	
@@ -15,8 +17,8 @@ class DashboardController < ApplicationController
   end
 
   def trail
-    @trails_active = TrailsInfo.all_trail_subsystem_names
+    @trails_active = TrailSystem.all.paginate(page: params[:page])
 
-    @trails = TrailsInfo.all_trail_subsystem_names
+    @trails = TrailSystem.all.paginate(page: params[:page])
   end
 end
