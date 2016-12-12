@@ -2,7 +2,7 @@ class Alert < ActiveRecord::Base
 
 	  has_many :alertings, inverse_of: :alert
   	has_many :trail_systems, :through => :alertings, :source => :alertable,
-    	:source_type => 'Trail'
+    	:source_type => 'TrailSystem'
   	has_many :pointsofinterests, :through => :alertings, :source => :alertable,
     	:source_type => 'Pointsofinterest'
 

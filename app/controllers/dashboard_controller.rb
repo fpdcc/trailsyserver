@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
   end
 
   def trail
-    @trails_active = TrailSystem.all.paginate(page: params[:page])
+    @trails_active = TrailSystem.with_current_or_future_alerts
 
     @trails = TrailSystem.all.paginate(page: params[:page])
   end

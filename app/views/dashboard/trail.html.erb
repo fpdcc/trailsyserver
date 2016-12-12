@@ -40,12 +40,12 @@
           <%= label_tag("toggle-#{trail.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-closure", trail.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "Trail"} %>
+          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "TrailSystem"} %>
           </div>
           <%= label_tag("toggle-#{trail.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-alert", trail.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "Trail"} %>
+          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "TrailSystem"} %>
           </div>
         </td>
   	  </tr>
@@ -59,7 +59,7 @@
   <%= form_tag dashboard_trail_path, method: :get, class: 'form-inline' %>
     Filter: 
     <label for="name">Name</label>
-    <%= text_field_tag :name, params[:name], class: 'input-mini', id:'name-field' %>
+    <%= text_field_tag :trail_subsystem, params[:trail_subsystem], class: 'input-mini', id:'name-field' %>
     <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
     <%= link_to "Clear Search", dashboard_trail_path, :class => "btn"  %>
   </div>
@@ -79,7 +79,7 @@
   	<% @trails.each_with_index do |trail, index| %>
   	  <tr>
   	    <td><%= trail.id %></td>
-  	    <td><%= trail.name %></td>
+  	    <td><%= trail.trail_subsystem %></td>
   	    <td>Count: <%= trail.alertings.active.count %>
   	     <!--  <%= label_tag("toggle-#{trail.id}-alertings", "#{trail.alertings.count}") %>
           <%= check_box_tag("toggle-#{trail.id}-alertings", trail.id) %> -->
@@ -110,12 +110,12 @@
           <%= label_tag("toggle-#{trail.id}-closure", "Add Closure", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-closure", trail.id) %>
           <div>
-          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "Trail"} %>
+          	<%= render partial: 'form_closure', locals: {alertable: trail, alertable_type: "TrailSystem"} %>
           </div>
           <%= label_tag("toggle-#{trail.id}-alert", "Add Alert", class: 'btn') %>
           <%= check_box_tag("toggle-#{trail.id}-alert", trail.id) %>
           <div>
-          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "Trail"} %>
+          	<%= render partial: 'form_alert', locals: {alertable: trail, alertable_type: "TrailSystem"} %>
           </div>
         </td>
   	  </tr>

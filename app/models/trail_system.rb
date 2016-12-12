@@ -7,6 +7,9 @@ class TrailSystem < ActiveRecord::Base
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
 
+  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('alertings.ends_at >= ? or (alertings.starts_at is not null and alertings.ends_at is null)', Time.now) }
+
+
 
   def self.parse_csv(file)
 	parsed_items = []
