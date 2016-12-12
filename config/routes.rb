@@ -9,9 +9,7 @@ Trailsyserver::Application.routes.draw do
     resources :alertings
   end
   resources :parking_entrances
-  resources :poi_amenities
   resources :poi_descs
-  resources :poi_infos
   resources :names
   resources :new_trails
   resources :trails_descs
