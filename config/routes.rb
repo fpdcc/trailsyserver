@@ -8,7 +8,6 @@ Trailsyserver::Application.routes.draw do
   resources :pointsofinterests do 
     resources :alertings
   end
-  resources :parking_entrance_infos
   resources :parking_entrances
   resources :poi_amenities
   resources :poi_descs
