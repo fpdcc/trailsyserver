@@ -1,0 +1,21 @@
+<%= form_for(@trail_system) do |f| %>
+  <% if @trail_system.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trail_system.errors.count, "error") %> prohibited this trail_system from being saved:</h2>
+
+      <ul>
+      <% @trail_system.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :trail_subsystem %><br>
+    <%= f.text_field :trail_subsystem %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

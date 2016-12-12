@@ -15,6 +15,8 @@ class DashboardController < ApplicationController
   end
 
   def trail
+    @trails_active = TrailsInfo.all_trail_subsystem_names
 
+    @trails = TrailsInfo.all_trail_subsystem_names
   end
 end
