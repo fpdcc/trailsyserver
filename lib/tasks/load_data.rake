@@ -6,7 +6,7 @@ require 'rgeo-geojson'
 namespace :load do
   task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all_csv => [:activitiesCSV, :poi_descs, :parking_entrances, :pointsofinterests, :new_trails, :trails_infos, :trails_descs, :picnicgroves, :expire_pages]
+  task :all_csv => [:activitiesCSV, :poi_descs, :parking_entrances, :pointsofinterests, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
@@ -286,23 +286,24 @@ namespace :load do
     end
   end
 
-  task :poi_to_trails => :environment do
-    ActiveRecord::Base.connection.execute("TRUNCATE TABLE poi_to_trails")
+  task :trail_systems => :environment do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/poi_to_trails.csv"]
+
+    input_file_names = ["lib/data/new_trails.csv"]
     #end
     input_file_names.each do |input_file_name|
-      parsed_items = PoiToTrail.parse_csv(input_file_name)
+      parsed_items = TrailSystem.parse_csv(input_file_name)
       parsed_items.each do |item|
-        p "#{item.trail_info_id} - #{item.poi_info_id}: poi_to_trail added."
+        p "#{item.trail_subsystem}: trail_subsystem added."
         if !item.save
           p item.errors.full_messages
         end
       end
     end
   end
+
 
   task :trails_descs => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails_descs")
