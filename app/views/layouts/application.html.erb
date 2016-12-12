@@ -17,6 +17,7 @@
       <% if user_signed_in? %>
         <%= drop_down "Alerts/Closures" do %>
           <%= menu_item "POIs", dashboard_poi_path %>
+          <%= menu_item "Trail Systems", dashboard_trail_path %>
           <%= menu_item "Alert/Closure Descriptions", alerts_path %>
         <% end %>
         <%= drop_down "Trails" do %>
@@ -25,12 +26,9 @@
           <%= menu_item "Trails Desc", trails_descs_path %>
         <% end %>
        <!--  <%= drop_down "Entrances/POIs" do %>
-          <%= menu_item "POI Info", poi_infos_path %>
           <%= menu_item "POI Desc", poi_descs_path %>
-          <%= menu_item "POI Amenity", poi_amenities_path %>
           <%= menu_item "PointsofInterest Geometry", pointsofinterests_path %>
           <%= menu_item "Parking Entrance Geometry", parking_entrances_path %>
-          <%= menu_item "Parking Entrance Info", parking_entrance_infos_path %>
         <% end %> -->
         <%= drop_down "Activities" do %>
           <%= menu_item "Activities", activities_path %>

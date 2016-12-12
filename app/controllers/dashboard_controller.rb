@@ -18,7 +18,10 @@ class DashboardController < ApplicationController
 
   def trail
     @trails_active = TrailSystem.with_current_or_future_alerts
-
-    @trails = TrailSystem.all.paginate(page: params[:page])
+    query = ""
+    if params[:trail_subsystem].present?
+      query = "trail_subsystem ILIKE ?", "#{params[:trail_subsystem]}%"
+    end
+    @trails = TrailSystem.all.paginate(page: params[:page]).where(query)
   end
 end

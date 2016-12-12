@@ -48,7 +48,7 @@ class AlertingsController < ApplicationController
 
     respond_to do |format|
       if @alerting.with_user(current_user).save
-        format.html { redirect_to :back, notice: 'Alerting was successfully created.' }
+        format.html { redirect_to :back, notice: "#{@alerting.alert.alert_type} was successfully created for #{@alerting.alertable.name}." }
         format.json { render action: 'show', status: :created, location: @alerting }
       else
         format.html { render action: 'new' }

@@ -7,5 +7,5 @@
     			<%= form.select(:alert_id, Alert.closure.collect {|p| [ "#{p.alert_type} : #{p.description}", p.id ] }, {prompt: 'Issue'}) %>
 	    		<%= form.hidden_field :alertable_type, value: alertable_type %>
 	    		<%= form.hidden_field :alertable_id, value: alertable.id %>
-	    		 <%= form.submit %>
+	    		 <%= form.submit "Create Closure", :class => "btn btn-default", :type => "submit"%>
 	    	<% end %>

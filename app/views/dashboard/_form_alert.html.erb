@@ -21,5 +21,5 @@
  	    	  <%= form.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
 	    		<%= form.hidden_field :alertable_type, value: alertable_type %>
 	    		<%= form.hidden_field :alertable_id, value: alertable.id %>
-	    		 <%= form.submit %>
+	    		 <%= form.submit "Create Alert", :class => "btn btn-default", :type => "submit" %>
 	    	<% end %>

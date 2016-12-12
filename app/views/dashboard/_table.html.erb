@@ -1,0 +1,51 @@
+<table class="table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>POI #</th>
+      <th>Name</th>
+      <th>Active Alerts</th>
+      <th>New</th>
+      <!-- <th>End Date</th>
+      <th>Issue</th>
+      <th>Add Closure</th> -->
+    </tr>
+  </thead>
+  <tbody>
+  	<% items.each_with_index do |poi, index| %>
+  	  <tr>
+  	    <td><%= poi.id %></td>
+  	    <td><%= poi.name %></td>
+  	    <td>Total Alerts: <%= poi.alertings.active.count %>
+  	     <!--  <%= label_tag("toggle-#{poi.id}-alertings", "#{poi.alertings.count}") %>
+          <%= check_box_tag("toggle-#{poi.id}-alertings", poi.id) %> -->
+          <div>
+          	<% if poi.alertings.active.count > 0 %>
+	          	<ul class='dashboard'>
+	          	<% poi.alertings.active.each do |alerting| %>
+					<li class='dashboard'><%= alerting.starts_at.strftime('%m/%d/%Y') %>-<% if alerting.ends_at.present? %><%= alerting.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alerting.alert.alert_type %>: <%= alerting.alert.description %> <%= alerting.alert.link %>
+					</li>
+
+	          	<% end %>
+	          	</ul>
+	        <% end %>
+          </div>
+  	    </td>
+  	    <td>
+          <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn btn-primary') %>
+          <%= check_box_tag("toggle-#{poi.id}-closure", poi.id)%>
+          <div>
+          	<%= render partial: 'form_closure', locals: {alertable: poi, alertable_type: alertable_type} %>
+          </div>
+          <% if current_user.level2? or current_user.admin? %>
+            <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn btn-info') %>
+            <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
+            <div>
+            	<%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: alertable_type} %>
+            </div>
+          <% end %>
+        </td>
+  	  </tr>
+  	<% end %>
+   
+  </tbody>
+</table>

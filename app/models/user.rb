@@ -4,6 +4,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :organization
+
+  enum role: {
+    unknown: 0,
+    level1: 1,
+    level2: 2,
+    admin: 10
+  }
   # make these work later:
   # after_create :send_admin_mail
 

@@ -9,7 +9,9 @@ class TrailSystem < ActiveRecord::Base
 
   scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('alertings.ends_at >= ? or (alertings.starts_at is not null and alertings.ends_at is null)', Time.now) }
 
-
+  def name
+  	self.trail_subsystem
+  end
 
   def self.parse_csv(file)
 	parsed_items = []

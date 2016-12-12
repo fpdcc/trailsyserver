@@ -23,33 +23,27 @@
   <%= check_box_tag 'confirmed', 'Confirm', false, {id: "confirmed", onclick: "if ($('#confirmed').is(':checked')) { $('#submitData').val('Upload Data') } else {  $('#submitData').val('Test Upload'); }"} %> 
 <% end %>
 
-<table>
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>Activities</th>
-      <th>Type</th>
-      <th>Name</th>
-      <th>POI Info ID</th>
-      <th>Nameid</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <% for column in Activity.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
     <% @activities.each do |activity| %>
       <tr>
-        <td><%= activity.activities_id %></td>
-        <td><%= activity.atype %></td>
-        <td><%= activity.poi_info.name.name %></td>
-        <td><%= activity.poi_info_id %></td>
-        <td><%= activity.nameid %></td>
+        <% activity.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
         <td><%= link_to 'Show', activity %></td>
         <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
         <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
 
