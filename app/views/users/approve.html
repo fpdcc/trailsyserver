@@ -22,11 +22,15 @@
     <%= f.check_box :approved %>
   </div>
   <div class="field">
-    <span class='h3-Edit'><%= f.label :organization %></span>
-    <!-- <%= f.text_field :organization %> -->
-    <%= f.select :organization_id, Organization.all.collect{ |org| [org.code, org.id]}, include_blank: true %>
+    <span class='h3-Edit'><%= f.label :role %></span>
+    <%= f.select(:role, User.roles.keys.map {|key| [key.humanize, key]}) %>
   </div>
-  <div class="field">
+  <!-- <div class="field">
+    <span class='h3-Edit'><%= f.label :organization %></span>
+    <%= f.text_field :organization %>
+    <%= f.select :organization_id, Organization.all.collect{ |org| [org.code, org.id]}, include_blank: true %>
+  </div> -->
+ <!--  <div class="field">
     <span class='h3-Edit'><%= f.label :admin %></span>
     <% if (@user.admin) && (@admin_count == 1) %>
     <span class='finePrint'><%= f.check_box :admin, disabled: true %>
@@ -34,7 +38,7 @@
     <% else %>
     <%= f.check_box :admin %>
     <% end %>
-  </div>
+  </div> -->
   <div class="actions">
     <%= f.submit %>
     <%= link_to "Cancel", users_path %>

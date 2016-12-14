@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:approved, :organization_id, :admin, :password, :password_confirmation, :email)
+      params.require(:user).permit(:approved, :role, :organization_id, :admin, :password, :password_confirmation, :email)
     end
 
     def check_admin
@@ -70,6 +70,6 @@ class UsersController < ApplicationController
     end
 
     def count_admins
-      @admin_count = User.where(admin: "t").count
+      @admin_count = User.where("role = ?", User.roles[:admin]).count
     end
 end
