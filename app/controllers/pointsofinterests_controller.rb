@@ -1,6 +1,6 @@
 class PointsofinterestsController < ApplicationController
   before_action :set_pointsofinterest, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!, except: [:index, :show]
   after_action :set_pointsofinterests_cache_key , only: [:destroy, :update, :upload]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
 
@@ -14,7 +14,7 @@ class PointsofinterestsController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
-        @pointsofinterests = Pointsofinterest.order("poi_info_id")
+        @pointsofinterests = Pointsofinterest.order("poi_info_id").paginate(page: params[:page])
       end
       format.json do
         @pointsofinterests = Pointsofinterest.web_poi

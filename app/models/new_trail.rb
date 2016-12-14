@@ -2,6 +2,8 @@ class NewTrail < ActiveRecord::Base
 	self.primary_key = 'trails_id'
 	has_one :trails_info, foreign_key: :trail_info_id, primary_key: :trails_id
 
+	self.per_page = 15
+	
 	def self.parse_csv(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile

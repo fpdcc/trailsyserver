@@ -1,6 +1,7 @@
 class NewTrailsController < ApplicationController
   before_action :set_new_trail, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
+  before_action :authenticate_user!, except: [:index, :show]
 
   # GET /new_trails
   # GET /new_trails.json
@@ -12,7 +13,7 @@ class NewTrailsController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
-        @new_trails = NewTrail.all
+        @new_trails = NewTrail.all.paginate(page: params[:page])
       end
       format.json do
         #@trailheads = cached_all_by_name

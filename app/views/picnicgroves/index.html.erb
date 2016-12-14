@@ -2,47 +2,32 @@
 
 <h1>Listing Picnicgroves</h1>
 
-<table>
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>Picnicgrove</th>
-      <th>Preserve name</th>
-      <th>Grove</th>
-      <th>Division</th>
-      <th>Capacity</th>
-      <th>Large capacity</th>
-      <th>Type</th>
-      <th>Location</th>
-      <th>Status</th>
-      <th>Fpd uid</th>
-      <th>Poi info</th>
-      <th>Geom</th>
-      <th colspan="3"></th>
+      <% for column in Picnicgrofe.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
-    <% @picnicgroves.each do |picnicgrofe| %>
+    <% @picnicgroves.each do |picnicgrove| %>
       <tr>
-        <td><%= picnicgrofe.picnicgrove_id %></td>
-        <td><%= picnicgrofe.preserve_name %></td>
-        <td><%= picnicgrofe.grove %></td>
-        <td><%= picnicgrofe.division %></td>
-        <td><%= picnicgrofe.capacity %></td>
-        <td><%= picnicgrofe.large_capacity %></td>
-        <td><%= picnicgrofe.picnicgrove_type %></td>
-        <td><%= picnicgrofe.location %></td>
-        <td><%= picnicgrofe.status %></td>
-        <td><%= picnicgrofe.fpd_uid %></td>
-        <td><%= picnicgrofe.poi_info_id %></td>
-        <td><%= picnicgrofe.geom %></td>
-        <td><%= link_to 'Show', picnicgrofe %></td>
-        <td><%= link_to 'Edit', edit_picnicgrofe_path(picnicgrofe) %></td>
-        <td><%= link_to 'Destroy', picnicgrofe, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% picnicgrove.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
+        <td><%= link_to 'Show', picnicgrove %></td>
+        <td><%= link_to 'Edit', edit_picnicgrove_path(picnicgrove) %></td>
+        <td><%= link_to 'Destroy', picnicgrove, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+
+<%= will_paginate @picnicgroves, renderer: BootstrapPagination::Rails %>
+
 
 <br>
 

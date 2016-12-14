@@ -73,7 +73,7 @@ class ActivitiesController < ApplicationController
       format.html do 
         authenticate_user!
         if params[:all] == "true" || current_user.admin?
-          @activities = Activity.order("activities_id")
+          @activities = Activity.order("activities_id").paginate(page: params[:page])
         else
           @activities = Activity.joins(:source).merge(Organization.where(id: current_user.organization)).order("activities_id")
         end

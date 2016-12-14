@@ -1,6 +1,8 @@
 class TrailsInfosController < ApplicationController
   before_action :set_trails_info, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
+  before_action :authenticate_user!, except: [:index, :show]
+
 
   # GET /trails_infos
   # GET /trails_infos.json
@@ -12,7 +14,7 @@ class TrailsInfosController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
-        @trails_infos = TrailsInfo.order(:trail_system, :trail_subsystem, :trail_color, :trail_type, :alt_name)
+        @trails_infos = TrailsInfo.order(:trail_system, :trail_subsystem, :trail_color, :trail_type, :alt_name).paginate(page: params[:page])
 
       end
       format.json do

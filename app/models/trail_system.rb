@@ -1,5 +1,5 @@
 class TrailSystem < ActiveRecord::Base
-  self.per_page = 15
+  self.per_page = 30
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings

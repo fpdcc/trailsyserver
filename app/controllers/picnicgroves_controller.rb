@@ -1,13 +1,16 @@
 class PicnicgrovesController < ApplicationController
   before_action :set_picnicgrofe, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
+  before_action :authenticate_user!, except: [:index, :show]
+
 
   # GET /picnicgroves
   # GET /picnicgroves.json
   def index
     respond_to do |format|
       format.html do 
-        @picnicgroves = Picnicgrofe.all
+        authenticate_user!
+        @picnicgroves = Picnicgrofe.all.paginate(page: params[:page])
       end
       format.json do
         @picnicgroves = Picnicgrofe.order("picnicgrove_id")

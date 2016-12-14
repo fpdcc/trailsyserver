@@ -5,6 +5,8 @@ class Picnicgrofe < ActiveRecord::Base
 
 	default_scope {where(status: 'active')}
 
+	self.per_page = 15
+
 	def self.parse_csv(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile

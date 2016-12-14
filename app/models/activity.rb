@@ -4,6 +4,9 @@ class Activity < ActiveRecord::Base
   #belongs_to :trailhead, foreign_key: "trailhead_id"
   belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_one :trails_info, foreign_key: :trail_info_id, primary_key: :trail_info_id
+
+
+  self.per_page = 15
   #set_rgeo_factory_for_column(:geom, RGeo::Geographic.spherical_factory(:srid => 4326))
 
   #validates :name, presence: true

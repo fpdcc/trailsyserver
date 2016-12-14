@@ -1,5 +1,7 @@
 class TrailsDescsController < ApplicationController
   before_action :set_trails_desc, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
+
 
   # GET /trails_descs
   # GET /trails_descs.json
