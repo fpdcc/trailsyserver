@@ -1,12 +1,43 @@
 class AlertingsController < ApplicationController
   before_action :set_alerting, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
 
   # GET /alertings
   # GET /alertings.json
+  # def index
+  #   authenticate_user!
+  #   @alertings = Alerting.all
+  # end
+
   def index
-    authenticate_user!
-    @alertings = Alerting.all
+    respond_to do |format|
+      format.html do 
+        authenticate_user!
+        @alertings = Alerting.all
+      end
+      format.json do
+        @alertings = Alerting.current
+        entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        # if (params[:loc])
+        #   @alertings = sort_by_distance(@alertings)
+        # end
+        features = []
+        @alertings.each do |alerting|
+          json_attributes = create_json_attributes(alerting)
+          if alerting.geom.present?
+            alerting_geom = alerting.geom
+          else
+            alerting_geom = RGeo::Geographic.spherical_factory.point(0,0)
+          end
+          feature = entity_factory.feature(alerting_geom, alerting.id, json_attributes)
+          features.push(feature)
+        end
+        collection = entity_factory.feature_collection(features)
+        my_geojson = RGeo::GeoJSON::encode(collection)
+        render json: Oj.dump(my_geojson)
+        #cache_page(@response, "/alertings.json")
+      end
+    end
   end
 
   # GET /alertings/1
@@ -86,6 +117,31 @@ class AlertingsController < ApplicationController
       format.html { redirect_to alertings_url }
       format.json { head :no_content }
     end
+  end
+
+  def create_json_attributes(alerting)
+    json_attributes = alerting.attributes.except!("id", "alert_id", "alertable_id","alertable_type","starts_at", "ends_at", "created_by", "created_at", "updated_at", "alerting_id", "geom")
+    
+    json_attributes["starts_at"] = alerting.starts_at.strftime('%m/%d/%Y')
+    if alerting.ends_at.present?
+      ends_at = alerting.ends_at.strftime('%m/%d/%Y')
+    else
+      ends_at = ""
+    end
+    json_attributes["ends_at"] = ends_at
+    if (alerting.alert)
+      json_attributes['description'] = alerting.alert.description
+      json_attributes['link'] = alerting.alert.link
+      json_attributes['alert_type'] = alerting.alert.alert_type
+    end
+    if (alerting.alertable)
+      json_attributes['feature_name'] = alerting.alertable.name
+      json_attributes['feature_id'] = alerting.alertable.id
+      json_attributes['feature_type'] = alerting.alertable_type
+    else
+      json_attributes['feature_type'] = "All"
+    end
+    json_attributes
   end
 
   private
