@@ -27,6 +27,7 @@ class AlertingsController < ApplicationController
   # POST /alertings
   # POST /alertings.json
   def create
+    factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
     
     @alert = Alert.find_or_initialize_by(id: params[:alerting][:alert_id])
     @alert.created_by ||= current_user.id
@@ -45,6 +46,11 @@ class AlertingsController < ApplicationController
       @alerting.ends_at = Date.strptime(params[:alerting][:ends_at], '%m/%d/%Y')
     end
     @alerting.alert_id = @alert.id
+
+    if (params[:alerting][:latitude].present? && params[:alerting][:longitude].present?)
+      @alerting.geom = factory.point(params[:alerting][:longitude], params[:alerting][:latitude])
+    end
+
 
     respond_to do |format|
       if @alerting.with_user(current_user).save
@@ -90,7 +96,7 @@ class AlertingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alerting_params
-      params.require(:alerting).permit(:alertable_type, :alertable_id, :alert_id, :starts_at, :ends_at, :created_by, :alertable_types, :alertable_ids,
+      params.require(:alerting).permit(:geom, :alertable_type, :alertable_id, :alert_id, :starts_at, :ends_at, :created_by, :alertable_types, :alertable_ids,
         :alerts_attributes => [:alert_type, :description, :link]
         )
     end

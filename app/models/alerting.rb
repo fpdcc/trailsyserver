@@ -4,7 +4,7 @@ class Alerting < ActiveRecord::Base
 
 	accepts_nested_attributes_for :alert
 
-	attr_accessor :description, :alert_type, :link
+	attr_accessor :description, :alert_type, :link, :latitude, :longitude
 
 	# Yes, but we want higher level users to be able to create alert when creating alerting
 	validates  :alert, presence: true
