@@ -4,11 +4,6 @@ class AlertingsController < ApplicationController
 
   # GET /alertings
   # GET /alertings.json
-  # def index
-  #   authenticate_user!
-  #   @alertings = Alerting.all
-  # end
-
   def index
     respond_to do |format|
       format.html do 
