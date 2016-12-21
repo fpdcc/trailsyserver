@@ -1,0 +1,14 @@
+<%= form_for(@alert, html: {class: "form-inline"}) do |closure_form| %>
+	<%= closure_form.label :starts_at %>
+	<%= closure_form.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
+	<%= closure_form.label :ends_at %>
+	<%= closure_form.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
+	<%= closure_form.label :description %><br>
+    <%= closure_form.select :description, [['Ice', 'Ice'], ['Water', 'Water']] %>
+    <%= closure_form.hidden_field :alert_type, value: 'closure' %>
+    <%= closure_form.fields_for :alertings do |alerting| %>
+		<%= alerting.hidden_field :alertable_type, value: alertable_type %>
+		<%= alerting.hidden_field :alertable_id, value: alertable.id %>
+	<% end %>
+	<%= closure_form.submit "Create Closure", :class => "btn btn-default", :type => "submit"%>
+<% end %>

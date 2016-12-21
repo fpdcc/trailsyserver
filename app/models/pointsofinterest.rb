@@ -8,8 +8,8 @@ class Pointsofinterest < ActiveRecord::Base
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
 
-  accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
+  accepts_nested_attributes_for :alertings
 
   # has_many :active_alertings, -> { active }, :as => :alertable
   # has_many :alerts, :through => :active_alertings
@@ -18,28 +18,28 @@ class Pointsofinterest < ActiveRecord::Base
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
 
-  scope :with_active_alerts, -> { includes(:alertings).references(:alertings).where('alertings.starts_at <= ? and (alertings.ends_at >= ? or alertings.ends_at is null)', Time.now, Time.now) }
-  scope :no_active_alerts, -> { includes(:alertings).references(:alertings).where(
+  scope :with_active_alerts, -> { includes(:alerts).references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
+  scope :no_active_alerts, -> { includes(:alerts).references(:alerts).where(
     "pointsofinterests.poi_info_id NOT IN (
-    SELECT DISTINCT(alertings.alertable_id) 
+    SELECT DISTINCT(alerts.alertable_id) 
     FROM alertings 
     where 
-    alertings.alertable_type = 'Pointsofinterest'
+    alerts.alertable_type = 'Pointsofinterest'
     and
-    alertings.starts_at <= ? 
+    alerts.starts_at <= ? 
     and 
-    (alertings.ends_at >= ? or alertings.ends_at is null)
+    (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now, Time.now) }
 
-  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('alertings.ends_at >= ? or (alertings.starts_at is not null and alertings.ends_at is null)', Time.now) }
-  scope :no_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where(
+  scope :with_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where('alerts.ends_at >= ? or (alerts.starts_at is not null and alerts.ends_at is null)', Time.now) }
+  scope :no_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where(
     "pointsofinterests.poi_info_id NOT IN (
-    SELECT DISTINCT(alertings.alertable_id) 
+    SELECT DISTINCT(alerts.alertable_id) 
     FROM alertings 
     where 
-    alertings.alertable_type = 'Pointsofinterest'
+    alerts.alertable_type = 'Pointsofinterest'
     and
-    (alertings.ends_at >= ? or alertings.ends_at is null)
+    (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now) }
 
   self.per_page = 15

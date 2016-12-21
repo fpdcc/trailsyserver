@@ -9,6 +9,9 @@ class DashboardController < ApplicationController
       query = "name ILIKE ?", "#{params[:name]}%"
     end
     @pointsofinterests = Pointsofinterest.paginate(page: params[:page]).includes(:alertings).where(query)
+    #@status = Status.new
+    #@alert = Alert.new
+    #@alert.alertings.build
   	# @new_alertings = []
     # @pointsofinterests.length.times do
     #   @new_alertings << Alerting.new

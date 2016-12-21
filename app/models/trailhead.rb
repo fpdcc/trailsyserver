@@ -13,8 +13,6 @@ class Trailhead < ActiveRecord::Base
   # checking to make sure this isn't a trail segment file
   validates :length, absence: true
 
-  has_many :statuses, as: :statusable
-
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
   

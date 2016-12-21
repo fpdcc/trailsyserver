@@ -52,35 +52,12 @@ class AlertingsController < ApplicationController
 
   # POST /alertings
   # POST /alertings.json
+
   def create
-    factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
-    
-    @alert = Alert.find_or_initialize_by(id: params[:alerting][:alert_id])
-    @alert.created_by ||= current_user.id
-    @alert.description ||= params[:alerting].delete(:description)
-    @alert.link ||= params[:alerting].delete(:link)
-    @alert.alert_type ||= params[:alerting].delete(:alert_type)
-    if params[:alerting][:alert_id].blank?
-      @alert.with_user(current_user).save
-    end
-
     @alerting = Alerting.new(alerting_params)
-    if params[:alerting][:starts_at].present?
-      @alerting.starts_at = Date.strptime(params[:alerting][:starts_at], '%m/%d/%Y')
-    end
-    if params[:alerting][:ends_at].present?
-      @alerting.ends_at = Date.strptime(params[:alerting][:ends_at], '%m/%d/%Y')
-    end
-    @alerting.alert_id = @alert.id
-
-    if (params[:alerting][:latitude].present? && params[:alerting][:longitude].present?)
-      @alerting.geom = factory.point(params[:alerting][:longitude], params[:alerting][:latitude])
-    end
-
-
     respond_to do |format|
       if @alerting.with_user(current_user).save
-        format.html { redirect_to :back, notice: "#{@alerting.alert.alert_type} was successfully created for #{@alerting.alertable.name}." }
+        format.html { redirect_to :@alerting, notice: "#{@alerting.alert.alert_type} was successfully created for #{@alerting.alertable.name}." }
         format.json { render action: 'show', status: :created, location: @alerting }
       else
         format.html { render action: 'new' }
@@ -89,6 +66,44 @@ class AlertingsController < ApplicationController
       end
     end
   end
+
+  # def create
+  #   factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
+    
+  #   @alert = Alert.find_or_initialize_by(id: params[:alerting][:alert_id])
+  #   @alert.created_by ||= current_user.id
+  #   @alert.description ||= params[:alerting].delete(:description)
+  #   @alert.link ||= params[:alerting].delete(:link)
+  #   @alert.alert_type ||= params[:alerting].delete(:alert_type)
+  #   if params[:alerting][:alert_id].blank?
+  #     @alert.with_user(current_user).save
+  #   end
+
+  #   @alerting = Alerting.new(alerting_params)
+  #   if params[:alerting][:starts_at].present?
+  #     @alerting.starts_at = Date.strptime(params[:alerting][:starts_at], '%m/%d/%Y')
+  #   end
+  #   if params[:alerting][:ends_at].present?
+  #     @alerting.ends_at = Date.strptime(params[:alerting][:ends_at], '%m/%d/%Y')
+  #   end
+  #   @alerting.alert_id = @alert.id
+
+  #   if (params[:alerting][:latitude].present? && params[:alerting][:longitude].present?)
+  #     @alerting.geom = factory.point(params[:alerting][:longitude], params[:alerting][:latitude])
+  #   end
+
+
+  #   respond_to do |format|
+  #     if @alerting.with_user(current_user).save
+  #       format.html { redirect_to :back, notice: "#{@alerting.alert.alert_type} was successfully created for #{@alerting.alertable.name}." }
+  #       format.json { render action: 'show', status: :created, location: @alerting }
+  #     else
+  #       format.html { render action: 'new' }
+  #       #format.html { redirect_to :back }
+  #       format.json { render json: @alerting.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH/PUT /alertings/1
   # PATCH/PUT /alertings/1.json

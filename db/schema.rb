@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216211146) do
+ActiveRecord::Schema.define(version: 20161218233124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,25 +34,25 @@ ActiveRecord::Schema.define(version: 20161216211146) do
   add_index "activities", ["poi_info_id"], name: "index_activities_on_poi_info_id", using: :btree
 
   create_table "alertings", force: :cascade do |t|
-    t.string    "alertable_type"
-    t.integer   "alertable_id"
-    t.integer   "alert_id"
-    t.datetime  "starts_at"
-    t.datetime  "ends_at"
-    t.integer   "created_by"
-    t.datetime  "created_at",                                                              null: false
-    t.datetime  "updated_at",                                                              null: false
-    t.geography "geom",           limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.string   "alertable_type"
+    t.integer  "alertable_id"
+    t.integer  "alert_id"
+    t.integer  "created_by"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "alerts", force: :cascade do |t|
-    t.integer  "alert_id"
-    t.integer  "alert_type"
-    t.string   "description"
-    t.string   "link"
-    t.integer  "created_by"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer   "alert_id"
+    t.integer   "alert_type"
+    t.string    "description"
+    t.string    "link"
+    t.integer   "created_by"
+    t.datetime  "created_at",                                                           null: false
+    t.datetime  "updated_at",                                                           null: false
+    t.datetime  "starts_at"
+    t.datetime  "ends_at"
+    t.geography "geom",        limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
   create_table "names", force: :cascade do |t|

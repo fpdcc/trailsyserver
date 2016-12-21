@@ -15,8 +15,14 @@ Trailsyserver::Application.routes.draw do
   resources :trails_descs
   resources :trails_infos
   resources :alertings
-  resources :alerts
-  resources :statuses
+  resources :alerts do
+    resources :alertings
+    collection do
+      get 'poi'
+      get 'trail'
+    end
+  end
+ 
   resources :activities do
     collection do
       post 'upload'

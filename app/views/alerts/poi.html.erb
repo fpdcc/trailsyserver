@@ -1,7 +1,7 @@
 
 <p id="notice"><%= notice %></p>
 
-<h1>Dashboard#poi</h1>
+<h1>Alerts#poi</h1>
 
 <h2>POIs with Current or Future Alerts</h2>
 <%= render partial: 'table', locals: {items: @pointsofinterests_active, alertable_type: "Pointsofinterest"} %>
@@ -9,13 +9,8 @@
 <br>
 <h2>All POIs</h2>
 <div class='span12'> 
-  <%= form_tag dashboard_poi_path, method: :get, class: 'form-inline' %>
-    Filter: 
-    <label for="name">Name</label>
-    <%= text_field_tag :name, params[:name], class: 'input-mini', id:'name-field' %>
-    <%= submit_tag "Search", :name => nil, :class => "btn btn-primary" %>
-    <%= link_to "Clear Search", dashboard_poi_path, :class => "btn"  %>
-  </div>
+  
+</div>
 <%= render partial: 'table', locals: {items: @pointsofinterests, alertable_type: "Pointsofinterest"} %>
 
 <%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>

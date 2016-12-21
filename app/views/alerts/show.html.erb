@@ -25,5 +25,14 @@
   <%= @alert.created_by %>
 </p>
 
+<p>
+  <strong>Starts at:</strong>
+  <%= @alert.starts_at %>
+</p>
+<p>
+  <strong>Ends at:</strong>
+  <%= @alert.ends_at %>
+</p>
+
 <%= link_to 'Edit', edit_alert_path(@alert) %> |
 <%= link_to 'Back', alerts_path %>

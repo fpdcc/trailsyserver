@@ -1,0 +1,34 @@
+<%= form_for(@alert, html: {class: "form-inline"}) do |alert_form| %>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alerting from being saved:</h2>
+
+      <ul>
+      <% @alert.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= alert_form.label :description, "Description" %>
+  <%= alert_form.text_field :description %>
+  <%= alert_form.label :link, "More Link" %>
+  <%= alert_form.text_field :link %>
+  <%= alert_form.hidden_field :alert_type, value: 'alert' %>	            
+  <%= alert_form.label :starts_at %>
+  <%= alert_form.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
+	  <%= alert_form.label :ends_at %>
+	  <%= alert_form.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
+	  <% if alertable_type == "TrailSystem" %>
+	    <br>
+    	<%= alert_form.label :longitude %>
+    	<%= alert_form.text_field :longitude %>
+    	<%= alert_form.label :latitude %>
+    	<%= alert_form.text_field :latitude %>
+      <% end %>
+	<%= alert_form.fields_for :alertings do |alerting| %>
+		<%= alerting.hidden_field :alertable_type, value: alertable_type %>
+		<%= alerting.hidden_field :alertable_id, value: alertable.id %>
+	<% end %>
+	 <%= alert_form.submit "Create Alert", :class => "btn btn-default", :type => "submit" %>
+<% end %>

@@ -27,6 +27,25 @@
     <%= f.label :link %><br>
     <%= f.text_field :link %>
   </div>
+  <div class="field">
+    <%= f.label :starts_at, "Start Date" %>
+    <%= f.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
+    <%= f.label :ends_at, "End Date" %>
+    <%= f.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
+  </div>
+  <h2>POI or Trail System</h2>
+  <%= f.fields_for :alertings do |alerting| %>
+    <div class="alerting_fields">
+      <div class="field">
+        <%= alerting.label :alertable_type %><br>
+        <%= alerting.select :alertable_type, [['POI', 'Pointsofinterest'], ['Trail System', 'TrailSystem']] %>
+      </div>
+      <div class="field">
+        <%= alerting.label :alertable_id %><br>
+        <%= alerting.text_field :alertable_id %>
+      </div>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

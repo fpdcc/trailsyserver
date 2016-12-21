@@ -15,19 +15,18 @@
   	  <tr>
   	    <td><%= poi.id %></td>
   	    <td><%= poi.name %></td>
-  	    <td>Total Alerts: <%= poi.alertings.active.count %>
-  	     <!--  <%= label_tag("toggle-#{poi.id}-alertings", "#{poi.alertings.count}") %>
-          <%= check_box_tag("toggle-#{poi.id}-alertings", poi.id) %> -->
+  	    <td>Total Alerts: <%= poi.alerts.active.count %>
+  	     <!--  <%= label_tag("toggle-#{poi.id}-alerts", "#{poi.alerts.count}") %>
+          <%= check_box_tag("toggle-#{poi.id}-alerts", poi.id) %> -->
           <div>
-          	<% if poi.alertings.active.count > 0 %>
+          	<% if poi.alerts.active.count > 0 %>
 	          	<ul class='dashboard'>
-	          	<% poi.alertings.active.each do |alerting| %>
-					<li class='dashboard'><%= alerting.starts_at.strftime('%m/%d/%Y') %>-<% if alerting.ends_at.present? %><%= alerting.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alerting.alert.alert_type %>: <%= alerting.alert.description %> <%= alerting.alert.link %>
-					</li>
-
+	          	<% poi.alerts.active.each do |alert| %>
+					      <li class='dashboard'><%= alert.starts_at.strftime('%m/%d/%Y') %>-<% if alert.ends_at.present? %><%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %>
+					       </li>
 	          	<% end %>
 	          	</ul>
-	        <% end %>
+	          <% end %>
           </div>
   	    </td>
   	    <td>
@@ -39,9 +38,7 @@
           <% if current_user.level2? or current_user.admin? %>
             <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn btn-info') %>
             <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
-            <div>
-            	<%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: alertable_type} %>
-            </div>
+            <%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: alertable_type} %>
           <% end %>
         </td>
   	  </tr>

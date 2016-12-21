@@ -7,7 +7,7 @@ class TrailSystem < ActiveRecord::Base
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
 
-  scope :with_current_or_future_alerts, -> { includes(:alertings).references(:alertings).where('alertings.ends_at >= ? or (alertings.starts_at is not null and alertings.ends_at is null)', Time.now) }
+  scope :with_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where('alerts.ends_at >= ? or (alerts.starts_at is not null and alerts.ends_at is null)', Time.now) }
 
   def name
   	self.trail_subsystem
