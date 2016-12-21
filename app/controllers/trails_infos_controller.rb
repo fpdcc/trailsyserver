@@ -21,7 +21,7 @@ class TrailsInfosController < ApplicationController
         #@trailheads = cached_all_by_name
         #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
         
-        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
+        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :trail_name_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
 
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
@@ -120,6 +120,6 @@ class TrailsInfosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trails_info_params
-      params.require(:trails_info).permit(:trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
+      params.require(:trails_info).permit(:trail_name_type, :trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
     end
 end

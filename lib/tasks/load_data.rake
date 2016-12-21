@@ -6,7 +6,7 @@ require 'rgeo-geojson'
 namespace :load do
   task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all_csv => [:activitiesCSV, :poi_descs, :parking_entrances, :pointsofinterests, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
+  task :all_csv => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
@@ -165,7 +165,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/poi_descs.csv"]
+      input_file_names = ["lib/data/poi_desc.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = PoiDesc.parse_csv(input_file_name)
