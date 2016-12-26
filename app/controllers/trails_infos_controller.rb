@@ -102,7 +102,7 @@ class TrailsInfosController < ApplicationController
   def create_json_attributes(trails_info)
     json_attributes = trails_info.attributes.except('created_at', 'updated_at', 'trail_info_id')
     json_attributes["subtrail_length_mi"] = trails_info.subtrail_length_mi
-    json_attributes["direct_trail_id"] = trails_info.trail_subsystem + "-" + trails_info.trail_color + "-" + trails_info.trail_type
+    json_attributes["direct_trail_id"] = trails_info.trail_subsystem + "-" + trails_info.trail_color + "-" + trails_info.trail_type + "-" + trails_info.trail_name_type + "-" + trails_info.direction + "-" + trails_info.off_fpdcc
 
     json_attributes
   end
