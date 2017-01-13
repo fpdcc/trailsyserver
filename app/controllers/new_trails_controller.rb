@@ -22,7 +22,7 @@ class NewTrailsController < ApplicationController
         # if simplify_factor > 0
         #   @new_trails = NewTrail.joins(:trails_info).find_by_sql(["select *, st_linemerge(geom::geometry) as merged_geom from new_trails"]);
         # else
-        @new_trails = NewTrail.joins(:trails_info).select(:trails_id, :geom, :'trails_infos.web_trail', :'trails_infos.trail_subsystem', :'trails_infos.trail_color', :'trails_infos.trail_type', :'trails_infos.off_fpdcc')
+        @new_trails = NewTrail.joins(:trails_info).select(:trails_id, :geom, :'trails_infos.web_trail', :'trails_infos.trail_subsystem', :'trails_infos.trail_color', :'trails_infos.trail_type', :'trails_infos.off_fpdcc', :'trails_infos.direction', :'trails_infos.trail_name_type')
         # end
         # if (params[:loc])
         #   @trailheads = sort_by_distance(@trailheads)
