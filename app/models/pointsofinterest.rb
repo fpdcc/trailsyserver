@@ -45,10 +45,12 @@ class Pointsofinterest < ActiveRecord::Base
   self.per_page = 15
 
   def geom_web
-    if ( (parking_info_id.present?) && (parking_info_id > 0) )
-      return ParkingEntrance.find(parking_info_id).geom;
+    if (web_map_geom.present?)
+      return web_map_geom
+    elsif ( (parking_info_id.present?) && (parking_info_id > 0) )
+      return ParkingEntrance.find(parking_info_id).geom
     else
-      return Pointsofinterest.find(poi_info_id).geom;
+      return geom
     end
   end
 
