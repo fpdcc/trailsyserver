@@ -8,6 +8,18 @@ class TrailsInfo < ActiveRecord::Base
 
 	#named_scope :small, :group => {:trail_subsystem, :trail_color}}
 
+	def direct_trail_id
+		direct_trail_id = trail_subsystem + "-"
+		items_array = [trail_color, trail_type, segment_type, direction, off_fpdcc]
+		items_array.each do |item|
+		  	if item.present?
+				direct_trail_id = direct_trail_id + item
+			end
+			direct_trail_id = direct_trail_id + "-"
+		end
+		direct_trail_id
+	end
+
 	# subtrail_length_mi finds the total length for all trail segments with the same trail_subsystem, trail_color, and trail_type. This is used to show length on detail panel trail segments.
 	def subtrail_length_mi
 		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type, segment_type: segment_type, direction: direction, off_fpdcc: off_fpdcc).sum(:length_mi)
@@ -68,7 +80,7 @@ class TrailsInfo < ActiveRecord::Base
 	        end
 	        if header == 'trail_info_id'
 	          new_item['trails_id'] = value
-	      end
+	        end
 	      end
 	      parsed_items.push new_item
 	    end
