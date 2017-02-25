@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221211346) do
+ActiveRecord::Schema.define(version: 20170225054256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,20 +138,20 @@ ActiveRecord::Schema.define(version: 20161221211346) do
   end
 
   create_table "picnicgroves", force: :cascade do |t|
-    t.integer  "picnicgrove_id",                                      null: false
+    t.integer  "picnicgrove_id",                                    null: false
     t.string   "preserve_name"
     t.integer  "grove"
     t.string   "division"
     t.integer  "capacity"
     t.string   "large_capacity"
-    t.string   "picnicgrove_type"
     t.string   "location"
     t.string   "status"
     t.string   "fpd_uid"
     t.integer  "poi_info_id"
-    t.geometry "geom",             limit: {:srid=>0, :type=>"point"}
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.geometry "geom",           limit: {:srid=>0, :type=>"point"}
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "grove_type"
   end
 
   add_index "picnicgroves", ["picnicgrove_id"], name: "index_picnicgroves_on_picnicgrove_id", unique: true, using: :btree
@@ -285,9 +285,9 @@ ActiveRecord::Schema.define(version: 20161221211346) do
 
   create_table "pointsofinterests", force: :cascade do |t|
     t.integer   "pointsofinterest_id"
-    t.geography "geom",                  limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.datetime  "created_at",                                                                     null: false
-    t.datetime  "updated_at",                                                                     null: false
+    t.geography "geom",                     limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime  "created_at",                                                                        null: false
+    t.datetime  "updated_at",                                                                        null: false
     t.integer   "poi_info_id"
     t.string    "point_type"
     t.string    "public_access"
@@ -349,6 +349,14 @@ ActiveRecord::Schema.define(version: 20161221211346) do
     t.integer   "driving_range"
     t.string    "maintenance_div"
     t.integer   "pavilion"
+    t.integer   "recreation_center"
+    t.integer   "bathroom_building_winter"
+    t.integer   "bathroom_building_summer"
+    t.integer   "bathroom_building_ada"
+    t.integer   "bathroom_portable_winter"
+    t.integer   "bathroom_portable_summer"
+    t.integer   "bathroom_portable_ada"
+    t.geography "web_map_geom",             limit: {:srid=>4326, :type=>"point", :geographic=>true}
   end
 
   add_index "pointsofinterests", ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true, using: :btree
@@ -534,7 +542,7 @@ ActiveRecord::Schema.define(version: 20161221211346) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "direction"
-    t.string   "trail_name_type"
+    t.string   "segment_type"
   end
 
   add_index "trails_infos", ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true, using: :btree

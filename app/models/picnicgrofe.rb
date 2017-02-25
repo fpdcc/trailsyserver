@@ -41,8 +41,6 @@ class Picnicgrofe < ActiveRecord::Base
 	        # next if header == "source"
 	        if new_item.attributes.has_key? header
 	          new_item[header] = value
-	        elsif header == 'type'
-	          new_item['picnicgrove_type'] = value
 	        else
               p "Field not in database: #{header}"
 	        # elsif header == "source"

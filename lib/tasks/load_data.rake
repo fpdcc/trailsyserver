@@ -201,7 +201,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/parking_entrances.csv"]
+      input_file_names = ["lib/data/parking_entrance.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = ParkingEntrance.parse_csv(input_file_name)
@@ -237,7 +237,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/pointsofinterests.csv"]
+      input_file_names = ["lib/data/points_of_interest.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = Pointsofinterest.parse_csv(input_file_name)
@@ -255,7 +255,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/new_trails.csv"]
+      input_file_names = ["lib/data/trails.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = NewTrail.parse_csv(input_file_name)
@@ -273,7 +273,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/new_trails.csv"]
+      input_file_names = ["lib/data/trails.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailsInfo.parse_csv(input_file_name)
@@ -291,7 +291,7 @@ namespace :load do
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
 
-    input_file_names = ["lib/data/new_trails.csv"]
+    input_file_names = ["lib/data/trails.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailSystem.parse_csv(input_file_name)
@@ -310,7 +310,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/trails_descs.csv"]
+      input_file_names = ["lib/data/trails_desc.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailsDesc.parse_csv(input_file_name)

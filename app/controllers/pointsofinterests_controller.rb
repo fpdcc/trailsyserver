@@ -184,7 +184,7 @@ class PointsofinterestsController < ApplicationController
     if pointsofinterest.has_trail_access
       this_trails_info = pointsofinterest.trails_infos.limit(1)[0]
       if this_trails_info
-        json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type + "-" + this_trails_info.trail_name_type + "-" + this_trails_info.direction + "-" + this_trails_info.off_fpdcc
+        json_attributes["direct_trail_id"] = this_trails_info.trail_subsystem + "-" + this_trails_info.trail_color + "-" + this_trails_info.trail_type + "-" + this_trails_info.segment_type + "-" + this_trails_info.direction + "-" + this_trails_info.off_fpdcc
         json_attributes["trail_subsystem"] = this_trails_info.trail_subsystem
       end
     end
