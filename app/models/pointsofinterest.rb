@@ -235,7 +235,7 @@ class Pointsofinterest < ActiveRecord::Base
         panelTags.push("bathroom_building_winter")
       end
       if (bathroom_building_summer == 1)
-        panelTags.push("bathroom_building_sunmer")
+        panelTags.push("bathroom_building_summer")
       end
       if (bathroom_building_ada == 1)
         panelTags.push("bathroom_building_ada")
@@ -244,7 +244,7 @@ class Pointsofinterest < ActiveRecord::Base
         panelTags.push("bathroom_portable_winter")
       end
       if (bathroom_portable_summer == 1)
-        panelTags.push("bathroom_portable_sunmer")
+        panelTags.push("bathroom_portable_summer")
       end
       if (bathroom_portable_ada == 1)
         panelTags.push("bathroom_portable_ada")
