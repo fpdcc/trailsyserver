@@ -203,6 +203,9 @@ class Pointsofinterest < ActiveRecord::Base
       if ( (picnic_grove == 1) or (shelter == 1) )
         searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
       end
+      if (recreation_center == 1)
+        panelTags.push("recreation_center")
+      end
       if (skating_ice == 1)
         panelTags.push("skating_ice")
         searchTags.push("ice skating", "ice skate")
@@ -226,6 +229,25 @@ class Pointsofinterest < ActiveRecord::Base
       if (zip_line == 1)
         panelTags.push("zip_line")
         searchTags.push("zip line", "treetop adventure")
+      end
+      # bathroom section
+      if (bathroom_building_winter == 1)
+        panelTags.push("bathroom_building_winter")
+      end
+      if (bathroom_building_summer == 1)
+        panelTags.push("bathroom_building_sunmer")
+      end
+      if (bathroom_building_ada == 1)
+        panelTags.push("bathroom_building_ada")
+      end
+      if (bathroom_portable_winter == 1)
+        panelTags.push("bathroom_portable_winter")
+      end
+      if (bathroom_portable_summer == 1)
+        panelTags.push("bathroom_portable_sunmer")
+      end
+      if (bathroom_portable_ada == 1)
+        panelTags.push("bathroom_portable_ada")
       end
     if (self.has_trail_access)
       panelTags.push("trailhead")

@@ -104,7 +104,7 @@ class PointsofinterestsController < ApplicationController
   end
 
   def create_json_attributes(pointsofinterest)
-    json_attributes = pointsofinterest.attributes.except('geom', 'web_map_geom', 'parking_connection_id', 'created_at', 'updated_at', 'latitude', 'longitude', 'addr', 'zip', 'zipmuni', 'municipality', 'zone_name','zonemapno', 'dwmapno','name','alt_name','alt2_name', 'web_poi', 'commdist')
+    json_attributes = pointsofinterest.attributes.except('geom', 'web_map_geom', 'parking_connection_id', 'created_at', 'updated_at', 'latitude', 'longitude', 'addr', 'zip', 'zipmuni', 'municipality', 'zone_name','zonemapno', 'dwmapno','name','alt_name','alt2_name', 'web_poi', 'commdist', "ada", "bike_parking", "bike_rental", "birding", "boat_ramp", "boat_rental", "camping", "canoe", "comfortstation", "cross_country", "cycling", "disc_golf", "dog_friendly", "dog_leash", "drinkingwater", "drone", "ecological", "equestrian", "fishing", "ice_fishing", "gas_powered", "golf", "hiking", "indoor_rental", "large_capacity", "m_airplane", "m_boat", "nature_center", "natureplay", "no_alcohol", "no_parking", "overlook", "public_building", "picnic_grove", "shelter", "skating_ice", "skating_inline", "sledding", "snowmobile", "swimming", "toboggan", "volunteer", "zip_line", "nature_preserve", "no_fishing", "driving_range", "pavilion", "recreation_center", "bathroom_building_winter", "bathroom_building_summer", "bathroom_building_ada", "bathroom_portable_winter", "bathroom_portable_summer", "bathroom_portable_ada")
    
     json_attributes["id"] = pointsofinterest.poi_info_id
     json_attributes["name"] = pointsofinterest.name
