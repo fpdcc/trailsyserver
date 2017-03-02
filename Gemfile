@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.7'
+gem 'rails', '~> 4.2.8'
 
 gem 'actionpack-page_caching'
 
@@ -73,10 +73,15 @@ gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 
 group :development, :development_fpcc do
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
+  gem "capistrano", "~> 3.7"
+  gem 'capistrano-rails', '~> 1.2'
+  #gem 'capistrano-postgresql', '~> 4.2.0'
+  gem 'capistrano-postgresql', github: 'nmcalabroso/capistrano-postgresql', branch: 'master'
   gem 'capistrano3-unicorn'
+  gem 'rvm1-capistrano3', require: false
+
+  #gem 'capistrano-bundler'
+  #gem 'capistrano3-unicorn'
 
   # this whole group makes finding performance issues much friendlier
   gem 'rack-mini-profiler'
