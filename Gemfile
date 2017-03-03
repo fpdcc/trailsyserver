@@ -81,7 +81,7 @@ group :development, :development_fpcc do
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-rake', require: false
   #gem 'capistrano-bundler'
-  #gem 'capistrano3-unicorn'
+  gem 'capistrano3-unicorn'
 
   # this whole group makes finding performance issues much friendlier
   gem 'rack-mini-profiler'
