@@ -8,6 +8,7 @@ require 'rvm1/capistrano3'
 
 # Include Rails related tasks
 require 'capistrano/rails'
+require 'capistrano/rake'
 
 
 # Load the SCM plugin appropriate to your project:

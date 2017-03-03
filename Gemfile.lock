@@ -85,6 +85,8 @@ GEM
     capistrano-rails (1.2.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-rake (0.1.0)
+      capistrano (>= 3.0)
     capistrano3-unicorn (0.2.1)
       capistrano (~> 3.1, >= 3.1.0)
     capybara (2.12.1)
@@ -388,6 +390,7 @@ DEPENDENCIES
   capistrano (~> 3.7)
   capistrano-postgresql!
   capistrano-rails (~> 1.2)
+  capistrano-rake
   capistrano3-unicorn
   capybara
   capybara-email
