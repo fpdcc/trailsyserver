@@ -4,9 +4,9 @@ require 'rgeo-geojson'
 
 
 namespace :load do
-  task :all => [:trails, :trailheads, :segments, :activities]
+  #task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all_csv => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
+  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
