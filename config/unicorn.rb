@@ -3,21 +3,21 @@
 rails_env = ENV['RAILS_ENV'] || 'production'
 app_path = "/var/www/cap-#{rails_env}"
 working_directory "#{app_path}/current"
-pid               "#{app_path}/current/tmp/pids/unicorn-#{rails_env}.pid"
+pid               "#{app_path}/shared/tmp/pids/unicorn-#{rails_env}.pid"
 
 
 worker_processes Integer(ENV['WEB_CONCURRENCY'] || 3)
 timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
 #listen "/tmp/trailsyserver-#{rails_env}.sock"
-listen "/tmp/unicorn-#{rails_env}.socket", :backlog => 64
+listen "/tmp/unicorn-#{rails_env}.sock"
 
 #pid "/tmp/trailsyserver-#{rails_env}.pid"
 #stdout_path "/var/www/log/unicorn_trailsyserver-#{rails_env}.log"
 #stderr_path "/var/www/log/unicorn_trailsyserver-#{rails_env}.log"
 # logging
-stderr_path "log/unicorn-#{rails_env}.stderr.log"
-stdout_path "log/unicorn-#{rails_env}.stdout.log"
+stderr_path "#{app_path}/shared/log/unicorn-#{rails_env}.stderr.log"
+stdout_path "#{app_path}/shared/log/unicorn-#{rails_env}.stdout.log"
 
 # use correct Gemfile on restarts
 before_exec do |server|

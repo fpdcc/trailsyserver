@@ -1,10 +1,13 @@
 # config valid only for current version of Capistrano
 lock "3.7.2"
 
+YAML.load(File.open(File.dirname(__FILE__) + '/local_env.yml')).each do |key, value|
+  ENV[key.to_s] = value unless ENV[key]
+end
+
 #set :application, ""
 #set :repo_url, "git@example.com:me/my_repo.git"
-#set :repo_url, ENV['GIT_REPOSITORY']
-set :repo_url, "git@github.com:smartchicago/trailsyserver.git"
+set :repo_url, ENV['GIT_REPOSITORY']
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -26,7 +29,7 @@ set :repo_url, "git@github.com:smartchicago/trailsyserver.git"
 append :linked_files, "config/database.yml", "config/secrets.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/map", "public/page_cache"
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,3 +45,10 @@ namespace :app do
   end
 end
 before "rvm1:install:rvm", "app:update_rvm_key"
+
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:legacy_restart'
+  end
+end
