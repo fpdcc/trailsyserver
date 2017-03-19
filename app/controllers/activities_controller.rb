@@ -104,7 +104,9 @@ class ActivitiesController < ApplicationController
 
   def show
     respond_to do |format|   
-      format.html
+      format.html do
+        authenticate_user!
+      end
       format.json do
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         json_attributes = create_json_attributes(@activity)

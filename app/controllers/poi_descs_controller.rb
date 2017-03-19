@@ -1,4 +1,5 @@
 class PoiDescsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_poi_desc, only: [:show, :edit, :update, :destroy]
 
   # GET /poi_descs

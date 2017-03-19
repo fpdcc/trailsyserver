@@ -1,4 +1,5 @@
 class ParkingEntrancesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_parking_entrance, only: [:show, :edit, :update, :destroy]
 
   # GET /parking_entrances

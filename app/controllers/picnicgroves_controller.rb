@@ -1,7 +1,7 @@
 class PicnicgrovesController < ApplicationController
   before_action :set_picnicgrofe, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index]
 
 
   # GET /picnicgroves
