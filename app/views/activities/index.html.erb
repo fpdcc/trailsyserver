@@ -1,26 +1,15 @@
 <h1>Listing activities</h1>
-<p class='uploadDescription'>
-  Upload a GeoJSON file or shapefile (all shapefile component files collected into a single .zip file) of your current trailhead data to update this list (make sure it follows the <a href="https://docs.google.com/a/codeforamerica.org/document/d/1frt5HkKTdqEaNEnfk2Dq9IYxctvPjVnoU_F33Px2zSQ/edit" target="_blank">standard</a>). Note: this will replace all of your organization's existing data! Before replacing content, we recommend downloading your current data in case anything goes wrong. You can download the current trailhead data for 
-
-  <% if current_user.admin? %>
-    <%= link_to "all sources", {action: "index", format: :json}, target: "_blank" %>
-    <% else %>
-    <%= link_to "#{current_user.organization.code}", {action: "index", source_id: current_user.organization_id, format: :json}, target: "_blank" %>    
-    <% end %>
-    here.
-    </p>
-
+<% if current_user.admin? %>
+  <p class='uploadDescription'>
+    Upload a CSV file of your activities. Note: this will replace all of your organization's existing activities data! Before replacing content, we recommend downloading your current data in case anything goes wrong. You can download the current trailhead data for <%= link_to "all sources", {action: "index", format: :json}, target: "_blank" %> here.
+  </p>
   <%= form_tag({ action: :upload }, multipart: true) do %>
-  <% if current_user.admin? %>
-  <%= select_tag "source_id", options_from_collection_for_select(Organization.all, :id, :code) %>
-  <% else %>
-  <%= hidden_field_tag 'source_id', current_user.organization.id %>
+    <!--<%= select_tag "source_id", options_from_collection_for_select(Organization.all, :id, :code) %>-->
+    <%= file_field_tag 'activities' %><br>
+    <%= submit_tag "Test Upload", id: "submitData", data: { confirm: 'Are you sure? If the "Replace Existing Data" box is checked, this will replace all of your existing trail data.' } %>
+    <%= label_tag :confirmed, 'Replace Existing Data' %>
+    <%= check_box_tag 'confirmed', 'Confirm', false, {id: "confirmed", onclick: "if ($('#confirmed').is(':checked')) { $('#submitData').val('Upload Data') } else {  $('#submitData').val('Test Upload'); }"} %> 
   <% end %>
-  <%= file_field_tag 'activities' %><br>
-
-  <%= submit_tag "Test Upload", id: "submitData", data: { confirm: 'Are you sure? If the "Replace Existing Data" box is checked, this will replace all of your existing trail data.' } %>
-  <%= label_tag :confirmed, 'Replace Existing Data' %>
-  <%= check_box_tag 'confirmed', 'Confirm', false, {id: "confirmed", onclick: "if ($('#confirmed').is(':checked')) { $('#submitData').val('Upload Data') } else {  $('#submitData').val('Test Upload'); }"} %> 
 <% end %>
 
 <table class="table-striped table-bordered table-hover">

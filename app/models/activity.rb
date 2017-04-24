@@ -11,6 +11,10 @@ class Activity < ActiveRecord::Base
 
   #validates :name, presence: true
 
+  def name
+    aname
+  end
+
   def self.parse_geojson(file)
     if file.class == ActionDispatch::Http::UploadedFile
       feature_collection = RGeo::GeoJSON.decode(File.read(file.path), json_parser: :json)
@@ -99,9 +103,9 @@ class Activity < ActiveRecord::Base
   end
 
   def self.parse(file)
-    # if (file.original_filename =~ /zip$/)
-    #   return self.parse_shapefile(file)
-    if (file.original_filename =~ /json$/)
+    if (file.original_filename =~ /csv$/)
+      return self.parse_csv(file)
+    elsif (file.original_filename =~ /json$/)
       return self.parse_geojson(file)
     end
   end

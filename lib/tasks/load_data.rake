@@ -1,7 +1,6 @@
 require 'csv'
 require 'rgeo-geojson'
-
-
+require 'benchmark'
 
 namespace :load do
   #task :all => [:trails, :trailheads, :segments, :activities]
@@ -275,15 +274,18 @@ namespace :load do
     # else
       input_file_names = ["lib/data/trails.csv"]
     #end
-    input_file_names.each do |input_file_name|
-      parsed_items = TrailsInfo.parse_csv(input_file_name)
-      parsed_items.each do |item|
-        p "#{item.trail_info_id}: trail_info added."
-        if !item.save
-          p item.errors.full_messages
+    time = Benchmark.realtime do
+      input_file_names.each do |input_file_name|
+        parsed_items = TrailsInfo.parse_csv(input_file_name)
+        parsed_items.each do |item|
+          p "#{item.trail_info_id}: trail_info added."
+          if !item.save
+            p item.errors.full_messages
+          end
         end
       end
     end
+    puts "Time: #{time.round(2)}"
   end
 
   task :trail_systems => :environment do
