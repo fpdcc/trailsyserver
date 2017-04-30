@@ -111,7 +111,8 @@ class AlertsController < ApplicationController
     if params[:name].present?
       query = "name ILIKE ?", "#{params[:name]}%"
     end
-    @pointsofinterests = Pointsofinterest.paginate(page: params[:page]).includes(:alerts).where(query)
+    @q = Pointsofinterest.ransack(params[:q])
+    @pointsofinterests = @q.result.paginate(page: params[:page]).includes(:alerts)
     @alert = Alert.new
     @alert.alertings.build
   end
@@ -122,7 +123,8 @@ class AlertsController < ApplicationController
     if params[:trail_subsystem].present?
       query = "trail_subsystem ILIKE ?", "#{params[:trail_subsystem]}%"
     end
-    @trails = TrailSystem.all.paginate(page: params[:page]).where(query)
+    @q = TrailSystem.ransack(params[:q])
+    @trails = @q.result.paginate(page: params[:page])
     @alert = Alert.new
     @alert.alertings.build
   end

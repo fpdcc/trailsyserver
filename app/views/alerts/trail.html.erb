@@ -8,6 +8,11 @@
 
 <br>
 <h2>All Trail Subsystems</h2>
-
+<%= search_form_for @q, url: request.path do |f| %>
+	<%= f.label :trail_subsystem_cont %>
+  	<%= f.search_field :trail_subsystem_cont %>
+	<%= f.submit class: "btn btn-success" %>
+	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
+<% end %>
 <%= render partial: 'table', locals: {items: @trails, alertable_type: "TrailSystem"} %>
 <%= will_paginate @trails, renderer: BootstrapPagination::Rails %>

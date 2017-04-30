@@ -71,6 +71,7 @@ gem 'devise'
 gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
+gem 'ransack'
 
 group :development, :development_fpcc do
   gem "capistrano", "~> 3.7"

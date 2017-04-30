@@ -11,6 +11,12 @@
 <div class='span12'> 
   
 </div>
+<%= search_form_for @q, url: request.path do |f| %>
+	<%= f.label :name_cont %>
+  	<%= f.search_field :name_cont %>
+	<%= f.submit class: "btn btn-success" %>
+	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
+<% end %>
 <%= render partial: 'table', locals: {items: @pointsofinterests, alertable_type: "Pointsofinterest"} %>
 
 <%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>

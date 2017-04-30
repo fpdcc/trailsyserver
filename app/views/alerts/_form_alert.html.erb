@@ -1,4 +1,4 @@
-<%= form_for(@alert, html: {class: "form-inline"}) do |alert_form| %>
+<%= form_for(@alert, html: {class: "form-horizontal"}) do |alert_form| %>
   <% if @alert.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alerting from being saved:</h2>
@@ -10,15 +10,23 @@
       </ul>
     </div>
   <% end %>
+  <div class="form-group">
   <%= alert_form.label :description, "Description" %>
   <%= alert_form.text_field :description %>
+  </div>
+  <div class="form-group">
   <%= alert_form.label :link, "More Link" %>
   <%= alert_form.text_field :link %>
-  <%= alert_form.hidden_field :alert_type, value: 'alert' %>	            
+  </div>
+  <%= alert_form.hidden_field :alert_type, value: 'alert' %>	 
+  <div class="form-group">           
   <%= alert_form.label :starts_at %>
   <%= alert_form.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
+  </div>
+  <div class="form-group">
 	  <%= alert_form.label :ends_at %>
 	  <%= alert_form.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
+    </div>
 	  <% if alertable_type == "TrailSystem" %>
 	    <br>
     	<%= alert_form.label :longitude %>
