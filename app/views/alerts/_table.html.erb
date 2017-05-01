@@ -1,8 +1,11 @@
+<% mypath = "#{alertable_type}_path" %>
+<%= mypath %>
 <table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
       <th>POI #</th>
       <th>Name</th>
+      <th>Maintenance</th>
       <th>Active Alerts</th>
       <th>New</th>
       <!-- <th>End Date</th>
@@ -14,7 +17,8 @@
   	<% items.each_with_index do |poi, index| %>
   	  <tr>
   	    <td><%= poi.id %></td>
-  	    <td><%= poi.name %></td>
+        <td><%= link_to "#{poi.name}", polymorphic_path(poi) %></td>
+        <td><%= poi.maintenance_div %></td>
   	    <td>Total Alerts: <%= poi.alerts.active.count %>
   	     <!--  <%= label_tag("toggle-#{poi.id}-alerts", "#{poi.alerts.count}") %>
           <%= check_box_tag("toggle-#{poi.id}-alerts", poi.id) %> -->

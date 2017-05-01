@@ -52,6 +52,8 @@ class PointsofinterestsController < ApplicationController
   # GET /pointsofinterests/1
   # GET /pointsofinterests/1.json
   def show
+    @alert = Alert.new
+    @alert.alertings.build
   end
 
   # GET /pointsofinterests/new

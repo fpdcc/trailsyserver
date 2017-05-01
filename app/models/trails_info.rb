@@ -29,6 +29,10 @@ class TrailsInfo < ActiveRecord::Base
 	  TrailsInfo.all.sort_by(&:subtrail_length_mi).reverse
 	end
 
+	def maintenance_div
+		maintenance
+	end
+
 	def self.all_trail_subsystem_names
 	  TrailsInfo.select("DISTINCT(trails_infos.trail_subsystem), trails_infos.trail_subsystem, trails_infos.trail_info_id")
 	end

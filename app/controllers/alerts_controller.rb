@@ -42,7 +42,7 @@ class AlertsController < ApplicationController
     respond_to do |format|
       if @alert.with_user(current_user).save
         logger.info "New alert saved: #{@alert}"
-        format.html { redirect_to @alert, notice: 'Alert was successfully created.' }
+        format.html { redirect_to request.referrer, notice: 'Alert was successfully created.' }
         format.json { render action: 'show', status: :created, location: @alert }
       else
         logger.info "Problem saving new alert: #{@alert}"

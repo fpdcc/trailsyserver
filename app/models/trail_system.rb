@@ -3,6 +3,7 @@ class TrailSystem < ActiveRecord::Base
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
+  has_many  :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
 
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
@@ -11,6 +12,10 @@ class TrailSystem < ActiveRecord::Base
 
   def name
   	self.trail_subsystem
+  end
+
+  def maintenance_div
+  	self.trails_infos.pluck(:maintenance).uniq
   end
 
   def self.parse_csv(file)

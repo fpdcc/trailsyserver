@@ -1,6 +1,10 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+
+  end
+
   def poi
   	@pointsofinterests_active = Pointsofinterest.with_current_or_future_alerts #.order(self.active_alerts_count)
   	

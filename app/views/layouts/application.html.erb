@@ -12,7 +12,6 @@
   <p class="alert"><%= alert %></p>
   <%= nav_bar :fixed => :top, :brand => "Cook County Forest Preserves Map", :responsive => true do %>
     <%= menu_group do %>
-      <%= menu_item "Home", root_path %>
       <%= menu_divider %>
       <% if user_signed_in? %>
         <%= drop_down "Alerts/Closures" do %>
@@ -20,15 +19,17 @@
           <%= menu_item "Trail Systems", trail_alerts_path %>
           <%= menu_item "All Alerts", alerts_path %>
         <% end %>
-        <%= drop_down "Trails" do %>
-          <%= menu_item "Trails Geometry", new_trails_path %>
-          <%= menu_item "Trails Info", trails_infos_path %>
-          <%= menu_item "Trails Desc", trails_descs_path %>
-        <% end %>
-        <%= menu_item "PointsofInterest", pointsofinterests_path %>
-        <%= drop_down "Activities" do %>
-          <%= menu_item "Activities", activities_path %>
-          <%= menu_item "Picnic Groves", picnicgroves_path %>
+        <% if current_user.admin? %>
+          <%= drop_down "Trails" do %>
+            <%= menu_item "Trails Geometry", new_trails_path %>
+            <%= menu_item "Trails Info", trails_infos_path %>
+            <%= menu_item "Trails Desc", trails_descs_path %>
+          <% end %>
+          <%= menu_item "PointsofInterest", pointsofinterests_path %>
+          <%= drop_down "Activities" do %>
+            <%= menu_item "Activities", activities_path %>
+            <%= menu_item "Picnic Groves", picnicgroves_path %>
+          <% end %>
         <% end %>
         <%= drop_down "Hi, #{current_user.email}" do %>
           <% if current_user.admin? %>
