@@ -17,15 +17,27 @@
   </div> -->
   <div class="field">
     <%= f.label :alert_type %><br>
-    <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
+    <% if current_user.level2? or current_user.admin? %>
+      <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
+    <% else %>
+      <%= f.text_field :alert_type, value: (f.object.new_record? ? 'closure' : f.object.alert_type) %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :description %><br>
-    <%= f.text_field :description %>
+    <% if current_user.level2? or current_user.admin? %>
+      <%= f.text_field :description %>
+    <% else %>
+      <% if f.object.alert_type == 'closure' %>
+        <%= f.select :description, Alert.closure_options %>
+      <% else %>
+        <%= f.text_field :description, readonly: true %>
+      <% end %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :link %><br>
-    <%= f.text_field :link %>
+    <%= f.text_field :link, readonly: current_user.level1? %>
   </div>
   <div class="field">
     <%= f.label :starts_at, "Start Date" %>

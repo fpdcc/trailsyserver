@@ -16,6 +16,10 @@ class Alert < ActiveRecord::Base
 
 	validates :link, format: { with: URI.regexp }, allow_blank: true
 
+  def self.closure_options
+    ['Ice', 'Water', 'Earth', 'Wind', 'Fire']
+  end
+
   #validates :starts_at, presence: true
   def end_date_is_after_start_date
     return if ends_at.blank? || starts_at.blank?
