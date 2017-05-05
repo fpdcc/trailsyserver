@@ -15,7 +15,9 @@ gem 'left_join'
 
 # bootstrap
 gem "twitter-bootstrap-rails"
-gem 'bootstrap-datepicker-rails'
+gem 'momentjs-rails'
+gem 'bootstrap3-datetimepicker-rails'
+#gem 'bootstrap-datepicker-rails'
 gem 'will_paginate', '~> 3.1.1'
 gem 'will_paginate-bootstrap'
 
