@@ -59,9 +59,9 @@ Trailsyserver::Application.routes.draw do
 
   get '.well-known/status' => 'status#check'
 
-  get '/admin' => 'dashboard#index'
+  get '/admin' => 'alerts#poi'
   
-  root to: 'dashboard#index'
+  root to: 'alerts#poi'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
