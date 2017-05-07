@@ -34,10 +34,11 @@
   <% end %>
   <br>
   <br>
-  <span class='h3-Edit'>Cancel my account</span>
-  <span class='finePrint'>What are the results from canceling an account? Will it delete the all of the info they uploaded? These questions should probably be answered here. </span>
-  <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>
-
+  <% if current_user.admin? %>
+    <span class='h3-Edit'>Cancel my account</span>
+  <!-- <span class='finePrint'>What are the results from canceling an account? Will it delete the all of the info they uploaded? These questions should probably be answered here. </span> -->
+    <%= button_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>
+  <% end %>
 </div>
 <!--back button
 <div class='formButtons'>
