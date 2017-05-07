@@ -33,16 +33,16 @@ class AlertsController < ApplicationController
     starts_at = alert_params['starts_at']
     ends_at = alert_params['ends_at']
     if starts_at.present?
-      @alert.starts_at = Date.strptime(starts_at, '%m/%d/%Y')
+      #@alert.starts_at = Date.strptime(starts_at, '%m/%d/%Y')
     end
     if ends_at.present?
-      @alert.ends_at = Date.strptime(ends_at, '%m/%d/%Y')
+      @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
 
     respond_to do |format|
       if @alert.with_user(current_user).save
         logger.info "New alert saved: #{@alert}"
-        format.html { redirect_to request.referrer, notice: 'Alert was successfully created.' }
+        format.html { redirect_to request.referrer , notice: 'Alert was successfully created.' }
         format.json { render action: 'show', status: :created, location: @alert }
       else
         logger.info "Problem saving new alert: #{@alert}"
@@ -76,11 +76,13 @@ class AlertsController < ApplicationController
     starts_at = alert_params['starts_at']
     ends_at = alert_params['ends_at']
     if starts_at.present?
-      @alert.starts_at = Date.strptime(starts_at, '%m/%d/%Y')
+      #@alert.starts_at = Date.strptime(starts_at, '%m/%d/%Y')
       logger.info "update: alert_params['starts_at'] = #{alert_params['starts_at']} and updated @alert.starts_at = #{@alert.starts_at}"
     end
     if ends_at.present?
-      @alert.ends_at = Date.strptime(ends_at, '%m/%d/%Y')
+      #@alert.ends_at = Date.strptime(ends_at, '%m/%d/%Y')
+      @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
+
     end
 
     respond_to do |format|
@@ -104,14 +106,12 @@ class AlertsController < ApplicationController
     end
   end
 
-
   def poi
-    @pointsofinterests_active = Pointsofinterest.with_current_or_future_alerts #.order(self.active_alerts_count)
+    @act = Pointsofinterest.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
     query = ""
-    if params[:name].present?
-      query = "name ILIKE ?", "#{params[:name]}%"
-    end
-    @q = Pointsofinterest.ransack(params[:q])
+    @q = Pointsofinterest.no_current_or_future_alerts.ransack(params[:q])
+    #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
+    @pointsofinterests_active = @act.result.includes(:alerts)
     @pointsofinterests = @q.result.paginate(page: params[:page]).includes(:alerts)
     @alert = Alert.new
     @alert.alertings.build
