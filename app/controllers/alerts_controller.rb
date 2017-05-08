@@ -129,6 +129,7 @@ class AlertsController < ApplicationController
     @trails = @q.result.paginate(page: params[:page])
     @alert = Alert.new
     @alert.alertings.build
+    @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"
   end
 
   private

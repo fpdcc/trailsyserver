@@ -10,6 +10,8 @@ class TrailSystem < ActiveRecord::Base
 
   scope :with_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where('alerts.ends_at >= ? or (alerts.starts_at is not null and alerts.ends_at is null)', Time.now) }
 
+  include Alertable
+
   def name
   	self.trail_subsystem
   end

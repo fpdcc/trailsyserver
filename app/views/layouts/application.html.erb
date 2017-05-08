@@ -12,12 +12,12 @@
     <%= menu_group do %>
       <%= menu_divider %>
       <% if user_signed_in? %>
-        <%= drop_down "Alerts/Closures" do %>
-          <%= menu_item "POIs", poi_alerts_path %>
+        <%= menu_item "POIs", poi_alerts_path %>
+        <% if !current_user.level1? %>
           <%= menu_item "Trail Systems", trail_alerts_path %>
-          <%= menu_item "All Alerts", alerts_path %>
         <% end %>
         <% if current_user.admin? %>
+          <%= menu_item "All Alerts", alerts_path %>
           <%= drop_down "Trails" do %>
             <%= menu_item "Trails Geometry", new_trails_path %>
             <%= menu_item "Trails Info", trails_infos_path %>

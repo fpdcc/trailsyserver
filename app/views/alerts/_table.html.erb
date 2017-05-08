@@ -18,8 +18,10 @@
     	  <tr class="">
     	    <% if current_user.admin? %><td><%= poi.id %></td><% end %>
           <td><strong><%= poi.name %></strong>
-          <% if poi.picnicgroves.pluck(:grove).count > 0 %>
-            <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+          <% if poi.try(:picnicgroves) %>
+            <% if poi.picnicgroves.pluck(:grove).count > 0 %>
+              <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+            <% end %>
           <% end %>
           </td>
           <td><%= poi.maintenance_div %></td>
