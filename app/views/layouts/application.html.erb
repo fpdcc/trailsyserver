@@ -8,7 +8,7 @@
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
-  <%= nav_bar :fixed => :top, :brand => "Cook County Forest Preserves Map", :responsive => true do %>
+  <%= nav_bar fixed: :top, brand: "Cook County Forest Preserves Map", brand_link: poi_alerts_path, responsive: :true do %>
     <%= menu_group do %>
       <%= menu_divider %>
       <% if user_signed_in? %>
