@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-  <%= render 'form_part1', f: f %>
+  <%= render 'form_part1', {f: f, alertable_id: alertable.id} %>
   <div class="form-group">
     <%= f.fields_for :alertings do |alerting| %>
       <%= alerting.hidden_field :alertable_type, value: alertable_type %>
@@ -18,6 +18,7 @@
     <% end %>
   </div>
   <div class="form-group">
-    <%= f.submit "Create", :class => "btn btn-default", :type => "submit" %>
+    <%= f.submit "Create", :class => "btn btn-success", :type => "submit" %>
+    <%= button_tag "Cancel", type: :reset, class: "btn btn-warning cancel-button" %>
   </div>
 <% end %>
