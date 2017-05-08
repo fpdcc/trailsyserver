@@ -12,5 +12,5 @@
   <% end %>
   <%= render 'form_part1', f: f %>
   <%= render 'form_part2_standalone', f: f %>
-  <%= f.submit nil, class: "btn btn-primary" %>
+  <%= f.submit "Submit", :class => "btn btn-default", :type => "submit" %>
 <% end %>

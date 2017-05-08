@@ -1,6 +1,5 @@
-<h1>Editing Alert</h1>
+<h1>Editing <%= @alert.alert_type.humanize %></h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @alert %> |
-<%= link_to 'Back', alerts_path %>
+<br>
+<%= link_to 'Back', :back, class: "btn btn-default" %>

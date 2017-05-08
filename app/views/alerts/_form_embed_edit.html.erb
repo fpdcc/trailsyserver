@@ -1,0 +1,50 @@
+<%= form_for(@alert, html: {class: "form-horizontal"}) do |f| %>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+
+      <ul>
+      <% @alert.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <% if !current_user.level1? %>
+        <%= f.label :alert_type %>
+        <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] }, prompt: "Select", class: "form-control" %>
+    <% else %>
+      <%= f.hidden_field :alert_type, readonly: true, value: 'closure' %>
+    <% end %>
+  </div>
+  <div class="form-group" id="field-reason">
+    <%= f.label :reason %>
+    <%= f.select :reason, Alert.closure_options, prompt: "Select", class: "form-control" %>
+  </div>
+  <div class="form-group" id="field-description ">
+    <%= f.label :description %><br>
+    <%= f.text_field :description, readonly: current_user.level1?, class: "form-control" %>
+  </div>
+  <% if !current_user.level1? %>
+    <div class="form-group" id="field-link">
+      <%= f.label :link %><br>
+      <%= f.text_field :link, class: "form-control" %>
+    </div>
+  <% end %>
+  <div class="form-group">
+    <%= f.label :starts_at, "Start Date" %>
+    <%= f.date_select :starts_at, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :ends_at, "End Date" %>
+    <%= f.date_select :ends_at, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.fields_for :alertings do |alerting| %>
+      <%= alerting.hidden_field :alertable_type, value: alertable_type %>
+      <%= alerting.hidden_field :alertable_id, value: alertable.id %>
+    <% end %>
+  </div>
+  <%= f.submit "Create", :class => "btn btn-default", :type => "submit" %>
+<% end %>

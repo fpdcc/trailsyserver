@@ -31,18 +31,27 @@ class Pointsofinterest < ActiveRecord::Base
     (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now, Time.now) }
 
-  scope :with_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where('alerts.ends_at >= ? or (alerts.starts_at is not null and alerts.ends_at is null)', Time.now) }
-  scope :no_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where(
+  scope :no_current_or_future_alerts, -> { where(
     "pointsofinterests.poi_info_id NOT IN (
-    SELECT DISTINCT(alerts.alertable_id) 
-    FROM alertings 
+    SELECT DISTINCT(alertings.alertable_id) 
+    FROM alertings, alerts
     where 
-    alerts.alertable_type = 'Pointsofinterest'
+    alertings.alertable_type = 'Pointsofinterest'
     and
     (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now) }
 
-  self.per_page = 15
+  scope :with_current_or_future_alerts,  ->  { includes(:alerts).references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now) }
+
+
+  # scope :with_quotes_count, -> do joins('LEFT OUTER JOIN quotes_themes on quotes_themes.theme_id = themes.id') .select('themes.*, COUNT(quotes_themes.quote_id) as quotes_count') .group('themes.id')end
+
+
+  self.per_page = 60
+
+  # ransacker :currentalertcount do
+  #   Arel.sql('alert.starts_at <= ? and (alert.ends_at >= ? or alert.ends_at is null)', Time.now, Time.now)
+  # end
 
   def geom_web
     if (web_map_geom.present?)
@@ -57,6 +66,10 @@ class Pointsofinterest < ActiveRecord::Base
   def trail_subsystems
     this_trails_infos = self.trails_infos
     trail_subsystems = this_trails_infos.pluck('trail_subsystem').uniq
+  end
+
+  def self.maintenance_divs
+    maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.sort
   end
 
   def has_trail_access

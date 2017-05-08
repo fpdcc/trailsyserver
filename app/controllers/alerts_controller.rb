@@ -38,11 +38,12 @@ class AlertsController < ApplicationController
     if ends_at.present?
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
+    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully created."
 
     respond_to do |format|
       if @alert.with_user(current_user).save
         logger.info "New alert saved: #{@alert}"
-        format.html { redirect_to request.referrer , notice: 'Alert was successfully created.' }
+        format.html { redirect_to request.referrer , notice: notice_message }
         format.json { render action: 'show', status: :created, location: @alert }
       else
         logger.info "Problem saving new alert: #{@alert}"
@@ -101,7 +102,7 @@ class AlertsController < ApplicationController
   def destroy
     @alert.destroy
     respond_to do |format|
-      format.html { redirect_to alerts_url }
+      format.html { redirect_to request.referrer }
       format.json { head :no_content }
     end
   end
@@ -115,6 +116,7 @@ class AlertsController < ApplicationController
     @pointsofinterests = @q.result.paginate(page: params[:page]).includes(:alerts)
     @alert = Alert.new
     @alert.alertings.build
+    @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"
   end
 
   def trail
@@ -137,7 +139,7 @@ class AlertsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alert_params
-      params.require(:alert).permit(:alert_id, :alert_type, :description, :link, :created_by, :starts_at, :ends_at, :geom,
+      params.require(:alert).permit(:alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom,
         alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
         )
     end

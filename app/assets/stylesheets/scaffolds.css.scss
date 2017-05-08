@@ -6,6 +6,17 @@ body {
   line-height: 18px;
 }
 
+.container-main {
+  margin-top: 75px;
+  width: 98%;
+}
+
+.position-relative {position: relative;}
+
+.hidden {
+  display:none;
+}
+
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;

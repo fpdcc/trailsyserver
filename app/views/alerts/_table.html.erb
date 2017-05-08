@@ -4,11 +4,10 @@
       <tr class="">
         <% if current_user.admin? %><th>POI #</th><% end %>
         <th>Name</th>
-        <th>Groves</th>
         <th>Maintenance</th>
         <th>Current Status</th>
         <th>Active Alerts</th>
-        <th>New</th>
+        <th>Form</th>
         <!-- <th>End Date</th>
         <th>Issue</th>
         <th>Add Closure</th> -->
@@ -18,29 +17,23 @@
     	<% items.each_with_index do |poi, index| %>
     	  <tr class="">
     	    <% if current_user.admin? %><td><%= poi.id %></td><% end %>
-          <td><%= poi.name %>
+          <td><strong><%= poi.name %></strong>
           <% if poi.picnicgroves.pluck(:grove).count > 0 %>
             <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
           <% end %>
           </td>
-          <td><%= poi.picnicgroves.pluck(:grove).sort.to_sentence %></td>
           <td><%= poi.maintenance_div %></td>
           <% if poi.closed? %>
             <td class="bg-danger">Closed</td>
           <% else %>
             <td class="bg-success">Open</td>
           <% end %>
-    	    <td>Current:<!--  <%= poi.alerts.current.count %> -->
+    	    <td class="col-md-6">Current:<!--  <%= poi.alerts.current.count %> -->
             <div>
             	<% if poi.alerts.current.count > 0 %>
   	          	<ul class='dashboard'>
   	          	<% poi.alerts.current.each do |alert| %>
-                  <% classType = "bg-warning" %>
-                  <% if alert.alert_type == "closure" %>
-                    <% classType = "bg-danger" %>
-                  <% end %>
-  					      <li class="dashboard <%= classType %>"><%= alert.starts_at.strftime('%m/%d/%Y') %>-<% if alert.ends_at.present? %><%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %>
-  					       </li>
+                  <%= render partial: 'alert_info', locals: {alert: alert} %>
   	          	<% end %>
   	          	</ul>
   	          <% end %>
@@ -50,21 +43,16 @@
               <% if poi.alerts.future.count > 0 %>
                 <ul class='dashboard'>
                 <% poi.alerts.future.each do |alert| %>
-                  <% classType = "bg-warning" %>
-                  <% if alert.alert_type == "closure" %>
-                    <% classType = "bg-danger" %>
-                  <% end %>
-                  <li class="dashboard <%= classType %>"><%= alert.starts_at.strftime('%m/%d/%Y') %>-<% if alert.ends_at.present? %><%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %>
-                   </li>
+                  <%= render partial: 'alert_info', locals: {alert: alert} %>
                 <% end %>
                 </ul>
               <% end %>
             </div>
+            <button id="new-<%= poi.id %>" data-id="<%= poi.id %>" class="new-button btn btn-primary"><%= @create_description %></button>
     	    </td>
-    	    <td class="col-md-4">
-            <%= label_tag("toggle-#{poi.id}-closure", "Create New", class: 'btn btn-primary') %>
-            <%= check_box_tag("toggle-#{poi.id}-closure", poi.id)%>
-            <div>
+    	    <td id="" class="col-md-3">
+            <div id="form-new-<%= poi.id %>" class="form-new" style="display: none">
+              <%= @create_description %>
             	<%= render partial: 'form_embed', locals: {alertable: poi, alertable_type: alertable_type} %>
             </div>
           </td>

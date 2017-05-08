@@ -8,8 +8,6 @@
   <%= favicon_link_tag 'favicon.ico' %>
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
   <%= nav_bar :fixed => :top, :brand => "Cook County Forest Preserves Map", :responsive => true do %>
     <%= menu_group do %>
       <%= menu_divider %>
@@ -44,6 +42,22 @@
       <% end %>          
     <% end %>
   <% end %>
-<%= yield %>
+  
+  <div id="page-container" class="container-main center-block">
+
+    <div id="notifications">
+      <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
+          <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-error" %>">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%= flash[:alert] %>
+              <%= flash[:notice] %>
+              <%= flash[:error] %>
+              <%= flash[:success] %>
+          </div>
+      <% end %>
+    </div> <!-- notifications -->
+
+    <%= yield %>
+  </div>
 </body>
 </html>
