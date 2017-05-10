@@ -1,13 +1,13 @@
 
-<h1>Alerts#poi</h1>
+<h1>Location Alerts & Closures</h1>
 
 <%= search_form_for @q, url: request.path, html: { class: 'form-inline' } do |f| %>
 	<div class="form-group">
-	<%= f.label :name_cont %>
+	<%= f.label :name_cont, "Name Contains:" %>
   	<%= f.search_field :name_cont, class: "form-control" %>
   	</div>
   	<div class="form-group">
-  	<%= f.label :maintenance_div_cont %>
+  	<%= f.label :maintenance_div_cont, "Maintenance Division:" %>
   	<%= f.select :maintenance_div_cont, Pointsofinterest.maintenance_divs, {include_blank: true}, {class: "form-control" } %>
   	</div>
 	<%= f.submit class: "btn btn-success" %>

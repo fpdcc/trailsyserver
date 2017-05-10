@@ -4,7 +4,7 @@
       <tr class="">
         <% if current_user.admin? %><th>POI #</th><% end %>
         <th>Name</th>
-        <th>Maintenance</th>
+        <th>Maintenance Division</th>
         <th>Current Status</th>
         <th>Active Alerts</th>
         <th>Form</th>
@@ -54,7 +54,7 @@
     	    </td>
     	    <td id="" class="col-md-3">
             <div id="form-new-<%= poi.id %>" class="form-new" style="display: none">
-              <%= @create_description %>
+              <h3><%= @create_description %></h3>
             	<%= render partial: 'form_embed', locals: {alertable: poi, alertable_type: alertable_type} %>
             </div>
           </td>

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>To The Trails Administration</title>
+  <title>FPCC Alerts & Closures</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag 'favicon.ico' %>
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <%= nav_bar fixed: :top, brand: "Cook County Forest Preserves Map", brand_link: poi_alerts_path, responsive: :true do %>
+  <%= nav_bar fixed: :top, brand: "FPCC Alerts & Closures", brand_link: poi_alerts_path , fluid: true do %>
     <%= menu_group do %>
       <%= menu_divider %>
       <% if user_signed_in? %>
-        <%= menu_item "POIs", poi_alerts_path %>
+        <%= menu_item "Locations", poi_alerts_path %>
         <% if !current_user.level1? %>
           <%= menu_item "Trail Systems", trail_alerts_path %>
         <% end %>
@@ -43,7 +45,7 @@
     <% end %>
   <% end %>
   
-  <div id="page-container" class="container-main center-block">
+  <div id="page-container" class="container-main container center-block">
 
     <div id="notifications">
       <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
