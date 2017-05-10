@@ -41,9 +41,9 @@ class Pointsofinterest < ActiveRecord::Base
     alertings.alert_id = alerts.id
     and
     (alerts.ends_at >= ? or alerts.ends_at is null)
-    )", Time.now) }
+    )", Time.now).order('name asc')}
 
-  scope :with_current_or_future_alerts,  ->  { includes(:alerts).references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now) }
+  scope :with_current_or_future_alerts,  ->  { includes(:alerts).references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('name asc')}
 
 
   # scope :with_quotes_count, -> do joins('LEFT OUTER JOIN quotes_themes on quotes_themes.theme_id = themes.id') .select('themes.*, COUNT(quotes_themes.quote_id) as quotes_count') .group('themes.id')end
