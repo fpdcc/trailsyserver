@@ -38,6 +38,8 @@ class Pointsofinterest < ActiveRecord::Base
     where 
     alertings.alertable_type = 'Pointsofinterest'
     and
+    alertings.alert_id = alerts.id
+    and
     (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now) }
 
