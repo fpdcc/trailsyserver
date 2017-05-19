@@ -1,6 +1,10 @@
 <% classType = "bg-warning" %>
 <% if alert.alert_type == "closure" %>
 	<% classType = "bg-danger" %>
+<% else %>
+	<% if current_user.level1? %>
+		<% classType = classType + " reduced-vis" %>
+	<% end %>
 <% end %>
 <% if current_user.level1? %>
 	<li class="dashboard <%= classType %>"><%= alert.starts_at.strftime('%m/%d/%Y') %>-<% if alert.ends_at.present? %><%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %> <% if alert.user.level1? %><%= link_to 'Update', edit_alert_path(alert), class: "btn btn-xs btn-primary" %> <%= link_to 'Reopen', alert, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "Are you sure you want to remove this #{alert.alert_type} '#{alert.description}'?" } %><% end %>
