@@ -4,13 +4,8 @@
       <tr class="">
         <% if current_user.admin? %><th>POI #</th><% end %>
         <th>Name</th>
-        <th>Maintenance Division</th>
-        <th>Current Status</th>
         <th>Active Alerts</th>
         <th>Form</th>
-        <!-- <th>End Date</th>
-        <th>Issue</th>
-        <th>Add Closure</th> -->
       </tr>
     </thead>
     <tbody>
@@ -24,12 +19,6 @@
             <% end %>
           <% end %>
           </td>
-          <td><%= poi.maintenance_div %></td>
-          <% if poi.closed? %>
-            <td class="bg-danger">Closed</td>
-          <% else %>
-            <td class="bg-success">Open</td>
-          <% end %>
     	    <td class="col-md-6">Current:<!--  <%= poi.alerts.current.count %> -->
             <div>
             	<% if poi.alerts.current.count > 0 %>
