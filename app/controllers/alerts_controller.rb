@@ -85,10 +85,12 @@ class AlertsController < ApplicationController
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
 
     end
+    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated."
 
     respond_to do |format|
       if @alert.with_user(current_user).update(alert_params)
-        format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
+        format.html { redirect_to request.referrer , notice: notice_message }
+        #format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

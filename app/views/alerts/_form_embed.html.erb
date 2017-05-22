@@ -1,16 +1,16 @@
-<%= form_for(@alert, html: {class: "form-horizontal"}) do |f| %>
-  <% if @alert.errors.any? %>
+<%= form_for(alert, html: {class: "form-horizontal"}) do |f| %>
+  <% if alert.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+      <h2><%= pluralize(alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
 
       <ul>
-      <% @alert.errors.full_messages.each do |message| %>
+      <% alert.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
     </div>
   <% end %>
-  <%= render 'form_part1', {f: f, alertable_id: alertable.id} %>
+  <%= render 'form_part1', {f: f, alertable_id: alertable.id, alert: alert} %>
   <div class="form-group">
     <%= f.fields_for :alertings do |alerting| %>
       <%= alerting.hidden_field :alertable_type, value: alertable_type %>
@@ -18,7 +18,7 @@
     <% end %>
   </div>
   <div class="form-group">
-    <%= f.submit "Create", :class => "btn btn-success", :type => "submit" %>
+    <%= f.submit :class => "btn btn-success", :type => "submit" %>
     <%= button_tag "Cancel", type: :reset, class: "btn btn-warning cancel-button" %>
   </div>
 <% end %>

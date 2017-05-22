@@ -17,6 +17,7 @@ class Alert < ActiveRecord::Base
   validates :description, presence: true
 
 	validates :link, format: { with: URI.regexp }, allow_blank: true
+  validate :end_date_is_after_start_date
 
   # validates :starts_at, :ends_at, if: :closure?, :overlap => {
   #   :scope => ["alerting.alertable_type", "alerting.alertable_id"], 

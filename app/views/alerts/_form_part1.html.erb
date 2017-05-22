@@ -9,11 +9,11 @@
   </div>
   <div class="form-group" id="form-group-reason-<%= alertable_id %>">
     <%= f.label :reason %>
-    <%= f.select :reason, closure_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}", dataid: "#{alertable_id}"} %>
+    <%= f.select :reason, closure_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
   </div>
   <div class="form-group" id="form-group-description-<%= alertable_id %> ">
     <%= f.label :description %><br>
-    <%= f.text_field :description, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable_id}" %>
+    <%= f.text_field :description, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}" %>
   </div>
   <% if !current_user.level1? %>
     <div class="form-group" id="field-link">
