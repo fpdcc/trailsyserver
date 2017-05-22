@@ -37,6 +37,8 @@ class Alert < ActiveRecord::Base
     end 
   end
 
+  default_scope { includes(:user).includes(:alertings) }
+
   scope :current_or_future, -> {
     where('ends_at >= ? or (starts_at is not null and ends_at is null)', Time.now)
   }

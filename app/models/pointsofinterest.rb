@@ -18,8 +18,8 @@ class Pointsofinterest < ActiveRecord::Base
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
 
-  scope :with_active_alerts, -> { includes(:alerts).references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
-  scope :no_active_alerts, -> { includes(:alerts).references(:alerts).where(
+  scope :with_active_alerts, -> { references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
+  scope :no_active_alerts, -> { references(:alerts).where(
     "pointsofinterests.poi_info_id NOT IN (
     SELECT DISTINCT(alerts.alertable_id) 
     FROM alertings 
@@ -43,7 +43,7 @@ class Pointsofinterest < ActiveRecord::Base
     (alerts.ends_at >= ? or alerts.ends_at is null)
     )", Time.now).order('name asc')}
 
-  scope :with_current_or_future_alerts,  ->  { includes(:alerts).references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('name asc')}
+  scope :with_current_or_future_alerts,  ->  { references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('name asc')}
 
 
   # scope :with_quotes_count, -> do joins('LEFT OUTER JOIN quotes_themes on quotes_themes.theme_id = themes.id') .select('themes.*, COUNT(quotes_themes.quote_id) as quotes_count') .group('themes.id')end

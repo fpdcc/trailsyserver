@@ -115,7 +115,7 @@ class AlertsController < ApplicationController
     @q = Pointsofinterest.no_current_or_future_alerts.ransack(params[:q])
     #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
     @pointsofinterests_active = @act.result.includes(:alerts)
-    @pointsofinterests = @q.result.paginate(page: params[:page]).includes(:alerts)
+    @pointsofinterests = @q.result.paginate(page: params[:page])
     @alert = Alert.new
     @alert.alertings.build
     @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"

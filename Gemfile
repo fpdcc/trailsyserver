@@ -37,8 +37,11 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '~> 4.1.1'
+gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 5.0.5'
+#gem 'bootstrap-editable-rails'
+#gem 'best_in_place', '~> 3.1.1'
+
 
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -140,6 +143,7 @@ group :development, :development_fpcc, :test do
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem 'bullet'
 end
 
 group :development, :development_aws, :development_fpcc, :production, :test, :staging do
