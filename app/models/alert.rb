@@ -24,8 +24,22 @@ class Alert < ActiveRecord::Base
   #   :query_options => {:closure => nil}
   # }
 
-  def self.closure_options
+  def self.poi_closed_options
     options = ['ice and/or snow', 'flooding', 'storm debris', 'weather']
+  end
+
+  def self.poi_closed_options_level2
+    options = ['other']
+    return Alert.poi_closed_options + options
+  end
+
+  def self.poi_open_options
+    options = ['sledding', 'snowmobile']
+  end
+
+   def self.poi_open_options_level2
+    options = ['marking hazardous trees', 'removing hazardous trees', 'prescribed burn', 'other']
+    return Alert.poi_open_options + options
   end
 
   #validates :starts_at, presence: true

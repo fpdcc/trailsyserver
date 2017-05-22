@@ -1,4 +1,4 @@
-<% closure_options = current_user.level1? ? Alert.closure_options : (Alert.closure_options + ["Other"]) %>
+<% closure_options = current_user.level1? ? Alert.poi_closed_options : (Alert.poi_closed_options + ["Other"]) %>
 <div class="form-group">
     <% if !current_user.level1? %>
         <%= f.label :alert_type %>
@@ -8,7 +8,7 @@
     <% end %>
   </div>
   <div class="form-group" id="form-group-reason-<%= alertable_id %>">
-    <%= f.label :reason %>
+    <%= f.label :reason, "Issue" %>
     <%= f.select :reason, closure_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
   </div>
   <div class="form-group" id="form-group-description-<%= alertable_id %> ">
