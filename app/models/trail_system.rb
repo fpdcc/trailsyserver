@@ -8,9 +8,21 @@ class TrailSystem < ActiveRecord::Base
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
 
-  scope :with_current_or_future_alerts, -> { includes(:alerts).references(:alerts).where('alerts.ends_at >= ? or (alerts.starts_at is not null and alerts.ends_at is null)', Time.now) }
-
   include Alertable
+
+  scope :with_current_or_future_alerts,  ->  { references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('trail_subsystem asc')}
+
+  scope :no_current_or_future_alerts, -> { where(
+    "trail_systems.id NOT IN (
+    SELECT DISTINCT(alertings.alertable_id) 
+    FROM alertings, alerts
+    where 
+    alertings.alertable_type = 'TrailSystem'
+    and
+    alertings.alert_id = alerts.id
+    and
+    (alerts.ends_at >= ? or alerts.ends_at is null)
+    )", Time.now).order('trail_subsystem asc')}
 
   def name
   	self.trail_subsystem

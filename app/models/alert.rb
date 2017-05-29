@@ -46,6 +46,16 @@ class Alert < ActiveRecord::Base
     return options
   end
 
+  def self.trail_options
+    options = {}
+    options['flooding'] = {alert_type: 'alert', description: 'Flooding '}
+    options['tree down/storm debris'] = {alert_type: 'alert', description: 'Tree down/storm debris '}
+    options['marking hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being marked for removal '}
+    options['removing hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being removed '}
+    options['other alert'] = {alert_type: 'alert', description: ''}
+    return options
+  end
+
   def self.poi_closed_options
     options = ['ice and/or snow', 'flooding', 'storm debris', 'weather']
   end

@@ -2,7 +2,7 @@
   <table class="table-striped table-bordered table-hover col-md-12">
     <thead>
       <tr class="">
-        <% if current_user.admin? %><th>POI #</th><% end %>
+        <% if current_user.admin? %><th>#</th><% end %>
         <th>Name</th>
         <th>Active Alerts</th>
         <th>Form</th>
@@ -44,18 +44,18 @@
     	    <td id="form-<%= poi.id %>" class="col-md-3">
             <div id="form-new-<%= poi.id %>" class="form-new" style="display: none">
               <h3>Create Alert</h3>
-            	<%= render partial: 'form_embed', locals: {alert: @alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "create"}} %>
+            	<%= render partial: "form_embed_#{alertable_type}", locals: {alert: @alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "create"}} %>
             </div>
             <% poi.alerts.current.each do |alert| %>
               <div id="form-edit-<%= poi.id %>-<%= alert.id %>" class="form-edit" style="display: none">
                 <h3>Edit Alert</h3>
-                <%= render partial: 'form_embed', locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
+                <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
               </div>
             <% end %>
             <% poi.alerts.future.each do |alert| %>
               <div id="form-edit-<%= poi.id %>-<%= alert.id %>" class="form-edit" style="display: none">
                 <h3>Edit Alert</h3>
-                <%= render partial: 'form_embed', locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
+                <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
               </div>
             <% end %>
           </td>

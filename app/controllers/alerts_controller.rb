@@ -122,12 +122,11 @@ class AlertsController < ApplicationController
   end
 
   def trail
-    @trails_active = TrailSystem.with_current_or_future_alerts
+    @act = TrailSystem.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
     query = ""
-    if params[:trail_subsystem].present?
-      query = "trail_subsystem ILIKE ?", "#{params[:trail_subsystem]}%"
-    end
-    @q = TrailSystem.ransack(params[:q])
+    @q = TrailSystem.no_current_or_future_alerts.ransack(params[:q])
+    #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
+    @trails_active = @act.result.includes(:alerts)
     @trails = @q.result.paginate(page: params[:page])
     @alert = Alert.new
     @alert.alertings.build
