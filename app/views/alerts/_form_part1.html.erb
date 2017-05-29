@@ -1,19 +1,14 @@
-<% closure_options = current_user.level1? ? Alert.poi_closed_options : (Alert.poi_closed_options + ["Other"]) %>
+<% poi_options = current_user.level1? ? Alert.poi_options_level1 : (Alert.poi_options_level1.merge(Alert.poi_options_level2)) %>
 <div class="form-group">
-    <% if !current_user.level1? %>
-        <%= f.label :alert_type %>
-        <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] }, {prompt: "Select"}, {class: "form-control alert_alert_type", id: "field-alert_type-#{alertable_id}", dataid: "#{alertable_id}"} %>
-    <% else %>
-      <%= f.hidden_field :alert_type, readonly: true, value: 'closure' %>
-    <% end %>
+    <%= f.hidden_field :alert_type, id: "field-alert-type-#{alertable_id}-#{alert.id}" %>
   </div>
   <div class="form-group" id="form-group-reason-<%= alertable_id %>">
     <%= f.label :reason, "Issue" %>
-    <%= f.select :reason, closure_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
+    <%= f.select :reason, poi_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
   </div>
   <div class="form-group" id="form-group-description-<%= alertable_id %> ">
     <%= f.label :description %><br>
-    <%= f.text_field :description, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}" %>
+    <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}" %>
   </div>
   <% if !current_user.level1? %>
     <div class="form-group" id="field-link">

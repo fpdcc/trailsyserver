@@ -50,16 +50,24 @@ $(document).on('page:load ready', function () {
     console.log("reason change")
     var itemId = $(this).attr('data-alertable-id');
     var alertId = $(this).attr('data-alert-id');
+    var selected = $(this).find(':selected');
+    var alert_type = selected.attr('alert_type');
+    var description = selected.attr('description');
+    console.log('option alert_type = ' + alert_type)
+    console.log('option description = ' + description)
     var value = $(this).val();
     console.log("Value = " + value + " + itemId = " + itemId)
     var fieldDescription = "#field-description-" + itemId + '-' + alertId;
-    if (value) {
-      console.log('in the reason if statement')
-      var description = "Parking area closed due to " + value + '.'
+    if (description) {
       $(fieldDescription).val(description);
     } else {
       $(fieldDescription).val('');
     }
+    var fieldAlertType = "#field-alert-type-" + itemId + '-' + alertId;
+    if (alert_type) {
+      $(fieldAlertType).val(alert_type);
+    }
+
   });
 
 });

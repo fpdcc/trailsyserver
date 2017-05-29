@@ -24,6 +24,28 @@ class Alert < ActiveRecord::Base
   #   :query_options => {:closure => nil}
   # }
 
+  def self.poi_options_level1
+    options = {}
+    options['CLOSED: ice/snow'] = {alert_type: 'closure', description: 'Parking area closed due to ice and/or snow.'}
+    options['CLOSED: flooding'] = {alert_type: 'closure', description: 'Parking area closed due to flooding.'}
+    options['CLOSED: storm debris'] = {alert_type: 'closure', description: 'Parking area closed due to storm debris.'}
+    options['CLOSED: weather'] = {alert_type: 'closure', description: 'Parking area closed due to weather.'}
+    options['OPEN: sledding'] = {alert_type: 'alert', description: 'Sledding hill currently open. Hours & contact info: http://fpdcc.com/sledding-coasting/'}
+    options['OPEN: snowmobile'] = {alert_type: 'alert', description: 'Snowmobile area currently open. Hours & contact info: http://fpdcc.com/snowmobiling/'}
+    return options
+  end
+
+  def self.poi_options_level2
+    options = {}
+    options['CLOSED: land management'] = {alert_type: 'closure', description: 'Closed for land management.'}
+    options['CLOSED: other'] = {alert_type: 'closure', description: ''}
+    options['marking hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being marked for removal in this area.'}
+    options['removing hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being removed in this area.'}
+    options['prescribed burn'] = {alert_type: 'alert', description: 'Prescribed burn in the area.'}
+    options['other alert'] = {alert_type: 'alert', description: ''}
+    return options
+  end
+
   def self.poi_closed_options
     options = ['ice and/or snow', 'flooding', 'storm debris', 'weather']
   end
