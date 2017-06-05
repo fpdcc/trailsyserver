@@ -18,7 +18,7 @@ class Pointsofinterest < ActiveRecord::Base
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
   scope :has_trail_access, -> { joins(:activities).where("activities.atype = 'trailhead'") }
-
+  scope :has_parking, -> { where("parking_info_id > 0") }
   scope :with_active_alerts, -> { references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
   scope :no_active_alerts, -> { references(:alerts).where(
     "pointsofinterests.poi_info_id NOT IN (
