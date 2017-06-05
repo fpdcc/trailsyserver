@@ -110,9 +110,9 @@ class AlertsController < ApplicationController
   end
 
   def poi
-    @act = Pointsofinterest.has_parking.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
+    @act = current_user.level1? ? Pointsofinterest.has_parking.with_current_or_future_alerts.ransack(params[:q]) : Pointsofinterest.with_current_or_future_alerts.ransack(params[:q])
     query = ""
-    @q = Pointsofinterest.has_parking.no_current_or_future_alerts.ransack(params[:q])
+    @q = current_user.level1? ? Pointsofinterest.has_parking.no_current_or_future_alerts.ransack(params[:q]) : Pointsofinterest.no_current_or_future_alerts.ransack(params[:q])
     #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
     @pointsofinterests_active = @act.result.includes(:alerts)
     @pointsofinterests = @q.result.paginate(page: params[:page])
