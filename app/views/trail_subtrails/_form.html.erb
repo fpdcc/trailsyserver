@@ -1,0 +1,17 @@
+<%= form_for(@trail_subtrail) do |f| %>
+  <% if @trail_subtrail.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trail_subtrail.errors.count, "error") %> prohibited this trail_subtrail from being saved:</h2>
+
+      <ul>
+      <% @trail_subtrail.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
