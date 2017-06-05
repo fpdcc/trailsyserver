@@ -1,4 +1,5 @@
 Trailsyserver::Application.routes.draw do
+  resources :trail_subtrails
   resources :trail_systems
   get 'dashboard/index'
 

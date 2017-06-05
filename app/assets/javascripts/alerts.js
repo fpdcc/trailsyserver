@@ -11,6 +11,7 @@ $(document).on('page:load ready', function () {
     var itemType = $(this).attr('data-alertable_type')
     console.log("itemId, itemType: " + itemId + ", " + itemType)
     var formName = "#form-new-" + itemId
+    console.log("formName = " + formName)
     $(formName).toggle();
   });
 

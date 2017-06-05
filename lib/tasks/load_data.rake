@@ -6,7 +6,7 @@ require 'rgeo-geojson'
 namespace :load do
   #task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
+  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trail_subtrails, :trails_descs, :picnicgroves, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
@@ -297,6 +297,20 @@ namespace :load do
       parsed_items = TrailSystem.parse_csv(input_file_name)
       parsed_items.each do |item|
         p "#{item.trail_subsystem}: trail_subsystem added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+  end
+
+  task :trail_subtrails => :environment do
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trail_subtrails")
+    input_file_names = ["lib/data/trails.csv"]
+    input_file_names.each do |input_file_name|
+      parsed_items = TrailSubtrail.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trail_subsystem}: trail_subtrail added."
         if !item.save
           p item.errors.full_messages
         end

@@ -38,7 +38,7 @@ class AlertsController < ApplicationController
     if ends_at.present?
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
-    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully created."
+    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully created for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
 
     respond_to do |format|
       if @alert.with_user(current_user).save
@@ -83,9 +83,9 @@ class AlertsController < ApplicationController
     if ends_at.present?
       #@alert.ends_at = Date.strptime(ends_at, '%m/%d/%Y')
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
-
     end
-    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated."
+
+    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
 
     respond_to do |format|
       if @alert.with_user(current_user).update(alert_params)
@@ -110,9 +110,9 @@ class AlertsController < ApplicationController
   end
 
   def poi
-    @act = Pointsofinterest.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
+    @act = Pointsofinterest.has_trail_access.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
     query = ""
-    @q = Pointsofinterest.no_current_or_future_alerts.ransack(params[:q])
+    @q = Pointsofinterest.has_trail_access.no_current_or_future_alerts.ransack(params[:q])
     #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
     @pointsofinterests_active = @act.result.includes(:alerts)
     @pointsofinterests = @q.result.paginate(page: params[:page])
@@ -126,8 +126,8 @@ class AlertsController < ApplicationController
     query = ""
     @q = TrailSystem.no_current_or_future_alerts.ransack(params[:q])
     #@q.sorts = ['poi_info_id asc'] #if @q.sorts.empty?
-    @trails_active = @act.result.includes(:alerts)
-    @trails = @q.result.paginate(page: params[:page])
+    @trails_active = @act.result.includes(:alerts).includes(:trail_subtrails)
+    @trails = @q.result.includes(:trail_subtrails).paginate(page: params[:page])
     @alert = Alert.new
     @alert.alertings.build
     @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"
@@ -141,8 +141,7 @@ class AlertsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alert_params
-      params.require(:alert).permit(:alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom,
-        alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
+      params.require(:alert).permit(:alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom, pointsofinterest_ids: [], trail_subtrail_ids: [], trail_system_ids: [], alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
         )
     end
 end

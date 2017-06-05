@@ -17,6 +17,7 @@ class Pointsofinterest < ActiveRecord::Base
   include Alertable
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
+  scope :has_trail_access, -> { joins(:activities).where("activities.atype = 'trailhead'") }
 
   scope :with_active_alerts, -> { references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
   scope :no_active_alerts, -> { references(:alerts).where(
@@ -72,14 +73,6 @@ class Pointsofinterest < ActiveRecord::Base
 
   def self.maintenance_divs
     maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.sort
-  end
-
-  def has_trail_access
-    this_trailheads = self.activities.where(atype: "trailhead")
-    if this_trailheads.length > 0
-      return true
-    end
-    return false
   end
 
   def parking_connection_poi

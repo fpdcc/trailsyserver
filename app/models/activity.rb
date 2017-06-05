@@ -2,7 +2,7 @@ class Activity < ActiveRecord::Base
   self.primary_key = 'activities_id'
 
   #belongs_to :trailhead, foreign_key: "trailhead_id"
-  belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+  belongs_to :pointsofinterest, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_one :trails_info, foreign_key: :trail_info_id, primary_key: :trail_info_id
 
 

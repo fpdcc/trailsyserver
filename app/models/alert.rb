@@ -5,6 +5,8 @@ class Alert < ActiveRecord::Base
   	:source_type => 'TrailSystem'
 	has_many :pointsofinterests, :through => :alertings, :source => :alertable,
   	:source_type => 'Pointsofinterest'
+  has_many :trail_subtrails, :through => :alertings, :source => :alertable,
+    :source_type => 'TrailSubtrail'
   has_one :user, foreign_key: :id, primary_key: :created_by
 
   accepts_nested_attributes_for :alertings
@@ -23,6 +25,27 @@ class Alert < ActiveRecord::Base
   #   :scope => ["alerting.alertable_type", "alerting.alertable_id"], 
   #   :query_options => {:closure => nil}
   # }
+
+  def full_desc
+    new_desc = description
+    trail_systems = self.trail_systems
+    if trail_systems.count > 0
+      trail_systems.each do |trail_system|
+        new_desc += " on #{trail_system.name}"
+        subtrails = self.trail_subtrails.where(trail_subsystem: trail_system)
+        if subtrails.count > 0
+          new_desc += " - "
+          new_desc += subtrails.pluck(:subtrail_name).to_sentence
+        end
+      end
+      pois = self.pointsofinterests
+      if pois.count > 0
+        new_desc += " near "
+        new_desc += pois.pluck(:name).to_sentence
+      end
+    end
+    new_desc
+  end
 
   def self.poi_options_level1
     options = {}
