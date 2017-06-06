@@ -4,7 +4,7 @@
   </div>
   <div class="form-group" id="form-group-reason-<%= alertable_id %>">
     <%= f.label :reason, "Issue" %>
-    <%= f.select :reason, Alert.trail_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
+    <%= f.select :reason, poi_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id}-#{alert.id}", "data-alertable-id" => "#{alertable_id}", "data-alert-id" => "#{alert.id}"} %>
   </div>
   <div class="form-group" id="form-group-description-<%= alertable_id %> ">
     <%= f.label :description %><br>
