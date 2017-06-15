@@ -53,7 +53,7 @@ class TrailSubtrail < ActiveRecord::Base
 
     def self.parse_csv(file)
 	    parsed_items = []
-	    parsed_hashes = 
+	    parsed_hashes = {}
 	    subtrails_to_add = []
 	    this_model = TrailSubtrail.new
 	    if file.class == ActionDispatch::Http::UploadedFile
