@@ -70,27 +70,33 @@ class TrailSubtrail < ActiveRecord::Base
 	    end
 
 	    CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
-	      new_hash = {}     
+	      new_hash = {}   
 	      next if (row.to_s =~ /^source/)
-	      row.headers.each do |header|
-	        value = row[header]
-	        next if header == "id"
-	        unless value.nil?
-	          value = value.squish
-	          if value.to_s.downcase == "yes" || value == "Y" || value == "t"
-	            value = "y"
-	          end
-	          if value.to_s.downcase == "no" || value == "N" || value == "f"
-	            value = "n"
-	          end
-	        end
-	        # next if header == "source"
-	        if this_model.attributes.has_key? header
-	          new_hash[header] = value
-	        else
-              #p "Field not in database: #{header}"
-	        end
-	      end
+	      new_hash['trail_subsystem'] = row['trail_subsystem']
+	      new_hash['trail_color'] = row['trail_color']
+	      new_hash['trail_type'] = row['trail_type']
+	      new_hash['segment_type'] = row['segment_type']
+	      new_hash['direction'] = row['direction']
+	      new_hash['off_fpdcc'] = row['off_fpdcc']
+	      # row.headers.each do |header|
+	      #   value = row[header]
+	      #   next if header == "id"
+	      #   unless value.nil?
+	      #     value = value.squish
+	      #     if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+	      #       value = "y"
+	      #     end
+	      #     if value.to_s.downcase == "no" || value == "N" || value == "f"
+	      #       value = "n"
+	      #     end
+	      #   end
+	      #   # next if header == "source"
+	      #   if this_model.attributes.has_key? header
+	      #     new_hash[header] = value
+	      #   else
+       #        #p "Field not in database: #{header}"
+	      #   end
+	      # end
 	      parsed_items.push new_hash
 	    end
 	    p "parsed_items count: #{parsed_items.count}"
