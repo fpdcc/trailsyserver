@@ -22,7 +22,7 @@
       <%= f.collection_check_boxes(:trail_subtrail_ids, alertable.trail_subtrails, :id, :subtrail_name) do |b| %>
         <div class="checkbox col-md-6">
           <%= b.label do %>
-            <%=b.check_box + b.text%>
+            <%=b.check_box + b.text %>
           <%end%>
         </div>
       <% end %>
@@ -34,20 +34,20 @@
     <%= f.collection_check_boxes(:pointsofinterest_ids, alertable.pointsofinterests, :id, :name) do |b| %>
         <div class="checkbox col-md-6">
           <%= b.label do %>
-            <%=b.check_box + b.text%>
+            <%=b.check_box + b.text %>
           <%end%>
         </div>
     <% end %>
     </div>
   </div>
-  <div class="form-group">
+  <div class=" form-group input-group input-daterange">
     <%= f.label :starts_at, "Start Date" %>
     <%= f.date_select :starts_at, class: "form-control" %>
-  </div>
-  <div class="form-group">
+    <div class="input-group-addon">to</div>
     <%= f.label :ends_at, "End Date" %>
     <%= f.date_select :ends_at, class: "form-control" %>
   </div>
+
   <div class="form-group" id="form-group-description-<%= alertable.id.parameterize.underscore %> ">
     <%= f.label :description %><br>
     <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
