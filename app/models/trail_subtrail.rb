@@ -43,12 +43,13 @@ class TrailSubtrail < ActiveRecord::Base
           segment_name += ' ' + item
         end
       end
+      segment_name = segment_name.strip.titlecase
       if ( off_fpdcc === 'y' )
         segment_name += ' (Non-FPCC)'
       elsif direction
-        segment_name += ' (' + direction + ')'
+        segment_name += ' (' + direction.titlecase + ')'
       end 
-      self.subtrail_name = segment_name.strip.titlecase
+      self.subtrail_name = segment_name
     end
 
     def self.parse_csv(file)
@@ -77,7 +78,17 @@ class TrailSubtrail < ActiveRecord::Base
 	      new_hash['trail_type'] = row['trail_type']
 	      new_hash['segment_type'] = row['segment_type']
 	      new_hash['direction'] = row['direction']
-	      new_hash['off_fpdcc'] = row['off_fpdcc']
+	      value = row['off_fpdcc']
+	      unless value.nil?
+	          value = value.squish
+	          if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+	            value = "y"
+	          end
+	          if value.to_s.downcase == "no" || value == "N" || value == "f"
+	            value = "n"
+	          end
+	      end
+	      new_hash['off_fpdcc'] = value
 	      # row.headers.each do |header|
 	      #   value = row[header]
 	      #   next if header == "id"

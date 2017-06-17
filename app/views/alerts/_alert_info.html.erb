@@ -6,7 +6,7 @@
 	<% alertTypeName = "CLOSED" %>
 	<% deleteName = "Reopen" %>
 <% else %>
-	<% if !alert.user.level1? %>
+	<% if !alert.user.level1? && current_user.level1? %>
 		<% classType = classType + " reduced-vis" %>
 	<% end %>
 <% end %>
