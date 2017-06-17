@@ -79,6 +79,7 @@ gem 'aws-sdk'
 gem 'ransack'
 
 group :development, :development_fpcc do
+  gem 'sshkit', '~> 1.13.1'
   gem "capistrano", "~> 3.7"
   gem 'capistrano-rails', '~> 1.2'
   #gem 'capistrano-postgresql', '~> 4.2.0'
