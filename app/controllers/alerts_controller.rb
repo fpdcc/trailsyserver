@@ -104,7 +104,7 @@ class AlertsController < ApplicationController
   def destroy
     @alert.destroy
     respond_to do |format|
-      format.html { redirect_to :root, notice: 'Alert was successfully deleted.' }
+      format.html { redirect_to request.referrer, notice: 'Alert was successfully deleted.' }
       format.json { head :no_content }
     end
   end
