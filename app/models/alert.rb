@@ -17,6 +17,7 @@ class Alert < ActiveRecord::Base
   validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1 }
   validates :description, presence: true
+  validates :starts_at, presence: true
 
 	validates :link, format: { with: URI.regexp }, allow_blank: true
   validate :end_date_is_after_start_date
