@@ -19,9 +19,9 @@
             <% end %>
           <% end %>
           </td>
-    	    <td class="col-md-6">Current:<!--  <%= poi.alerts.current.count %> -->
-            <div>
+    	    <td class="col-md-6"><strong>Current:</strong><!--  <%= poi.alerts.current.count %> -->
             	<% if poi.alerts.current.count > 0 %>
+                <div>
   	          	<ul class='dashboard'>
   	          	<% poi.alerts.current.each do |alert| %>
                   <%= render partial: 'alert_info', locals: {alert: alert, alertable: poi, alertable_id: poi.id, alertable_type: alertable_type} %>
@@ -31,19 +31,26 @@
                     </div>
   	          	<% end %>
   	          	</ul>
+                </div>
+              <% else %>
+              none<br>
   	          <% end %>
-            </div>
-            Future:<!--  <%= poi.alerts.future.count %> -->
-            <div>
+            
+            <strong>Future:</strong><!--  <%= poi.alerts.future.count %> -->
+            
               <% if poi.alerts.future.count > 0 %>
+                <div>
                 <ul class='dashboard'>
                 <% poi.alerts.future.each do |alert| %>
                   <%= render partial: 'alert_info', locals: {alert: alert, alertable_id: poi.id, alertable: poi, alertable_type: alertable_type} %>
                 <% end %>
                 </ul>
+                </div>
+              <% else %>
+              none<br>
               <% end %>
             </div>
-            <button id="new-<%= poi.id.parameterize.underscore %>" data-alertable-id="<%= poi.id.parameterize.underscore %>" data-alertable_type="<%= alertable_type %>" class="new-button btn btn-info btn-sm pull-right"><%= @create_description %></button>
+            <button id="new-<%= poi.id.parameterize.underscore %>" data-alertable-id="<%= poi.id.parameterize.underscore %>" data-alertable_type="<%= alertable_type %>" class="new-button btn btn-info btn-sm add-alert"><%= @create_description %></button>
     	    </td>
     	    <td id="form-<%= poi.id.parameterize.underscore %>" class="col-md-3">
             <div id="form-new-<%= poi.id.parameterize.underscore %>" class="form-new" style="display: none">

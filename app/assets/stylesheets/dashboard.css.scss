@@ -10,13 +10,32 @@
   display:block;
 }
 
-li.dashboard {padding:5px}
-ul.dashboard {padding-left: 20px}
+li.dashboard{line-height:1.9;padding:5px 15px;margin-bottom:10px}
+ul.dashboard {padding-left: 0;list-style-type: none;}
 
-form#pointsofinterest_search{padding:15px 30px}
+form#pointsofinterest_search{padding:15px;background:#CCC;margin-bottom:25px;font-size:15px;color:#000}
+form#trail_system_search{padding:15px;margin-bottom:25px;background:#CCC;font-size:15px;color:#000}
 .form-new{padding:15px}
 .form-inline .form-control{display:inline-block;width:auto;vertical-align:middle;margin-right:30px}
+
+
+.btn{
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+}
+.btn-success{color:#fff;background-color:#388038;border-color:#2e692e}
+.btn-info{color:#fff;background-color:#207f9c;border-color:#1b6a82}
+.btn-primary{color:#fff;background-color:#275c8a;border-color:#1a3c5a}
+.btn-danger{color:#fff;background-color:#d33a35;border-color:#bf2f2a}
+
 a.btn.btn-xs.btn-primary:visited,a.btn.btn-xs.btn-danger:visited{color:#fff}
 h1,.h1,h2,.h2,h3,.h3{margin-top:20px;margin-bottom:40px}
 .reduced-vis{opacity:0.4}
 
+td, th {padding:5px;vertical-align:top}
+.bg-warning{border-left: 3px solid #f0ad4e;background:#fcf8e3;}
+.add-alert.btn{margin-top:15px}
+
+.container-main {margin-top:0;width: 98%;}
+.navbar-default .navbar-nav>li>a{color:#545454}
