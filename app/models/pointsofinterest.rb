@@ -1,6 +1,6 @@
 class Pointsofinterest < ActiveRecord::Base
   self.primary_key = 'poi_info_id'
-  #has_one :poi_desc, foreign_key: :poi_info_id, primary_key: :poi_info_id
+  has_one :poi_desc, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :activities, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :trails_infos, through: :activities
   has_many :picnicgroves, foreign_key: :poi_info_id, primary_key: :poi_info_id
