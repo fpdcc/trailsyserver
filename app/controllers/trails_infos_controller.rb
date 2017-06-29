@@ -20,7 +20,7 @@ class TrailsInfosController < ApplicationController
         #@trailheads = cached_all_by_name
         #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
         
-        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
+        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:direct_trail_id, :trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
 
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
