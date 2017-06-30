@@ -25,10 +25,6 @@
   	          	<ul class='dashboard'>
   	          	<% poi.alerts.current.each do |alert| %>
                   <%= render partial: 'alert_info', locals: {alert: alert, alertable: poi, alertable_id: poi.id, alertable_type: alertable_type} %>
-                  <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
-                    <h4>Edit Alert</h4>
-                    <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
-                  </div>
   	          	<% end %>
   	          	</ul>
                 </div>
@@ -43,10 +39,6 @@
                 <ul class='dashboard'>
                 <% poi.alerts.future.each do |alert| %>
                   <%= render partial: 'alert_info', locals: {alert: alert, alertable_id: poi.id, alertable: poi, alertable_type: alertable_type} %>
-                  <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
-                    <h4>Edit Alert</h4>
-                    <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
-                  </div>
                 <% end %>
                 </ul>
                 </div>
