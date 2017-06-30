@@ -5,21 +5,21 @@
 <!--         <% if current_user.admin? %><th>#</th><% end %>
  -->        <th>Name</th>
         <th>Active Alerts</th>
-        <th>Form</th>
-      </tr>
+<!--         <th>Form</th>
+ -->      </tr>
     </thead>
     <tbody>
     	<% items.each_with_index do |poi, index| %>
     	  <tr class="">
     	   <!--  <% if current_user.admin? %><td><%= poi.id.parameterize.underscore %></td><% end %> -->
           <td><strong><%= poi.name %></strong>
-          <% if poi.try(:picnicgroves) %>
-            <% if poi.picnicgroves.pluck(:grove).count > 0 %>
-              <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+            <% if poi.try(:picnicgroves) %>
+              <% if poi.picnicgroves.pluck(:grove).count > 0 %>
+                <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+              <% end %>
             <% end %>
-          <% end %>
           </td>
-    	    <td class="col-md-6"><strong>Current:</strong><!--  <%= poi.alerts.current.count %> -->
+    	    <td class="col-md-6"><strong>Current:</strong>
             	<% if poi.alerts.current.count > 0 %>
                 <div>
   	          	<ul class='dashboard'>
@@ -28,12 +28,12 @@
                   <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
                     <h4>Edit Alert</h4>
                     <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
-                    </div>
+                  </div>
   	          	<% end %>
   	          	</ul>
                 </div>
               <% else %>
-              none<br>
+                none<br>
   	          <% end %>
             
             <strong>Future:</strong><!--  <%= poi.alerts.future.count %> -->
@@ -43,33 +43,23 @@
                 <ul class='dashboard'>
                 <% poi.alerts.future.each do |alert| %>
                   <%= render partial: 'alert_info', locals: {alert: alert, alertable_id: poi.id, alertable: poi, alertable_type: alertable_type} %>
+                  <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
+                    <h4>Edit Alert</h4>
+                    <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
+                  </div>
                 <% end %>
                 </ul>
                 </div>
               <% else %>
-              none<br>
+                none<br>
               <% end %>
             </div>
             <button id="new-<%= poi.id.parameterize.underscore %>" data-alertable-id="<%= poi.id.parameterize.underscore %>" data-alertable_type="<%= alertable_type %>" class="new-button btn btn-info btn-sm add-alert"><%= @create_description %></button>
-    	    </td>
-    	    <td id="form-<%= poi.id.parameterize.underscore %>" class="col-md-3">
             <div id="form-new-<%= poi.id.parameterize.underscore %>" class="form-new" style="display: none">
               <h3>Create Alert</h3>
-            	<%= render partial: "form_embed_#{alertable_type}", locals: {alert: @alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "create"}} %>
+              <%= render partial: "form_embed_#{alertable_type}", locals: {alert: @alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "create"}} %>
             </div>
-            <% poi.alerts.current.each do |alert| %>
-              <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
-                <h3>Edit Alert</h3>
-                <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
-              </div>
-            <% end %>
-            <% poi.alerts.future.each do |alert| %>
-              <div id="form-edit-<%= poi.id.parameterize.underscore %>-<%= alert.id %>" class="form-edit" style="display: none">
-                <h3>Edit Alert</h3>
-                <%= render partial: "form_embed_#{alertable_type}", locals: {alert: alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "update"}} %>
-              </div>
-            <% end %>
-          </td>
+    	    </td>
     	  </tr>
     	<% end %>
      

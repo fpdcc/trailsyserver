@@ -1,3 +1,4 @@
+<% poi_options = current_user.level1? ? Alert.poi_options_level1 : (Alert.poi_options_level1.merge(Alert.poi_options_level2)) %>
 <%= form_for(alert, html: {class: "form-horizontal"}) do |f| %>
   <% if alert.errors.any? %>
     <div id="error_explanation">
@@ -10,12 +11,26 @@
       </ul>
     </div>
   <% end %>
-  <%= render 'form_part1', {f: f, alertable_id: alertable.id, alert: alert} %>
   <div class="form-group">
-    <%= f.fields_for :alertings do |alerting| %>
-      <%= alerting.hidden_field :alertable_type, value: alertable_type %>
-      <%= alerting.hidden_field :alertable_id, value: alertable.id %>
-    <% end %>
+    <%= f.hidden_field :alert_type, id: "field-alert-type-#{alertable.id}-#{alert.id}" %>
+  </div>
+  <div class="form-group" id="form-group-reason-<%= alertable.id %>">
+    <%= f.label :reason, "Issue" %>
+    <%= f.select :reason, poi_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable.id}-#{alert.id}", "data-alertable-id" => "#{alertable.id}", "data-alert-id" => "#{alert.id}"} %>
+  </div>
+  <div class="form-group" id="form-group-description-<%= alertable.id %> ">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable.id}-#{alert.id}", "data-alertable-id" => "#{alertable.id}", "data-alert-id" => "#{alert.id}" %>
+  </div>
+  <div class=" form-group input-group input-daterange">
+    <%= f.label :starts_at, "Start Date" %>
+    <%= f.date_select :starts_at, class: "form-control" %>
+    <div class="input-group-addon">to</div>
+    <%= f.label :ends_at, "End Date" %>
+    <%= f.date_select :ends_at, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.hidden_field :pointsofinterest_ids, multiple: true, value: alertable.id %>
   </div>
   <div class="form-group">
     <%= f.submit :class => "btn btn-success", :type => "submit" %>
