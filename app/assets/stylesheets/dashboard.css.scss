@@ -35,7 +35,10 @@ h1,.h1,h2,.h2,h3,.h3{margin-top:20px;margin-bottom:40px}
 
 td, th {padding:5px;vertical-align:top}
 .bg-warning{border-left: 3px solid #f0ad4e;background:#fcf8e3;}
+.bg-danger {background-color: #f2dede; border-left: 3px solid #d33a35}
 .add-alert.btn{margin-top:15px}
 
 .container-main {margin-top:0;width: 98%;}
 .navbar-default .navbar-nav>li>a{color:#545454}
+
+.input-group-addon{background:none;border:none}
