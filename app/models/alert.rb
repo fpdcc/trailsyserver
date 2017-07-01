@@ -13,6 +13,7 @@ class Alert < ActiveRecord::Base
   attr_accessor :latitude, :longitude
   #attr_accessor :alertings_attributes
   #attr_accessor :alertable_ids, :alertable_type, :starts_at, :ends_at
+  attr_accessor :div_id
 
   validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1 }

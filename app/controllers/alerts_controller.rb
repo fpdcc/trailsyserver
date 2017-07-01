@@ -31,6 +31,7 @@ class AlertsController < ApplicationController
   # POST /alerts.json
 
   def create
+    @error_div_id = alert_params.delete(:div_id)
     @alert = Alert.new(alert_params)
     starts_at = alert_params['starts_at']
     ends_at = alert_params['ends_at']
@@ -41,17 +42,19 @@ class AlertsController < ApplicationController
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
     redirect_path = request.referrer
-    
+    @result = @alert.with_user(current_user).save
     respond_to do |format|
-      if @alert.with_user(current_user).save
+      if @result
         logger.info "New alert saved: #{@alert}"
-        notice_message = "Request.path was #{request.path} Request.referrer = #{request.referrer} #{@alert.alert_type.humanize}: #{@alert.description} was successfully created for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
+        notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully created for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
         format.html { redirect_to redirect_path , notice: notice_message }
         format.json { render action: 'show', status: :created, location: @alert }
+        format.js {flash[:notice] = notice_message}
       else
         logger.info "Problem saving new alert: #{@alert}"
         format.html { render action: 'new' }
         format.json { render json: @alert.errors, status: :unprocessable_entity }
+        format.js {}
       end
     end
     
@@ -77,6 +80,7 @@ class AlertsController < ApplicationController
   def update
     logger.info "params = #{params}"
     logger.info "alert_params = #{alert_params}"
+    @error_div_id = alert_params.delete(:div_id)
     starts_at = alert_params['starts_at']
     ends_at = alert_params['ends_at']
     if starts_at.present?
@@ -88,16 +92,20 @@ class AlertsController < ApplicationController
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
 
-    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
-
+    #notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
+    @result = @alert.with_user(current_user).update(alert_params)
     respond_to do |format|
-      if @alert.with_user(current_user).update(alert_params)
+      if @result
+        notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
+
         format.html { redirect_to request.referrer , notice: notice_message }
         #format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
         format.json { head :no_content }
+        format.js {flash[:notice] = notice_message}
       else
         format.html { render action: 'edit' }
         format.json { render json: @alert.errors, status: :unprocessable_entity }
+        format.js {}
       end
     end
   end
@@ -144,7 +152,7 @@ class AlertsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alert_params
-      params.require(:alert).permit(:alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom, pointsofinterest_ids: [], trail_subtrail_ids: [], trail_system_ids: [], alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
+      params.require(:alert).permit(:div_id, :alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom, pointsofinterest_ids: [], trail_subtrail_ids: [], trail_system_ids: [], alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
         )
     end
 end

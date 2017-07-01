@@ -1,16 +1,6 @@
 <% poi_options = current_user.level1? ? Alert.poi_options_level1 : (Alert.poi_options_level1.merge(Alert.poi_options_level2)) %>
-<%= form_for(alert, html: {class: "form-horizontal"}) do |f| %>
-  <% if alert.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
-
-      <ul>
-      <% alert.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_for(alert, html: {class: "form-horizontal", remote: :true}) do |f| %>
+  <div id="error-div-<%= alertable.id %>-<%= alert.id %>" class='error-div'></div>
   <div class="form-group">
     <%= f.hidden_field :alert_type, id: "field-alert-type-#{alertable.id}-#{alert.id}" %>
   </div>
@@ -31,6 +21,7 @@
   </div>
   <div class="form-group">
     <%= f.hidden_field :pointsofinterest_ids, multiple: true, value: alertable.id %>
+    <%= f.hidden_field :div_id, id: "field-div_id-#{alertable.id}-#{alert.id}", value: "error-div-#{alertable.id}-#{alert.id}" %>
   </div>
   <div class="form-group">
     <%= f.submit :class => "btn btn-success", :type => "submit" %>

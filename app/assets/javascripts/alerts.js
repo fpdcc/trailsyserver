@@ -30,6 +30,7 @@ $(document).on('page:load ready', function () {
   $('.cancel-button').on('click', function () {
     $('.form-new').hide();
     $('.form-edit').hide();
+    $('.error-div').html("");
   });
 
   $('.alert_alert_type').on('change', function () {
