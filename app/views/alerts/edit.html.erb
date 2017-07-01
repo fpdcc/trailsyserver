@@ -1,6 +1,7 @@
 <% alertable_id = "" %>
 <h1>Editing <%= @alert.alert_type.humanize %></h1>
+<%= request.referrer %>
 
-<%= render 'form', alertable_id: alertable_id, alert: @alert %>
+
 <br>
 <%= link_to 'Back', :back, class: "btn btn-default" %>

@@ -18,6 +18,8 @@ class AlertsController < ApplicationController
   def new
     @alert = Alert.new
     @alert.alertings.build
+    referrer = request.referrer
+    @form_type = referrer.include?('poi')? 'Pointsofinterest' : 'TrailSystem'
   end
 
   # GET /alerts/1/edit
@@ -38,12 +40,13 @@ class AlertsController < ApplicationController
     if ends_at.present?
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
-    notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully created for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
-
+    redirect_path = request.referrer
+    
     respond_to do |format|
       if @alert.with_user(current_user).save
         logger.info "New alert saved: #{@alert}"
-        format.html { redirect_to request.referrer , notice: notice_message }
+        notice_message = "Request.path was #{request.path} Request.referrer = #{request.referrer} #{@alert.alert_type.humanize}: #{@alert.description} was successfully created for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
+        format.html { redirect_to redirect_path , notice: notice_message }
         format.json { render action: 'show', status: :created, location: @alert }
       else
         logger.info "Problem saving new alert: #{@alert}"
