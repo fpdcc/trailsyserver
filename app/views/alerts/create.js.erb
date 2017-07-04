@@ -3,7 +3,7 @@
 <% if @result %>
   <% Rails.logger.warn("In Create_result if statement") %>
   //console.log("In Create_result if statement");
-  window.location.reload();
+  location.reload();
   $("#notice").html("<%= flash[:notice] %>");
 <% else %>
   //console.log("In Create_result else statement");
