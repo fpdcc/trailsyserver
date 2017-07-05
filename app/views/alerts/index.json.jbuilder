@@ -10,6 +10,6 @@ json.array!(@alerts) do |alert|
   json.trail_systems alert.trail_systems.pluck(:trail_subsystem)
 
   # Nested pointsofinterest
-  json.pointsofinterests alert.pointsofinterests.pluck(:id)
+  json.pointsofinterests alert.pointsofinterests.ids
   
 end
