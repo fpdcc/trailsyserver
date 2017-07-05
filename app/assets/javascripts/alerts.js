@@ -33,6 +33,10 @@ $(document).on('page:load ready', function () {
     $('.error-div').html("");
   });
 
+  $('.submit-button').on('click', function () {
+    $('.error-div').html("");
+  });
+
   $('.alert_alert_type').on('change', function () {
     var itemId = $(this).attr('dataid');
     var value = $(this).val();

@@ -28,7 +28,7 @@
     <%= f.hidden_field :div_id, id: "field-div_id-#{alertable.id}-#{alert.id}", value: "error-div-#{alertable.id}-#{alert.id}" %>
   </div>
   <div class="form-group">
-    <%= f.submit :class => "btn btn-success", :type => "submit" %>
+    <%= f.submit :class => "btn btn-success submit-button", :type => "submit" %>
     <%= button_tag "Cancel", type: :reset, class: "btn btn-default cancel-button" %>
   </div>
 <% end %>
