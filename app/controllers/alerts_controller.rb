@@ -5,8 +5,15 @@ class AlertsController < ApplicationController
   # GET /alerts
   # GET /alerts.json
   def index
-    authenticate_user!
-    @alerts = Alert.all
+    respond_to do |format|
+      format.html do 
+        authenticate_user!
+        @alerts = Alert.all
+      end
+      format.json do
+        @alerts = Alert.current
+      end
+    end   
   end
 
   # GET /alerts/1

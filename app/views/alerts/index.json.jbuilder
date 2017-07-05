@@ -1,5 +1,10 @@
 json.array!(@alerts) do |alert|
-  json.extract! alert, :id, :alert_id, :alert_type, :description, :link, :created_by
+  json.extract! alert, :id, :alert_type, :link
+
+  json.description alert.full_desc
+
+  json.start_date alert.starts_at.try(:strftime, "%m/%d/%Y")
+  json.end_date alert.ends_at.try(:strftime, "%m/%d/%Y")
 
   # Nested trail_system
   json.trail_systems alert.trail_systems do |trail_system|
@@ -7,9 +12,10 @@ json.array!(@alerts) do |alert|
   end
 
   # Nested trail_subtrail
-  json.trail_subtrails alert.trail_subtrails do |trail_subtrail|
-    json.name trail_subtrail.subtrail_name
-  end
+  # json.trail_subtrails alert.trail_subtrails do |trail_subtrail|
+  #   json.name trail_subtrail.subtrail_name
+  # end
+
   # Nested pointsofinterest
   json.pointsofinterests alert.pointsofinterests do |pointsofinterest|
     json.id pointsofinterest.id

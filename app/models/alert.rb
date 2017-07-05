@@ -43,10 +43,7 @@ class Alert < ActiveRecord::Base
         new_desc += pois.pluck(:name).to_sentence
       end
     end
-    
-    if link.present?
-      new_desc += " #{link}"
-    end
+
     new_desc
   end
 
