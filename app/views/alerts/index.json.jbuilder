@@ -7,19 +7,9 @@ json.array!(@alerts) do |alert|
   json.end_date alert.ends_at.try(:strftime, "%m/%d/%Y")
 
   # Nested trail_system
-  json.trail_systems alert.trail_systems do |trail_system|
-    json.name trail_system.name
-  end
-
-  # Nested trail_subtrail
-  # json.trail_subtrails alert.trail_subtrails do |trail_subtrail|
-  #   json.name trail_subtrail.subtrail_name
-  # end
+  json.trail_systems alert.trail_systems.pluck(:trail_subsystem)
 
   # Nested pointsofinterest
-  json.pointsofinterests alert.pointsofinterests do |pointsofinterest|
-    json.id pointsofinterest.id
-    json.name pointsofinterest.name
-  end
-  #json.url alert_url(alert, format: :json)
+  json.pointsofinterests alert.pointsofinterests.pluck(:id)
+  
 end
