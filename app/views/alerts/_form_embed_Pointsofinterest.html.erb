@@ -12,10 +12,12 @@
     <%= f.label :description %><br>
     <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable.id}-#{alert.id}", "data-alertable-id" => "#{alertable.id}", "data-alert-id" => "#{alert.id}" %>
   </div>
-  <div class="form-group" id="form-group-link-<%= alertable.id.parameterize.underscore %> ">
-    <%= f.label :link %><br>
-    <%= f.text_field :link, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
-  </div>  
+  <% if !current_user.level1? %>
+    <div class="form-group" id="form-group-link-<%= alertable.id.parameterize.underscore %> ">
+      <%= f.label :link %><br>
+      <%= f.text_field :link, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
+    </div> 
+  <% end %> 
   <div class=" form-group input-group input-daterange">
     <%= f.label :starts_at, "Start Date" %>
     <%= f.date_select :starts_at, class: "form-control" %>
