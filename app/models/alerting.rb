@@ -18,6 +18,7 @@ class Alerting < ActiveRecord::Base
     def alertable_type_all?
       alertable_type == "all"
     end
+
   	# validates :alert_id, presence: true
   	# validates :starts_at, presence: true
   	# validate :end_date_is_after_start_date

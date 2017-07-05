@@ -14,6 +14,7 @@ class Alert < ActiveRecord::Base
   #attr_accessor :alertings_attributes
   #attr_accessor :alertable_ids, :alertable_type, :starts_at, :ends_at
   attr_accessor :div_id
+  attr_accessor :poi
 
   validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1 }
@@ -22,11 +23,7 @@ class Alert < ActiveRecord::Base
 
 	validates :link, format: { with: URI.regexp }, allow_blank: true
   validate :end_date_is_after_start_date
-
-  # validates :starts_at, :ends_at, if: :closure?, :overlap => {
-  #   :scope => ["alerting.alertable_type", "alerting.alertable_id"], 
-  #   :query_options => {:closure => nil}
-  # }
+  validate :no_overlap_closures, if: :closure?
 
   def full_desc
     new_desc = description
@@ -106,6 +103,15 @@ class Alert < ActiveRecord::Base
     if ends_at < starts_at
       errors.add(:ends_at, "cannot be before the start date") 
     end 
+  end
+
+  def no_overlap_closures
+    error_text = ''
+    self.pointsofinterests.each do |poi|
+      if poi.closed?
+        errors.add(:poi, "#{poi.name} is already closed.")
+      end
+    end
   end
 
   default_scope { includes(:user).includes(:alertings) }
