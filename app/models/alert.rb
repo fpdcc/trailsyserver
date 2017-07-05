@@ -37,11 +37,14 @@ class Alert < ActiveRecord::Base
           new_desc += subtrails.pluck(:subtrail_name).to_sentence
         end
       end
-      pois = self.pointsofinterests
-      if pois.count > 0
-        new_desc += " near "
-        new_desc += pois.pluck(:name).to_sentence
-      end
+    end
+    pois = self.pointsofinterests
+    if pois.count > 0
+      new_desc += " near "
+      new_desc += pois.pluck(:name).to_sentence
+    end
+    if link.present?
+      new_desc += " #{link}"
     end
     new_desc
   end
