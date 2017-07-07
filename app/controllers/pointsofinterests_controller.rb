@@ -182,6 +182,9 @@ class PointsofinterestsController < ApplicationController
       if (this_poi_desc.special_description?)
         json_attributes["special_description"] = this_poi_desc.special_description
       end
+      if (this_poi_desc.fish_map?)
+        json_attributes["fish_map"] = this_poi_desc.fish_map
+      end
     end
     if pointsofinterest.has_trail_access
       this_trails_info = pointsofinterest.trails_infos.limit(1)[0]
