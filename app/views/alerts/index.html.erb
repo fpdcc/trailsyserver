@@ -1,14 +1,20 @@
-
+<% if current_user.admin? %>
 <h1>Alerts</h1>
 
-<table>
+<table class="table-striped table-bordered table-hover col-md-12">
   <thead>
     <tr>
       <th>Alert</th>
-      <th>Alert type</th>
+      <th>Type</th>
+      <th>Start Date</th>
+      <th>End Date</th>
       <th>Description</th>
       <th>Link</th>
+      <th>POIs</th>
+      <th>Trails</th>
       <th>Created by</th>
+      <th>Created At</th>
+      <th>Updated At</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,11 +22,17 @@
   <tbody>
     <% @alerts.each do |alert| %>
       <tr>
-        <td><%= alert.alert_id %></td>
+        <td><%= alert.id %></td>
         <td><%= alert.alert_type %></td>
-        <td><%= alert.description %></td>
+        <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
+        <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
+        <td><%= alert.full_desc %></td>
         <td><%= alert.link %></td>
-        <td><%= alert.created_by %></td>
+        <td><%= alert.pointsofinterests.pluck(:name).to_sentence %></td>
+        <td><%= alert.trail_systems.pluck(:trail_subsystem).to_sentence %> - <%= alert.trail_subtrails.pluck(:subtrail_name).to_sentence %></td>
+        <td><% if alert.created_by.present? %><%= User.find(alert.created_by).email %><% end %></td>
+        <td><%= alert.created_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
+        <td><%= alert.updated_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
         <td><%= link_to 'Show', alert %></td>
         <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
         <td><%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -28,7 +40,9 @@
     <% end %>
   </tbody>
 </table>
-
+<%= will_paginate @alerts, renderer: BootstrapPagination::Rails %>
 <br>
 
 <%= link_to 'New Alert', new_alert_path %>
+
+<% end %>
