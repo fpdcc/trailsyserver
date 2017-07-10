@@ -25,6 +25,8 @@ class Alert < ActiveRecord::Base
   validate :end_date_is_after_start_date
   validate :no_overlap_closures, if: :closure?
 
+  self.per_page = 30
+
   def full_desc
     new_desc = description
     trail_systems = self.trail_systems
@@ -123,6 +125,10 @@ class Alert < ActiveRecord::Base
 
   scope :current, -> {
     where('starts_at <= ? and (ends_at >= ? or ends_at is null)', Time.now, Time.now)
+  }
+
+  scope :current_or_near_future, -> {
+    where('starts_at <= ? and (ends_at >= ? or ends_at is null)', 14.days.from_now, Time.now)
   }
 
   scope :future, -> {

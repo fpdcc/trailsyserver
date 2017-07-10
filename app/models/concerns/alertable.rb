@@ -14,7 +14,8 @@ module Alertable
   included do
     scope :closed, -> { joins(:alerts).merge(Alert.closure.current).group(:id)}
   	scope :with_current_alerts, -> { joins(:alerts).merge(Alert.current).group(:id) }
-  	scope :with_future_alerts, -> { joins(:alerts).merge(Alert.future).group(:id) }
+  	scope :with_current_or_near_future_alerts, -> { joins(:alerts).merge(Alert.current_or_near_future).group(:id) }
+    scope :with_future_alerts, -> { joins(:alerts).merge(Alert.future).group(:id) }
   	# scope :with_current_or_future_alerts,  -> { joins(:alerts).merge(Alert.current_or_future)}
   end
 

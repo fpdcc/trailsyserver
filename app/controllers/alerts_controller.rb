@@ -8,10 +8,10 @@ class AlertsController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
-        @alerts = Alert.all
+        @alerts = Alert.all.order(updated_at: :desc).paginate(page: params[:page])
       end
       format.json do
-        @alerts = Alert.current
+        @alerts = Alert.current_or_near_future
       end
     end   
   end
