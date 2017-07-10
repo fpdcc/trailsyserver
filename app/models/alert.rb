@@ -21,7 +21,8 @@ class Alert < ActiveRecord::Base
   validates :description, presence: true
   validates :starts_at, presence: true
 
-	validates :link, format: { with: URI.regexp }, allow_blank: true
+	validates :link, format: { with: URI.regexp,
+    message: "is invalid, please use this format: http://example.com" }, allow_blank: true
   validate :end_date_is_after_start_date
   validate :no_overlap_closures, if: :closure?
 
