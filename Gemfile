@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 
 gem 'actionpack-page_caching'
 
@@ -23,6 +23,7 @@ gem 'will_paginate-bootstrap'
 
 gem 'validates_overlap' # Date overlap
 
+gem 'rack-cors', :require => 'rack/cors'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -147,9 +148,6 @@ group :development, :development_fpcc, :test do
   gem 'bullet'
 end
 
-group :development, :development_aws, :development_fpcc, :production, :test, :staging do
-  gem 'rack-cors', :require => 'rack/cors'
-end
 
 group :production do
   #gem 'rails_12factor'
