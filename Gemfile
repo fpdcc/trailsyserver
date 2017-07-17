@@ -3,24 +3,27 @@ source 'https://rubygems.org'
 # ruby '2.0.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.8'
+gem 'rails', '~> 4.2.9'
 
 gem 'actionpack-page_caching'
-
 
 # Use postgresql as the database for Active Record
 gem 'pg'
 
 gem 'left_join'
+#gem 'active_record_union'
 
 # bootstrap
 gem "twitter-bootstrap-rails"
-gem 'bootstrap-datepicker-rails'
+gem 'momentjs-rails'
+gem 'bootstrap3-datetimepicker-rails'
+#gem 'bootstrap-datepicker-rails'
 gem 'will_paginate', '~> 3.1.1'
 gem 'will_paginate-bootstrap'
 
 gem 'validates_overlap' # Date overlap
 
+gem 'rack-cors', :require => 'rack/cors'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -35,8 +38,11 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails', '~> 4.1.1'
+gem 'jquery-rails', '~> 4.3.1'
 gem 'jquery-ui-rails', '~> 5.0.5'
+#gem 'bootstrap-editable-rails'
+#gem 'best_in_place', '~> 3.1.1'
+
 
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -71,8 +77,10 @@ gem 'devise'
 gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
+gem 'ransack'
 
 group :development, :development_fpcc do
+  gem 'sshkit', '~> 1.13.1'
   gem "capistrano", "~> 3.7"
   gem 'capistrano-rails', '~> 1.2'
   #gem 'capistrano-postgresql', '~> 4.2.0'
@@ -136,11 +144,9 @@ group :development, :development_fpcc, :test do
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem 'bullet'
 end
 
-group :development, :development_aws, :development_fpcc, :production, :test, :staging do
-  gem 'rack-cors', :require => 'rack/cors'
-end
 
 group :production do
   #gem 'rails_12factor'

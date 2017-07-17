@@ -1,0 +1,15 @@
+<% Rails.logger.warn("In the update.js.erb file") %>
+//console.log("In update.js erb file!");
+<% if @result %>
+  <% Rails.logger.warn("In @result if statement") %>
+  //console.log("In @result if statement");
+  window.location.reload();
+  $("#notice").html("<%= flash[:notice] %>");
+<% else %>
+  //console.log("In @result else statement");
+  <% Rails.logger.warn("In @result else statement") %>
+  //console.log("the div is: <%= @error_div_id %>")
+  $('#error-div').html("");
+
+  $("<%= escape_javascript(render partial: 'alerts/alert_error', locals: { alert: @alert } ) %>").prependTo("#<%= @error_div_id %>");
+<% end %>

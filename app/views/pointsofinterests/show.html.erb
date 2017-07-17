@@ -1,14 +1,39 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Pointsofinterest:</strong>
-  <%= @pointsofinterest.pointsofinterest_id %>
-</p>
+<div class="row">
+	<div class="col-md-5"><h1><%= @pointsofinterest.name %></h1></div>
+	<div class="col-md-2"><h1>ID# <%= @pointsofinterest.id %></h1></div>
+</div>
 
-<p>
-  <strong>Geom:</strong>
-  <%= @pointsofinterest.geom %>
-</p>
+<div class="row">
+	<div class="col-md-12">Web Address: <%= @pointsofinterest.web_street_addr %>, <%= @pointsofinterest.web_muni_addr %></div>
+	<div class="col-md-3">Maintenance Division: <%= @pointsofinterest.maintenance_div %></div>
+	<div class="col-md-6">Alternative Names: <%= @pointsofinterest.alt_name %>, <%= @pointsofinterest.alt2_name %></div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">Panel tags: <%= @pointsofinterest.tags[:panel].to_sentence %></div>
+	<div class="col-md-6">Search tags: <%= @pointsofinterest.tags[:search].to_sentence %></div>
+</div>
+<br>
+<div class="row">
+	<div class="col-md-12">Total Active Alerts: <%= @pointsofinterest.alerts.active.count %></div>
+</div>
+<% @pointsofinterest.alerts.active.each do |alert| %>
+	<div class="row">
+		<div class="col-md-12">Start: <%= alert.starts_at.strftime('%m/%d/%Y') %><% if alert.ends_at.present? %> End: <%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %>
+		</div>
+	</div>
+<% end %>
+
+<div class="row">
+<%= render partial: 'alerts/form_closure', locals: {alertable: @pointsofinterest, alertable_type: 'Pointsofinterest'} %>
+</div>
+<div class="row">
+<% if current_user.level2? or current_user.admin? %>
+<%= render partial: 'alerts/form_alert', locals: {alertable: @pointsofinterest, alertable_type: 'Pointsofinterest'} %>
+<% end %>
+</div>
 
 <%= link_to 'Edit', edit_pointsofinterest_path(@pointsofinterest) %> |
-<%= link_to 'Back', pointsofinterests_path %>
+<%= link_to 'Back', :back %>

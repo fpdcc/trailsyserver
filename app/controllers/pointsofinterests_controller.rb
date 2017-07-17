@@ -52,6 +52,8 @@ class PointsofinterestsController < ApplicationController
   # GET /pointsofinterests/1
   # GET /pointsofinterests/1.json
   def show
+    @alert = Alert.new
+    @alert.alertings.build
   end
 
   # GET /pointsofinterests/new
@@ -179,6 +181,9 @@ class PointsofinterestsController < ApplicationController
       end
       if (this_poi_desc.special_description?)
         json_attributes["special_description"] = this_poi_desc.special_description
+      end
+      if (this_poi_desc.fish_map?)
+        json_attributes["fish_map"] = this_poi_desc.fish_map
       end
     end
     if pointsofinterest.has_trail_access

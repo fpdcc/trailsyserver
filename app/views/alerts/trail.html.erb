@@ -1,13 +1,16 @@
 
-<p id="notice"><%= notice %></p>
+<h1>Trail Alerts & Closures</h1>
 
-<h1>Dashboard#trail</h1>
-
-<h2>Trails with Current or Future Alerts</h2>
+<%= search_form_for @q, url: request.path, html: { class: 'form-inline' } do |f| %>
+	<div class="form-group">
+	<%= f.label :trail_subsystem_cont, "Trail Subsystem Contains:" %>
+  	<%= f.search_field :trail_subsystem_cont, class: "form-control" %>
+  	</div>
+	<%= f.submit class: "btn btn-success" %>
+	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
+<% end %>
 <%= render partial: 'table', locals: {items: @trails_active, alertable_type: "TrailSystem"} %>
-
 <br>
-<h2>All Trail Subsystems</h2>
-
 <%= render partial: 'table', locals: {items: @trails, alertable_type: "TrailSystem"} %>
+
 <%= will_paginate @trails, renderer: BootstrapPagination::Rails %>

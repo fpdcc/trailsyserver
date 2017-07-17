@@ -1,16 +1,21 @@
 
-<p id="notice"><%= notice %></p>
+<h1>Location Alerts & Closures</h1>
 
-<h1>Alerts#poi</h1>
+<%= search_form_for @q, url: request.path, html: { class: 'form-inline' } do |f| %>
+	<div class="form-group">
+	<%= f.label :name_cont, "Name Contains:" %>
+  	<%= f.search_field :name_cont, class: "form-control" %>
+  	</div>
+  	<div class="form-group">
+  	<%= f.label :maintenance_div_cont, "Maintenance Division:" %>
+  	<%= f.select :maintenance_div_cont, Pointsofinterest.maintenance_divs, {include_blank: true}, {class: "form-control" } %>
+  	</div>
+	<%= f.submit class: "btn btn-success" %>
+	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
+<% end %>
 
-<h2>POIs with Current or Future Alerts</h2>
 <%= render partial: 'table', locals: {items: @pointsofinterests_active, alertable_type: "Pointsofinterest"} %>
-
 <br>
-<h2>All POIs</h2>
-<div class='span12'> 
-  
-</div>
 <%= render partial: 'table', locals: {items: @pointsofinterests, alertable_type: "Pointsofinterest"} %>
 
 <%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>

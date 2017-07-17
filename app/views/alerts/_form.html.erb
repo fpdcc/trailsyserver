@@ -10,43 +10,7 @@
       </ul>
     </div>
   <% end %>
-
-  <!-- <div class="field">
-    <%= f.label :alert_id %><br>
-    <%= f.number_field :alert_id %>
-  </div> -->
-  <div class="field">
-    <%= f.label :alert_type %><br>
-    <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :link %><br>
-    <%= f.text_field :link %>
-  </div>
-  <div class="field">
-    <%= f.label :starts_at, "Start Date" %>
-    <%= f.text_field :starts_at, :placeholder => "mm/dd/yyyy", :id => "starts_at", :class => 'text_field datepicker', :value => :starts_at.try(:strftime, "%m/%d/%Y") %>
-    <%= f.label :ends_at, "End Date" %>
-    <%= f.text_field :ends_at, :placeholder => "mm/dd/yyyy", :id => "ends_at", :class => 'text_field datepicker', :value => :ends_at.try(:strftime, "%m/%d/%Y") %>
-  </div>
-  <h2>POI or Trail System</h2>
-  <%= f.fields_for :alertings do |alerting| %>
-    <div class="alerting_fields">
-      <div class="field">
-        <%= alerting.label :alertable_type %><br>
-        <%= alerting.select :alertable_type, [['POI', 'Pointsofinterest'], ['Trail System', 'TrailSystem']] %>
-      </div>
-      <div class="field">
-        <%= alerting.label :alertable_id %><br>
-        <%= alerting.text_field :alertable_id %>
-      </div>
-    </div>
-  <% end %>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= render 'form_part1', f: f, alertable_id: alertable_id, alert: @alert %>
+  <%= render 'form_part2_standalone', f: f %>
+  <%= f.submit nil, class: "btn btn-primary" %>
 <% end %>

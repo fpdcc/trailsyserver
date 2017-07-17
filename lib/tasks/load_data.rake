@@ -5,7 +5,7 @@ require 'benchmark'
 namespace :load do
   #task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trails_descs, :picnicgroves, :expire_pages]
+  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trail_subtrails, :trails_descs, :picnicgroves, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
@@ -306,13 +306,32 @@ namespace :load do
     end
   end
 
+  task :trail_subtrails => :environment do
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE trail_subtrails")
+    input_file_names = ["lib/data/trails.csv"]
+    input_file_names.each do |input_file_name|
+      parsed_items = TrailSubtrail.parse_csv(input_file_name)
+      parsed_items.each do |item|
+        p "#{item.trail_subsystem}: trail_subtrail added."
+        if !item.save
+          p item.errors.full_messages
+        end
+      end
+    end
+    TrailSubtrail.generate_length_mi
+  end
+
+  task :subtrail_generate_mi => :environment do
+    TrailSubtrail.generate_length_mi
+  end
+
 
   task :trails_descs => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails_descs")
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/trails_desc.csv"]
+      input_file_names = ["lib/data/trail_desc.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailsDesc.parse_csv(input_file_name)

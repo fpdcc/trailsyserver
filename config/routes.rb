@@ -1,9 +1,8 @@
 Trailsyserver::Application.routes.draw do
   resources :updates
+  resources :trail_subtrails
   resources :trail_systems
-  get 'dashboard/poi'
-
-  get 'dashboard/trail'
+  get 'dashboard/index'
 
   resources :picnicgroves
   resources :pointsofinterests do 
@@ -11,7 +10,6 @@ Trailsyserver::Application.routes.draw do
   end
   resources :parking_entrances
   resources :poi_descs
-  resources :names
   resources :new_trails
   resources :trails_descs
   resources :trails_infos
@@ -62,9 +60,9 @@ Trailsyserver::Application.routes.draw do
 
   get '.well-known/status' => 'status#check'
 
-  get '/admin' => 'trails#index'
+  get '/admin' => 'alerts#poi'
   
-  root 'trails#index'
+  root to: 'alerts#poi'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

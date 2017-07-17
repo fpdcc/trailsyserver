@@ -2,8 +2,7 @@ class TrailsInfosController < ApplicationController
   before_action :set_trails_info, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
   before_action :authenticate_user!, except: [:index, :show]
-
-
+ 
   # GET /trails_infos
   # GET /trails_infos.json
   # def index
@@ -21,7 +20,7 @@ class TrailsInfosController < ApplicationController
         #@trailheads = cached_all_by_name
         #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
         
-        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
+        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:direct_trail_id, :trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
 
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
@@ -102,7 +101,7 @@ class TrailsInfosController < ApplicationController
   def create_json_attributes(trails_info)
     json_attributes = trails_info.attributes.except('created_at', 'updated_at', 'trail_info_id')
     json_attributes["subtrail_length_mi"] = trails_info.subtrail_length_mi
-    json_attributes["direct_trail_id"] = trails_info.direct_trail_id
+    #json_attributes["direct_trail_id"] = trails_info.direct_trail_id
     json_attributes
   end
 
@@ -112,6 +111,7 @@ class TrailsInfosController < ApplicationController
       expire_page("/trails_infos.json")
     end
 
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_trails_info
       @trails_info = TrailsInfo.find(params[:id])
@@ -119,6 +119,6 @@ class TrailsInfosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trails_info_params
-      params.require(:trails_info).permit(:segment_type, :direction, :trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
+      params.require(:trails_info).permit(:direct_trail_id, :direct_trail_name, :segment_type, :direction, :trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
     end
 end

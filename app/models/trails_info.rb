@@ -2,32 +2,73 @@ class TrailsInfo < ActiveRecord::Base
 	self.primary_key = 'trail_info_id'
 	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trail_info_id
 	has_one  :trails_desc, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+	has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+	has_many :subsystem_trails, class_name: "TrailsInfo",
+                          foreign_key: :trail_subsystem, primary_key: :trail_subsystem
 	
+	has_many :activities, foreign_key: :trail_info_id, primary_key: :trail_info_id
+	has_many :pointsofinterests, through: :activities
+
 	default_scope {where(web_trail: 'y')}
 	self.per_page = 15
-	#scope :unique_styles, -> {group("trail_subsystem"), order("trail_subsystem asc")}
 
-	#named_scope :small, :group => {:trail_subsystem, :trail_color}}
+	before_save :create_direct_trail_id
+  	before_save :create_direct_trail_name
 
-	def direct_trail_id
-		direct_trail_id = trail_subsystem + "-"
-		items_array = [trail_color, trail_type, segment_type, direction, off_fpdcc]
-		items_array.each do |item|
-		  	if item.present?
-				direct_trail_id = direct_trail_id + item
-			end
-			direct_trail_id = direct_trail_id + "-"
-		end
-		direct_trail_id
-	end
+  	def create_direct_trail_id
+  	  logger.info("starting create_direct_trail_id")
+      direct_trail_id = self.trail_subsystem + "-"
+      items_array = [self.trail_color, trail_type, segment_type, direction, off_fpdcc]
+      items_array.each do |item|
+          if item.present?
+          direct_trail_id = direct_trail_id + item
+        end
+        direct_trail_id = direct_trail_id + "-"
+      end
+      self.direct_trail_id = direct_trail_id
+    end
+
+    def create_direct_trail_name
+      logger.info("starting create_direct_trail_name")
+      segment_name = ""
+      items_array = [trail_color, trail_type, segment_type]
+      items_array.each do |item|
+          if item.present?
+          segment_name += ' ' + item
+        end
+      end
+      if ( off_fpdcc === 'y' )
+        segment_name += ' (Non-FPCC)'
+      elsif direction
+        segment_name += ' (' + direction + ')'
+      end 
+      self.direct_trail_name = segment_name.strip.titlecase
+    end
+
+
+	#scope :small, :group {:trail_subsystem, :trail_color}
 
 	# subtrail_length_mi finds the total length for all trail segments with the same trail_subsystem, trail_color, and trail_type. This is used to show length on detail panel trail segments.
 	def subtrail_length_mi
 		TrailsInfo.where(trail_subsystem: trail_subsystem, trail_color: trail_color, trail_type: trail_type, segment_type: segment_type, direction: direction, off_fpdcc: off_fpdcc).sum(:length_mi)
 	end
 
+	def subsystem_subtrails
+		self.subsystem_trails.sort_by(&:subtrail_length_mi).reverse.map(&:subtrail_name).uniq
+	end
+
+	# def subsystem_subtrails
+	# 	TrailsInfo.where(trail_subsystem: trail_subsystem).
+	# 	TrailsInfo.select(:trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, 
+
+	# end
+
 	def self.sorted_by_subtrail_length_mi
 	  TrailsInfo.all.sort_by(&:subtrail_length_mi).reverse
+	end
+
+	def maintenance_div
+		maintenance
 	end
 
 	def self.all_trail_subsystem_names

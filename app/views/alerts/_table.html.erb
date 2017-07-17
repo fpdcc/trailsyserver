@@ -1,48 +1,60 @@
-<table class="table-striped table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>POI #</th>
-      <th>Name</th>
-      <th>Active Alerts</th>
-      <th>New</th>
-      <!-- <th>End Date</th>
-      <th>Issue</th>
-      <th>Add Closure</th> -->
-    </tr>
-  </thead>
-  <tbody>
-  	<% items.each_with_index do |poi, index| %>
-  	  <tr>
-  	    <td><%= poi.id %></td>
-  	    <td><%= poi.name %></td>
-  	    <td>Total Alerts: <%= poi.alerts.active.count %>
-  	     <!--  <%= label_tag("toggle-#{poi.id}-alerts", "#{poi.alerts.count}") %>
-          <%= check_box_tag("toggle-#{poi.id}-alerts", poi.id) %> -->
-          <div>
-          	<% if poi.alerts.active.count > 0 %>
-	          	<ul class='dashboard'>
-	          	<% poi.alerts.active.each do |alert| %>
-					      <li class='dashboard'><%= alert.starts_at.strftime('%m/%d/%Y') %>-<% if alert.ends_at.present? %><%= alert.ends_at.strftime('%m/%d/%Y') %><% else %> No end date set.<% end %> <%= alert.alert_type %>: <%= alert.description %> <%= alert.link %>
-					       </li>
-	          	<% end %>
-	          	</ul>
-	          <% end %>
-          </div>
-  	    </td>
-  	    <td>
-          <%= label_tag("toggle-#{poi.id}-closure", "Add Closure", class: 'btn btn-primary') %>
-          <%= check_box_tag("toggle-#{poi.id}-closure", poi.id)%>
-          <div>
-          	<%= render partial: 'form_closure', locals: {alertable: poi, alertable_type: alertable_type} %>
-          </div>
-          <% if current_user.level2? or current_user.admin? %>
-            <%= label_tag("toggle-#{poi.id}-alert", "Add Alert", class: 'btn btn-info') %>
-            <%= check_box_tag("toggle-#{poi.id}-alert", poi.id) %>
-            <%= render partial: 'form_alert', locals: {alertable: poi, alertable_type: alertable_type} %>
-          <% end %>
-        </td>
-  	  </tr>
-  	<% end %>
-   
-  </tbody>
-</table>
+<div class="table-responsive">
+  <table class="table-striped table-bordered table-hover col-md-12">
+    <thead>
+      <tr class="">
+<!--         <% if current_user.admin? %><th>#</th><% end %>
+ -->        <th>Name</th>
+        <th>Active Alerts</th>
+<!--         <th>Form</th>
+ -->      </tr>
+    </thead>
+    <tbody>
+    	<% items.each_with_index do |poi, index| %>
+    	  <tr class="">
+    	   <!--  <% if current_user.admin? %><td><%= poi.id.parameterize.underscore %></td><% end %> -->
+          <td><strong><%= poi.name %></strong>
+            <% if poi.try(:picnicgroves) %>
+              <% if poi.picnicgroves.pluck(:grove).count > 0 %>
+                <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+              <% end %>
+            <% end %>
+          </td>
+    	    <td class="col-md-6"><strong>Current:</strong>
+            	<% if poi.alerts.current.count > 0 %>
+                <div>
+  	          	<ul class='dashboard'>
+  	          	<% poi.alerts.current.each do |alert| %>
+                  <%= render partial: 'alert_info', locals: {alert: alert, alertable: poi, alertable_id: poi.id, alertable_type: alertable_type} %>
+  	          	<% end %>
+  	          	</ul>
+                </div>
+              <% else %>
+                none<br>
+  	          <% end %>
+            
+            <strong>Future:</strong><!--  <%= poi.alerts.future.count %> -->
+            
+              <% if poi.alerts.future.count > 0 %>
+                <div>
+                <ul class='dashboard'>
+                <% poi.alerts.future.each do |alert| %>
+                  <%= render partial: 'alert_info', locals: {alert: alert, alertable_id: poi.id, alertable: poi, alertable_type: alertable_type} %>
+                <% end %>
+                </ul>
+                </div>
+              <% else %>
+                none<br>
+              <% end %>
+            </div>
+            <button id="new-<%= poi.id.parameterize.underscore %>" data-alertable-id="<%= poi.id.parameterize.underscore %>" data-alertable_type="<%= alertable_type %>" class="new-button btn btn-info btn-sm add-alert"><%= @create_description %></button>
+            <div id="form-new-<%= poi.id.parameterize.underscore %>" class="form-new" style="display: none">
+              <h3>Create Alert</h3>
+              <%= render partial: "form_embed_#{alertable_type}", locals: {alert: @alert, alertable: poi, alertable_type: alertable_type, path: {controller: "alerts", action: "create"}} %>
+            </div>
+    	    </td>
+    	  </tr>
+    	<% end %>
+     
+    </tbody>
+  </table>
+</div>
