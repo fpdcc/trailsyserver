@@ -230,6 +230,6 @@ class PointsofinterestsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pointsofinterest_params
-      params.require(:pointsofinterest).permit(:pointsofinterest_id, :geom)
+      params.require(:pointsofinterest).permit(:maintenance_div_nickname, :pointsofinterest_id, :geom)
     end
 end

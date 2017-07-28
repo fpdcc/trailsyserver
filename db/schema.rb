@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170707011619) do
+ActiveRecord::Schema.define(version: 20170728211052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -360,6 +360,7 @@ ActiveRecord::Schema.define(version: 20170707011619) do
     t.integer   "bathroom_portable_summer"
     t.integer   "bathroom_portable_ada"
     t.geography "web_map_geom",             limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.string    "maintenance_div_nickname"
   end
 
   add_index "pointsofinterests", ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true, using: :btree

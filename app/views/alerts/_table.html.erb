@@ -13,6 +13,9 @@
     	  <tr class="">
     	   <!--  <% if current_user.admin? %><td><%= poi.id.parameterize.underscore %></td><% end %> -->
           <td><strong><%= poi.name %></strong>
+            <% if poi.try(:maintenance_div_nickname) %>
+                <br>Nickname: <%= poi.maintenance_div_nickname %>
+              <% end %>
             <% if poi.try(:picnicgroves) %>
               <% if poi.picnicgroves.pluck(:grove).count > 0 %>
                 <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>

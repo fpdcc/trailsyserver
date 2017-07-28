@@ -3,8 +3,8 @@
 
 <%= search_form_for @q, url: request.path, html: { class: 'form-inline' } do |f| %>
 	<div class="form-group">
-	<%= f.label :name_cont, "Name Contains:" %>
-  	<%= f.search_field :name_cont, class: "form-control" %>
+	<%= f.label :name_or_maintenance_div_nickname_cont, "Name Contains:" %>
+  	<%= f.search_field :name_or_maintenance_div_nickname_cont, class: "form-control" %>
   	</div>
   	<div class="form-group">
   	<%= f.label :maintenance_div_cont, "Maintenance Division:" %>

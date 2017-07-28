@@ -10,7 +10,7 @@ class Pointsofinterest < ActiveRecord::Base
 
   accepts_nested_attributes_for :alerts
   accepts_nested_attributes_for :alertings
-
+  
   # has_many :active_alertings, -> { active }, :as => :alertable
   # has_many :alerts, :through => :active_alertings
 
