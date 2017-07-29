@@ -13,9 +13,6 @@ Trailsyserver::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -41,7 +38,19 @@ Trailsyserver::Application.configure do
 
   config.web_console.development_only = false
 
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  #config.action_mailer.default_url_options = { :host => 'localhost:8080' }
+  config.action_mailer.default_url_options = { host:  ENV['DEVELOPMENT_SERVER']}
+  config.action_mailer.smtp_settings = {
+    :address   => ENV["SMTP_HOST"],
+    :port      => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USERNAME"],
+    :password  => ENV["SMTP_PASSWORD"],
+    :ssl => true
+  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true # we want to know whats up
+  config.action_mailer.default :charset => "utf-8"
 
   config.after_initialize do
     Bullet.enable = true

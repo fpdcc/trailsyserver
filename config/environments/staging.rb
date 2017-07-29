@@ -80,6 +80,20 @@ Trailsyserver::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # Mailer settings
+  config.action_mailer.default_url_options = { host:  ENV['STAGING_SERVER']}
+  config.action_mailer.smtp_settings = {
+    :address   => ENV["SMTP_HOST"],
+    :port      => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USERNAME"],
+    :password  => ENV["SMTP_PASSWORD"],
+    :ssl => true
+  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true # we want to know whats up
+  config.action_mailer.default :charset => "utf-8"
+
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_credentials => {

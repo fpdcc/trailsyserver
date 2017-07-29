@@ -1,7 +1,7 @@
 <h1>Forgot your password?</h1>
 <div call='formContent'>
 	<p class='uploadDescription'>
-	Enter your email address and we'll send you a link to reset your password. We should also add email of admin for issues?
+	Enter your email address and we'll send you a link to reset your password. If you have problems contact <%= ENV['MAIN_CONTACT'] %>
 	</p>
 	<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
 	<%= devise_error_messages! %>
