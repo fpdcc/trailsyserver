@@ -51,6 +51,7 @@ module Trailsyserver
     end
     RGeo::ActiveRecord::GeometryMixin.set_json_generator(:geojson)
 
+    config.middleware.use Rack::Attack
     # config.middleware.use Rack::Cors do
     #   allow do
     #     origins '*'

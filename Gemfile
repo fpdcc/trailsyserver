@@ -78,6 +78,7 @@ gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
 gem 'ransack'
+gem 'rack-attack'
 
 group :development, :development_fpcc do
   gem 'sshkit', '~> 1.13.1'

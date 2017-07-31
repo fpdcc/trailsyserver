@@ -81,7 +81,9 @@ Trailsyserver::Application.configure do
   config.log_formatter = ::Logger::Formatter.new
 
   # Mailer settings
-  config.action_mailer.default_url_options = { host:  ENV['STAGING_SERVER']}
+  #config.action_mailer.default_url_options = { host:  ENV['STAGING_SERVER']}
+  config.action_mailer.default_url_options = { host: 'fpcc-staging.smartchicagoapps.org'}
+
   config.action_mailer.smtp_settings = {
     :address   => ENV["SMTP_HOST"],
     :port      => ENV["SMTP_PORT"],
