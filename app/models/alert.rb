@@ -54,6 +54,7 @@ class Alert < ActiveRecord::Base
     options = {}
     options['CLOSED: ice/snow'] = {alert_type: 'closure', description: 'Parking area closed due to ice and/or snow.'}
     options['CLOSED: flooding'] = {alert_type: 'closure', description: 'Parking area closed due to flooding.'}
+    options['CLOSED: Parking lot repair/repaving'] = {alert_type: 'closure', description: 'Parking area closed for repair/repaving.'}
     options['CLOSED: storm debris'] = {alert_type: 'closure', description: 'Parking area closed due to storm debris.'}
     options['CLOSED: weather'] = {alert_type: 'closure', description: 'Parking area closed due to weather.'}
     options['OPEN: sledding'] = {alert_type: 'alert', description: 'Sledding hill currently open. Hours & contact info: http://fpdcc.com/sledding-coasting/'}
