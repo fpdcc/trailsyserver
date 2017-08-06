@@ -66,6 +66,14 @@ class Pointsofinterest < ActiveRecord::Base
     end
   end
 
+  def map_id
+    self.id + '-' + self.name
+  end
+
+  def type
+    'poi'
+  end
+
   def trail_subsystems
     this_trails_infos = self.trails_infos
     trail_subsystems = this_trails_infos.pluck('trail_subsystem').uniq

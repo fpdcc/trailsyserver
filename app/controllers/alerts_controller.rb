@@ -1,6 +1,6 @@
 class AlertsController < ApplicationController
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :list]
 
   # GET /alerts
   # GET /alerts.json
@@ -16,6 +16,23 @@ class AlertsController < ApplicationController
     end   
   end
 
+  # GET /alerts_list.json
+  def list
+    respond_to do |format|
+      format.json do
+        features = []
+        @pointsofinterests = Pointsofinterest.with_current_or_near_future_alerts + TrailSystem.with_current_or_near_future_alerts
+        # @pointsofinterests.each do |pointsofinterest|
+        #   json_attributes = {}
+        #   json_attributes["id"] = pointsofinterest.poi_info_id
+        #   json_attributes["name"] = pointsofinterest.name
+        # end
+        #trail_systems = TrailSystem.with_current_or_future_alerts
+
+      end
+    end
+  end
+
   # GET /alerts/1
   # GET /alerts/1.json
   def show
@@ -26,7 +43,7 @@ class AlertsController < ApplicationController
     @alert = Alert.new
     @alert.alertings.build
     referrer = request.referrer
-    @form_type = referrer.include?('poi')? 'Pointsofinterest' : 'TrailSystem'
+    #@form_type = referrer.include?('poi')? 'Pointsofinterest' : 'TrailSystem'
   end
 
   # GET /alerts/1/edit

@@ -30,8 +30,16 @@ class TrailSystem < ActiveRecord::Base
   	self.trail_subsystem
   end
 
+  def type
+    'trail'
+  end
+
   def maintenance_div
   	self.trails_infos.pluck(:maintenance).uniq
+  end
+
+  def map_id
+    self.trail_subsystem
   end
 
   def subtrails
