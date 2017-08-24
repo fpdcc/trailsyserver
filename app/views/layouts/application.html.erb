@@ -19,6 +19,7 @@
           <%= menu_item "Trail Systems", trail_alerts_path %>
         <% end %>
         <% if current_user.admin? %>
+          <%= menu_item "Global Alerts", global_alerts_path %>
           <%= menu_item "All Alerts", alerts_path %>
           <%= drop_down "Trails" do %>
             <%= menu_item "Trails Geometry", new_trails_path %>

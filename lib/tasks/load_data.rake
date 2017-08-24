@@ -329,7 +329,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/trail_desc.csv"]
+      input_file_names = ["lib/data/trails_desc.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailsDesc.parse_csv(input_file_name)

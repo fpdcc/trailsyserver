@@ -18,6 +18,7 @@ Trailsyserver::Application.routes.draw do
     collection do
       get 'poi'
       get 'trail'
+      get 'global'
       get 'list'
     end
   end

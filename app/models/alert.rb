@@ -17,7 +17,7 @@ class Alert < ActiveRecord::Base
   attr_accessor :poi
 
   validates :alert_type,       presence: true
-	enum      alert_type: { alert: 0, closure: 1 }
+	enum      alert_type: { alert: 0, closure: 1, global: 2 }
   validates :description, presence: true
   validates :starts_at, presence: true
 
