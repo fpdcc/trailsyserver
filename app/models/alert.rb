@@ -51,7 +51,7 @@ class Alert < ActiveRecord::Base
         new_desc += poi_list.to_sentence
       end
     end
-    new_desc[-1] === '.' ? new_desc : new_desc + '.'
+    new_desc.end_with?('.', '!', '?') ? new_desc : new_desc + '.'
   end
 
   def self.poi_options_level1
