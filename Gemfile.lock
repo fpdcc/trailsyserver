@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/nmcalabroso/capistrano-postgresql.git
   revision: 16f4a289c0e07e066d6a3dccb4fb6aa26c4e7a6d
-  branch: master
+  ref: 16f4a289c0e07e066d6a3dccb4fb6aa26c4e7a6d
   specs:
     capistrano-postgresql (4.2.1)
       capistrano (>= 3.0)
