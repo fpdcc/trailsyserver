@@ -86,10 +86,10 @@ group :development, :development_fpcc do
   gem 'capistrano-rails', '~> 1.2'
   #gem 'capistrano-postgresql', '~> 4.2.0'
   gem 'capistrano-postgresql', github: 'nmcalabroso/capistrano-postgresql', branch: 'master'
-  gem 'capistrano3-unicorn'
+  #gem 'capistrano3-unicorn'
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-rake', require: false
-  #gem 'capistrano-bundler'
+  #gem 'capistrano-bundler', '~> 1.2'
   gem 'capistrano3-unicorn'
 
   # this whole group makes finding performance issues much friendlier
@@ -146,7 +146,6 @@ group :development, :development_fpcc, :test do
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'
-  gem 'bullet'
 end
 
 
