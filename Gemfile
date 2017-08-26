@@ -87,6 +87,7 @@ group :development, :development_fpcc do
   #gem 'capistrano-postgresql', '~> 4.2.0'
   #gem 'capistrano-postgresql', :github => 'nmcalabroso/capistrano-postgresql', :ref => '16f4a289c0e07e066d6a3dccb4fb6aa26c4e7a6d'
   #gem 'capistrano3-unicorn'
+  #gem 'capistrano-bundler', '~> 1.2'
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-rake', require: false
   #gem 'capistrano-bundler', '~> 1.2'
