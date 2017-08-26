@@ -26,7 +26,7 @@
     <% @alerts.each do |alert| %>
       <tr>
         <td><%= alert.id %></td>
-        <td><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', alertable_type: 'global'} %></td>
+        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', alertable_type: 'global'} %></ul></td>
        <!--  <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.full_desc %></td>
@@ -43,7 +43,5 @@
 </table>
 <%= will_paginate @alerts, renderer: BootstrapPagination::Rails %>
 <br>
-
-<%= link_to 'New Alert', new_alert_path %>
 
 <% end %>
