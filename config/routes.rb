@@ -1,4 +1,8 @@
-Trailsyserver::Application.routes.draw do
+#Trailsyserver::Application.routes.draw do
+Rails.application.routes.draw do
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   resources :trail_subtrails
   resources :trail_systems
   get 'dashboard/index'

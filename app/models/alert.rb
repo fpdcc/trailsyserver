@@ -1,4 +1,4 @@
-class Alert < ActiveRecord::Base
+class Alert < ApplicationRecord
 
 	has_many :alertings
 	has_many :trail_systems, :through => :alertings, :source => :alertable,

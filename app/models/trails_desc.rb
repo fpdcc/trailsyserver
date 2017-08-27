@@ -1,4 +1,4 @@
-class TrailsDesc < ActiveRecord::Base
+class TrailsDesc < ApplicationRecord
 	self.primary_key = 'trail_desc_id'
 
 	def self.parse_csv(file)

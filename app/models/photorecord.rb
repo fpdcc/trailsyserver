@@ -1,4 +1,4 @@
-class Photorecord < ActiveRecord::Base
+class Photorecord < ApplicationRecord
   has_attached_file :photo, :styles => { medium: "384", thumb: "100x100>" }
   belongs_to :trail
   # removing this for now, because it should be run less often than every save

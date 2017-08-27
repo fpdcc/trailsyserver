@@ -1,4 +1,4 @@
-class Trailsegment < ActiveRecord::Base
+class Trailsegment < ApplicationRecord
 
   # 3/19/2016: set_rgeo_factory_for_column was removed from rgeo-activerecord
   #set_rgeo_factory_for_column(:geom, RGeo::Geographic.spherical_factory(:srid => 4326))

@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.7.2"
+lock "3.9.0"
 
 YAML.load(File.open(File.dirname(__FILE__) + '/local_env.yml')).each do |key, value|
   ENV[key.to_s] = value unless ENV[key]
@@ -26,7 +26,7 @@ set :repo_url, ENV['GIT_REPOSITORY']
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml", "config/secrets.yml"
+append :linked_files, "config/database.yml", "config/local_env.yml", "config/secrets.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "lib/data", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/map", "public/page_cache"
@@ -45,7 +45,8 @@ namespace :app do
   end
 end
 before "rvm1:install:rvm", "app:update_rvm_key"
-
+before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
+before 'deploy', 'rvm1:install:gems'  # install/update gems from Gemfile into gemset
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do

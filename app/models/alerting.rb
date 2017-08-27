@@ -1,4 +1,4 @@
-class Alerting < ActiveRecord::Base
+class Alerting < ApplicationRecord
 
 	belongs_to :alert
 

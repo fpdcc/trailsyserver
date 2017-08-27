@@ -1,4 +1,4 @@
-class TrailSystem < ActiveRecord::Base
+class TrailSystem < ApplicationRecord
   self.primary_key = 'trail_subsystem'
   self.per_page = 30
 
