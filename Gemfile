@@ -10,7 +10,7 @@ gem 'actionpack-page_caching'
 # Use postgresql as the database for Active Record
 gem 'pg'
 
-gem 'left_join'
+#gem 'left_join'
 #gem 'active_record_union'
 
 # bootstrap
