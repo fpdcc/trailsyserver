@@ -46,7 +46,7 @@ namespace :app do
 end
 before "rvm1:install:rvm", "app:update_rvm_key"
 before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
-before 'deploy', 'rvm1:install:gems'  # install/update gems from Gemfile into gemset
+#before 'deploy', 'rvm1:install:gems'  # install/update gems from Gemfile into gemset
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do
   task :restart do

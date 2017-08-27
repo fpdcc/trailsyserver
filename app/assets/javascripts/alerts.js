@@ -1,4 +1,4 @@
-$(document).on('page:load ready', function () {
+$(document).on('turbolinks:load ready', function () {
 
   $('.datetimepicker').datetimepicker({
     format: 'YYYY-MM-DD'});
