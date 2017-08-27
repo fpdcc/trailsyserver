@@ -46,7 +46,7 @@
   <% end %>
   
   <div id="page-container" class="container-main container center-block">
-
+    <%= query_diet_widget if Rails.env.development_fpcc? %>
     <div id="notifications">
       <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
           <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-error" %>">
