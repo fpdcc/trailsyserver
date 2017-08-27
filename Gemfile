@@ -102,6 +102,7 @@ group :development, :development_fpcc do
 
   # n+1 killer.
   gem 'bullet'
+  gem 'query_diet'
 
   # what attributes does this model actually have?
   gem 'annotate'
