@@ -30,18 +30,18 @@ class Alert < ApplicationRecord
 
   def full_desc
     new_desc = description
-    trail_systems = self.trail_systems
-    if trail_systems.count > 0
+    trail_systems = self.trail_systems.select(:trail_subsystem)
+    if trail_systems.length > 0
       trail_systems.each do |trail_system|
         new_desc += " on #{trail_system.name}"
         subtrails = self.trail_subtrails.where(trail_subsystem: trail_system)
-        if subtrails.count > 0
+        if subtrails.length > 0
           new_desc += " - "
           new_desc += subtrails.pluck(:subtrail_name).to_sentence
         end
       end
-      pois = self.pointsofinterests
-      if pois.count > 0
+      pois = self.pointsofinterests.select(:id, :poi_info_id, :name)
+      if pois.length > 0
         new_desc += " near "
         poi_list = []
         pois.each do |poi|
@@ -123,7 +123,7 @@ class Alert < ApplicationRecord
     end
   end
 
-  default_scope { includes(:user).includes(:alertings) }
+  default_scope { includes(:user) }
 
   scope :current_or_future, -> {
     where('ends_at >= ? or (starts_at is not null and ends_at is null)', Time.now)

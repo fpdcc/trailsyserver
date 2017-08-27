@@ -4,6 +4,7 @@ class TrailSystem < ApplicationRecord
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
+  #has_many :current_future_alerts, :through => :alertings
   has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
   has_many :pointsofinterests, -> { distinct }, through: :trails_infos
   has_many :trail_subtrails, -> { order(length_mi: :desc) }, foreign_key: :trail_subsystem, primary_key: :trail_subsystem

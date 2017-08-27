@@ -22,7 +22,7 @@
   <div class="form-group">
     <%= f.label 'pointsofinterests', 'Locations Impacted' %>
     <div class="row">
-    <%= f.collection_check_boxes(:pointsofinterest_ids, alertable.pointsofinterests, :id, :name) do |b| %>
+    <%= f.collection_check_boxes(:pointsofinterest_ids, alertable.pointsofinterests.id_and_name_only, :id, :name) do |b| %>
         <div class="checkbox col-md-6">
           <%= b.label do %>
             <%=b.check_box + b.text %>

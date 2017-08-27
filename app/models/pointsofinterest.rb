@@ -46,6 +46,7 @@ class Pointsofinterest < ApplicationRecord
 
   scope :with_current_or_future_alerts,  ->  { references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('name asc')}
 
+  scope :id_and_name_only, -> { select(:id, :poi_info_id, :name)}
 
   # scope :with_quotes_count, -> do joins('LEFT OUTER JOIN quotes_themes on quotes_themes.theme_id = themes.id') .select('themes.*, COUNT(quotes_themes.quote_id) as quotes_count') .group('themes.id')end
 
