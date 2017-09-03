@@ -1,14 +1,16 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :approve, :destroy]
   before_action :authenticate_user!
-  before_action :check_admin
+  #before_action :check_admin
   before_action :count_admins
 
   def new
     @user = User.new
+    authorize @user
   end
 
   def index
+    authorize User
     if params[:approved] == "false"
       @users = User.where(approved: false).order(:email)
     else
@@ -17,10 +19,12 @@ class UsersController < ApplicationController
   end
 
   def edit
+    authorize @user
   end
 
   def update
     count_admins
+    authorize @user
     if @admin_count == 1 && @user.admin? && !params[:admin]
       render action: 'edit'
       return
@@ -33,6 +37,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    authorize @user
     if @user.destroy
       redirect_to users_path, notice: "User was successfully deleted."
     else
@@ -42,7 +47,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
+    authorize @user
     if @user.save
       redirect_to users_path, notice: "User was successfully created."
     else
@@ -51,6 +56,7 @@ class UsersController < ApplicationController
   end
   
   def approve
+    authorize @user
   end
 
   private

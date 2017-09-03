@@ -5,28 +5,32 @@ class TrailSubtrailsController < ApplicationController
   # GET /trail_subtrails
   # GET /trail_subtrails.json
   def index
+    authorize TrailSubtrail
     @trail_subtrails = TrailSubtrail.all
   end
 
   # GET /trail_subtrails/1
   # GET /trail_subtrails/1.json
   def show
+    authorize @trail_subtrail
   end
 
   # GET /trail_subtrails/new
   def new
     @trail_subtrail = TrailSubtrail.new
+    authorize @trail_subtrail
   end
 
   # GET /trail_subtrails/1/edit
   def edit
+    authorize @trail_subtrail
   end
 
   # POST /trail_subtrails
   # POST /trail_subtrails.json
   def create
     @trail_subtrail = TrailSubtrail.new(trail_subtrail_params)
-
+    authorize @trail_subtrail
     respond_to do |format|
       if @trail_subtrail.save
         format.html { redirect_to @trail_subtrail, notice: 'Trail subtrail was successfully created.' }
@@ -41,6 +45,7 @@ class TrailSubtrailsController < ApplicationController
   # PATCH/PUT /trail_subtrails/1
   # PATCH/PUT /trail_subtrails/1.json
   def update
+    authorize @trail_subtrail
     respond_to do |format|
       if @trail_subtrail.update(trail_subtrail_params)
         format.html { redirect_to @trail_subtrail, notice: 'Trail subtrail was successfully updated.' }
@@ -55,6 +60,7 @@ class TrailSubtrailsController < ApplicationController
   # DELETE /trail_subtrails/1
   # DELETE /trail_subtrails/1.json
   def destroy
+    authorize @trail_subtrail
     @trail_subtrail.destroy
     respond_to do |format|
       format.html { redirect_to trail_subtrails_url }

@@ -14,6 +14,7 @@ class PointsofinterestsController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize Pointsofinterest
         @pointsofinterests = Pointsofinterest.order("poi_info_id").paginate(page: params[:page])
       end
       format.json do
@@ -52,6 +53,7 @@ class PointsofinterestsController < ApplicationController
   # GET /pointsofinterests/1
   # GET /pointsofinterests/1.json
   def show
+    authorize @pointsofinterest
     @alert = Alert.new
     @alert.alertings.build
   end
@@ -59,17 +61,19 @@ class PointsofinterestsController < ApplicationController
   # GET /pointsofinterests/new
   def new
     @pointsofinterest = Pointsofinterest.new
+    authorize @pointsofinterest
   end
 
   # GET /pointsofinterests/1/edit
   def edit
+    authorize @pointsofinterest
   end
 
   # POST /pointsofinterests
   # POST /pointsofinterests.json
   def create
     @pointsofinterest = Pointsofinterest.new(pointsofinterest_params)
-
+    authorize @pointsofinterest
     respond_to do |format|
       if @pointsofinterest.save
         format.html { redirect_to @pointsofinterest, notice: 'Pointsofinterest was successfully created.' }
@@ -84,6 +88,7 @@ class PointsofinterestsController < ApplicationController
   # PATCH/PUT /pointsofinterests/1
   # PATCH/PUT /pointsofinterests/1.json
   def update
+    authorize @pointsofinterest
     respond_to do |format|
       if @pointsofinterest.update(pointsofinterest_params)
         format.html { redirect_to @pointsofinterest, notice: 'Pointsofinterest was successfully updated.' }
@@ -98,6 +103,7 @@ class PointsofinterestsController < ApplicationController
   # DELETE /pointsofinterests/1
   # DELETE /pointsofinterests/1.json
   def destroy
+    authorize @pointsofinterest
     @pointsofinterest.destroy
     respond_to do |format|
       format.html { redirect_to pointsofinterests_url }

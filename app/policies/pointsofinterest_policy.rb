@@ -1,10 +1,2 @@
-class PointsofinterestPolicy < ApplicationPolicy
-  
-  def index?
-  	user.admin?
-  end
-
-  def update?
-    user.admin?
-  end
+class PointsofinterestPolicy < DataPolicy
 end

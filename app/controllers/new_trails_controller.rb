@@ -13,6 +13,7 @@ class NewTrailsController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize NewTrail
         @new_trails = NewTrail.all.paginate(page: params[:page])
       end
       format.json do
@@ -96,22 +97,25 @@ class NewTrailsController < ApplicationController
   # GET /new_trails/1
   # GET /new_trails/1.json
   def show
+    authorize @new_trail
   end
 
   # GET /new_trails/new
   def new
     @new_trail = NewTrail.new
+    authorize @new_trail
   end
 
   # GET /new_trails/1/edit
   def edit
+    authorize @new_trail
   end
 
   # POST /new_trails
   # POST /new_trails.json
   def create
     @new_trail = NewTrail.new(new_trail_params)
-
+    authorize @new_trail
     respond_to do |format|
       if @new_trail.save
         format.html { redirect_to @new_trail, notice: 'New trail was successfully created.' }
@@ -127,6 +131,7 @@ class NewTrailsController < ApplicationController
   # PATCH/PUT /new_trails/1.json
   def update
     respond_to do |format|
+      authorize @new_trail
       if @new_trail.update(new_trail_params)
         format.html { redirect_to @new_trail, notice: 'New trail was successfully updated.' }
         format.json { head :no_content }
@@ -140,6 +145,7 @@ class NewTrailsController < ApplicationController
   # DELETE /new_trails/1
   # DELETE /new_trails/1.json
   def destroy
+    authorize @new_trail
     @new_trail.destroy
     respond_to do |format|
       format.html { redirect_to new_trails_url }

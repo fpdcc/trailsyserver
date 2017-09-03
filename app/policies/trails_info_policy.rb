@@ -1,0 +1,2 @@
+class TrailsInfoPolicy < DataPolicy
+end

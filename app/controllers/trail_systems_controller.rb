@@ -5,28 +5,32 @@ class TrailSystemsController < ApplicationController
   # GET /trail_systems
   # GET /trail_systems.json
   def index
+    authorize TrailSystem
     @trail_systems = TrailSystem.all
   end
 
   # GET /trail_systems/1
   # GET /trail_systems/1.json
   def show
+    authorize @trail_system
   end
 
   # GET /trail_systems/new
   def new
     @trail_system = TrailSystem.new
+    authorize @trail_system
   end
 
   # GET /trail_systems/1/edit
   def edit
+    authorize @trail_system
   end
 
   # POST /trail_systems
   # POST /trail_systems.json
   def create
     @trail_system = TrailSystem.new(trail_system_params)
-
+    authorize @trail_system
     respond_to do |format|
       if @trail_system.save
         format.html { redirect_to @trail_system, notice: 'Trail system was successfully created.' }
@@ -41,6 +45,7 @@ class TrailSystemsController < ApplicationController
   # PATCH/PUT /trail_systems/1
   # PATCH/PUT /trail_systems/1.json
   def update
+    authorize @trail_system
     respond_to do |format|
       if @trail_system.update(trail_system_params)
         format.html { redirect_to @trail_system, notice: 'Trail system was successfully updated.' }
@@ -55,6 +60,7 @@ class TrailSystemsController < ApplicationController
   # DELETE /trail_systems/1
   # DELETE /trail_systems/1.json
   def destroy
+    authorize @trail_system
     @trail_system.destroy
     respond_to do |format|
       format.html { redirect_to trail_systems_url }

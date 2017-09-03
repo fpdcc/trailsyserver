@@ -6,28 +6,32 @@ class TrailsDescsController < ApplicationController
   # GET /trails_descs
   # GET /trails_descs.json
   def index
+    authorize TrailsDesc
     @trails_descs = TrailsDesc.all
   end
 
   # GET /trails_descs/1
   # GET /trails_descs/1.json
   def show
+    authorize @trails_desc
   end
 
   # GET /trails_descs/new
   def new
     @trails_desc = TrailsDesc.new
+    authorize @trails_desc
   end
 
   # GET /trails_descs/1/edit
   def edit
+    authorize @trails_desc
   end
 
   # POST /trails_descs
   # POST /trails_descs.json
   def create
     @trails_desc = TrailsDesc.new(trails_desc_params)
-
+    authorize @trails_desc
     respond_to do |format|
       if @trails_desc.save
         format.html { redirect_to @trails_desc, notice: 'Trails desc was successfully created.' }
@@ -42,6 +46,7 @@ class TrailsDescsController < ApplicationController
   # PATCH/PUT /trails_descs/1
   # PATCH/PUT /trails_descs/1.json
   def update
+    authorize @trails_desc
     respond_to do |format|
       if @trails_desc.update(trails_desc_params)
         format.html { redirect_to @trails_desc, notice: 'Trails desc was successfully updated.' }
@@ -56,6 +61,7 @@ class TrailsDescsController < ApplicationController
   # DELETE /trails_descs/1
   # DELETE /trails_descs/1.json
   def destroy
+    authorize @trails_desc
     @trails_desc.destroy
     respond_to do |format|
       format.html { redirect_to trails_descs_url }

@@ -15,7 +15,7 @@
       <%= menu_divider %>
       <% if user_signed_in? %>
         <%= menu_item "Locations", poi_alerts_path %>
-        <% if !current_user.level1? %>
+        <% if policy(:alert).trail? %>
           <%= menu_item "Trail Systems", trail_alerts_path %>
         <% end %>
         <% if current_user.admin? %>
