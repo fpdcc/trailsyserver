@@ -49,7 +49,7 @@
     <%= query_diet_widget if Rails.env.development_fpcc? %>
     <div id="notifications">
       <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
-          <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-error" %>">
+          <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-warning" %>">
               <button type="button" class="close" data-dismiss="alert">&times;</button>
               <%= flash[:alert] %>
               <%= flash[:notice] %>
