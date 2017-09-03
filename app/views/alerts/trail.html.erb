@@ -9,8 +9,8 @@
 	<%= f.submit class: "btn btn-success" %>
 	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
 <% end %>
-<%= render partial: 'table', locals: {items: @trails_active, alertable_type: "TrailSystem"} %>
+<%= render partial: 'table', locals: {items: @trails_active, page_type: "TrailSystem"} %>
 <br>
-<%= render partial: 'table', locals: {items: @trails, alertable_type: "TrailSystem"} %>
+<%= render partial: 'table', locals: {items: @trails, page_type: "TrailSystem"} %>
 
 <%= will_paginate @trails, renderer: BootstrapPagination::Rails %>

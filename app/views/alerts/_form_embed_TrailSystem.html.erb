@@ -1,16 +1,19 @@
 <%= form_for(alert, html: {class: "form-horizontal", remote: :true}) do |f| %>
-  <div id="error-div-<%= alertable.id.parameterize.underscore %>-<%= alert.id %>" class='error-div'></div>
+  <div id="error-div-<%= alertable_id.parameterize.underscore %>-<%= alert.id %>" class='error-div'></div>
   <div class="form-group">
-    <%= f.hidden_field :alert_type, value: 'alert', id: "field-alert-type-#{alertable.id.parameterize.underscore}-#{alert.id}" %>
+    <%= f.hidden_field :alert_type, value: 'alert', id: "field-alert-type-#{alertable_id.parameterize.underscore}-#{alert.id}" %>
+    <% origin_type = alert.new_record? ? page_type : alert.origin_type %>
+    <%= f.hidden_field :origin_type, value: origin_type, id: "field-origin-type-#{alertable_id.parameterize.underscore}-#{alert.id}" %>
   </div>
-  <div class="form-group" id="form-group-reason-<%= alertable.id.parameterize.underscore %>">
+  <div class="form-group" id="form-group-reason-<%= alertable_id.parameterize.underscore %>">
     <%= f.label :reason, "Issue" %>
-    <%= f.select :reason, Alert.trail_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}"} %>
+    <%= f.select :reason, Alert.trail_options, {prompt: "Select"}, {class: "form-control alert_reason", id: "field-reason-#{alertable_id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable_id.parameterize.underscore}", "data-alert-id" => "#{alert.id}"} %>
   </div>
   <div class="form-group">
     <%= f.label 'trail_subtrails', 'Segments Impacted' %>
     <div class="row">
-      <%= f.collection_check_boxes(:trail_subtrail_ids, alertable.trail_subtrails, :id, :subtrail_name) do |b| %>
+      <% trail_subtrails = alert.new_record? ? alertable.trail_subtrails : alert.trail_systems.first.trail_subtrails %>
+      <%= f.collection_check_boxes(:trail_subtrail_ids, trail_subtrails, :id, :subtrail_name) do |b| %>
         <div class="checkbox col-md-6">
           <%= b.label do %>
             <%=b.check_box + b.text %>
@@ -22,7 +25,8 @@
   <div class="form-group">
     <%= f.label 'pointsofinterests', 'Locations Impacted' %>
     <div class="row">
-    <%= f.collection_check_boxes(:pointsofinterest_ids, alertable.pointsofinterests.id_and_name_only, :id, :name) do |b| %>
+    <% pois = alert.new_record? ? alertable.pointsofinterests.id_and_name_only : alert.trail_systems.first.pointsofinterests.id_and_name_only %>
+    <%= f.collection_check_boxes(:pointsofinterest_ids, pois, :id, :name) do |b| %>
         <div class="checkbox col-md-6">
           <%= b.label do %>
             <%=b.check_box + b.text %>
@@ -39,21 +43,21 @@
     <%= f.date_select :ends_at, class: "form-control" %>
   </div>
 
-  <div class="form-group" id="form-group-description-<%= alertable.id.parameterize.underscore %> ">
+  <div class="form-group" id="form-group-description-<%= alertable_id.parameterize.underscore %> ">
     <%= f.label :description %><br>
-    <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
+    <%= f.text_area :description, readonly: current_user.level1?, class: "form-control", rows: "3", id: "field-description-#{alertable_id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable_id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
   </div>
   <% if !current_user.level1? %>
-    <div class="form-group" id="form-group-link-<%= alertable.id.parameterize.underscore %> ">
+    <div class="form-group" id="form-group-link-<%= alertable_id.parameterize.underscore %> ">
       <%= f.label :link %><br>
-      <%= f.text_field :link, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable.id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable.id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
+      <%= f.text_field :link, readonly: current_user.level1?, class: "form-control", id: "field-description-#{alertable_id.parameterize.underscore}-#{alert.id}", "data-alertable-id" => "#{alertable_id.parameterize.underscore}", "data-alert-id" => "#{alert.id}" %>
     </div>  
   <% end %>
   <div class="form-group">
     <div class="row">
       <div class="col-md-6">
-         <%= f.hidden_field :trail_system_ids, multiple: true, value: alertable.id %>
-         <%= f.hidden_field :div_id, id: "field-div_id-#{alertable.id}-#{alert.id}", value: "error-div-#{alertable.id.parameterize.underscore}-#{alert.id}" %>
+         <%= f.hidden_field :trail_system_ids, multiple: true, value: alertable_id %>
+         <%= f.hidden_field :div_id, id: "field-div_id-#{alertable_id}-#{alert.id}", value: "error-div-#{alertable_id.parameterize.underscore}-#{alert.id}" %>
       </div>
     
   </div>

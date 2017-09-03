@@ -188,7 +188,7 @@ class AlertsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alert_params
-      params.require(:alert).permit(:div_id, :alert_id, :alert_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom, pointsofinterest_ids: [], trail_subtrail_ids: [], trail_system_ids: [], alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
+      params.require(:alert).permit(:div_id, :alert_id, :alert_type, :origin_type, :reason, :description, :link, :created_by, :starts_at, :ends_at, :geom, pointsofinterest_ids: [], trail_subtrail_ids: [], trail_system_ids: [], alertings_attributes: [:id, :alert_id, :alertable_id, :alertable_type, :created_by]
         )
     end
 end

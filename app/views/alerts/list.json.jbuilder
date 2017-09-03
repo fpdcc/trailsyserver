@@ -5,6 +5,7 @@ json.array! @pointsofinterests do |pointsofinterest|
 	json.alerts pointsofinterest.alerts.current_or_near_future do |alert|
 		json.id alert.id
 		json.alert_type alert.alert_type
+		json.origin_type alert.origin_type
 		json.start_date alert.starts_at.try(:strftime, "%m/%d/%Y")
 		json.end_date alert.ends_at.try(:strftime, "%m/%d/%Y")
 		json.description alert.full_desc

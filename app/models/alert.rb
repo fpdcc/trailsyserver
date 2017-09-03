@@ -18,6 +18,8 @@ class Alert < ApplicationRecord
 
   validates :alert_type,       presence: true
 	enum      alert_type: { alert: 0, closure: 1, global: 2 }
+  validates :origin_type, presence: true
+  enum      origin_type: { Pointsofinterest: 0, TrailSystem: 1, Global: 2 }
   validates :description, presence: true
   validates :starts_at, presence: true
 

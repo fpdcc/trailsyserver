@@ -8,6 +8,9 @@ class Pointsofinterest < ApplicationRecord
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
 
+  has_many :current_alerts, -> { current }, :through => :alertings, :source => 'alert'
+  has_many :future_alerts, -> { future }, :through => :alertings, :source => 'alert'
+
   accepts_nested_attributes_for :alerts
   accepts_nested_attributes_for :alertings
   

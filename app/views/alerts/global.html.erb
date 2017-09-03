@@ -4,7 +4,7 @@
 <button id="new-global" data-alertable-id="global" class="new-button btn btn-info btn-sm add-alert">Add New Alert</button>
   <div id="form-new-global" class="form-new" style="display: none">
     <h3>Create Alert</h3>
-    <%= render partial: "form_embed_global", locals: {alert: @alert, path: {controller: "alerts", action: "create"}} %>
+    <%= render partial: "form_embed_Global", locals: {alert: @alert, page_type: 'Global', path: {controller: "alerts", action: "create"}} %>
   </div>
 <table class="table-striped table-bordered table-hover col-md-12">
   <thead>
@@ -26,7 +26,7 @@
     <% @alerts.each do |alert| %>
       <tr>
         <td><%= alert.id %></td>
-        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', alertable_type: 'global'} %></ul></td>
+        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', page_type: 'Global', alertable_type: 'global'} %></ul></td>
        <!--  <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.full_desc %></td>

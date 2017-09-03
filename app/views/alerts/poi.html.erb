@@ -14,8 +14,8 @@
 	<%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
 <% end %>
 
-<%= render partial: 'table', locals: {items: @pointsofinterests_active, alertable_type: "Pointsofinterest"} %>
+<%= render partial: 'table', locals: {items: @pointsofinterests_active, page_type: "Pointsofinterest"} %>
 <br>
-<%= render partial: 'table', locals: {items: @pointsofinterests, alertable_type: "Pointsofinterest"} %>
+<%= render partial: 'table', locals: {items: @pointsofinterests, page_type: "Pointsofinterest"} %>
 
 <%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>

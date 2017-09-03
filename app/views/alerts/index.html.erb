@@ -27,7 +27,7 @@
         <td><%= alert.alert_type %></td>
         <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
-        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', alertable_type: 'global'} %></ul></td>
+        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', page_type: 'global'} %></ul></td>
         <td><%= alert.link %></td>
         <td><%= alert.pointsofinterests.pluck(:name).to_sentence %></td>
         <td><%= alert.trail_systems.pluck(:trail_subsystem).to_sentence %> - <%= alert.trail_subtrails.pluck(:subtrail_name).to_sentence %></td>

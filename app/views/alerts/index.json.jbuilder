@@ -1,5 +1,5 @@
 json.array!(@alerts) do |alert|
-  json.extract! alert, :id, :alert_type, :link
+  json.extract! alert, :id, :alert_type, :origin_type, :link
 
   json.description alert.full_desc
 
