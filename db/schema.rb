@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170902175243) do
+ActiveRecord::Schema.define(version: 20170915192435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.index ["activities_id"], name: "index_activities_on_activities_id", unique: true
     t.index ["poi_info_id"], name: "index_activities_on_poi_info_id"
+    t.index ["trail_info_id"], name: "index_activities_on_trail_info_id"
   end
 
   create_table "alertings", id: :serial, force: :cascade do |t|
@@ -38,6 +39,8 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.integer "created_by"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["alert_id"], name: "index_alertings_on_alert_id"
+    t.index ["alertable_id"], name: "index_alertings_on_alertable_id"
   end
 
   create_table "alerts", id: :serial, force: :cascade do |t|
@@ -150,6 +153,7 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.datetime "updated_at", null: false
     t.string "grove_type"
     t.index ["picnicgrove_id"], name: "index_picnicgroves_on_picnicgrove_id", unique: true
+    t.index ["poi_info_id"], name: "index_picnicgroves_on_poi_info_id"
     t.index ["status"], name: "index_picnicgroves_on_status"
   end
 
@@ -351,6 +355,7 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.integer "bathroom_portable_ada"
     t.geography "web_map_geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "maintenance_div_nickname"
+    t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
     t.index ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true
   end
 
@@ -380,12 +385,15 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "length_mi"
+    t.index ["subtrail_id"], name: "index_trail_subtrails_on_subtrail_id", unique: true
+    t.index ["trail_subsystem"], name: "index_trail_subtrails_on_trail_subsystem"
   end
 
   create_table "trail_systems", id: :serial, force: :cascade do |t|
     t.string "trail_subsystem"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["trail_subsystem"], name: "index_trail_systems_on_trail_subsystem", unique: true
   end
 
   create_table "trailheads", id: :serial, force: :cascade do |t|
@@ -552,6 +560,7 @@ ActiveRecord::Schema.define(version: 20170902175243) do
     t.string "direct_trail_id"
     t.string "direct_trail_name"
     t.index ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true
+    t.index ["trail_subsystem"], name: "index_trails_infos_on_trail_subsystem"
     t.index ["trails_id"], name: "index_trails_infos_on_trails_id"
     t.index ["web_trail"], name: "index_trails_infos_on_web_trail"
   end
