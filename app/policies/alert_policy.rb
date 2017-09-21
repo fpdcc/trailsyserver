@@ -12,6 +12,10 @@ class AlertPolicy < ApplicationPolicy
   	user.level2? or user.admin?
   end
 
+  def global?
+    user.admin?
+  end
+
   def update?
     user.admin?
   end

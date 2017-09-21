@@ -2,7 +2,7 @@ class PointsofinterestsController < ApplicationController
   before_action :set_pointsofinterest, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
   after_action :set_pointsofinterests_cache_key , only: [:destroy, :update, :upload]
-  after_action :expire_this_json, only: [:destroy, :update, :upload]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
 
   max_updated_at = Pointsofinterest.maximum(:updated_at).try(:utc).try(:to_s, :number)
   @@pointsofinterests_cache_key = "pointsofinterests/all-#{max_updated_at}"

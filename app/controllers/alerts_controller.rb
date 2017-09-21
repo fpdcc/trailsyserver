@@ -1,6 +1,8 @@
 class AlertsController < ApplicationController
   before_action :set_alert, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :list]
+  after_action :expire_alerts_json, only: [:create, :destroy, :update, :upload]
+
 
   # GET /alerts
   # GET /alerts.json
@@ -15,6 +17,7 @@ class AlertsController < ApplicationController
       end
       format.json do
         @alerts = Alert.current_or_near_future
+        cache_page(@response, "page_cache/alerts.json")
       end
     end   
   end
@@ -23,25 +26,20 @@ class AlertsController < ApplicationController
     respond_to do |format|
       format.html do
         authenticate_user!
+        authorize Alert
         @alerts = Alert.global.order(updated_at: :desc).paginate(page: params[:page])
         @alert = Alert.new
       end
     end
   end
 
-  # GET /alerts_list.json
+  # GET /alerts/list.json
   def list
     respond_to do |format|
       format.json do
         features = []
         @pointsofinterests = Pointsofinterest.with_current_or_near_future_alerts + TrailSystem.with_current_or_near_future_alerts
-        # @pointsofinterests.each do |pointsofinterest|
-        #   json_attributes = {}
-        #   json_attributes["id"] = pointsofinterest.poi_info_id
-        #   json_attributes["name"] = pointsofinterest.name
-        # end
-        #trail_systems = TrailSystem.with_current_or_future_alerts
-
+        cache_page(@response, "page_cache/alerts/list.json")
       end
     end
   end
@@ -179,6 +177,15 @@ class AlertsController < ApplicationController
     @alert = Alert.new
     @alert.alertings.build
     @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"
+  end
+
+  def self.expire_alerts_json
+    expire_page("/page_cache/alerts/list.json")
+    expire_page("/page_cache/alerts.json")
+  end
+
+  def expire_alerts_json
+    AlertsController.expire_alerts_json
   end
 
   private

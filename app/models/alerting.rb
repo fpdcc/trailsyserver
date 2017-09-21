@@ -1,8 +1,8 @@
 class Alerting < ApplicationRecord
 
-	belongs_to :alert
+	belongs_to :alert, touch: true
 
-	accepts_nested_attributes_for :alert
+	#accepts_nested_attributes_for :alert
 
 	#attr_accessor :description, :alert_type, :link, :latitude, :longitude, :universal
 
