@@ -1,4 +1,4 @@
-json.pointsofinterests @pointsofinterests do |pointsofinterest|
+json.array!(@pointsofinterests) do |pointsofinterest|
 	json.cache! pointsofinterest do
 		json.extract! pointsofinterest, :id, :name
 		json.map_id pointsofinterest.map_id
