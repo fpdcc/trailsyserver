@@ -31,3 +31,15 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      alert:
+        alert_type: 'Issue'
+        starts_at: 'Start Date'
+        ends_at: 'End Date'
+    errors:
+      models:
+        # user:
+        #   attributes:
+        #     email:
+        #       blank: "is required"
