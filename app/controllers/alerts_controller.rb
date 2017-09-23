@@ -17,6 +17,7 @@ class AlertsController < ApplicationController
       end
       format.json do
         @alerts = Alert.current_or_near_future
+        render :index
         cache_page(@response, "/alerts.json")
       end
     end   
@@ -39,6 +40,7 @@ class AlertsController < ApplicationController
       format.json do
         features = []
         @pointsofinterests = Pointsofinterest.with_current_or_near_future_alerts + TrailSystem.with_current_or_near_future_alerts
+        render :list
         cache_page(@response, "/alerts/list.json")
       end
     end
