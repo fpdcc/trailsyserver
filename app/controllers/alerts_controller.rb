@@ -17,7 +17,7 @@ class AlertsController < ApplicationController
       end
       format.json do
         @alerts = Alert.current_or_near_future
-        cache_page(@response, "page_cache/alerts.json")
+        cache_page(@response, "/alerts.json")
       end
     end   
   end
@@ -39,7 +39,7 @@ class AlertsController < ApplicationController
       format.json do
         features = []
         @pointsofinterests = Pointsofinterest.with_current_or_near_future_alerts + TrailSystem.with_current_or_near_future_alerts
-        cache_page(@response, "page_cache/alerts/list.json")
+        cache_page(@response, "/alerts/list.json")
       end
     end
   end
@@ -180,8 +180,8 @@ class AlertsController < ApplicationController
   end
 
   def self.expire_alerts_json
-    expire_page("/page_cache/alerts/list.json")
-    expire_page("/page_cache/alerts.json")
+    expire_page("alerts/list.json")
+    expire_page("alerts.json")
   end
 
   def expire_alerts_json

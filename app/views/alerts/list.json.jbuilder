@@ -1,5 +1,5 @@
 json.array!(@pointsofinterests) do |pointsofinterest|
-	json.cache! pointsofinterest do
+	# json.array! pointsofinterest do
 		json.extract! pointsofinterest, :id, :name
 		json.map_id pointsofinterest.map_id
 		json.type pointsofinterest.type
@@ -13,5 +13,5 @@ json.array!(@pointsofinterests) do |pointsofinterest|
 				json.description alert.full_desc
 			end
 		end
-	end
+	# end
 end

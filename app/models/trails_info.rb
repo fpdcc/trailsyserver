@@ -1,6 +1,6 @@
 class TrailsInfo < ApplicationRecord
 	self.primary_key = 'trail_info_id'
-	belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trail_info_id
+	#belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trail_info_id
 	has_one  :trails_desc, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
 	has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
 	has_many :subsystem_trails, class_name: "TrailsInfo",
