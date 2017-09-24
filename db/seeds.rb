@@ -24,7 +24,7 @@ fpdcc = Organization.create({
 
 admin = User.find_by(email: ADMIN_USER.dup)
 admin.destroy unless admin.nil?
-User.create({ 
+User.create!({ 
   email: ADMIN_USER.dup,
   admin: true,
   approved: true,

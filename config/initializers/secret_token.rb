@@ -9,4 +9,5 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Trailsyserver::Application.config.secret_key_base = '6df059e660841305f058b96d3883b3d14242cf67fcff8c318ccce982236883f7ffc972d38e35d9448e0b7c04cc8554a74177bf8ea362d1a1f6ebbacffc29d739'
+
+Trailsyserver::Application.config.secret_key_base = ENV['SECRET_KEY_BASE']
