@@ -4,26 +4,31 @@ class UpdatesController < ApplicationController
   # GET /updates
   # GET /updates.json
   def index
+    authorize Update
     @updates = Update.all
   end
 
   # GET /updates/1
   # GET /updates/1.json
   def show
+    authorize @update
   end
 
   # GET /updates/new
   def new
+    authorize Update
     @update = Update.new
   end
 
   # GET /updates/1/edit
   def edit
+    authorize @update
   end
 
   # POST /updates
   # POST /updates.json
   def create
+    authorize Update
     @update = Update.new(update_params)
 
     respond_to do |format|
@@ -40,6 +45,7 @@ class UpdatesController < ApplicationController
   # PATCH/PUT /updates/1
   # PATCH/PUT /updates/1.json
   def update
+    authorize @update
     respond_to do |format|
       if @update.update(update_params)
         format.html { redirect_to @update, notice: 'Update was successfully updated.' }
@@ -54,6 +60,7 @@ class UpdatesController < ApplicationController
   # DELETE /updates/1
   # DELETE /updates/1.json
   def destroy
+    authorize @update
     @update.destroy
     respond_to do |format|
       format.html { redirect_to updates_url }

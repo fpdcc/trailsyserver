@@ -49,10 +49,12 @@ class AlertsController < ApplicationController
   # GET /alerts/1
   # GET /alerts/1.json
   def show
+    authorize @alert
   end
 
   # GET /alerts/new
   def new
+    authorize Alert
     @alert = Alert.new
     @alert.alertings.build
     referrer = request.referrer
@@ -61,6 +63,7 @@ class AlertsController < ApplicationController
 
   # GET /alerts/1/edit
   def edit
+    authorize @alert
     #@alert.alertings.build
   end
 
@@ -68,6 +71,7 @@ class AlertsController < ApplicationController
   # POST /alerts.json
 
   def create
+    authorize Alert
     @error_div_id = alert_params.delete(:div_id)
     @alert = Alert.new(alert_params)
     starts_at = alert_params['starts_at']
@@ -97,24 +101,25 @@ class AlertsController < ApplicationController
     
   end
 
-  def create_multiple
-    @alert = Alert.new(alert_params)
+  # def create_multiple
+  #   @alert = Alert.new(alert_params)
 
 
-    respond_to do |format|
-      if @alert.with_user(current_user).save
-        format.html { redirect_to @alert, notice: 'Alert was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @alert }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @alert.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if @alert.with_user(current_user).save
+  #       format.html { redirect_to @alert, notice: 'Alert was successfully created.' }
+  #       format.json { render action: 'show', status: :created, location: @alert }
+  #     else
+  #       format.html { render action: 'new' }
+  #       format.json { render json: @alert.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   # PATCH/PUT /alerts/1
   # PATCH/PUT /alerts/1.json
   def update
+    authorize @alert
     logger.info "params = #{params}"
     logger.info "alert_params = #{alert_params}"
     @error_div_id = alert_params.delete(:div_id)
@@ -150,6 +155,7 @@ class AlertsController < ApplicationController
   # DELETE /alerts/1
   # DELETE /alerts/1.json
   def destroy
+    authorize @alert
     @alert.destroy
     respond_to do |format|
       format.html { redirect_to request.referrer, notice: 'Alert was successfully deleted.' }
@@ -158,6 +164,7 @@ class AlertsController < ApplicationController
   end
 
   def poi
+    authorize Alert
     @act = current_user.level1? ? Pointsofinterest.has_parking.with_current_or_future_alerts.ransack(params[:q]) : Pointsofinterest.with_current_or_future_alerts.ransack(params[:q])
     query = ""
     @q = current_user.level1? ? Pointsofinterest.has_parking.no_current_or_future_alerts.ransack(params[:q]) : Pointsofinterest.no_current_or_future_alerts.ransack(params[:q])
@@ -170,6 +177,7 @@ class AlertsController < ApplicationController
   end
 
   def trail
+    authorize Alert
     @act = TrailSystem.with_current_or_future_alerts.ransack(params[:q]) #.order(self.active_alerts_count)
     query = ""
     @q = TrailSystem.no_current_or_future_alerts.ransack(params[:q])

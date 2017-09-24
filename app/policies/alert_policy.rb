@@ -16,7 +16,27 @@ class AlertPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def update?
+  def edit?
     user.admin?
+  end
+
+  def new?
+    user.admin?
+  end
+
+  def show?
+    user.admin?
+  end
+
+  def create?
+    user.level1? or user.level2? or user.admin?
+  end
+
+  def update?
+    user.level1? or user.level2? or user.admin?
+  end
+
+  def destroy?
+    user.level1? or user.level2? or user.admin?
   end
 end

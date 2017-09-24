@@ -1,0 +1,2 @@
+class UpdatePolicy < DataPolicy
+end
