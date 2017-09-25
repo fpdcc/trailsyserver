@@ -3,6 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :lockable
 
+  has_paper_trail
   #belongs_to :organization
 
   enum role: {
