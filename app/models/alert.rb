@@ -1,5 +1,7 @@
 class Alert < ApplicationRecord
 
+  has_paper_trail
+
 	has_many :alertings
 	has_many :trail_systems, :through => :alertings, :source => :alertable,
   	:source_type => 'TrailSystem'
@@ -119,8 +121,10 @@ class Alert < ApplicationRecord
   def no_overlap_closures
     error_text = ''
     self.pointsofinterests.each do |poi|
-      if poi.closed?
-        errors.add(:poi, "#{poi.name} is already closed.")
+      poi.alerts.closure.current.each do |this_alert|
+        if this_alert != self
+          errors.add(:poi, "#{poi.name} is already closed.")
+        end
       end
     end
   end
