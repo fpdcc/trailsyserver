@@ -1,8 +1,10 @@
 class Alert < ApplicationRecord
 
-  has_paper_trail
+  has_paper_trail meta: { full_desc:  :description,
+                          pois: :poi_names,
+                          trails:  :trail_names }
 
-	has_many :alertings
+	has_many :alertings, dependent: :destroy
 	has_many :trail_systems, :through => :alertings, :source => :alertable,
   	:source_type => 'TrailSystem'
 	has_many :pointsofinterests, :through => :alertings, :source => :alertable,
@@ -34,17 +36,17 @@ class Alert < ApplicationRecord
 
   def full_desc
     new_desc = description
-    trail_systems = self.trail_systems.select(:trail_subsystem)
+    trail_systems = self.trail_systems.pluck(:trail_subsystem)
     if trail_systems.length > 0
-      trail_systems.each do |trail_system|
-        new_desc += " on #{trail_system.name}"
-        subtrails = self.trail_subtrails.where(trail_subsystem: trail_system)
+      trail_systems.each do |trail_subsystem|
+        new_desc += " on #{trail_subsystem}"
+        subtrails = self.trail_subtrails.where(trail_subsystem: trail_subsystem)
         if subtrails.length > 0
           new_desc += " - "
           new_desc += subtrails.pluck(:subtrail_name).to_sentence
         end
       end
-      pois = self.pointsofinterests.select(:id, :poi_info_id, :name)
+      pois = self.pointsofinterests
       if pois.length > 0
         new_desc += " near "
         poi_list = []
@@ -56,6 +58,26 @@ class Alert < ApplicationRecord
       end
     end
     new_desc.end_with?('.', '!', '?') ? new_desc : new_desc + '.'
+  end
+
+  def poi_names
+    self.pointsofinterests.pluck(:name).to_sentence
+  end
+
+  def trail_names
+    trail_systems = self.trail_systems.pluck(:trail_subsystem)
+    trail_names = ""
+    if trail_systems.length > 0
+      trail_systems.each do |trail_subsystem|
+        trail_names += trail_subsystem
+        subtrails = self.trail_subtrails
+        if subtrails.length > 0
+          trail_names += " - "
+          trail_names += subtrails.pluck(:subtrail_name).to_sentence
+        end
+      end
+    end
+    trail_names
   end
 
   def self.poi_options_level1

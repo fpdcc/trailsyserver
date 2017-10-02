@@ -189,6 +189,13 @@ class AlertsController < ApplicationController
     @create_description = current_user.level1? ? "Add New Closure" : "Add New Alert"
   end
 
+  # GET alerts/history
+  # PaperTrail change history
+  def history
+    authorize Alert
+    @versions = PaperTrail::Version.where(item_type: 'Alert').includes(:item).order('created_at DESC')
+  end
+
   def self.expire_alerts_json
     expire_page("alerts/list.json")
     expire_page("alerts.json")

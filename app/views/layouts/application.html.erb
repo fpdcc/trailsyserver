@@ -14,13 +14,18 @@
     <%= menu_group do %>
       <%= menu_divider %>
       <% if user_signed_in? %>
-        <%= menu_item "Locations", poi_alerts_path %>
+        <% if policy(:alert).poi? %>
+          <%= menu_item "Locations", poi_alerts_path %>
+        <% end %>
         <% if policy(:alert).trail? %>
           <%= menu_item "Trail Systems", trail_alerts_path %>
         <% end %>
         <% if current_user.admin? %>
-          <%= menu_item "Global Alerts", global_alerts_path %>
-          <%= menu_item "All Alerts", alerts_path %>
+          <% if policy(:alert).global? %><%= menu_item "Global Alerts", global_alerts_path %><% end %>
+          <%= drop_down "Alerts" do %>
+            <%= menu_item "All Alerts", alerts_path %>
+            <%= menu_item "Alert Change History", history_alerts_path %>
+          <% end %>
           <%= drop_down "Trails" do %>
             <%= menu_item "Trails Geometry", new_trails_path %>
             <%= menu_item "Trails Info", trails_infos_path %>
@@ -46,7 +51,7 @@
   <% end %>
   
   <div id="page-container" class="container-main container center-block">
-    <%= query_diet_widget if Rails.env.development_fpcc? %>
+    <%= query_diet_widget if Rails.env.development? %>
     <div id="notifications">
       <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
           <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-warning" %>">

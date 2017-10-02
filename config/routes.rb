@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'trail'
       get 'global'
       get 'list'
+      get 'history'
     end
   end
  

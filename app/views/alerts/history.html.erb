@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>History</h1>
+
+  <table class="table-striped table-bordered table-hover col-md-12">
+  <thead>
+    <tr>
+      <th>Event ID</th>
+      <th>Event Type</th>
+      <th>Event Date</th>
+      <th>Event User</th>
+      <th>Alert ID</th>
+      <th>Changes</th>
+      <th>Description</th>
+      <th>POIs</th>
+      <th>Trails</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @versions.each do |version| %>
+      <% version_object = version.reify(has_many: true) %>
+      <tr>
+        <td><%= version.id %></td>
+        <td><%= version.event %></td>
+        <td><%= l version.created_at %></td>
+        <td><% unless version.whodunnit.blank? %><%= User.find(version.whodunnit).email %><% end %></td>
+        <td><%= version.item_id %></td>
+        <td><%= version.changeset %></td>
+        <td><%= version.full_desc %></td>
+        <td><%= version.pois %></td>
+         <td><%= version.trails %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>

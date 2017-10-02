@@ -28,6 +28,10 @@ class AlertPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def history?
+    user.admin?
+  end
+
   def create?
     user.level1? or user.level2? or user.admin?
   end
