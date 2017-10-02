@@ -43,3 +43,6 @@ en:
         #   attributes:
         #     email:
         #       blank: "is required"
+  time:
+    formats:
+      default: "%m/%d/%Y %I:%M:%S %p"
