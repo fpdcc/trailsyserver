@@ -24,24 +24,13 @@
   </div>
   <div class="field">
     <span class='h3-Edit'><%= f.label :password %></span>
-    <!-- <%= f.text_field :organization %> -->
     <%= f.password_field(:password) %>
   </div>
   <div class="field">
     <span class='h3-Edit'><%= f.label :password_confirmation %></span>
-    <!-- <%= f.text_field :organization %> -->
     <%= f.password_field(:password_confirmation) %>
   </div>
 
-  <div class="field">
-    <span class='h3-Edit'><%= f.label :admin %></span>
-    <% if (@user.admin) && (@admin_count == 1) %>
-      <span class='finePrint'><%= f.check_box :admin, disabled: true %>
-      (Note:  You can't deselect the only admin account.)</span>
-    <% else %>
-      <%= f.check_box :admin %>
-    <% end %>
-  </div>
   <div class="actions">
     <%= link_to "Cancel", users_path %>
     <%= f.submit %>
