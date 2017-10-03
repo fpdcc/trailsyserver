@@ -82,6 +82,9 @@ gem 'ransack'
 gem 'rack-attack'
 gem 'paper_trail'
 
+# cron jobs for backups and sending reminders
+gem 'whenever', require: false
+
 group :development, :development_fpcc do
   gem 'sshkit', '~> 1.13.1'
   gem "capistrano", "~> 3.7"

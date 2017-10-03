@@ -16,8 +16,7 @@
   <th>Email</th>
   <th>Approved?</th>
   <th>Role</th>
-<!--   <th>Organization</th>
- -->  <th>Edit</th>
+  <th>Edit</th>
   <th>Delete</th>
   </tr>
   <% @users.each do |user| %>
@@ -25,8 +24,7 @@
       <td><%= user.email %></td>
       <td><%= user.approved %></td>
       <td><%= user.role %></td>
-<!--       <td><%= user.organization.code if user.organization %></td>
- -->      <td><%= link_to "Edit", approve_user_path(user), :class => "tableLink" %></td>
+      <td><%= link_to "Edit", approve_user_path(user), :class => "tableLink" %></td>
       <% if user == current_user %>
         <td>Delete</td>
       <% else %>

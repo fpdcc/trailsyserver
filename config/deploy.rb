@@ -37,14 +37,21 @@ append :linked_dirs, "log", "lib/data", "tmp/pids", "tmp/cache", "tmp/sockets", 
 # Default value for keep_releases is 5
 set :keep_releases, 25
 
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+
 namespace :app do
   task :update_rvm_key do
   	on roles(:app) do
     	execute :gpg, "--keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3"
   	end
   end
+
+  task :rvm_trust do
+  		run "'rvm_trust_rvmrcs_flag=1' >> ~/.rvmrc"
+  end
 end
 before "rvm1:install:rvm", "app:update_rvm_key"
+after "rvm1:install:rvm", "app:rvm_trust"
 before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
 #before 'deploy', 'rvm1:install:gems'  # install/update gems from Gemfile into gemset
 after 'deploy:publishing', 'deploy:restart'
