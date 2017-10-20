@@ -13,6 +13,7 @@ Rails.application.configure do
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
+  config.action_controller.page_cache_directory = Rails.root.join "public/page_cache"
 
   # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
   # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
@@ -89,6 +90,28 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Generate digests for assets URLs.
+  config.assets.digest = true
+
+  # Version of your assets, change this if you want to expire all your assets.
+  config.assets.version = '1.0'
+
+  # Mailer settings
+  config.action_mailer.default_url_options = { host:  ENV['PRODUCTION_SERVER']}
+
+  config.action_mailer.smtp_settings = {
+    :address   => ENV["SMTP_HOST"],
+    :port      => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USERNAME"],
+    :password  => ENV["SMTP_PASSWORD"],
+    :ssl => true
+  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true # we want to know whats up
+  config.action_mailer.default :charset => "utf-8"
+
 
   config.paperclip_defaults = {
     :storage => :s3,
