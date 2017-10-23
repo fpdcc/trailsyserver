@@ -28,7 +28,7 @@ if File.exist?(path) # handling cold start
   	end
 
   	every :reboot do
-    	command "cd #{path} && #{path}/bin/unicorn_rails -c config/unicorn.rb -E #{ENV['RAILS_ENV']} -D "
+    	command "cd #{path} && bundle exec unicorn -c config/unicorn.rb -E #{ENV['RAILS_ENV']} -D "
     	#command "cd #{path} && bundle exec #{path}/bin/delayed_job start"
   	end
 
