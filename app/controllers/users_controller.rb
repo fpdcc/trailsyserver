@@ -23,8 +23,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    count_admins
     authorize @user
+    count_admins
     if @admin_count == 1 && @user.admin? && !params[:admin]
       render action: 'edit'
       return
@@ -46,8 +46,8 @@ class UsersController < ApplicationController
   end
 
   def create
+    authorize User
     @user = User.new(user_params)
-    authorize @user
     if @user.save
       redirect_to users_path, notice: "User was successfully created."
     else
