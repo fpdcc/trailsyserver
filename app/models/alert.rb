@@ -34,6 +34,10 @@ class Alert < ApplicationRecord
 
   self.per_page = 30
 
+  def self.ransackable_scopes(auth_object = nil)
+    [:past, :future, :current_or_near_future]
+  end
+
   def full_desc
     new_desc = description
     trail_systems = self.trail_systems.pluck(:trail_subsystem)
@@ -175,6 +179,10 @@ class Alert < ApplicationRecord
 
   scope :future, -> {
     where('starts_at > ?', Time.now)
+  }
+
+  scope :past, -> {
+    where('ends_at < ?', Time.now)
   }
 
 end

@@ -11,7 +11,8 @@ class AlertsController < ApplicationController
       format.html do 
         authenticate_user!
         authorize Alert
-        @alerts = Alert.all.order(updated_at: :desc).paginate(page: params[:page])
+        @q = Alert.all.ransack(params[:q])
+        @alerts = @q.result.order(updated_at: :desc).paginate(page: params[:page])
         @alert = Alert.new
         @alert.alertings.build
       end
