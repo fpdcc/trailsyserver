@@ -151,6 +151,11 @@ class Alert < ApplicationRecord
     end
   end
 
+  def self.expire_alerts_json
+    expire_page("alerts/list.json")
+    expire_page("alerts.json")
+  end
+
   #default_scope { includes(:user) }
 
   scope :current_or_future, -> {
