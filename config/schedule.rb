@@ -11,8 +11,8 @@ require 'tzinfo'
 path = "/var/www/cap-#{ENV['RAILS_ENV']}/current"
 
 if File.exist?(path) # handling cold start
-	env_file = "#{path}/config/local_env.yml"
-	YAML.load(File.open(env_file)).each do |key, value|
+	 env_file = "#{path}/config/local_env.yml"
+	 YAML.load(File.open(env_file)).each do |key, value|
       ENV[key.to_s] = value if ENV[key.to_s].nil?
     end if File.exist?(env_file)
 
@@ -31,6 +31,10 @@ if File.exist?(path) # handling cold start
     	command "cd #{path} && #{path}/bin/unicorn_rails -c config/unicorn.rb -E #{ENV['RAILS_ENV']} -D "
     	#command "cd #{path} && bundle exec #{path}/bin/delayed_job start"
   	end
+
+    every :day, at: local_time("4:00am") do
+      runner "Alert.expire_alerts_json"
+    end
 
 end
 
