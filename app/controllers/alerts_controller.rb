@@ -194,7 +194,31 @@ class AlertsController < ApplicationController
   # PaperTrail change history
   def history
     authorize Alert
-    @versions = PaperTrail::Version.where(item_type: 'Alert').includes(:item).order('created_at DESC')
+    respond_to do |format|
+      format.html {
+            @versions = PaperTrail::Version.where(item_type: 'Alert').includes(:item).order('created_at DESC').paginate(page: params[:page])
+      }
+      format.csv { 
+        @versions = PaperTrail::Version.where(item_type: 'Alert').order('created_at DESC')
+        fields = ['id', 'event', 'created_at', 'whodunnit', 'item_id', 'full_desc', 'pois', 'trails']
+        output = CSV.generate do |csv|
+          # Generate the headers
+          csv << fields.map(&:titleize)
+
+          # Write the results
+          @versions.each do |version|
+            csv << fields.map do |f|
+              field_value = version[f]
+              if f == 'whodunnit'
+                field_value = User.find(version[f]).email unless version[f].blank?
+              end
+              field_value
+            end
+          end
+        end
+        send_data output, filename: "history-#{Date.today}.csv" 
+      }
+    end
   end
 
   def self.expire_alerts_json
