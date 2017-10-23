@@ -26,6 +26,15 @@ namespace :load do
     Rails.logger.info("Removed page cache")
   end
 
+  desc "Expire & Regenerate alerts"
+  task :expire_alerts => :environment do
+    ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+    app = ActionDispatch::Integration::Session.new Rails.application
+    app.get("https://#{ENV['SERVER']}/alerts.json")
+    app.get("https://#{ENV['SERVER']}/alerts/list.json")
+  end
+
 
   task :trails => :environment do
     ActiveRecord::Base.connection.execute("TRUNCATE TABLE trails")

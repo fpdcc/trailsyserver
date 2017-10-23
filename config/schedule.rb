@@ -32,9 +32,9 @@ if File.exist?(path) # handling cold start
     	#command "cd #{path} && bundle exec #{path}/bin/delayed_job start"
   	end
 
-    every 5.minutes do
-      runner "Alert.expire_alerts_json"
-    end
+    # every 5.minutes do
+    #   runner "Alert.expire_alerts_json"
+    # end
 
     every :day, at: local_time("4:00am") do
       runner "Alert.expire_alerts_json"

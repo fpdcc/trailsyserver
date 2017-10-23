@@ -152,8 +152,11 @@ class Alert < ApplicationRecord
   end
 
   def self.expire_alerts_json
-    expire_page("alerts/list.json")
-    expire_page("alerts.json")
+    ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+    app = ActionDispatch::Integration::Session.new Rails.application
+    app.get("https://#{ENV['SERVER']}/alerts.json")
+    app.get("https://#{ENV['SERVER']}/alerts/list.json")
   end
 
   #default_scope { includes(:user) }
