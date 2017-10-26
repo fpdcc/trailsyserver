@@ -50,6 +50,21 @@ namespace :app do
   		run "'rvm_trust_rvmrcs_flag=1' >> ~/.rvmrc"
   end
 end
+
+namespace :rvm1 do # https://github.com/rvm/rvm1-capistrano3/issues/45
+  desc "Install Bundler"
+  task :install_bundler do
+    on release_roles :all do
+      execute "cd #{release_path} && #{fetch(:rvm1_auto_script_path)}/rvm-auto.sh . gem install bundler"
+    end
+  end
+end
+
+after 'rvm1:install:ruby', 'rvm1:install_bundler'
+
+ENV['GEM'] = "bundler"
+#before 'bundle:install', 'rvm1:install_gem' # Make sure Bundler is installed for gemset
+
 before "rvm1:install:rvm", "app:update_rvm_key"
 after "rvm1:install:rvm", "app:rvm_trust"
 before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
