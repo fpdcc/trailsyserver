@@ -1,5 +1,7 @@
-class Trail < ActiveRecord::Base
+class Trail < ApplicationRecord
 
+  include AlertingsMethods
+  
   attr_accessor :delete_photo
 
   validates :name, uniqueness: { scope: :source, message: " has already been taken for this source"}
@@ -11,6 +13,11 @@ class Trail < ActiveRecord::Base
   belongs_to :source, class_name: 'Organization', foreign_key: "source_id"
 
   accepts_nested_attributes_for :photorecord, allow_destroy: true
+
+  has_many :alertings, :as => :alertable
+  has_many :alerts, :through => :alertings
+
+  has_many :trailsegments
 
 
   def self.parse_csv(file)

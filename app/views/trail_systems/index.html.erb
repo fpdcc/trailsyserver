@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trail Systems</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Trail subsystem</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trail_systems.each do |trail_system| %>
+      <tr>
+        <td><%= trail_system.trail_subsystem %></td>
+        <td><%= link_to 'Show', trail_system %></td>
+        <td><%= link_to 'Edit', edit_trail_system_path(trail_system) %></td>
+        <td><%= link_to 'Destroy', trail_system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trail system', new_trail_system_path %>

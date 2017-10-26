@@ -3,12 +3,14 @@ class ActivitiesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_show_all_param
   before_action :check_for_cancel, only: [:update]
+  after_action :expire_this_json, only: [:destroy, :update, :upload]
 
 
   def upload
     if !current_user
       head 403
     end
+    authorize Activity
     @confirmed = params[:confirmed] ? true : false
     #redirect_to trails_url, notice: "Please enter a source organization code for uploading activities data." if params[:source_id].empty?
     source_id = params[:source_id]
@@ -71,36 +73,43 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize Activity
         if params[:all] == "true" || current_user.admin?
-          @activities = Activity.order("name")
+          @activities = Activity.order("activities_id").paginate(page: params[:page])
         else
-          @activities = Activity.joins(:source).merge(Organization.where(id: current_user.organization)).order("name")
+          @activities = Activity.joins(:source).merge(Organization.where(id: current_user.organization)).order("activities_id")
         end
       end
       format.json do
-        @activities = Activity.order("name")
+        @activities = Activity.order("activities_id")
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         # if (params[:loc])
         #   @activities = sort_by_distance(@activities)
         # end
         features = []
         @activities.each do |activity|
-          json_attributes = create_json_attributes(activity)
-          feature = entity_factory.feature(activity.geom, 
-           activity.id, 
-           json_attributes)
-          features.push(feature)
+          if activity.geom.present?
+            json_attributes = create_json_attributes(activity)
+            feature = entity_factory.feature(activity.geom, 
+             activity.id, 
+             json_attributes)
+            features.push(feature)
+          end
         end
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
         render json: Oj.dump(my_geojson)
+        cache_page(@response, "/activities.json")
       end
     end
   end
 
   def show
     respond_to do |format|   
-      format.html
+      format.html do
+        authenticate_user!
+        authorize @activity
+      end
       format.json do
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         json_attributes = create_json_attributes(@activity)
@@ -116,6 +125,7 @@ class ActivitiesController < ApplicationController
   # end
 
   def edit
+    authorize @activity
     unless authorized?
       redirect_to trailsegments_path, notice: 'Authorization failure.'
     end
@@ -123,16 +133,19 @@ class ActivitiesController < ApplicationController
 
   def create
     @activity = Activity.new(activity_params)
+    authorize @activity
     @activity.save
     respond_with(@activity)
   end
 
   def update
+    authorize @activity
     @activity.update(activity_params)
     respond_with(@activity)
   end
 
   def destroy
+    authorize @activity
     @activity.destroy
     respond_with(@activity)
   end
@@ -146,7 +159,7 @@ class ActivitiesController < ApplicationController
   end
 
   def create_json_attributes(activity)
-    json_attributes = activity.attributes.except("id", "geom", "created_at", "updated_at")
+    json_attributes = activity.attributes.except("id", "geom", "created_at", "updated_at", 'nameid', 'aname', 'parking_info_id')
     # if activity.source
     #   json_attributes["source"] = activity.source.code
     #   json_attributes["source_fullname"] = activity.source.full_name
@@ -161,15 +174,20 @@ class ActivitiesController < ApplicationController
     # end
     #json_attributes["distance"] = activity.distance
     json_attributes["id"] = activity.activities_id
+    json_attributes["name"] = activity.aname
     json_attributes
   end
 
   private
+    def expire_this_json
+      expire_page("/activities.json")
+    end
+
     def set_activity
       @activity = Activity.find(params[:id])
     end
 
     def activity_params
-      params.require(:activity).permit(:activities_id, :trailhead_id, :activity_type, :name, :parking_entrance_id, :nameid, :geom)
+      params.require(:activity).permit(:activities_id, :nameid, :atype, :aname, :poi_info_id, :trail_info_id, :parking_info_id, :geom)
     end
 end

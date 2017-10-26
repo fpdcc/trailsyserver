@@ -1,0 +1,2 @@
+class PointsofinterestPolicy < DataPolicy
+end

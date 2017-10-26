@@ -1,0 +1,25 @@
+<%= form_for(@parking_entrance) do |f| %>
+  <% if @parking_entrance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@parking_entrance.errors.count, "error") %> prohibited this parking_entrance from being saved:</h2>
+
+      <ul>
+      <% @parking_entrance.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :parking_entrance_id %><br>
+    <%= f.number_field :parking_entrance_id %>
+  </div>
+  <div class="field">
+    <%= f.label :geom %><br>
+    <%= f.text_field :geom %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

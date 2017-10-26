@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Pointsofinterests</h1>
+
+<table class="table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <% for column in Pointsofinterest.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pointsofinterests.each do |pointsofinterest| %>
+      <tr>
+        <% pointsofinterest.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
+        <td><%= link_to 'Show', pointsofinterest %></td>
+        <td><%= link_to 'Edit', edit_pointsofinterest_path(pointsofinterest) %></td>
+        <td><%= link_to 'Destroy', pointsofinterest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<%= will_paginate @pointsofinterests, renderer: BootstrapPagination::Rails %>
+
+
+<br>
+
+<%= link_to 'New Pointsofinterest', new_pointsofinterest_path %>

@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Trail desc:</strong>
+  <%= @trails_desc.trail_desc_id %>
+</p>
+
+<p>
+  <strong>Trail subsystem:</strong>
+  <%= @trails_desc.trail_subsystem %>
+</p>
+
+<p>
+  <strong>Alt name:</strong>
+  <%= @trails_desc.alt_name %>
+</p>
+
+<p>
+  <strong>Trail desc:</strong>
+  <%= @trails_desc.trail_desc %>
+</p>
+
+<p>
+  <strong>Map link:</strong>
+  <%= @trails_desc.map_link %>
+</p>
+
+<p>
+  <strong>Map link spanish:</strong>
+  <%= @trails_desc.map_link_spanish %>
+</p>
+
+<%= link_to 'Edit', edit_trails_desc_path(@trails_desc) %> |
+<%= link_to 'Back', trails_descs_path %>

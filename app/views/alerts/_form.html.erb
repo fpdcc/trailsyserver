@@ -1,0 +1,16 @@
+<%= form_for(@alert) do |f| %>
+  <% if @alert.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@alert.errors.count, "error") %> prohibited this alert from being saved:</h2>
+
+      <ul>
+      <% @alert.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= render 'form_part1', f: f, alertable_id: alertable_id, alert: @alert %>
+  <%= render 'form_part2_standalone', f: f %>
+  <%= f.submit nil, class: "btn btn-primary" %>
+<% end %>

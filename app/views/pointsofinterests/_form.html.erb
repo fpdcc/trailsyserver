@@ -1,0 +1,25 @@
+<%= form_for(@pointsofinterest) do |f| %>
+  <% if @pointsofinterest.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pointsofinterest.errors.count, "error") %> prohibited this pointsofinterest from being saved:</h2>
+
+      <ul>
+      <% @pointsofinterest.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :pointsofinterest_id %><br>
+    <%= f.number_field :pointsofinterest_id %>
+  </div>
+  <div class="field">
+    <%= f.label :geom %><br>
+    <%= f.text_field :geom %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

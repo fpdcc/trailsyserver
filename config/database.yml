@@ -39,6 +39,18 @@ development:
   schema_search_path: "public,postgis"
   postgis_extension: true
 
+development_fpcc:
+  adapter: postgis
+  encoding: unicode
+  database: trailsy_fpcc
+  pool: 5
+  username: josh
+  password:
+  su_username: josh
+  su_password:
+  schema_search_path: "public,postgis"
+  postgis_extension: true
+
 development_aws:
   adapter: postgis
   encoding: unicode

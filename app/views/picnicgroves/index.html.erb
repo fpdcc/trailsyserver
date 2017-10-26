@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Picnicgroves</h1>
+
+<table class="table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <% for column in Picnicgrofe.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @picnicgroves.each do |picnicgrove| %>
+      <tr>
+        <% picnicgrove.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
+        <td><%= link_to 'Show', picnicgrove %></td>
+        <td><%= link_to 'Edit', edit_picnicgrofe_path(picnicgrove) %></td>
+        <td><%= link_to 'Destroy', picnicgrove, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<%= will_paginate @picnicgroves, renderer: BootstrapPagination::Rails %>
+
+
+<br>
+
+<%= link_to 'New Picnicgrofe', new_picnicgrofe_path %>

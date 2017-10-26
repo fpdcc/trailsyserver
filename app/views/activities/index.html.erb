@@ -1,5 +1,5 @@
 <h1>Listing activities</h1>
-<p class='uploadDescription'>
+<!-- <p class='uploadDescription'>
   Upload a GeoJSON file or shapefile (all shapefile component files collected into a single .zip file) of your current trailhead data to update this list (make sure it follows the <a href="https://docs.google.com/a/codeforamerica.org/document/d/1frt5HkKTdqEaNEnfk2Dq9IYxctvPjVnoU_F33Px2zSQ/edit" target="_blank">standard</a>). Note: this will replace all of your organization's existing data! Before replacing content, we recommend downloading your current data in case anything goes wrong. You can download the current trailhead data for 
 
   <% if current_user.admin? %>
@@ -22,36 +22,31 @@
   <%= label_tag :confirmed, 'Replace Existing Data' %>
   <%= check_box_tag 'confirmed', 'Confirm', false, {id: "confirmed", onclick: "if ($('#confirmed').is(':checked')) { $('#submitData').val('Upload Data') } else {  $('#submitData').val('Test Upload'); }"} %> 
 <% end %>
-
-<table>
+ -->
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>Activities</th>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Parking entrance</th>
-      <th>Nameid</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <% for column in Activity.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
     <% @activities.each do |activity| %>
       <tr>
-        <td><%= activity.activities_id %></td>
-        <td><%= activity.activity_type %></td>
-        <td><%= activity.name %></td>
-        <td><%= activity.parking_entrance_id %></td>
-        <td><%= activity.nameid %></td>
+        <% activity.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
         <td><%= link_to 'Show', activity %></td>
         <td><%= link_to 'Edit', edit_activity_path(activity) %></td>
         <td><%= link_to 'Destroy', activity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+<%= will_paginate @activities, renderer: BootstrapPagination::Rails %>
 
 <br>
 

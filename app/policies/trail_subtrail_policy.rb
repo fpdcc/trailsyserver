@@ -1,0 +1,2 @@
+class TrailSubtrailPolicy < DataPolicy
+end

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Trails:</strong>
+  <%= @new_trail.trails_id %>
+</p>
+
+<p>
+  <strong>Geom:</strong>
+  <%= @new_trail.geom %>
+</p>
+
+<%= link_to 'Edit', edit_new_trail_path(@new_trail) %> |
+<%= link_to 'Back', new_trails_path %>
