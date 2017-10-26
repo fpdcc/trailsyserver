@@ -1,4 +1,4 @@
-class AddMoreIndexes < ActiveRecord::Migration
+class AddMoreIndexes < ActiveRecord::Migration[4.2]
   def change
   	add_index :poi_descs, :poi_info_id, unique: true
   	add_index :poi_amenities, :poi_info_id, unique: true

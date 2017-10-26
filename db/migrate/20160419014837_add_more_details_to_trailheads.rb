@@ -1,4 +1,4 @@
-class AddMoreDetailsToTrailheads < ActiveRecord::Migration
+class AddMoreDetailsToTrailheads < ActiveRecord::Migration[4.2]
   def change
     add_column :trailheads, :season1, :string
     add_column :trailheads, :season2, :string

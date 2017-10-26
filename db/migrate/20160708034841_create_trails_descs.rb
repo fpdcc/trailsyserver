@@ -1,4 +1,4 @@
-class CreateTrailsDescs < ActiveRecord::Migration
+class CreateTrailsDescs < ActiveRecord::Migration[4.2]
   def change
     create_table :trails_descs do |t|
       t.integer :trail_desc_id, null: false

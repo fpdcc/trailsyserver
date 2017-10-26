@@ -1,4 +1,4 @@
-class AddAmenitiesToTrailheads < ActiveRecord::Migration
+class AddAmenitiesToTrailheads < ActiveRecord::Migration[4.2]
   def change
   	add_column :trailheads, :large_capacity, :int
   	add_column :trailheads, :gas_powered, :int

@@ -1,4 +1,4 @@
-class AddLogoToOrganization < ActiveRecord::Migration
+class AddLogoToOrganization < ActiveRecord::Migration[4.2]
   def self.up
     add_attachment :organizations, :logo
   end
