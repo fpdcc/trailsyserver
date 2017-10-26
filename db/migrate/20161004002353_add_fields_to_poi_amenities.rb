@@ -1,4 +1,4 @@
-class AddFieldsToPoiAmenities < ActiveRecord::Migration
+class AddFieldsToPoiAmenities < ActiveRecord::Migration[4.2]
   def change
   	add_column    :poi_amenities, :nature_preserve, :integer
   	add_column    :poi_amenities, :no_fishing, :integer

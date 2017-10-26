@@ -1,4 +1,4 @@
-class RemoveOrganizationFromUsers < ActiveRecord::Migration
+class RemoveOrganizationFromUsers < ActiveRecord::Migration[4.2]
   def change
     remove_column :users, :organization
   end

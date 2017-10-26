@@ -1,4 +1,4 @@
-class AddDetailsToTrailheads < ActiveRecord::Migration
+class AddDetailsToTrailheads < ActiveRecord::Migration[4.2]
   def change
   	add_column :trailheads, :hours1, :string
   	add_column :trailheads, :hours2, :string

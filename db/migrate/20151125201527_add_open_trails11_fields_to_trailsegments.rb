@@ -1,4 +1,4 @@
-class AddOpenTrails11FieldsToTrailsegments < ActiveRecord::Migration
+class AddOpenTrails11FieldsToTrailsegments < ActiveRecord::Migration[4.2]
   def change
   	add_column :trailsegments, :segment_id, :string
   	add_column :trailsegments, :foot, :string

@@ -1,4 +1,4 @@
-class AddNewAmenitiesToTrailheads < ActiveRecord::Migration
+class AddNewAmenitiesToTrailheads < ActiveRecord::Migration[4.2]
   def change
   	add_column :trailheads, :bike_parking, :integer
   	add_column :trailheads, :bike_rental, :integer
