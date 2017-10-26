@@ -7,7 +7,7 @@ set :deploy_to, "/var/www/#{fetch(:application)}"
 set :rvm1_ruby_version, "2.4.2"
 set :unicorn_pid, "/var/www/#{fetch(:application)}/shared/tmp/pids/unicorn-#{fetch(:rails_env)}.pid"
 set :unicorn_config_path, "/var/www/#{fetch(:application)}/shared/config/unicorn.rb"
-
+set :rvm_ruby_string, 'production'
 
 server ENV['PRODUCTION_SERVER'], user: ENV['PRODUCTION_USER'], roles: %w{app db web}
 
