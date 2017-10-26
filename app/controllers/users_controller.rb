@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       return
     end
     if @user.update(user_params)
-      redirect_to action: "index" , notice: 'User was successfully updated.'
+      redirect_to poi_alerts_path , notice: 'User was successfully updated.'
     else
       render action: 'edit'
     end
