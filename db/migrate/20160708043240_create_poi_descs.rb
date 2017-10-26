@@ -1,4 +1,4 @@
-class CreatePoiDescs < ActiveRecord::Migration
+class CreatePoiDescs < ActiveRecord::Migration[4.2]
   def change
     create_table :poi_descs do |t|
       t.integer :poi_info_id

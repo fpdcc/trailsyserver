@@ -1,4 +1,4 @@
-class AddColsToPointsofinterests < ActiveRecord::Migration
+class AddColsToPointsofinterests < ActiveRecord::Migration[4.2]
   def change
     add_column :pointsofinterests, :poi_info_id, :integer
 	add_column :pointsofinterests, :point_type, :string

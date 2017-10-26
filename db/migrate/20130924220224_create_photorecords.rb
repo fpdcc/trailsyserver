@@ -1,4 +1,4 @@
-class CreatePhotorecords < ActiveRecord::Migration
+class CreatePhotorecords < ActiveRecord::Migration[4.2]
   def change
     create_table :photorecords do |t|
       t.integer :source_id

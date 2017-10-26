@@ -1,4 +1,4 @@
-class CreateTrailSubtrails < ActiveRecord::Migration
+class CreateTrailSubtrails < ActiveRecord::Migration[4.2]
   def change
     create_table :trail_subtrails do |t|
       t.string :trail_subsystem, null: false

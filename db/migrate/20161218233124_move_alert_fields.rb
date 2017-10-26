@@ -1,4 +1,4 @@
-class MoveAlertFields < ActiveRecord::Migration
+class MoveAlertFields < ActiveRecord::Migration[4.2]
   def change
   	add_column :alerts, :starts_at, :datetime
   	add_column :alerts, :ends_at, :datetime

@@ -1,4 +1,4 @@
-class AddIndexes < ActiveRecord::Migration
+class AddIndexes < ActiveRecord::Migration[4.2]
   def change
   	add_index :activities, :activities_id, unique: true
   	add_index :names, :nameid, unique: true
