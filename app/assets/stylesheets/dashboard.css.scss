@@ -1,0 +1,55 @@
+// Place all the styles related to the Dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+[id^=toggle],
+[id^=toggle] + *{
+  display:none;
+}
+[id^=toggle]:checked + *{
+  display:block;
+}
+
+li.dashboard{line-height:1.9;padding:5px 15px;margin-bottom:10px}
+ul.dashboard {padding-left: 0;list-style-type: none;}
+
+form#pointsofinterest_search{padding:15px;background:#CCC;margin-bottom:25px;font-size:15px;color:#000}
+form#trail_system_search{padding:15px;margin-bottom:25px;background:#CCC;font-size:15px;color:#000}
+form#alert_search{padding:15px;background:#CCC;margin-bottom:25px;font-size:15px;color:#000}
+.form-horizontal .form-group{margin-left:0;margin-right:0}
+.form-inline .form-control{display:inline-block;width:auto;vertical-align:middle;margin-right:30px}
+.form-new{padding:0}
+.form-new h3, .form-new h4{margin-bottom:0}
+.form-edit a:link,form-edit:visited{text-decoration:underline}
+.form-edit a:hover,form-edit:active{text-decoration:none;background:transparent;color:#000}
+
+
+.btn{
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+  box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.21);
+}
+.btn-success{color:#fff;background-color:#388038;border-color:#2e692e}
+.btn-info{color:#fff;background-color:#207f9c;border-color:#1b6a82}
+.btn-primary{color:#fff;background-color:#275c8a;border-color:#1a3c5a}
+.btn-danger{color:#fff;background-color:#d33a35;border-color:#bf2f2a}
+
+a.btn.btn-xs.btn-primary:visited,a.btn.btn-xs.btn-danger:visited{color:#fff}
+h1,.h1,h2,.h2,h3,.h3{margin-top:20px;margin-bottom:40px}
+.reduced-vis{opacity:0.4}
+
+td, th {padding:5px;vertical-align:top}
+.bg-warning{border-left: 3px solid #f0ad4e;background:#fcf8e3;}
+.bg-danger {background-color: #f2dede; border-left: 3px solid #d33a35}
+.add-alert.btn{margin-top:15px}
+
+.container-main {margin-top:0;width: 98%;}
+.navbar-default .navbar-nav>li>a{color:#545454}
+
+.input-group-addon{background:none;border:none}
+
+.formHeader-LogIn{display:block}
+#user_remember_me{margin-left:15px}
+input#user_email,input#user_password{width:100%;max-width:300px}
+span.linkButton-SignIn{padding-top:30px;display:block}
+span.h3-Edit {display:block;margin-top:25px;}

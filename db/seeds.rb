@@ -8,27 +8,12 @@
 
 ADMIN_USER = (ENV["DEFAULT_ADMIN_USER"] || "admin@example.com").freeze
 PASSWORD   = (ENV["DEFAULT_ADMIN_PASSWORD"] || "password").freeze
-MPSSC_USER = (ENV["DEFAULT_MPSSC_USER"] || "mpssc@example.com").freeze
-NPS_USER   = (ENV["TEST_NPS_USER"] || "nps@example.com").freeze
+LEVEL1_USER = (ENV["DEFAULT_LEVEL1_USER"] || "level1@example.com").freeze
+LEVEL2_USER = (ENV["DEFAULT_LEVEL2_USER"] || "level2@example.com").freeze
+LEVELUNKNOWN_USER = (ENV["DEFAULT_LEVELUNKNOWN_USER"] || "levelUnknown@example.com").freeze
 
-mpssc = Organization.create({
-  code: "MPSSC",
-  full_name: "Metro Parks, Serving Summit County",
-  phone: "330-867-5511",
-  url: "http://www.summitmetroparks.org/"
-  })
-nps = Organization.create({
-  code: "NPS",
-  full_name: "Cuyahoga Valley National Park",
-  phone: "330.657.2752",
-  url: "http://www.nps.gov/cuva/"
-  })
-cmp = Organization.create({
-  code: "CMP",
-  full_name: "Cleveland Metroparks",
-  phone: "216-635-3286",
-  url: "http://clevelandmetroparks.com"
-  })
+
+#NPS_USER   = (ENV["TEST_NPS_USER"] || "nps@example.com").freeze
 
 fpdcc = Organization.create({
   code: "FPDCC",
@@ -37,35 +22,43 @@ fpdcc = Organization.create({
   url: ""
   })
 
-
-
-
 admin = User.find_by(email: ADMIN_USER.dup)
 admin.destroy unless admin.nil?
-User.create({ 
+User.create!({ 
   email: ADMIN_USER.dup,
   admin: true,
   approved: true,
   password: PASSWORD.dup,
-  password_confirmation: PASSWORD.dup
+  password_confirmation: PASSWORD.dup,
+  role: "admin"
   })
-nps_user = User.find_by(email: NPS_USER.dup)
-nps_user.destroy unless nps_user.nil?
+
+level1 = User.find_by(email: LEVEL1_USER.dup)
+level1.destroy unless level1.nil?
 User.create({ 
-  email: NPS_USER.dup,
-  admin: false,
+  email: LEVEL1_USER.dup,
   approved: true,
-  organization: Organization.find_by(code: "NPS"),
   password: PASSWORD.dup,
-  password_confirmation: PASSWORD.dup
+  password_confirmation: PASSWORD.dup,
+  role: "level1"
   })
-mpssc_user = User.find_by(email: MPSSC_USER.dup)
-mpssc_user.destroy unless mpssc_user.nil?
-User.create({
-  email: MPSSC_USER.dup,
-  admin: false,
+
+level2 = User.find_by(email: LEVEL2_USER.dup)
+level2.destroy unless level2.nil?
+User.create({ 
+  email: LEVEL2_USER.dup,
   approved: true,
-  organization: Organization.find_by(code: "MPSSC"),
   password: PASSWORD.dup,
-  password_confirmation: PASSWORD.dup
+  password_confirmation: PASSWORD.dup,
+  role: "level2"
+  })
+
+levelUnknown = User.find_by(email: LEVELUNKNOWN_USER.dup)
+levelUnknown.destroy unless levelUnknown.nil?
+User.create({ 
+  email: LEVELUNKNOWN_USER.dup,
+  approved: true,
+  password: PASSWORD.dup,
+  password_confirmation: PASSWORD.dup,
+  role: "unknown"
   })

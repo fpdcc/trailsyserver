@@ -1,31 +1,56 @@
-class Alerting < ActiveRecord::Base
+class Alerting < ApplicationRecord
 
-	belongs_to :alert
+  has_paper_trail
+
+	belongs_to :alert, touch: true
+
+	#accepts_nested_attributes_for :alert
+
+	#attr_accessor :description, :alert_type, :link, :latitude, :longitude, :universal
 
 	# Yes, but we want higher level users to be able to create alert when creating alerting
-	validates  :alert, presence: true
+	#validates  :alert, presence: true
 
   	belongs_to :alertable, :polymorphic => true
-  	validates  :alertable, presence: true
+  	validates  :alertable, presence: true, unless: :alertable_type_global?
 
-  	validates :alertable_type, presence: true
-  	validates :alertable_id, presence: true
-  	validates :alert_id, presence: true
-  	validates :starts_at, presence: true
-  	validate :end_date_is_after_start_date
+  	# validates :alertable_type, presence: true
+  	validates :alertable_id, presence: true, unless: :alertable_type_global?
+
+    def alertable_type_global?
+      alertable_type == "global"
+    end
+
+  	# validates :alert_id, presence: true
+  	# validates :starts_at, presence: true
+  	# validate :end_date_is_after_start_date
+
+  	#    
+
+    #scope :closure, -> { joins(:alert).where('alerts.alert_type = ?', 1).references(:alert)}
+
+    # validates :starts_at, :ends_at, if: :closure?, :overlap => {
+    # 	:scope => ["alertable_type", "alertable_id"], 
+    # 	:query_options => {:closure => nil}
+    # }
+
+    # def closure?
+    # 	logger.info "in closure def"
+    # 	if (alert.alert_type == 'closure')
+    # 	  logger.info "closure true"
+    # 	  return true
+    # 	else
+    # 	  logger.info "closure false"
+    # 	  return false
+    # 	end
+    # end
 
 
 	#######
 	private
 	#######
 
-	def end_date_is_after_start_date
-	  return if ends_at.blank? || starts_at.blank?
-
-	  if ends_at < starts_at
-	    errors.add(:ends_at, "cannot be before the start date") 
-	  end 
-	end
+	
 
 
   	#scope :alert_type, lambda {|alert_type| joins(:alerts).where('alerts.alert_type = ?', alert_type)}

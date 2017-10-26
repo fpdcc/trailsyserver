@@ -1,0 +1,41 @@
+<%= form_for(@trails_desc) do |f| %>
+  <% if @trails_desc.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@trails_desc.errors.count, "error") %> prohibited this trails_desc from being saved:</h2>
+
+      <ul>
+      <% @trails_desc.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :trail_desc_id %><br>
+    <%= f.number_field :trail_desc_id %>
+  </div>
+  <div class="field">
+    <%= f.label :trail_subsystem %><br>
+    <%= f.text_field :trail_subsystem %>
+  </div>
+  <div class="field">
+    <%= f.label :alt_name %><br>
+    <%= f.text_field :alt_name %>
+  </div>
+  <div class="field">
+    <%= f.label :trail_desc %><br>
+    <%= f.text_field :trail_desc %>
+  </div>
+  <div class="field">
+    <%= f.label :map_link %><br>
+    <%= f.text_field :map_link %>
+  </div>
+  <div class="field">
+    <%= f.label :map_link_spanish %><br>
+    <%= f.text_field :map_link_spanish %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,4 +1,4 @@
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   has_attached_file :logo, :styles => { medium: "150x150>"}
 
   validates :code, uniqueness: true

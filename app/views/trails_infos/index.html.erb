@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Trails Infos</h1>
+
+<table class="table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <% for column in TrailsInfo.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @trails_infos.each do |trails_info| %>
+      <tr>
+        <% trails_info.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
+        <td><%= link_to 'Show', trails_info %></td>
+        <td><%= link_to 'Edit', edit_trails_info_path(trails_info) %></td>
+        <td><%= link_to 'Destroy', trails_info, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+
+<%= will_paginate @trails_infos, renderer: BootstrapPagination::Rails %>
+
+<br>
+
+<%= link_to 'New Trails info', new_trails_info_path %>

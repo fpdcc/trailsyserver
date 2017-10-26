@@ -1,5 +1,8 @@
 <h1>New Alert</h1>
 
-<%= render 'form' %>
+<h2>Referrer:</h2> <%= request.referrer %>
 
-<%= link_to 'Back', alerts_path %>
+	<%= render partial: "form_embed_Pointsofinterest", locals: {alert: @alert, alertable: @alert.pointsofinterests.first, alertable_type: 'Pointsofinterest', path: {controller: "alerts", action: "create"}} %>
+<% end %>
+<br>
+<%= link_to 'Back', :back, class: "btn btn-default" %>

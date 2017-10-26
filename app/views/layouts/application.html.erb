@@ -1,45 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>To The Trails Administration</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <title>FPCC Alerts & Closures</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag 'favicon.ico' %>
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <div class="topheader">
-    <ul class="hmenu"> 
-      <%= image_tag "fpcc-map-logo.gif", class: "admin-logo", alt: "Product1" %>
-      <li class="<%= 'active' if current_page?(controller: '/statuses') %>"><%= link_to "Status/Alerts", statuses_path, :class => "MenuItemTop" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trails') %>"><%= link_to "Trails", trails_path, :class => "MenuItemTop" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trailheads') %>"><%= link_to "Entrances/POIs", trailheads_path, :class => "MenuItemTop" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/activities') %>"><%= link_to "Activities", activities_path, :class => "MenuItemTop" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trailsegments') %>"><%= link_to "Segments", trailsegments_path, :class => "MenuItemTop" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/organizations') %>"><%= link_to "Organizations", organizations_path, :class => "MenuItemTop" %></li>
-      <% if current_user && current_user.admin? %>
-        <li class="<%= 'active' if current_page?(controller: '/users') %>"><%= link_to "Users", users_path, :class => "MenuItemTop" %></li>
+  <%= nav_bar brand: "FPCC Alerts & Closures", brand_link: poi_alerts_path , fluid: true do %>
+    <%= menu_group do %>
+      <%= menu_divider %>
+      <% if user_signed_in? %>
+        <% if policy(:alert).poi? %>
+          <%= menu_item "Locations", poi_alerts_path %>
+        <% end %>
+        <% if policy(:alert).trail? %>
+          <%= menu_item "Trail Systems", trail_alerts_path %>
+        <% end %>
+        <% if current_user.admin? %>
+          <% if policy(:alert).global? %><%= menu_item "Global Alerts", global_alerts_path %><% end %>
+          <%= drop_down "Alerts" do %>
+            <%= menu_item "All Alerts", alerts_path %>
+            <%= menu_item "Alert Change History", history_alerts_path %>
+          <% end %>
+          <%= drop_down "Trails" do %>
+            <%= menu_item "Trails Geometry", new_trails_path %>
+            <%= menu_item "Trails Info", trails_infos_path %>
+            <%= menu_item "Trails Desc", trails_descs_path %>
+          <% end %>
+          <%= menu_item "PointsofInterest", pointsofinterests_path %>
+          <%= drop_down "Activities" do %>
+            <%= menu_item "Activities", activities_path %>
+            <%= menu_item "Picnic Groves", picnicgroves_path %>
+          <% end %>
+        <% end %>
+        <%= drop_down "Hi, #{current_user.email}" do %>
+          <% if current_user.admin? %>
+            <%= menu_item "Manage Users", users_path %>
+          <% end %>
+          <%= menu_item 'Edit Account', edit_user_registration_path %>
+          <%= menu_item 'Logout', destroy_user_session_path, :method => :delete %>
+        <% end %>
+      <% else %>
+        <%= menu_item 'Login', new_user_session_path  %>
+      <% end %>          
+    <% end %>
+  <% end %>
+  
+  <div id="page-container" class="container-main container center-block">
+    <%= query_diet_widget if Rails.env.development? %>
+    <div id="notifications">
+      <% if flash[:notice] || flash[:alert] || flash[:error] || flash[:success] %>
+          <div class="alert <%= flash[:notice].present? ? "alert-success" : "alert-warning" %>">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <%= flash[:alert] %>
+              <%= flash[:notice] %>
+              <%= flash[:error] %>
+              <%= flash[:success] %>
+          </div>
       <% end %>
-      <%= render 'devise/menu/registration_items'%>
-      <%= render 'devise/menu/login_items' %>
-    </ul>
-  </div>
-  <!-- <div id="MenuBar">
+    </div> <!-- notifications -->
 
-    <ul >
-      <li class="<%= 'active' if current_page?(controller: '/statuses') %>"><%= link_to "Status/Alerts", statuses_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trails') %>"><%= link_to "Trails", trails_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trailheads') %>"><%= link_to "Entrances/POIs", trailheads_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/activities') %>"><%= link_to "Activities", activities_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/trailsegments') %>"><%= link_to "Segments", trailsegments_path, :class => "MenuItem" %></li>
-      <li class="<%= 'active' if current_page?(controller: '/organizations') %>"><%= link_to "Organizations", organizations_path, :class => "MenuItem" %></li>
-      <% if current_user && current_user.admin? %>
-        <li class="<%= 'active' if current_page?(controller: '/users') %>"><%= link_to "Users", users_path, :class => "MenuItem" %></li>
-      <% end %>
-    </ul>
-  </div> -->
-<%= yield %>
+    <%= yield %>
+  </div>
 </body>
 </html>

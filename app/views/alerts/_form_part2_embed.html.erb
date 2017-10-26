@@ -1,0 +1,6 @@
+<div class="form-group">
+	<%= f.fields_for :alertings do |alerting| %>
+		<%= alerting.hidden_field :alertable_type, value: alertable_type %>
+		<%= alerting.hidden_field :alertable_id, value: alertable.id %>
+	<% end %>
+</div>

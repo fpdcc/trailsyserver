@@ -10,24 +10,7 @@
       </ul>
     </div>
   <% end %>
-
-  <!-- <div class="field">
-    <%= f.label :alert_id %><br>
-    <%= f.number_field :alert_id %>
-  </div> -->
-  <div class="field">
-    <%= f.label :alert_type %><br>
-    <%= f.select :alert_type, Alert.alert_types.map { |key, value| [key.humanize, key] } %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :link %><br>
-    <%= f.text_field :link %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= render 'form_part1', f: f, alertable_id: alertable_id, alert: @alert %>
+  <%= render 'form_part2_standalone', f: f %>
+  <%= f.submit nil, class: "btn btn-primary" %>
 <% end %>

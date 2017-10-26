@@ -1,4 +1,4 @@
-class StatusController < ActionController::Base
+class StatusController < ApplicationController
   respond_to :json
 
   def check

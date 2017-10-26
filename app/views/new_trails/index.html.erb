@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing New Trails</h1>
+
+<table class="table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <% for column in NewTrail.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @new_trails.each do |new_trail| %>
+      <tr>
+        <% new_trail.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
+        <td><%= link_to 'Show', new_trail %></td>
+        <td><%= link_to 'Edit', edit_new_trail_path(new_trail) %></td>
+        <td><%= link_to 'Destroy', new_trail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+
+<%= will_paginate @new_trails, renderer: BootstrapPagination::Rails %>
+
+
+<br>
+
+<%= link_to 'New New trail', new_new_trail_path %>

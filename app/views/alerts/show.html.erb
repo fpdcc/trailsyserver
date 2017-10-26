@@ -1,13 +1,16 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Alert:</strong>
-  <%= @alert.alert_id %>
+  <%= @alert.id %>
 </p>
 
 <p>
   <strong>Alert type:</strong>
   <%= @alert.alert_type %>
+</p>
+
+<p>
+  <strong>Reason:</strong>
+  <%= @alert.reason %>
 </p>
 
 <p>
@@ -25,5 +28,19 @@
   <%= @alert.created_by %>
 </p>
 
+<p>
+  <strong>Starts at:</strong>
+  <%= @alert.starts_at %>
+</p>
+<p>
+  <strong>Ends at:</strong>
+  <%= @alert.ends_at %>
+</p>
+
+<% @alert.alertings.each do |alerting| %>
+  <p><%= alerting.alertable_type %> <%= alerting.alertable_id %> : <%= alerting.alertable.name %></p>
+  <br>
+<% end %>
+
 <%= link_to 'Edit', edit_alert_path(@alert) %> |
-<%= link_to 'Back', alerts_path %>
+<%= link_to 'Back', :back %>

@@ -1,4 +1,4 @@
-class Trail < ActiveRecord::Base
+class Trail < ApplicationRecord
 
   include AlertingsMethods
   
@@ -13,8 +13,6 @@ class Trail < ActiveRecord::Base
   belongs_to :source, class_name: 'Organization', foreign_key: "source_id"
 
   accepts_nested_attributes_for :photorecord, allow_destroy: true
-
-  has_many :statuses, as: :statusable, foreign_key: "trail_id"
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings

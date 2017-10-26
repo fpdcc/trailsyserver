@@ -1,0 +1,47 @@
+<% if current_user.admin? %>
+<h1>Global Alerts</h1>
+
+<button id="new-global" data-alertable-id="global" class="new-button btn btn-info btn-sm add-alert">Add New Alert</button>
+  <div id="form-new-global" class="form-new" style="display: none">
+    <h3>Create Alert</h3>
+    <%= render partial: "form_embed_Global", locals: {alert: @alert, page_type: 'Global', path: {controller: "alerts", action: "create"}} %>
+  </div>
+<table class="table-striped table-bordered table-hover col-md-12">
+  <thead>
+    <tr>
+      <th>Alert Id</th>
+      <th>Alert Details</th>
+      <!-- <th>Start Date</th>
+      <th>End Date</th>
+      <th>Description</th>
+      <th>Link</th>-->
+      <th>Created by</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <!-- <th colspan="3"></th>  -->
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @alerts.each do |alert| %>
+      <tr>
+        <td><%= alert.id %></td>
+        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', page_type: 'Global', alertable_type: 'global'} %></ul></td>
+       <!--  <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
+        <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
+        <td><%= alert.full_desc %></td>
+        <td><%= alert.link %></td>-->
+        <td><% if alert.created_by.present? %><%= User.find(alert.created_by).email %><% end %></td>
+        <td><%= alert.created_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
+        <td><%= alert.updated_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
+       <!--  <td><%= link_to 'Show', alert %></td>
+        <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
+        <td><%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>  -->
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate @alerts, renderer: BootstrapPagination::Rails %>
+<br>
+
+<% end %>

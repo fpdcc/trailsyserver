@@ -1,7 +1,33 @@
-Trailsyserver::Application.routes.draw do
+#Trailsyserver::Application.routes.draw do
+Rails.application.routes.draw do
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  resources :trail_subtrails
+  resources :trail_systems
+  get 'dashboard/index'
+
+  resources :picnicgroves
+  resources :pointsofinterests do 
+    resources :alertings
+  end
+  resources :parking_entrances
+  resources :poi_descs
+  resources :new_trails
+  resources :trails_descs
+  resources :trails_infos
   resources :alertings
-  resources :alerts
-  resources :statuses
+  resources :alerts do
+    resources :alertings
+    collection do
+      get 'poi'
+      get 'trail'
+      get 'global'
+      get 'list'
+      get 'history'
+    end
+  end
+ 
   resources :activities do
     collection do
       post 'upload'
@@ -40,9 +66,9 @@ Trailsyserver::Application.routes.draw do
 
   get '.well-known/status' => 'status#check'
 
-  get '/admin' => 'trails#index'
+  get '/admin' => 'alerts#poi'
   
-  root 'trails#index'
+  root to: 'alerts#poi'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

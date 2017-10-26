@@ -1,11 +1,30 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  # :confirmable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :secure_validatable, :lockable
 
-  belongs_to :organization
+  has_paper_trail
+  #belongs_to :organization
+
+  enum role: {
+    unknown: 0,
+    level1: 1,
+    level2: 2,
+    admin: 10
+  }
   # make these work later:
   # after_create :send_admin_mail
+  after_update :notify_email_change, if: -> { email_changed? }
+  after_update :notify_password_change, if: -> { encrypted_password_changed? }
+
+  def notify_email_change
+    puts "Sending email change to #{email_was}"
+    puts "Sending email change to #{email}"
+  end
+
+  def notify_password_change
+    puts "Sending password change to #{email}"
+  end
 
   # def send_admin_mail
   #   AdminMailer.new_user_waiting_for_approval(self).deliver
