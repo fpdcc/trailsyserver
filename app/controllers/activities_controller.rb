@@ -10,6 +10,7 @@ class ActivitiesController < ApplicationController
     if !current_user
       head 403
     end
+    authorize Activity
     @confirmed = params[:confirmed] ? true : false
     #redirect_to trails_url, notice: "Please enter a source organization code for uploading activities data." if params[:source_id].empty?
     source_id = params[:source_id]
@@ -72,6 +73,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize Activity
         if params[:all] == "true" || current_user.admin?
           @activities = Activity.order("activities_id").paginate(page: params[:page])
         else
@@ -106,6 +108,7 @@ class ActivitiesController < ApplicationController
     respond_to do |format|   
       format.html do
         authenticate_user!
+        authorize @activity
       end
       format.json do
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
@@ -122,6 +125,7 @@ class ActivitiesController < ApplicationController
   # end
 
   def edit
+    authorize @activity
     unless authorized?
       redirect_to trailsegments_path, notice: 'Authorization failure.'
     end
@@ -129,16 +133,19 @@ class ActivitiesController < ApplicationController
 
   def create
     @activity = Activity.new(activity_params)
+    authorize @activity
     @activity.save
     respond_with(@activity)
   end
 
   def update
+    authorize @activity
     @activity.update(activity_params)
     respond_with(@activity)
   end
 
   def destroy
+    authorize @activity
     @activity.destroy
     respond_with(@activity)
   end

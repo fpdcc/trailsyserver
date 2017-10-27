@@ -1,4 +1,4 @@
-class CreateAlertings < ActiveRecord::Migration
+class CreateAlertings < ActiveRecord::Migration[4.2]
   def change
     create_table :alertings do |t|
       t.string :alertable_type

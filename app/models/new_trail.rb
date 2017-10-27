@@ -1,4 +1,4 @@
-class NewTrail < ActiveRecord::Base
+class NewTrail < ApplicationRecord
 	self.primary_key = 'trails_id'
 	has_one :trails_info, foreign_key: :trail_info_id, primary_key: :trails_id
 

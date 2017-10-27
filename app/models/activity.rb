@@ -1,4 +1,4 @@
-class Activity < ActiveRecord::Base
+class Activity < ApplicationRecord
   self.primary_key = 'activities_id'
 
   #belongs_to :trailhead, foreign_key: "trailhead_id"

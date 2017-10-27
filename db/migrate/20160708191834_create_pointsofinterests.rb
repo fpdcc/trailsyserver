@@ -1,4 +1,4 @@
-class CreatePointsofinterests < ActiveRecord::Migration
+class CreatePointsofinterests < ActiveRecord::Migration[4.2]
   def change
     create_table :pointsofinterests do |t|
       t.integer :pointsofinterest_id

@@ -1,5 +1,8 @@
-Trailsyserver::Application.routes.draw do
-  resources :updates
+#Trailsyserver::Application.routes.draw do
+Rails.application.routes.draw do
+
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
   resources :trail_subtrails
   resources :trail_systems
   get 'dashboard/index'
@@ -19,6 +22,9 @@ Trailsyserver::Application.routes.draw do
     collection do
       get 'poi'
       get 'trail'
+      get 'global'
+      get 'list'
+      get 'history'
     end
   end
  
@@ -57,6 +63,8 @@ Trailsyserver::Application.routes.draw do
       post 'upload'
     end
   end
+
+  resources :updates
 
   get '.well-known/status' => 'status#check'
 

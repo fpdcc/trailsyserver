@@ -1,4 +1,4 @@
-class CreateParkingEntrances < ActiveRecord::Migration
+class CreateParkingEntrances < ActiveRecord::Migration[4.2]
   def change
     create_table :parking_entrances do |t|
       t.integer :parking_entrance_id

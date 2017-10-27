@@ -1,8 +1,10 @@
-class Alerting < ActiveRecord::Base
+class Alerting < ApplicationRecord
 
-	belongs_to :alert
+  has_paper_trail
 
-	accepts_nested_attributes_for :alert
+	belongs_to :alert, touch: true
+
+	#accepts_nested_attributes_for :alert
 
 	#attr_accessor :description, :alert_type, :link, :latitude, :longitude, :universal
 
@@ -10,13 +12,13 @@ class Alerting < ActiveRecord::Base
 	#validates  :alert, presence: true
 
   	belongs_to :alertable, :polymorphic => true
-  	validates  :alertable, presence: true, unless: :alertable_type_all?
+  	validates  :alertable, presence: true, unless: :alertable_type_global?
 
   	# validates :alertable_type, presence: true
-  	validates :alertable_id, presence: true, unless: :alertable_type_all?
+  	validates :alertable_id, presence: true, unless: :alertable_type_global?
 
-    def alertable_type_all?
-      alertable_type == "all"
+    def alertable_type_global?
+      alertable_type == "global"
     end
 
   	# validates :alert_id, presence: true

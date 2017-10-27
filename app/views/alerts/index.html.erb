@@ -1,5 +1,19 @@
 <% if current_user.admin? %>
+
 <h1>Alerts</h1>
+
+<%= search_form_for @q, url: request.path, html: { class: 'form-inline' } do |f| %>
+  <div class="checkbox">
+    <%= f.label :past, "Expired Only:" %>
+    <%= f.check_box :past, class: "form-control" %>
+  </div>
+  <div class="form-group">
+  <%= f.label "Alert Type:" %>
+    <%= f.select :alert_type_eq, Alert.alert_types.to_a.map { |w| [w[0].humanize, w[1]] }, {:include_blank => "All Types"}, {class: "form-control" } %>
+  </div>
+  <%= f.submit class: "btn btn-success" %>
+  <%= link_to 'Clear Search', request.path, class: "btn btn-default" %>
+<% end %>
 
 <table class="table-striped table-bordered table-hover col-md-12">
   <thead>
@@ -15,7 +29,7 @@
       <th>Created by</th>
       <th>Created At</th>
       <th>Updated At</th>
-      <th colspan="3"></th>
+      <!-- <th colspan="3"></th> -->
     </tr>
   </thead>
 
@@ -26,23 +40,21 @@
         <td><%= alert.alert_type %></td>
         <td><%= alert.starts_at.try(:strftime, '%m/%d/%Y') %></td>
         <td><%= alert.ends_at.try(:strftime, '%m/%d/%Y') %></td>
-        <td><%= alert.full_desc %></td>
+        <td><ul class='dashboard'><%= render partial: 'alert_info', locals: {alert: alert, alertable: '', alertable_id: 'global', page_type: 'global'} %></ul></td>
         <td><%= alert.link %></td>
         <td><%= alert.pointsofinterests.pluck(:name).to_sentence %></td>
         <td><%= alert.trail_systems.pluck(:trail_subsystem).to_sentence %> - <%= alert.trail_subtrails.pluck(:subtrail_name).to_sentence %></td>
         <td><% if alert.created_by.present? %><%= User.find(alert.created_by).email %><% end %></td>
         <td><%= alert.created_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
         <td><%= alert.updated_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
-        <td><%= link_to 'Show', alert %></td>
+        <!-- <td><%= link_to 'Show', alert %></td>
         <td><%= link_to 'Edit', edit_alert_path(alert) %></td>
-        <td><%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', alert, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
       </tr>
     <% end %>
   </tbody>
 </table>
 <%= will_paginate @alerts, renderer: BootstrapPagination::Rails %>
 <br>
-
-<%= link_to 'New Alert', new_alert_path %>
 
 <% end %>

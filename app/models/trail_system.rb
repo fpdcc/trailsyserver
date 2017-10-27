@@ -1,11 +1,12 @@
-class TrailSystem < ActiveRecord::Base
+class TrailSystem < ApplicationRecord
   self.primary_key = 'trail_subsystem'
   self.per_page = 30
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
+  #has_many :current_future_alerts, :through => :alertings
   has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
-  has_many :pointsofinterests, -> { uniq }, through: :trails_infos
+  has_many :pointsofinterests, -> { distinct }, through: :trails_infos
   has_many :trail_subtrails, -> { order(length_mi: :desc) }, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
@@ -30,8 +31,16 @@ class TrailSystem < ActiveRecord::Base
   	self.trail_subsystem
   end
 
+  def type
+    'trail'
+  end
+
   def maintenance_div
   	self.trails_infos.pluck(:maintenance).uniq
+  end
+
+  def map_id
+    self.trail_subsystem
   end
 
   def subtrails

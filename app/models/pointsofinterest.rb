@@ -1,4 +1,4 @@
-class Pointsofinterest < ActiveRecord::Base
+class Pointsofinterest < ApplicationRecord
   self.primary_key = 'poi_info_id'
   has_one :poi_desc, foreign_key: :poi_info_id, primary_key: :poi_info_id
   has_many :activities, foreign_key: :poi_info_id, primary_key: :poi_info_id
@@ -8,9 +8,12 @@ class Pointsofinterest < ActiveRecord::Base
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
 
+  has_many :current_alerts, -> { current }, :through => :alertings, :source => 'alert'
+  has_many :future_alerts, -> { future }, :through => :alertings, :source => 'alert'
+
   accepts_nested_attributes_for :alerts
   accepts_nested_attributes_for :alertings
-
+  
   # has_many :active_alertings, -> { active }, :as => :alertable
   # has_many :alerts, :through => :active_alertings
 
@@ -46,6 +49,7 @@ class Pointsofinterest < ActiveRecord::Base
 
   scope :with_current_or_future_alerts,  ->  { references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('name asc')}
 
+  scope :id_and_name_only, -> { select(:id, :poi_info_id, :name)}
 
   # scope :with_quotes_count, -> do joins('LEFT OUTER JOIN quotes_themes on quotes_themes.theme_id = themes.id') .select('themes.*, COUNT(quotes_themes.quote_id) as quotes_count') .group('themes.id')end
 
@@ -64,6 +68,14 @@ class Pointsofinterest < ActiveRecord::Base
     else
       return geom
     end
+  end
+
+  def map_id
+    self.id + '-' + self.name
+  end
+
+  def type
+    'poi'
   end
 
   def trail_subsystems

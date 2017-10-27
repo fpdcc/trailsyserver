@@ -1,0 +1,30 @@
+<%= form_for(alert, html: {class: "form-horizontal", remote: :true}) do |f| %>
+  <div id="error-div-global-<%= alert.id %>" class='error-div'></div>
+  <div class="form-group">
+    <%= f.hidden_field :alert_type, value: 'global', id: "field-alert-type-global-#{alert.id}" %>
+    <% origin_type = alert.new_record? ? page_type : alert.origin_type %>
+    <%= f.hidden_field :origin_type, value: origin_type, id: "field-origin-type-global-#{alert.id}" %>
+  </div>
+  <div class=" form-group input-group input-daterange">
+    <%= f.label :starts_at, "Start Date" %>
+    <%= f.date_select :starts_at, class: "form-control" %>
+    <div class="input-group-addon">to</div>
+    <%= f.label :ends_at, "End Date" %>
+    <%= f.date_select :ends_at, class: "form-control" %>
+  </div>
+  <div class="form-group" id="form-group-description %> ">
+    <%= f.label :description %><br>
+    <%= f.text_area :description, class: "form-control", rows: "3", id: "field-description-global-#{alert.id}", "data-alert-id" => "#{alert.id}" %>
+  </div>
+  <% if !current_user.level1? %>
+    <div class="form-group" id="form-group-link %> ">
+      <%= f.label :link %><br>
+      <%= f.text_field :link, readonly: current_user.level1?, class: "form-control", id: "field-description-global-#{alert.id}", "data-alert-id" => "#{alert.id}" %>
+    </div>  
+  <% end %>
+  <div class="form-group">
+    <%= f.hidden_field :div_id, id: "field-div_id-global-#{alert.id}", value: "error-div-global-#{alert.id}" %>
+    <%= f.submit :class => "btn btn-success submit-button", :type => "submit" %>
+    <%= button_tag "Cancel", type: :reset, class: "btn btn-default cancel-button" %>
+  </div>
+<% end %>

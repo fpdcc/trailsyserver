@@ -1,4 +1,4 @@
-class TrailSubtrail < ActiveRecord::Base
+class TrailSubtrail < ApplicationRecord
 	self.primary_key = 'subtrail_id'
 	before_save :create_subtrail_id
   	before_save :create_subtrail_name

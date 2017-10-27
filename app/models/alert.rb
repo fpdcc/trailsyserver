@@ -1,6 +1,10 @@
-class Alert < ActiveRecord::Base
+class Alert < ApplicationRecord
 
-	has_many :alertings
+  has_paper_trail meta: { full_desc:  :description,
+                          pois: :poi_names,
+                          trails:  :trail_names }
+
+	has_many :alertings, dependent: :destroy
 	has_many :trail_systems, :through => :alertings, :source => :alertable,
   	:source_type => 'TrailSystem'
 	has_many :pointsofinterests, :through => :alertings, :source => :alertable,
@@ -17,7 +21,9 @@ class Alert < ActiveRecord::Base
   attr_accessor :poi
 
   validates :alert_type,       presence: true
-	enum      alert_type: { alert: 0, closure: 1 }
+	enum      alert_type: { alert: 0, closure: 1, global: 2 }
+  validates :origin_type, presence: true
+  enum      origin_type: { Pointsofinterest: 0, TrailSystem: 1, Global: 2 }
   validates :description, presence: true
   validates :starts_at, presence: true
 
@@ -28,34 +34,63 @@ class Alert < ActiveRecord::Base
 
   self.per_page = 30
 
+  def self.ransackable_scopes(auth_object = nil)
+    [:past, :future, :current_or_near_future]
+  end
+
   def full_desc
     new_desc = description
-    trail_systems = self.trail_systems
-    if trail_systems.count > 0
-      trail_systems.each do |trail_system|
-        new_desc += " on #{trail_system.name}"
-        subtrails = self.trail_subtrails.where(trail_subsystem: trail_system)
-        if subtrails.count > 0
+    trail_systems = self.trail_systems.pluck(:trail_subsystem)
+    if trail_systems.length > 0
+      trail_systems.each do |trail_subsystem|
+        new_desc += " on #{trail_subsystem}"
+        subtrails = self.trail_subtrails.where(trail_subsystem: trail_subsystem)
+        if subtrails.length > 0
           new_desc += " - "
           new_desc += subtrails.pluck(:subtrail_name).to_sentence
         end
       end
       pois = self.pointsofinterests
-      if pois.count > 0
+      if pois.length > 0
         new_desc += " near "
-        new_desc += pois.pluck(:name).to_sentence
+        poi_list = []
+        pois.each do |poi|
+          this_desc = "<a href='" + ENV['MAP_URL'] + "/#/?poi=" + poi.id + "-" + poi.name.gsub(/[& ]/, '+') + "'>" + poi.name + "</a>"
+            poi_list.push(this_desc)
+        end
+        new_desc += poi_list.to_sentence
       end
     end
+    new_desc.end_with?('.', '!', '?') ? new_desc : new_desc + '.'
+  end
 
-    new_desc
+  def poi_names
+    self.pointsofinterests.pluck(:name).to_sentence
+  end
+
+  def trail_names
+    trail_systems = self.trail_systems.pluck(:trail_subsystem)
+    trail_names = ""
+    if trail_systems.length > 0
+      trail_systems.each do |trail_subsystem|
+        trail_names += trail_subsystem
+        subtrails = self.trail_subtrails
+        if subtrails.length > 0
+          trail_names += " - "
+          trail_names += subtrails.pluck(:subtrail_name).to_sentence
+        end
+      end
+    end
+    trail_names
   end
 
   def self.poi_options_level1
     options = {}
-    options['CLOSED: ice/snow'] = {alert_type: 'closure', description: 'Parking area closed due to ice and/or snow.'}
-    options['CLOSED: flooding'] = {alert_type: 'closure', description: 'Parking area closed due to flooding.'}
-    options['CLOSED: storm debris'] = {alert_type: 'closure', description: 'Parking area closed due to storm debris.'}
-    options['CLOSED: weather'] = {alert_type: 'closure', description: 'Parking area closed due to weather.'}
+    options['CLOSED: ice/snow'] = {alert_type: 'closure', description: 'Parking area closed due to ice and/or snow'}
+    options['CLOSED: flooding'] = {alert_type: 'closure', description: 'Parking area closed due to flooding'}
+    options['CLOSED: Parking lot repair/repaving'] = {alert_type: 'closure', description: 'Parking area closed for repair/repaving'}
+    options['CLOSED: storm debris'] = {alert_type: 'closure', description: 'Parking area closed due to storm debris'}
+    options['CLOSED: weather'] = {alert_type: 'closure', description: 'Parking area closed due to weather'}
     options['OPEN: sledding'] = {alert_type: 'alert', description: 'Sledding hill currently open. Hours & contact info: http://fpdcc.com/sledding-coasting/'}
     options['OPEN: snowmobile'] = {alert_type: 'alert', description: 'Snowmobile area currently open. Hours & contact info: http://fpdcc.com/snowmobiling/'}
     return options
@@ -63,11 +98,11 @@ class Alert < ActiveRecord::Base
 
   def self.poi_options_level2
     options = {}
-    options['CLOSED: land management'] = {alert_type: 'closure', description: 'Closed for land management.'}
+    options['CLOSED: land management'] = {alert_type: 'closure', description: 'Closed for land management'}
     options['CLOSED: other'] = {alert_type: 'closure', description: ''}
-    options['marking hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being marked for removal in this area.'}
-    options['removing hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being removed in this area.'}
-    options['prescribed burn'] = {alert_type: 'alert', description: 'Prescribed burn in the area.'}
+    options['marking hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being marked for removal in this area'}
+    options['removing hazardous trees'] = {alert_type: 'alert', description: 'Hazardous trees and those impacted by the Emerald Ash Borer are being removed in this area'}
+    options['prescribed burn'] = {alert_type: 'alert', description: 'Prescribed burn in the area'}
     options['other alert'] = {alert_type: 'alert', description: ''}
     return options
   end
@@ -112,13 +147,23 @@ class Alert < ActiveRecord::Base
   def no_overlap_closures
     error_text = ''
     self.pointsofinterests.each do |poi|
-      if poi.closed?
-        errors.add(:poi, "#{poi.name} is already closed.")
+      poi.alerts.closure.current.each do |this_alert|
+        if this_alert != self
+          errors.add(:poi, "#{poi.name} is already closed.")
+        end
       end
     end
   end
 
-  default_scope { includes(:user).includes(:alertings) }
+  def self.expire_alerts_json
+    ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+    app = ActionDispatch::Integration::Session.new Rails.application
+    app.get("https://#{ENV['SERVER']}/alerts.json")
+    app.get("https://#{ENV['SERVER']}/alerts/list.json")
+  end
+
+  #default_scope { includes(:user) }
 
   scope :current_or_future, -> {
     where('ends_at >= ? or (starts_at is not null and ends_at is null)', Time.now)
@@ -134,6 +179,10 @@ class Alert < ActiveRecord::Base
 
   scope :future, -> {
     where('starts_at > ?', Time.now)
+  }
+
+  scope :past, -> {
+    where('ends_at < ?', Time.now)
   }
 
 end

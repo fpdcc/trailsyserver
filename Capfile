@@ -10,6 +10,8 @@ require 'rvm1/capistrano3'
 require 'capistrano/rails'
 require 'capistrano/rake'
 require 'capistrano3/unicorn'
+require 'capistrano/bundler'
+require "whenever/capistrano"
 
 
 # Load the SCM plugin appropriate to your project:

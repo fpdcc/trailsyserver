@@ -1,4 +1,4 @@
-class CreateNewTrails < ActiveRecord::Migration
+class CreateNewTrails < ActiveRecord::Migration[4.2]
   def change
     create_table :new_trails do |t|
       t.integer :trails_id

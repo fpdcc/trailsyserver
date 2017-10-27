@@ -1,4 +1,4 @@
-class Trail < ActiveRecord::Base
+class Trail < ApplicationRecord
 
   include AlertingsMethods
   

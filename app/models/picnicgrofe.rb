@@ -1,7 +1,7 @@
-class Picnicgrofe < ActiveRecord::Base
+class Picnicgrofe < ApplicationRecord
 	self.primary_key = "picnicgrove_id"
 
-	belongs_to :poi_info, foreign_key: :poi_info_id, primary_key: :poi_info_id
+	belongs_to :pointsofinterest, foreign_key: :poi_info_id, primary_key: :poi_info_id
 
 	default_scope {where(status: 'active')}
 

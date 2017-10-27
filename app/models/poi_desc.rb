@@ -1,4 +1,4 @@
-class PoiDesc < ActiveRecord::Base
+class PoiDesc < ApplicationRecord
 	self.primary_key = 'poi_desc_id'
 
 	belongs_to :pointsofinterest, foreign_key: :poi_info_id, primary_key: :poi_info_id, touch: true

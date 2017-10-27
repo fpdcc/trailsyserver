@@ -1,4 +1,4 @@
-class AddFieldsToModels < ActiveRecord::Migration
+class AddFieldsToModels < ActiveRecord::Migration[4.2]
   def change
   	add_column :pointsofinterests, :maintenance_div, :string
   	add_column :pointsofinterests, :pavilion, :integer

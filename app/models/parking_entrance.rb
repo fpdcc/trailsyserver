@@ -1,4 +1,4 @@
-class ParkingEntrance < ActiveRecord::Base
+class ParkingEntrance < ApplicationRecord
 	self.primary_key='parking_info_id'
 
 	has_one :parking_entrance_info, foreign_key: :parking_entrance_id, primary_key: :parking_entrance_id

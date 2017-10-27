@@ -1,0 +1,2 @@
+class PicnicgrofePolicy < DataPolicy
+end

@@ -1,4 +1,4 @@
-class ChangeAddFieldsActivities < ActiveRecord::Migration
+class ChangeAddFieldsActivities < ActiveRecord::Migration[4.2]
   def change
   	add_column    :activities, :atype,         :string
   	remove_column :activities, :activity_type

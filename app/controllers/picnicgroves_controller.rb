@@ -10,6 +10,7 @@ class PicnicgrovesController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize Picnicgrofe
         @picnicgroves = Picnicgrofe.all.paginate(page: params[:page])
       end
       format.json do
@@ -37,22 +38,25 @@ class PicnicgrovesController < ApplicationController
   # GET /picnicgroves/1
   # GET /picnicgroves/1.json
   def show
+    authorize @picnicgrofe
   end
 
   # GET /picnicgroves/new
   def new
     @picnicgrofe = Picnicgrofe.new
+    authorize @picnicgrofe
   end
 
   # GET /picnicgroves/1/edit
   def edit
+    authorize @picnicgrofe
   end
 
   # POST /picnicgroves
   # POST /picnicgroves.json
   def create
     @picnicgrofe = Picnicgrofe.new(picnicgrofe_params)
-
+    authorize @picnicgrofe
     respond_to do |format|
       if @picnicgrofe.save
         format.html { redirect_to @picnicgrofe, notice: 'Picnicgrofe was successfully created.' }
@@ -67,6 +71,7 @@ class PicnicgrovesController < ApplicationController
   # PATCH/PUT /picnicgroves/1
   # PATCH/PUT /picnicgroves/1.json
   def update
+    authorize @picnicgrofe
     respond_to do |format|
       if @picnicgrofe.update(picnicgrofe_params)
         format.html { redirect_to @picnicgrofe, notice: 'Picnicgrofe was successfully updated.' }
@@ -81,6 +86,7 @@ class PicnicgrovesController < ApplicationController
   # DELETE /picnicgroves/1
   # DELETE /picnicgroves/1.json
   def destroy
+    authorize @picnicgrofe
     @picnicgrofe.destroy
     respond_to do |format|
       format.html { redirect_to picnicgroves_url }

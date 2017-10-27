@@ -1,16 +1,4 @@
 <h1>Listing activities</h1>
-<% if current_user.admin? %>
-  <p class='uploadDescription'>
-    Upload a CSV file of your activities. Note: this will replace all of your organization's existing activities data! Before replacing content, we recommend downloading your current data in case anything goes wrong. You can download the current trailhead data for <%= link_to "all sources", {action: "index", format: :json}, target: "_blank" %> here.
-  </p>
-  <%= form_tag({ action: :upload }, multipart: true) do %>
-    <!--<%= select_tag "source_id", options_from_collection_for_select(Organization.all, :id, :code) %>-->
-    <%= file_field_tag 'activities' %><br>
-    <%= submit_tag "Test Upload", id: "submitData", data: { confirm: 'Are you sure? If the "Replace Existing Data" box is checked, this will replace all of your existing trail data.' } %>
-    <%= label_tag :confirmed, 'Replace Existing Data' %>
-    <%= check_box_tag 'confirmed', 'Confirm', false, {id: "confirmed", onclick: "if ($('#confirmed').is(':checked')) { $('#submitData').val('Upload Data') } else {  $('#submitData').val('Test Upload'); }"} %> 
-  <% end %>
-<% end %>
 
 <table class="table-striped table-bordered table-hover">
   <thead>

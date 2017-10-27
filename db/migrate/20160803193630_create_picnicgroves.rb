@@ -1,4 +1,4 @@
-class CreatePicnicgroves < ActiveRecord::Migration
+class CreatePicnicgroves < ActiveRecord::Migration[4.2]
   def change
     create_table :picnicgroves do |t|
       t.integer :picnicgrove_id, null: false

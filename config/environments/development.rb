@@ -1,4 +1,4 @@
-Trailsyserver::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -9,17 +9,34 @@ Trailsyserver::Application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
-  # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  # Show full error reports.
+  config.consider_all_requests_local = true
+
+  # Enable/disable caching. By default caching is disabled.
+  if Rails.root.join('tmp/caching-dev.txt').exist?
+    config.action_controller.perform_caching = true
+    
+    config.cache_store = :memory_store
+    config.public_file_server.headers = {
+      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
+    }
+  else
+    config.action_controller.perform_caching = false
+    
+    config.cache_store = :null_store
+  end
+  config.action_controller.perform_caching = true
+  config.action_controller.page_cache_directory = Rails.root.join "public/page_cache"
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.perform_caching = false
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  # Raise an error on page load if there are pending migrations
+  # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
   # Debug mode disables concatenation and preprocessing of assets.
@@ -27,20 +44,31 @@ Trailsyserver::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = true
+  # Suppress logger output for asset requests.
+  config.assets.quiet = true
 
-  # Generate digests for assets URLs.
-  #config.assets.digest = true
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
 
-  # Version of your assets, change this if you want to expire all your assets.
-  #config.assets.version = '1.0'
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Enable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = true
+  config.action_mailer.default_url_options = { host:  ENV['DEVELOPMENT_SERVER'] }
 
+  config.action_mailer.smtp_settings = {
+    :address   => ENV["SMTP_HOST"],
+    :port      => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USERNAME"],
+    :password  => ENV["SMTP_PASSWORD"],
+    :ssl => true
+  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true # we want to know whats up
+  config.action_mailer.default :charset => "utf-8"
 
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.web_console.development_only = false
 
   config.after_initialize do
     Bullet.enable = true

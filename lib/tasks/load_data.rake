@@ -5,7 +5,7 @@ require 'benchmark'
 namespace :load do
   #task :all => [:trails, :trailheads, :segments, :activities]
 
-  task :all => [:activitiesCSV, :pointsofinterests, :poi_descs, :parking_entrances, :new_trails, :trails_infos, :trail_systems, :trail_subtrails, :trails_descs, :picnicgroves, :expire_pages]
+  task :all => [:pointsofinterests, :poi_descs, :parking_entrances, :activitiesCSV, :new_trails, :trail_systems, :trail_subtrails, :trails_descs, :picnicgroves, :trails_infos, :expire_pages]
   
   desc "Expire page cache"
   task :expire_pages => :environment do
@@ -23,6 +23,15 @@ namespace :load do
     ActionController::Base::expire_page("/new_trails.json")
     ActionController::Base::expire_page("/new_trails.json.gz")
     Rails.logger.info("Removed page cache")
+  end
+
+  desc "Expire & Regenerate alerts"
+  task :expire_alerts => :environment do
+    ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+    app = ActionDispatch::Integration::Session.new Rails.application
+    app.get("https://#{ENV['SERVER']}/alerts.json")
+    app.get("https://#{ENV['SERVER']}/alerts/list.json")
   end
 
 
@@ -331,7 +340,7 @@ namespace :load do
     # if ENV['ACTIVITIES_INPUT']
     #   input_file_names = [ENV['ACTIVITIES_INPUT']]
     # else
-      input_file_names = ["lib/data/trail_desc.csv"]
+      input_file_names = ["lib/data/trails_desc.csv"]
     #end
     input_file_names.each do |input_file_name|
       parsed_items = TrailsDesc.parse_csv(input_file_name)

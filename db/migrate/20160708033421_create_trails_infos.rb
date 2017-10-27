@@ -1,4 +1,4 @@
-class CreateTrailsInfos < ActiveRecord::Migration
+class CreateTrailsInfos < ActiveRecord::Migration[4.2]
   def change
     create_table :trails_infos do |t|
       t.string :trail_system, null: false

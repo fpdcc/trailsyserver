@@ -13,6 +13,7 @@ class TrailsInfosController < ApplicationController
     respond_to do |format|
       format.html do 
         authenticate_user!
+        authorize TrailsInfo
         @trails_infos = TrailsInfo.order(:trail_system, :trail_subsystem, :trail_color, :trail_type, :alt_name).paginate(page: params[:page])
 
       end
@@ -20,7 +21,7 @@ class TrailsInfosController < ApplicationController
         #@trailheads = cached_all_by_name
         #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
         
-        @trails_infos = TrailsInfo.left_join(:trails_desc).select(:direct_trail_id, :trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
+        @trails_infos = TrailsInfo.left_joins(:trails_desc).select(:direct_trail_id, :trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
 
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
         
@@ -47,22 +48,25 @@ class TrailsInfosController < ApplicationController
   # GET /trails_infos/1
   # GET /trails_infos/1.json
   def show
+    authorize @trails_info
   end
 
   # GET /trails_infos/new
   def new
     @trails_info = TrailsInfo.new
+    authorize @trails_info
   end
 
   # GET /trails_infos/1/edit
   def edit
+    authorize @trails_info
   end
 
   # POST /trails_infos
   # POST /trails_infos.json
   def create
     @trails_info = TrailsInfo.new(trails_info_params)
-
+    authorize @trails_info
     respond_to do |format|
       if @trails_info.save
         format.html { redirect_to @trails_info, notice: 'Trails info was successfully created.' }
@@ -77,6 +81,7 @@ class TrailsInfosController < ApplicationController
   # PATCH/PUT /trails_infos/1
   # PATCH/PUT /trails_infos/1.json
   def update
+    authorize @trails_info
     respond_to do |format|
       if @trails_info.update(trails_info_params)
         format.html { redirect_to @trails_info, notice: 'Trails info was successfully updated.' }
@@ -91,6 +96,7 @@ class TrailsInfosController < ApplicationController
   # DELETE /trails_infos/1
   # DELETE /trails_infos/1.json
   def destroy
+    authorize @trails_info
     @trails_info.destroy
     respond_to do |format|
       format.html { redirect_to trails_infos_url }
