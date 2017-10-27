@@ -10,21 +10,24 @@ require 'tzinfo'
 
 path = "/var/www/cap-#{ENV['RAILS_ENV']}/current"
 
+time_zone = "America/Chicago"
+
+
 if File.exist?(path) # handling cold start
 	 env_file = "#{path}/config/local_env.yml"
 	 YAML.load(File.open(env_file)).each do |key, value|
       ENV[key.to_s] = value if ENV[key.to_s].nil?
     end if File.exist?(env_file)
-
+    time_zone = ENV['TIME_ZONE'] || time_zone
     # run our jobs in the right time zone
-  	set :job_template, "TZ=\"#{ENV['TIME_ZONE']}\" bash -l -c ':job'"
+  	set :job_template, "TZ=\"#{time_zone}\" bash -l -c ':job'"
   	set :output, "#{path}/log/cron_log.log"
 
   	# https://coderwall.com/p/ahdolq/local-timezone-fix-for-whenever-gem
   	# see: https://github.com/javan/whenever/pull/239
   	# time should be > 03:00
   	def local_time(time)
-    	TZInfo::Timezone.get(ENV['TIME_ZONE']).local_to_utc(Time.parse(time))
+    	TZInfo::Timezone.get(time_zone).local_to_utc(Time.parse(time))
   	end
 
   	every :reboot do
