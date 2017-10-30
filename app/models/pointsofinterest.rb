@@ -287,7 +287,60 @@ class Pointsofinterest < ApplicationRecord
     tags
   end
 
-	def self.parse_csv(file)
+  def self.parse_csv(contents)
+      pois_to_update = []
+      ids_in_csv = []
+      CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
+        next if (row.to_s =~ /^source/)
+        #logger.info "this row = #{row}"
+        poi_item = Pointsofinterest.find_or_initialize_by(poi_info_id: row['poi_info_id'])
+       
+        ids_in_csv.push(row['poi_info_id'])
+        poi_attrs = {}
+        row.headers.each do |header|
+          value = row[header]
+          next if header == "id"
+          unless value.nil?
+            value = value.squish
+            if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+              value = "y"
+            end
+            if value.to_s.downcase == "no" || value == "N" || value == "f"
+              value = "n"
+            end
+          end
+          # Build poi Info Attrs
+          if poi_item.attributes.has_key? header
+            poi_attrs[header] = value
+          else
+            #p "Field not in trails_info_attrs: #{header}"
+          end
+          end
+          # Determine adds + changes for trails_info
+        poi_item.assign_attributes(poi_attrs)
+        parsed_item = {}
+        parsed_item['id'] = poi_item.id
+        parsed_item['changes'] = poi_item.changes
+        if poi_item.new_record?
+          parsed_item['type'] = "Add"
+          pois_to_update.push(parsed_item)
+        elsif poi_item.changed?
+          parsed_item['type'] = "Update"
+          pois_to_update.push(parsed_item)
+        end
+      end
+
+      ids_in_csv.uniq!
+      Pointsofinterest.where.not(poi_info_id: ids_in_csv).find_each(batch_size: 20000) do |poi|
+        parsed_item = {}
+        parsed_item['id'] = poi.poi_info_id
+        parsed_item['type'] = "Delete"
+        pois_to_update.push(parsed_item)
+      end
+      return pois_to_update
+  end
+
+	def self.parse_csv_old(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile
 	      file_ident = file.path

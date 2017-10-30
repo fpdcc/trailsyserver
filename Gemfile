@@ -85,6 +85,8 @@ gem 'ransack'
 gem 'rack-attack'
 gem 'paper_trail'
 
+gem 'delayed_job_active_record'
+gem "daemons"
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
 
