@@ -45,6 +45,11 @@ td, th {padding:5px;vertical-align:top}
 
 .container-main {margin-top:0;width: 98%;}
 .navbar-default .navbar-nav>li>a{color:#545454}
+.navbar-nav {margin:7.5px -15px;clear:both}
+
+@media (min-width: 768px) {
+	.navbar-nav{float:left;margin:0;clear:none}
+}
 
 .input-group-addon{background:none;border:none}
 
