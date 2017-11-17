@@ -43,7 +43,7 @@ class Alert < ApplicationRecord
     trail_systems = self.trail_systems.pluck(:trail_subsystem)
     if trail_systems.length > 0
       trail_systems.each do |trail_subsystem|
-        new_desc += " on #{trail_subsystem}"
+        new_desc += " #{trail_subsystem}"
         subtrails = self.trail_subtrails.where(trail_subsystem: trail_subsystem)
         if subtrails.length > 0
           new_desc += " - "
