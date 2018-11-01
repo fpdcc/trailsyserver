@@ -140,7 +140,7 @@ group :testing do
 end
 
 group :development, :development_fpcc, :test do
-  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-rails', '~> 3.8'
   gem 'guard'
   gem 'guard-rspec', require: false
   gem 'guard-minitest'
