@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :picnicgrofe do
     picnicgrove_id ""
     preserve_name "MyString"

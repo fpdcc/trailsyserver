@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :pointsofinterest do
     pointsofinterest_id 1
     geom ""

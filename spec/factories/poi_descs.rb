@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :poi_desc do
     poi_info_id 1
     hours1 "MyString"

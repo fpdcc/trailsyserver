@@ -84,6 +84,7 @@ gem 'aws-sdk'
 gem 'ransack'
 gem 'rack-attack'
 gem 'paper_trail'
+gem 'paper_trail-association_tracking'
 
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
@@ -149,7 +150,7 @@ group :development, :development_fpcc, :test do
   gem 'capybara'
   gem 'capybara-email'
   gem 'pry'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'

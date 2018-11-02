@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :trails_desc do
     trail_desc_id 1
     trail_subsystem "MyString"
