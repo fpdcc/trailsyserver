@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 ADMIN_USER = (ENV["DEFAULT_ADMIN_USER"] || "admin@example.com").freeze
-PASSWORD   = (ENV["DEFAULT_ADMIN_PASSWORD"] || "password").freeze
+PASSWORD   = (ENV["DEFAULT_ADMIN_PASSWORD"] || "mYpaSS512%").freeze
 LEVEL1_USER = (ENV["DEFAULT_LEVEL1_USER"] || "level1@example.com").freeze
 LEVEL2_USER = (ENV["DEFAULT_LEVEL2_USER"] || "level2@example.com").freeze
 LEVELUNKNOWN_USER = (ENV["DEFAULT_LEVELUNKNOWN_USER"] || "levelUnknown@example.com").freeze

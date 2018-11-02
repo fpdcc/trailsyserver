@@ -1,12 +1,12 @@
 class AddOpenTrails11FieldsToTrailsegments < ActiveRecord::Migration[4.2]
-  def change
-  	add_column :trailsegments, :segment_id, :string
-  	add_column :trailsegments, :foot, :string
-  	add_column :trailsegments, :bicycle, :string
-  	add_column :trailsegments, :horse, :string
-  	add_column :trailsegments, :ski, :string
-  	add_column :trailsegments, :wheelchair, :string
-  	add_column :trailsegments, :motor_vehicles, :string
+#   def change
+#   	add_column :trailsegments, :segment_id, :string
+#   	add_column :trailsegments, :foot, :string
+#   	add_column :trailsegments, :bicycle, :string
+#   	add_column :trailsegments, :horse, :string
+#   	add_column :trailsegments, :ski, :string
+#   	add_column :trailsegments, :wheelchair, :string
+#   	add_column :trailsegments, :motor_vehicles, :string
 
-  end
+#   end
 end

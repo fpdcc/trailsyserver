@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
-  enable_extension "postgis_topology"
 
   create_table "activities", id: :serial, force: :cascade do |t|
     t.string "activities_id"
@@ -56,17 +55,7 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.datetime "ends_at"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "reason"
-    t.text "segments", default: [], array: true
     t.integer "origin_type"
-  end
-
-  create_table "names", id: :serial, force: :cascade do |t|
-    t.integer "nameid"
-    t.string "name"
-    t.integer "old_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["nameid"], name: "index_names_on_nameid", unique: true
   end
 
   create_table "new_trails", id: :serial, force: :cascade do |t|
@@ -88,26 +77,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.string "logo_content_type"
     t.integer "logo_file_size"
     t.datetime "logo_updated_at"
-  end
-
-  create_table "parking_entrance_infos", id: :serial, force: :cascade do |t|
-    t.integer "parking_entrance_id"
-    t.string "multi_entrance"
-    t.string "private_lot"
-    t.integer "lot"
-    t.string "zone_name"
-    t.string "area_name"
-    t.string "fpd_uid"
-    t.string "point_type"
-    t.string "parking_entrance_addr"
-    t.string "trailaccess"
-    t.integer "nameid"
-    t.integer "parking_info_id"
-    t.string "entrance_closed"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["parking_entrance_id"], name: "index_parking_entrance_infos_on_parking_entrance_id", unique: true
-    t.index ["parking_info_id"], name: "index_parking_entrance_infos_on_parking_info_id", unique: true
   end
 
   create_table "parking_entrances", id: :serial, force: :cascade do |t|
@@ -158,62 +127,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.index ["status"], name: "index_picnicgroves_on_status"
   end
 
-  create_table "poi_amenities", id: :serial, force: :cascade do |t|
-    t.integer "poi_info_id"
-    t.integer "ada"
-    t.integer "bike_parking"
-    t.integer "bike_rental"
-    t.integer "birding"
-    t.integer "boat_ramp"
-    t.integer "boat_rental"
-    t.integer "camping"
-    t.integer "canoe"
-    t.integer "comfortstation"
-    t.integer "cross_country"
-    t.integer "cycling"
-    t.integer "disc_golf"
-    t.integer "dog_friendly"
-    t.integer "dog_leash"
-    t.integer "drinkingwater"
-    t.integer "drone"
-    t.integer "ecological"
-    t.integer "equestrian"
-    t.integer "fishing"
-    t.integer "ice_fishing"
-    t.integer "gas_powered"
-    t.integer "golf"
-    t.integer "hiking"
-    t.integer "indoor_rental"
-    t.integer "large_capacity"
-    t.integer "m_airplane"
-    t.integer "m_boat"
-    t.integer "nature_center"
-    t.integer "natureplay"
-    t.integer "no_alcohol"
-    t.integer "no_parking"
-    t.integer "overlook"
-    t.integer "pavillion"
-    t.integer "picnic_grove"
-    t.integer "shelter"
-    t.integer "skating_ice"
-    t.integer "skating_inline"
-    t.integer "sledding"
-    t.integer "snowmobile"
-    t.integer "swimming"
-    t.integer "toboggan"
-    t.integer "volunteer"
-    t.integer "zip_line"
-    t.integer "poi_amenity_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "nature_preserve"
-    t.integer "no_fishing"
-    t.integer "public_building"
-    t.integer "driving_range"
-    t.index ["poi_amenity_id"], name: "index_poi_amenities_on_poi_amenity_id", unique: true
-    t.index ["poi_info_id"], name: "index_poi_amenities_on_poi_info_id", unique: true
-  end
-
   create_table "poi_descs", id: :serial, force: :cascade do |t|
     t.string "poi_info_id"
     t.string "hours1"
@@ -240,45 +153,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.string "fish_map"
     t.index ["poi_desc_id"], name: "index_poi_descs_on_poi_desc_id", unique: true
     t.index ["poi_info_id"], name: "index_poi_descs_on_poi_info_id", unique: true
-  end
-
-  create_table "poi_infos", id: :serial, force: :cascade do |t|
-    t.integer "poi_info_id"
-    t.string "point_type"
-    t.string "addr"
-    t.string "zip"
-    t.string "zipmuni"
-    t.string "municipality"
-    t.string "public_access"
-    t.decimal "latitude"
-    t.decimal "longitude"
-    t.integer "commdist"
-    t.string "zone_name"
-    t.integer "zonemapno"
-    t.integer "dwmapno"
-    t.integer "nameid"
-    t.integer "pointsofinterest_id"
-    t.integer "fpd_uid"
-    t.string "web_poi"
-    t.string "web_street_addr"
-    t.string "web_muni_addr"
-    t.integer "parking_connection_id"
-    t.integer "parking_info_id"
-    t.integer "alt_nameid"
-    t.integer "alt2_nameid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["poi_info_id"], name: "index_poi_infos_on_poi_info_id", unique: true
-  end
-
-  create_table "poi_to_trails", id: :serial, force: :cascade do |t|
-    t.integer "trail_info_id"
-    t.integer "poi_info_id"
-    t.decimal "distance"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["poi_info_id"], name: "index_poi_to_trails_on_poi_info_id"
-    t.index ["trail_info_id"], name: "index_poi_to_trails_on_trail_info_id"
   end
 
   create_table "pointsofinterests", id: :serial, force: :cascade do |t|
@@ -360,20 +234,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.index ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true
   end
 
-  create_table "statuses", id: :serial, force: :cascade do |t|
-    t.integer "status_type"
-    t.string "reason"
-    t.string "title"
-    t.string "description"
-    t.date "start_date"
-    t.date "end_date"
-    t.string "statusable_type"
-    t.string "statusable_id"
-    t.integer "created_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "trail_subtrails", id: :serial, force: :cascade do |t|
     t.string "trail_subsystem", null: false
     t.string "trail_color"
@@ -395,99 +255,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["trail_subsystem"], name: "index_trail_systems_on_trail_subsystem", unique: true
-  end
-
-  create_table "trailheads", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "steward_id"
-    t.integer "source_id"
-    t.string "trail1"
-    t.string "trail2"
-    t.string "trail3"
-    t.string "trail4"
-    t.string "trail5"
-    t.string "trail6"
-    t.string "parking"
-    t.string "drinkwater"
-    t.string "restrooms"
-    t.string "kiosk"
-    t.string "contactnum"
-    t.point "geom"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "park"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.string "zip"
-    t.string "poi_type"
-    t.text "segment_ids", default: [], array: true
-    t.string "trailhead_id"
-    t.text "trail_ids", default: [], array: true
-    t.integer "large_capacity"
-    t.integer "gas_powered"
-    t.integer "boat_rental"
-    t.integer "picnic_grove"
-    t.integer "shelter"
-    t.integer "hiking"
-    t.integer "cycling"
-    t.integer "in_line_sk"
-    t.integer "cross_country"
-    t.integer "ecological"
-    t.integer "equestrian"
-    t.integer "birding"
-    t.integer "fishing"
-    t.integer "canoe"
-    t.integer "snowmobile"
-    t.integer "m_boat"
-    t.integer "m_airplace"
-    t.integer "camping"
-    t.integer "dog_friendly"
-    t.integer "sledding"
-    t.integer "toboggan_a"
-    t.integer "boat_ramp"
-    t.integer "nature_center"
-    t.integer "swimming"
-    t.integer "golf"
-    t.integer "no_alcohol"
-    t.integer "no_parking"
-    t.integer "comfortstation"
-    t.integer "drinkingwater"
-    t.integer "natureplay"
-    t.integer "ada"
-    t.integer "pavillion"
-    t.integer "trailacces"
-    t.string "hours1"
-    t.string "hours2"
-    t.string "phone"
-    t.text "description"
-    t.string "web_link"
-    t.string "map_link"
-    t.string "map_link_spanish"
-    t.string "vol_link"
-    t.string "vol_link2"
-    t.string "picnic_link"
-    t.string "event_link"
-    t.string "season1"
-    t.string "season2"
-    t.string "special_hours"
-    t.string "special_description"
-    t.string "special_link"
-    t.string "photo_link"
-    t.integer "bike_parking"
-    t.integer "bike_rental"
-    t.integer "disc_golf"
-    t.integer "dog_leash"
-    t.integer "drone"
-    t.integer "ice_fishing"
-    t.integer "indoor_rental"
-    t.integer "overlook"
-    t.integer "skating_ice"
-    t.integer "skating_inline"
-    t.integer "toboggan"
-    t.integer "volunteer"
-    t.integer "zip_line"
-    t.string "custom_link"
   end
 
   create_table "trails", id: :serial, force: :cascade do |t|
@@ -564,42 +331,6 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.index ["trail_subsystem"], name: "index_trails_infos_on_trail_subsystem"
     t.index ["trails_id"], name: "index_trails_infos_on_trails_id"
     t.index ["web_trail"], name: "index_trails_infos_on_web_trail"
-  end
-
-  create_table "trailsegments", id: :serial, force: :cascade do |t|
-    t.integer "source_id"
-    t.integer "steward_id"
-    t.decimal "length"
-    t.string "trail1"
-    t.string "trail2"
-    t.string "trail3"
-    t.string "trail4"
-    t.string "trail5"
-    t.string "trail6"
-    t.string "accessible"
-    t.string "roadbike"
-    t.string "hike"
-    t.string "mtnbike"
-    t.string "equestrian"
-    t.string "xcntryski"
-    t.string "conditions"
-    t.string "trlsurface"
-    t.string "dogs"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "segment_id"
-    t.string "foot"
-    t.string "bicycle"
-    t.string "horse"
-    t.string "ski"
-    t.string "wheelchair"
-    t.string "motor_vehicles"
-    t.text "trail_ids", default: [], array: true
-    t.text "trail_names", default: [], array: true
-    t.text "trail_systems", default: [], array: true
-    t.text "trail_colors", default: [], array: true
-    t.text "secondary_trail_ids", default: [], array: true
-    t.geography "geom", limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
   end
 
   create_table "updates", id: :serial, force: :cascade do |t|
