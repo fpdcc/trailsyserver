@@ -24,3 +24,4 @@ config/database.yml
 
 # Ignore .ruby
 .ruby-gemset
+.ruby-version
