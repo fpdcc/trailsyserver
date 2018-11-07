@@ -21,3 +21,6 @@ config/database.yml
 
 /config/local_env.yml
 /lib/data
+
+# Ignore .ruby
+.ruby-gemset
