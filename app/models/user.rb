@@ -14,8 +14,8 @@ class User < ApplicationRecord
   }
   # make these work later:
   # after_create :send_admin_mail
-  after_update :notify_email_change, if: -> { email_changed? }
-  after_update :notify_password_change, if: -> { encrypted_password_changed? }
+  after_update :notify_email_change, if: -> { saved_change_to_email? }
+  after_update :notify_password_change, if: -> { saved_change_to_encrypted_password? }
 
   def notify_email_change
     puts "Sending email change to #{email_was}"
