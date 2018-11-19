@@ -49,13 +49,19 @@ class PointsofinterestsController < ApplicationController
     end
   end
 
-
   # GET /pointsofinterests/1
   # GET /pointsofinterests/1.json
   def show
     authorize @pointsofinterest
-    @alert = Alert.new
-    @alert.alertings.build
+    respond_to do |format|
+      format.json do
+        @alerts = @pointsofinterest.alerts.current_or_near_future
+      end
+      format.html do
+        @alert = Alert.new
+        @alert.alertings.build
+      end
+    end
   end
 
   # GET /pointsofinterests/new

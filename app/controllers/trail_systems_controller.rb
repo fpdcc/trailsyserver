@@ -13,6 +13,13 @@ class TrailSystemsController < ApplicationController
   # GET /trail_systems/1.json
   def show
     authorize @trail_system
+    respond_to do |format|
+      format.json do
+        @alerts = @trail_system.alerts.current_or_near_future
+      end
+      format.html do
+      end
+    end
   end
 
   # GET /trail_systems/new
