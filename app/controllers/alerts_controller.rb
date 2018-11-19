@@ -84,7 +84,7 @@ class AlertsController < ApplicationController
     if ends_at.present?
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
-    redirect_path = request.referrer
+    redirect_path = request.referrer || "/admin"
     @result = @alert.with_user(current_user).save
     respond_to do |format|
       if @result
@@ -135,14 +135,14 @@ class AlertsController < ApplicationController
       #@alert.ends_at = Date.strptime(ends_at, '%m/%d/%Y')
       @alert.ends_at = Date.strptime(ends_at, '%Y-%m-%d').end_of_day
     end
-
+    redirect_path = request.referrer || "/admin"
     #notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
     @result = @alert.with_user(current_user).update(alert_params)
     respond_to do |format|
       if @result
         notice_message = "#{@alert.alert_type.humanize}: #{@alert.description} was successfully updated for #{@alert.trail_systems.pluck(:trail_subsystem).to_sentence} #{@alert.trail_subtrails.pluck(:subtrail_name).to_sentence} #{@alert.pointsofinterests.pluck(:name).to_sentence}."
 
-        format.html { redirect_to request.referrer , notice: notice_message }
+        format.html { redirect_to redirect_path , notice: notice_message }
         #format.html { redirect_to @alert, notice: 'Alert was successfully updated.' }
         format.json { head :no_content }
         format.js {flash[:notice] = notice_message}
@@ -159,8 +159,9 @@ class AlertsController < ApplicationController
   def destroy
     authorize @alert
     @alert.destroy
+    redirect_path = request.referrer || "/admin"
     respond_to do |format|
-      format.html { redirect_to request.referrer, notice: 'Alert was successfully deleted.' }
+      format.html { redirect_to redirect_path, notice: 'Alert was successfully deleted.' }
       format.json { head :no_content }
     end
   end

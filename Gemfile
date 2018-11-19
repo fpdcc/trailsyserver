@@ -138,6 +138,7 @@ group :testing do
   # generate fake data w/faker: http://rubydoc.info/github/stympy/faker/master/frames
   gem 'faker'
   gem 'rubocop', require: false
+  gem 'rubocop-rspec'
 end
 
 group :development, :development_fpcc, :test do
@@ -149,6 +150,7 @@ group :development, :development_fpcc, :test do
   gem 'guard-bundler', require: false
   gem 'capybara'
   gem 'capybara-email'
+  gem 'pundit-matchers', '~> 1.6.0'
   gem 'pry'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers', '~> 3.1.1', require: false

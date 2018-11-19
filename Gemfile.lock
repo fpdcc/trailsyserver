@@ -839,6 +839,8 @@ GEM
     public_suffix (3.0.3)
     pundit (2.0.0)
       activesupport (>= 3.0.0)
+    pundit-matchers (1.6.0)
+      rspec-rails (>= 3.0.0)
     query_diet (0.6.2)
     rack (2.0.5)
     rack-attack (5.4.2)
@@ -926,6 +928,8 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.4.0)
+    rubocop-rspec (1.30.1)
+      rubocop (>= 0.60.0)
     ruby-prof (0.17.0)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
@@ -1047,6 +1051,7 @@ DEPENDENCIES
   pry
   pry-rails
   pundit
+  pundit-matchers (~> 1.6.0)
   query_diet
   rack-attack
   rack-cors
@@ -1058,6 +1063,7 @@ DEPENDENCIES
   rgeo-geojson
   rspec-rails (~> 3.8)
   rubocop
+  rubocop-rspec
   ruby-prof
   rubyzip
   rvm1-capistrano3

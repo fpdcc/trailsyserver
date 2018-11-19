@@ -37,6 +37,7 @@ RSpec.describe NewTrailsController, type: :controller do
   let(:valid_session) { {} }
 
   describe "GET #index" do
+    login_admin
     it "assigns all new_trails as @new_trails" do
       new_trail = NewTrail.create! valid_attributes
       get :index, params: {}, session: valid_session
