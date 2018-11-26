@@ -29,10 +29,40 @@ class UpdatesController < ApplicationController
   # POST /updates.json
   def create
     authorize Update
-    @update = Update.new(update_params)
+    #logger.info "params = #{params}"
+    file = update_params.delete(:data_file)
+    data_type = update_params.delete(:data_type)
+    contents = file.read
+    contentType = file.content_type
+    filename = file.original_filename
+    logger.info "original_filename = #{filename}"
+    @update = Update.new
+    @update.filename = filename
+    @update.updatedata = {}
+    if @update.save
+      @update.parse_csv(file, data_type)
+    end
+    # if @job_enqueue.save
+    #   Rails.logger.info("Started trails ingest")
+    #   flash[:notice] = "Trails ingest begins"
+    # else
+    #   Rails.logger.error('Trail Ingest error')
+    #   flash[:error] = 'Failed to ingest trails.'
+    # end
+    #@update['filename'] = params['data_file'].original_filename
 
     respond_to do |format|
       if @update.save
+        logger.info "data_type = #{data_type}"
+        if data_type == 'trails'
+          @update.parse_trails(contents)
+        elsif data_type == 'Pointsofinterest'
+          @update.updatedata['Pointsofinterest'] = "Processing..."
+          @update.save
+          @update.parse_pois(contents)
+        elsif data_type == 'trails_descs'
+          @update.parse_trails_descs(contents)
+        end
         format.html { redirect_to @update, notice: 'Update was successfully created.' }
         format.json { render action: 'show', status: :created, location: @update }
       else
@@ -76,6 +106,7 @@ class UpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def update_params
-      params[:update]
+      params.require(:update).permit(:filename, :data_type, :updatedata, :data_file)
+      #params[:update]
     end
 end

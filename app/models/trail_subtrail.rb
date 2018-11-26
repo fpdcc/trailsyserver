@@ -21,7 +21,7 @@ class TrailSubtrail < ApplicationRecord
 	#scope :desc_length, order(&:subtrail_mi).reverse
 
   	def create_subtrail_id
-  	  logger.info("starting create_direct_trail_id")
+  	  #logger.info("starting create_direct_trail_id")
       direct_trail_id = trail_subsystem + "-"
       items_array = [trail_color, trail_type, segment_type, direction, off_fpdcc]
       items_array.each do |item|

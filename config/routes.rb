@@ -64,6 +64,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :updates
+
   get '.well-known/status' => 'status#check'
 
   get '/admin' => 'alerts#poi'

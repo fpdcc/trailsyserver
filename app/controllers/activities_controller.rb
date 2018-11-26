@@ -15,7 +15,7 @@ class ActivitiesController < ApplicationController
     #redirect_to trails_url, notice: "Please enter a source organization code for uploading activities data." if params[:source_id].empty?
     source_id = params[:source_id]
     #source_id = "FPDCC"
-    @source = Organization.find(source_id)
+    #@source = Organization.find(source_id)
     parsed_activities = Activity.parse(params[:activities])
     if parsed_activities.nil?
       redirect_to activities_url, notice: "Unable to parse file #{params[:activities].original_filename}. Make sure it is a valid GeoJSON file or zipped shapefile."
@@ -174,7 +174,7 @@ class ActivitiesController < ApplicationController
     # end
     #json_attributes["distance"] = activity.distance
     json_attributes["id"] = activity.activities_id
-    json_attributes["name"] = activity.aname
+    json_attributes["name"] = activity.name
     json_attributes
   end
 

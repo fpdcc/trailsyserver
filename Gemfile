@@ -86,6 +86,8 @@ gem 'rack-attack'
 gem 'paper_trail'
 gem 'paper_trail-association_tracking'
 
+gem 'delayed_job_active_record'
+gem "daemons"
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
 
@@ -99,7 +101,6 @@ group :development, :development_fpcc do
   gem 'capistrano-bundler', '~> 1.2', require: false
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-rake', require: false
-  #gem 'capistrano-bundler', '~> 1.2'
   gem 'capistrano3-unicorn'
 
   # this whole group makes finding performance issues much friendlier

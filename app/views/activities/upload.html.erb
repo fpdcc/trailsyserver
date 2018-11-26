@@ -12,9 +12,6 @@
 
 <% if current_user.admin? %>
 
-<p class='tableCaption'>Source matches (matching "<%= @source.code %>")</p>
-<% else %>
-<p class='tableCaption'>Source matches (matching "<%= current_user.organization.code %>")</p>
 <% end %>
 </p>
 <table>
