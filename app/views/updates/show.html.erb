@@ -1,24 +1,10 @@
-<p id="notice"><%= notice %></p>
 
 Filename: <%= @update.filename %>
-Status = <p id="status">In Progress...</p>
+<div id='testdiv'></div>
 <br>
-Data to Update:
-<table>
-	<thead>
-		<th>Table</th>
-		<th>Changes</th>
-	</thead>
-	<tbody>	
-		<% @update.updatedata.each do |key, val| %>
-			<tr>
-				<td><%= key %></td>
-				<td id=""><%= val %></td>
-			</tr>
-		<% end %>
-	</tbody>
-</table>
-<br>
+<%= render partial: "update_info" %>
+
+<%= render partial: "form_approval" %>
 
 <%= link_to 'Edit', edit_update_path(@update) %> |
 <%= link_to 'Back', updates_path %>

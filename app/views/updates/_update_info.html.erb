@@ -1,0 +1,47 @@
+Status: <div id="status"><%= @update.status %></div>
+Created By: <%= @update.created_by %>
+Approved: <%= @update.approved %>
+Approved By: <%= @update.approved_by %>
+Run at: <%= @update.run_at %>
+<br>
+<h2>Data to Update:</h2>
+<ul class="list-unstyled">
+	<% @update.updatedata.each do |key, val| %>
+		<li><h3><%= key %></h3></li>
+		<table class='table-striped table-bordered table-hover'>
+			<thead>
+				<th>ID</th>
+				<th>Change Type</th>
+				<th>Changes</th>
+				<th>Updated?</th>
+			</thead>
+			<tbody>
+			<% val.each do |record| %>
+				<tr>
+					<td><%= record['id'] %></td>
+					<td><%= record['type'] %></td>
+					<td>
+						<% if record['changes'].present? %>
+							<table>
+							<thead>
+								<th>Field</th>
+								<th>Value Change</th>
+							</thead>
+							<tbody>
+							<% record['changes'].each do |change| %>
+								<tr>
+									<td><%= change[0] %></td>
+									<td><%= change[1] %></td>
+								</tr>
+							<% end %>
+							</tbody>
+							</table>
+						<% end %>
+					</td>
+					<td><%= record['result'] %></td>
+				</tr>
+			<% end %>
+			</tbody>
+		<table>
+	<% end %>
+</ul>

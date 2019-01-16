@@ -5,7 +5,7 @@ class UpdatesController < ApplicationController
   # GET /updates.json
   def index
     authorize Update
-    @updates = Update.all
+    @updates = Update.order(created_at: :desc)
   end
 
   # GET /updates/1
@@ -29,40 +29,41 @@ class UpdatesController < ApplicationController
   # POST /updates.json
   def create
     authorize Update
-    #logger.info "params = #{params}"
-    file = update_params.delete(:data_file)
+    logger.info "update_params = #{update_params}"
+    original_filename = update_params[:file].original_filename
+    new_filename = Time.now.to_formatted_s(:number) + original_filename
+    path = File.join(Rails.root, 'tmp', 'upload', new_filename)
+    file = File.write(path, update_params[:file].read)
     data_type = update_params.delete(:data_type)
-    contents = file.read
-    contentType = file.content_type
-    filename = file.original_filename
-    logger.info "original_filename = #{filename}"
+    #logger.info "original_filename = #{original_filename}"
+    logger.info "path = #{path}"
     @update = Update.new
-    @update.filename = filename
+    @update.filename = new_filename
     @update.updatedata = {}
-    if @update.save
-      @update.parse_csv(file, data_type)
+    if data_type == 'Trail'
+      @update.updatedata['TrailsInfo'] = []
+      @update.updatedata['TrailSystem'] =  []
+      @update.updatedata['NewTrail'] =  []
+      @update.updatedata['TrailSubtrail'] =  []
+    elsif data_type == 'Pointsofinterest'
+      @update.updatedata['Pointsofinterest'] =  []
+    elsif data_type == 'trails_descs'
+      @update.updatedata['TrailsDesc'] = []
     end
-    # if @job_enqueue.save
-    #   Rails.logger.info("Started trails ingest")
-    #   flash[:notice] = "Trails ingest begins"
-    # else
-    #   Rails.logger.error('Trail Ingest error')
-    #   flash[:error] = 'Failed to ingest trails.'
-    # end
-    #@update['filename'] = params['data_file'].original_filename
-
+    @update.status = "Starting..."
     respond_to do |format|
       if @update.save
-        logger.info "data_type = #{data_type}"
-        if data_type == 'trails'
-          @update.parse_trails(contents)
-        elsif data_type == 'Pointsofinterest'
-          @update.updatedata['Pointsofinterest'] = "Processing..."
-          @update.save
-          @update.parse_pois(contents)
-        elsif data_type == 'trails_descs'
-          @update.parse_trails_descs(contents)
-        end
+        ImportFileJob.perform_later(path, data_type, @update)
+        # logger.info "data_type = #{data_type}"
+        # if data_type == 'trails'
+        #   @update.parse_trails(contents)
+        # elsif data_type == 'Pointsofinterest'
+        #   @update.updatedata['Pointsofinterest'] = "Processing..."
+        #   @update.save
+        #   @update.parse_pois(contents)
+        # elsif data_type == 'trails_descs'
+        #   @update.parse_trails_descs(contents)
+        # end
         format.html { redirect_to @update, notice: 'Update was successfully created.' }
         format.json { render action: 'show', status: :created, location: @update }
       else
@@ -78,6 +79,15 @@ class UpdatesController < ApplicationController
     authorize @update
     respond_to do |format|
       if @update.update(update_params)
+        if update_params['approved'].present?
+          logger.info "approved is set as: " + update_params['approved']
+          if update_params['approved'] == "1"
+            logger.info "The current user is: " + current_user.id.to_s
+            @update.approved_by = current_user.id
+            @update.save
+            @update.perform_update
+          end
+        end
         format.html { redirect_to @update, notice: 'Update was successfully updated.' }
         format.json { head :no_content }
       else
@@ -106,7 +116,7 @@ class UpdatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def update_params
-      params.require(:update).permit(:filename, :data_type, :updatedata, :data_file)
+      params.require(:update).permit(:filename, :data_type, :updatedata, :file, :approved, :created_by, :approved_by, :run_at)
       #params[:update]
     end
 end

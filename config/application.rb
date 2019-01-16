@@ -56,7 +56,7 @@ module Trailsyserver
     RGeo::ActiveRecord::GeometryMixin.set_json_generator(:geojson)
 
     config.middleware.use Rack::Attack
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :async
 
     # config.middleware.use Rack::Cors do
     #   allow do

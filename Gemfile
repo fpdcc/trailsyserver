@@ -35,7 +35,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 4.3.1'
@@ -86,7 +86,7 @@ gem 'rack-attack'
 gem 'paper_trail'
 gem 'paper_trail-association_tracking'
 
-gem 'delayed_job_active_record'
+#gem 'delayed_job_active_record'
 gem "daemons"
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
@@ -140,6 +140,7 @@ group :testing do
   gem 'faker'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
+  
 end
 
 group :development, :development_fpcc, :test do
@@ -157,6 +158,7 @@ group :development, :development_fpcc, :test do
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem "json_matchers"
 end
 
 

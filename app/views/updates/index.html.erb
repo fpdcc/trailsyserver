@@ -1,14 +1,18 @@
-<p id="notice"><%= notice %></p>
+<h1>Data Updates</h1>
 
-<h1>Listing Updates</h1>
-
-<table>
+<%= link_to 'New Update', new_update_path, class: "btn btn-default" %>
+<br>
+<table class='table-striped table-bordered table-hover col-md-12 '>
   <thead>
     <tr>
       <th>ID</th>
+      <th>Created</th>
+      <th>Status</th>
+      <th>Approved</th>
+      <th>Run at</th>
       <th>filename</th>
-      <th>updatedata</th>
-      <th colspan="3"></th>
+      <th>Updated at</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -16,10 +20,14 @@
     <% @updates.each do |update| %>
       <tr>
         <td><%= update.id %></td>
+        <td><%= update.created_at %></td>
+        <td><%= update.status %></td>
+        <td><%= update.approved %></td>
+        <td><%= update.run_at %></td>
         <td><%= update.filename %></td>
-<!--         <td><%= update.updatedata %></td>
- -->        <td><%= link_to 'Show', update %></td>
-        <td><%= link_to 'Edit', edit_update_path(update) %></td>
+        <td><%= update.updated_at %></td>
+        <td><%= link_to 'Show', update %></td>
+        
         <td><%= link_to 'Destroy', update, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
@@ -28,4 +36,3 @@
 
 <br>
 
-<%= link_to 'New Update', new_update_path %>
