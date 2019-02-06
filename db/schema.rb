@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181221215116) do
+ActiveRecord::Schema.define(version: 20190116214651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,6 +245,11 @@ ActiveRecord::Schema.define(version: 20181221215116) do
     t.integer "bathroom_portable_ada"
     t.geography "web_map_geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "maintenance_div_nickname"
+    t.integer "shower", default: 0
+    t.integer "dining_hall", default: 0
+    t.integer "sanitation_station", default: 0
+    t.integer "camp_store", default: 0
+    t.integer "no_dogs", default: 0
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
     t.index ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true
   end

@@ -142,7 +142,7 @@ class Pointsofinterest < ApplicationRecord
       end
       if (cycling == 1)
         panelTags.push("cycling")
-        searchTags.push("biking", "bicycle", "bike", "mtb", "mountain")
+        searchTags.push("biking", "bicycle", 'bicycling', "bike", "mtb", "mountain")
       end
       if (disc_golf == 1)
         panelTags.push("disc_golf")
@@ -277,6 +277,21 @@ class Pointsofinterest < ApplicationRecord
       if (bathroom_portable_ada == 1)
         panelTags.push("bathroom_portable_ada")
       end
+      if (shower == 1)
+        panelTags.push('shower')
+      end
+      if (sanitation_station == 1)
+        panelTags.push('sanitation_station')
+      end
+      if (camp_store == 1)
+        panelTags.push('camp_store')
+      end
+      if (natureplay == 1)
+        panelTags.push('natureplay')
+      end
+      # if (no_dogs == 1)
+      #   panelTags.push('no_dogs')
+      # end
     if (self.has_trail_access)
       panelTags.push("trailhead")
     end
