@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002165425) do
+ActiveRecord::Schema.define(version: 20190116214651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,21 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "reason"
     t.integer "origin_type"
+  end
+
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer "priority", default: 0, null: false
+    t.integer "attempts", default: 0, null: false
+    t.text "handler", null: false
+    t.text "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "new_trails", id: :serial, force: :cascade do |t|
@@ -230,6 +245,11 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.integer "bathroom_portable_ada"
     t.geography "web_map_geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.string "maintenance_div_nickname"
+    t.integer "shower", default: 0
+    t.integer "dining_hall", default: 0
+    t.integer "sanitation_station", default: 0
+    t.integer "camp_store", default: 0
+    t.integer "no_dogs", default: 0
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
     t.index ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true
   end
@@ -338,6 +358,12 @@ ActiveRecord::Schema.define(version: 20171002165425) do
     t.text "updatedata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
+    t.string "job"
+    t.integer "created_by"
+    t.integer "approved_by"
+    t.boolean "approved", default: false
+    t.datetime "run_at"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
