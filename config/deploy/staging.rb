@@ -2,6 +2,7 @@ set :application, 'cap-staging'
 set :branch, ENV['STAGING_BRANCH']
 
 set :rails_env, :staging
+set :unicorn_rack_env, :staging
 set :deploy_to, "/var/www/#{fetch(:application)}"
 set :rvm1_ruby_version, "2.4.5@staging"
 set :unicorn_pid, "/var/www/#{fetch(:application)}/shared/tmp/pids/unicorn-#{fetch(:rails_env)}.pid"

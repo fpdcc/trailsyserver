@@ -3,6 +3,7 @@ set :application, 'cap-production'
 set :branch, ENV['PRODUCTION_BRANCH']
 
 set :rails_env, :production
+set :unicorn_rack_env, :production
 set :deploy_to, "/var/www/#{fetch(:application)}"
 set :rvm1_ruby_version, "2.4.2"
 set :unicorn_pid, "/var/www/#{fetch(:application)}/shared/tmp/pids/unicorn-#{fetch(:rails_env)}.pid"
