@@ -11,11 +11,12 @@
       </ul>
     </div>
   <% end %>
-  <div class='field-group'>
-    File Type: <%= f.select :data_type, [ ['Pois', 'Pointsofinterest']] %>
+  <div class='form-group'>
+    <label for="data_type" class="col-sm-2 control-label">File Type: </label>
+    <%= f.select :data_type, [ ['Pois', 'Pointsofinterest']], {}, { class: "form-control col-sm-14" } %>
   </div>
-  <div class='field-group'>
-    Upload File: <%= f.file_field :file, accept: 'text/csv' %>
+  <div class='form-group'>
+    Upload File: <%= f.file_field :file, accept: 'text/csv', required: true %>
   </div>
   <div class="actions">
     <%= f.submit %>
