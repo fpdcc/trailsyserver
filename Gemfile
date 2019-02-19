@@ -92,7 +92,7 @@ gem "daemons"
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
 
-group :development, :development_fpcc do
+group :development do
   gem 'sshkit', '~> 1.13.1'
   gem "capistrano", "~> 3.7"
   gem 'capistrano-rails', '~> 1.2'
@@ -127,7 +127,7 @@ group :development, :development_fpcc do
 end
 
 
-group :testing do
+group :test do
   # mock tests w/mocha
   gem 'mocha', :require => false
 
@@ -144,7 +144,7 @@ group :testing do
   
 end
 
-group :development, :development_fpcc, :test do
+group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'guard'
   gem 'guard-rspec', require: false
