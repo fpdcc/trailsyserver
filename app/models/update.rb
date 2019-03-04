@@ -6,20 +6,28 @@ class Update < ApplicationRecord
 	attr_accessor :data_file, :data_type, :path, :file
 
 	def self.parse_csv(path, data_type, update)
-	    if data_type == 'Trail'
-        update.parse_trails(path)
-			elsif data_type == 'Pointsofinterest'
-				update.parse_pois(path)
-			elsif data_type == 'trails_descs'
-				update.parse_trails_descs(path)
-			end
-			update.status = "Changes Staged"
-			update.save
-			ApplicationController.renderer.render(
-				partial: 'updates/status',
-				formats: [:js],
-				handlers: [:erb]
-			)
+		if data_type == 'Trail'
+			update.parse_trails(path)
+		elsif data_type == 'Pointsofinterest'
+			update.parse_pois(path)
+		elsif data_type == 'TrailsDesc'
+			update.parse_trails_descs(path)
+		elsif data_type == 'Activity'
+			update.parse_activities(path)
+		elsif data_type == 'ParkingEntrance'
+			update.parse_parking_entrances(path)
+		elsif data_type == 'Picnicgrove'
+			update.parse_picnicgroves(path)
+		elsif data_type == 'PoiDesc'
+			update.parse_poi_descs(path)
+		end
+		update.status = "Changes Staged"
+		update.save
+		# ApplicationController.renderer.render(
+		# 	partial: 'updates/status',
+		# 	formats: [:js],
+		# 	handlers: [:erb]
+		# )
 	end
 
 	def parse_trails(file)
@@ -34,6 +42,32 @@ class Update < ApplicationRecord
 		trail_subtrails_in_csv = []
 		all_updates = {}
 		
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		trails_info_columns = TrailsInfo.column_names - ["created_at", "updated_at"]
+		self.updatedata['TrailsInfo'] = {}
+		self.updatedata['TrailsInfo']['columns'] = {}
+		self.updatedata['TrailsInfo']['columns']['csv_missing'] = trails_info_columns - csv_headers
+		self.updatedata['TrailsInfo']['columns']['csv_extra'] = csv_headers - trails_info_columns
+
+		newtrail_columns = NewTrail.column_names - ["created_at", "updated_at"]
+		self.updatedata['NewTrail'] = {}
+		self.updatedata['NewTrail']['columns'] = {}
+		self.updatedata['NewTrail']['columns']['csv_missing'] = newtrail_columns - csv_headers
+		self.updatedata['NewTrail']['columns']['csv_extra'] = csv_headers - newtrail_columns
+
+		trail_system_columns = TrailSystem.column_names - ["created_at", "updated_at"]
+		self.updatedata['TrailSystem'] = {}
+		self.updatedata['TrailSystem']['columns'] = {}
+		self.updatedata['TrailSystem']['columns']['csv_missing'] = trail_system_columns - csv_headers
+		self.updatedata['TrailSystem']['columns']['csv_extra'] = csv_headers - trail_system_columns
+
+		trail_subtrail_columns = TrailSubtrail.column_names - ["created_at", "updated_at"]
+		self.updatedata['TrailSubtrail'] = {}
+		self.updatedata['TrailSubtrail']['columns'] = {}
+		self.updatedata['TrailSubtrail']['columns']['csv_missing'] = trail_subtrail_columns - csv_headers
+		self.updatedata['TrailSubtrail']['columns']['csv_extra'] = csv_headers - trail_subtrail_columns
+
+
 		row_count = 0
 		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
 			row_count = row_count + 1
@@ -175,7 +209,8 @@ class Update < ApplicationRecord
 		TrailSystem.find_each(batch_size: 5000) do |trailsystem|
 		  if !(systems_in_csv.include?(trailsystem.trail_subsystem))
 		  	parsed_item = {}
-		  	parsed_item['trail_subsystem'] = trailsystem.trail_subsystem
+			parsed_item['trail_subsystem'] = trailsystem.trail_subsystem
+			parsed_item['id'] = parsed_item['trail_subsystem']
 		  	parsed_item['type'] = "Delete"
 		  	trail_systems_to_update.push(parsed_item)
 		  end
@@ -184,16 +219,17 @@ class Update < ApplicationRecord
 		TrailSubtrail.find_each(batch_size: 10000) do |trailsubtrail|
 		  if !(trail_subtrails_in_csv.include?(trailsubtrail.create_subtrail_id))
 		  	parsed_item = {}
-		  	parsed_item['subtrail_id'] = trailsubtrail.create_subtrail_id
+			parsed_item['subtrail_id'] = trailsubtrail.create_subtrail_id
+			parsed_item['id'] = parsed_item['subtrail_id']
 		  	parsed_item['type'] = "Delete"
 		  	trail_subtrails_to_update.push(parsed_item)
 		  end
 		end
 
-		self.updatedata['TrailsInfo'] = trails_infos_to_update
-		self.updatedata['NewTrail'] = trails_to_update
-		self.updatedata['TrailSystem'] = trail_systems_to_update
-		self.updatedata['TrailSubtrail'] = trail_subtrails_to_update
+		self.updatedata['TrailsInfo']['records'] = trails_infos_to_update.uniq
+		self.updatedata['NewTrail']['records'] = trails_to_update.uniq
+		self.updatedata['TrailSystem']['records'] = trail_systems_to_update.uniq
+		self.updatedata['TrailSubtrail']['records'] = trail_subtrails_to_update.uniq
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -203,6 +239,15 @@ class Update < ApplicationRecord
 	def parse_pois(file)
 		pois_to_update = []
 		ids_in_csv = []
+
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		poi_columns = Pointsofinterest.column_names - ["created_at", "updated_at"]
+		self.updatedata['Pointsofinterest'] = {}
+		self.updatedata['Pointsofinterest']['columns'] = {}
+		self.updatedata['Pointsofinterest']['columns']['csv_missing'] = poi_columns - csv_headers
+		self.updatedata['Pointsofinterest']['columns']['csv_extra'] = csv_headers - poi_columns
+
+
 		row_count = 0
 		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
 			row_count = row_count + 1
@@ -231,7 +276,7 @@ class Update < ApplicationRecord
 				else
 					#p "Field not in trails_info_attrs: #{header}"
 				end
-				end
+			end
 				# Determine adds + changes for trails_info
 			poi_item.assign_attributes(poi_attrs)
 			parsed_item = {}
@@ -254,88 +299,347 @@ class Update < ApplicationRecord
 			pois_to_update.push(parsed_item)
 		end
 
-		self.updatedata['Pointsofinterest'] = pois_to_update
+		self.updatedata['Pointsofinterest']['records'] = pois_to_update.uniq
 		self.save
 		File.delete(file)
 		return self.updatedata
-end
+	end
 
-	# def parse_trails_descs(contents)
-	# 	to_update = []
-	# 	ids_in_csv = []
-	# 	all_updates = {}
+	def parse_trails_descs(file)
+		to_update = []
+		ids_in_csv = []
+		all_updates = {}
 
-	# 	CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
-	#       next if (row.to_s =~ /^source/)
-	#       trails_desc_item = TrailsDesc.find_or_initialize_by(trail_desc_id: row['trail_desc_id'])
-	#       ids_in_csv.push(row['trail_desc_id'])
-	# 	  trails_desc_attrs = {}
-	#       row.headers.each do |header|
-	#         value = row[header]
-	#         next if header == "id"
-	#         unless value.nil?
-	#           value = value.squish
-	#           if value.to_s.downcase == "yes" || value == "Y"
-	#             value = "y"
-	#           end
-	#           if value.to_s.downcase == "no" || value == "N"
-	#             value = "n"
-	#           end
-	#         end
-	#         # next if header == "source"
-	#         if trails_desc_item.attributes.has_key? header
-	#           trails_desc_attrs[header] = value
-	#         else
-  #             p "Field not in database: #{header}"
-	#         # elsif header == "source"
-	#         #new_item.source = Organization.find_by code: value
-	#         # elsif header == "steward"
-	#         #   new_item.steward = Organization.find_by code: value
-	#         end
-	#         trails_desc_item.assign_attributes(trails_desc_attrs)
-	# 	    parsed_item = {}
-	# 	    parsed_item['id'] = trails_desc_item.id
-	# 	    parsed_item['changes'] = trails_desc_item.changes
-	# 	    if trails_desc_item.new_record?
-	# 	  	  parsed_item['type'] = "Add"
-	# 	  	  to_update.push(parsed_item)
-	# 	    elsif trails_desc_item.changed?
-	# 	  	  parsed_item['type'] = "Update"
-	# 	  	  to_update.push(parsed_item)
-	# 	    end
-	#       end
-	#     end
-	#     ids_in_csv.uniq!
-	#     TrailsDesc.where.not(trail_desc_id: ids_in_csv).find_each(batch_size: 20000) do |item|
-	# 		parsed_item = {}
-	# 	  	parsed_item['id'] = item.trail_desc_id
-	# 	  	parsed_item['type'] = "Delete"
-	# 	  	to_update.push(parsed_item)
-	# 	end
-	# 	all_updates['trails_desc'] = to_update
-	# 	self.updatedata = self.updatedata.merge(all_updates)
-	# 	self.save
-	# 	return self.updatedata
-	# end
-	#handle_asynchronously :parse_trails_descs
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		trails_desc_columns = TrailsDesc.column_names - ["created_at", "updated_at"]
+		self.updatedata['TrailsDesc'] = {}
+		self.updatedata['TrailsDesc']['columns'] = {}
+		self.updatedata['TrailsDesc']['columns']['csv_missing'] = trails_desc_columns - csv_headers
+		self.updatedata['TrailsDesc']['columns']['csv_extra'] = csv_headers - trails_desc_columns
 
-	# def parse_pois(contents)
-	# 	all_updates = {}
-	# 	self.updatedata['Pointsofinterest'] = Pointsofinterest.parse_csv(contents)
-	# 	self.save
-	# 	#UpdatesController.render(js: 'update_results')  
-	# 	# rendered_string = ApplicationController.render(
-	# 	#   template: 'updates/update_results.js.erb'		)
-	# 	return self.updatedata
-	# end
-	# #handle_asynchronously :parse_pois
+		row_count = 0
+		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
+		  row_count = row_count + 1
+		  logger.info "row = #{row}"
+	    next if (row.to_s =~ /^source/)
+	    trails_desc_item = TrailsDesc.find_or_initialize_by(trail_desc_id: row['trail_desc_id'])
+	    ids_in_csv.push(row['trail_desc_id'])
+		  trails_desc_attrs = {}
+	      row.headers.each do |header|
+	        value = row[header]
+	        next if header == "id"
+	        unless value.nil?
+	          value = value.squish
+	          if value.to_s.downcase == "yes" || value == "Y"
+	            value = "y"
+	          end
+	          if value.to_s.downcase == "no" || value == "N"
+	            value = "n"
+	          end
+	        end
+	        # next if header == "source"
+	        if trails_desc_item.attributes.has_key? header
+	          trails_desc_attrs[header] = value
+	        else
+              p "Field not in database: #{header}"
+	        # elsif header == "source"
+	        #new_item.source = Organization.find_by code: value
+	        # elsif header == "steward"
+	        #   new_item.steward = Organization.find_by code: value
+					end
+				end
+	    trails_desc_item.assign_attributes(trails_desc_attrs)
+		  parsed_item = {}
+			parsed_item['id'] = trails_desc_item.id
+			parsed_item['changes'] = trails_desc_item.changes
+			if trails_desc_item.new_record?
+				parsed_item['type'] = "Add"
+				to_update.push(parsed_item)
+			elsif trails_desc_item.changed?
+				parsed_item['type'] = "Update"
+				to_update.push(parsed_item)
+			end
+	  end
+		ids_in_csv.uniq!
+		TrailsDesc.where.not(trail_desc_id: ids_in_csv).find_each(batch_size: 20000) do |item|
+			parsed_item = {}
+			parsed_item['id'] = item.trail_desc_id
+			parsed_item['type'] = "Delete"
+			to_update.push(parsed_item)
+		end
+		self.updatedata['TrailsDesc']['records'] = to_update.uniq
+		self.save
+		return self.updatedata
+	end
 
-	# def parse_activities(contents)
+	def parse_activities(file)
+		to_update = []
+		ids_in_csv = []
+		row_count = 0
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		activity_columns = Activity.column_names - ["created_at", "updated_at"]
+		self.updatedata['Activity'] = {}
+		self.updatedata['Activity']['columns'] = {}
+		self.updatedata['Activity']['columns']['csv_missing'] = activity_columns - csv_headers
+		self.updatedata['Activity']['columns']['csv_extra'] = csv_headers - activity_columns
+		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
+			row_count = row_count + 1
+			logger.info "row = #{row}"
+			next if (row.to_s =~ /^source/)
+			#logger.info "this row = #{row}"
+			activity_item = Activity.find_or_initialize_by(activities_id: row['activities_id'])
+		 
+			ids_in_csv.push(row['activities_id'])
+			activity_attrs = {}
+			row.headers.each do |header|
+				value = row[header]
+				next if header == "id"
+				unless value.nil?
+					value = value.squish
+					if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+						value = "y"
+					end
+					if value.to_s.downcase == "no" || value == "N" || value == "f"
+						value = "n"
+					end
+				end
+				# Build poi Info Attrs
+				if activity_item.attributes.has_key? header
+					activity_attrs[header] = value
+				else
+					#p "Field not in trails_info_attrs: #{header}"
+				end
+			end
+				# Determine adds + changes for trails_info
+			activity_item.assign_attributes(activity_attrs)
+			parsed_item = {}
+			parsed_item['id'] = activity_item.id
+			parsed_item['changes'] = activity_item.changes
+			if activity_item.new_record?
+				parsed_item['type'] = "Add"
+				to_update.push(parsed_item)
+			elsif activity_item.changed?
+				parsed_item['type'] = "Update"
+				to_update.push(parsed_item)
+			end
+		end
 
-	# end
+		ids_in_csv.uniq!
+		Activity.where.not(activities_id: ids_in_csv).find_each(batch_size: 20000) do |activity|
+			parsed_item = {}
+			parsed_item['id'] = activity.activities_id
+			parsed_item['type'] = "Delete"
+			to_update.push(parsed_item)
+		end
+
+		self.updatedata['Activity']['records'] = to_update.uniq
+		self.save
+		File.delete(file)
+		return self.updatedata
+	end
+
+	def parse_parking_entrances(file)
+		logger.info "starting parse_parking_entrances"
+		to_update = []
+		ids_in_csv = []
+		row_count = 0
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		parking_entrances_columns = ParkingEntrance.column_names - ["created_at", "updated_at"]
+		self.updatedata['ParkingEntrance'] = {}
+		self.updatedata['ParkingEntrance']['columns'] = {}
+		self.updatedata['ParkingEntrance']['columns']['csv_missing'] = parking_entrances_columns - csv_headers
+		self.updatedata['ParkingEntrance']['columns']['csv_extra'] = csv_headers - parking_entrances_columns
+		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
+			row_count = row_count + 1
+			logger.info "row = #{row}"
+			next if (row.to_s =~ /^source/)
+			#logger.info "this row = #{row}"
+			parking_entrance_item = ParkingEntrance.find_or_initialize_by(parking_info_id: row['parking_info_id'])
+		 
+			ids_in_csv.push(row['parking_info_id'])
+			parking_entrance_attrs = {}
+			row.headers.each do |header|
+				value = row[header]
+				next if header == "id"
+				unless value.nil?
+					value = value.squish
+					if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+						value = "y"
+					end
+					if value.to_s.downcase == "no" || value == "N" || value == "f"
+						value = "n"
+					end
+				end
+				# Build poi Info Attrs
+				if parking_entrance_item.attributes.has_key? header
+					parking_entrance_attrs[header] = value
+				else
+					#p "Field not in trails_info_attrs: #{header}"
+				end
+			end
+				# Determine adds + changes for trails_info
+			parking_entrance_item.assign_attributes(parking_entrance_attrs)
+			parsed_item = {}
+			parsed_item['id'] = parking_entrance_item.id
+			parsed_item['changes'] = parking_entrance_item.changes
+			if parking_entrance_item.new_record?
+				parsed_item['type'] = "Add"
+				to_update.push(parsed_item)
+			elsif parking_entrance_item.changed?
+				parsed_item['type'] = "Update"
+				to_update.push(parsed_item)
+			end
+		end
+
+		ids_in_csv.uniq!
+		ParkingEntrance.where.not(parking_info_id: ids_in_csv).find_each(batch_size: 20000) do |parking_entrance|
+			parsed_item = {}
+			parsed_item['id'] = parking_entrance.parking_info_id
+			parsed_item['type'] = "Delete"
+			to_update.push(parsed_item)
+		end
+
+		self.updatedata['ParkingEntrance']['records'] = to_update.uniq
+		self.save
+		File.delete(file)
+		return self.updatedata
+	end
+
+	def parse_picnicgroves(file)
+		to_update = []
+		ids_in_csv = []
+		row_count = 0
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		picnicgroves_columns = Picnicgrofe.column_names - ["created_at", "updated_at"]
+		self.updatedata['Picnicgrofe'] = {}
+		self.updatedata['Picnicgrofe']['columns'] = {}
+		self.updatedata['Picnicgrofe']['columns']['csv_missing'] = picnicgroves_columns - csv_headers
+		self.updatedata['Picnicgrofe']['columns']['csv_extra'] = csv_headers - picnicgroves_columns
+		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
+			row_count = row_count + 1
+			logger.info "row = #{row}"
+			next if (row.to_s =~ /^source/)
+			#logger.info "this row = #{row}"
+			picnicgrove_item = Picnicgrofe.find_or_initialize_by(picnicgrove_id: row['picnicgrove_id'])
+		 
+			ids_in_csv.push(row['picnicgrove_id'])
+			picnicgrove_attrs = {}
+			row.headers.each do |header|
+				value = row[header]
+				next if header == "id"
+				unless value.nil?
+					value = value.squish
+					if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+						value = "y"
+					end
+					if value.to_s.downcase == "no" || value == "N" || value == "f"
+						value = "n"
+					end
+				end
+				# Build poi Info Attrs
+				if picnicgrove_item.attributes.has_key? header
+					picnicgrove_attrs[header] = value
+				else
+					#p "Field not in trails_info_attrs: #{header}"
+				end
+			end
+				# Determine adds + changes for trails_info
+				picnicgrove_item.assign_attributes(picnicgrove_attrs)
+			parsed_item = {}
+			parsed_item['id'] = picnicgrove_item.id
+			parsed_item['changes'] = picnicgrove_item.changes
+			if picnicgrove_item.new_record?
+				parsed_item['type'] = "Add"
+				to_update.push(parsed_item)
+			elsif picnicgrove_item.changed?
+				parsed_item['type'] = "Update"
+				to_update.push(parsed_item)
+			end
+		end
+
+		ids_in_csv.uniq!
+		Picnicgrofe.where.not(picnicgrove_id: ids_in_csv).find_each(batch_size: 20000) do |picnicgrovve|
+			parsed_item = {}
+			parsed_item['id'] = picnicgrovve.picnicgrove_id
+			parsed_item['type'] = "Delete"
+			to_update.push(parsed_item)
+		end
+
+		self.updatedata['Picnicgrofe']['records'] = to_update.uniq
+		self.save
+		File.delete(file)
+		return self.updatedata
+	end
+
+	def parse_poi_descs(file)
+		to_update = []
+		ids_in_csv = []
+		row_count = 0
+		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
+		poi_descs_columns = PoiDesc.column_names - ["created_at", "updated_at"]
+		self.updatedata['PoiDesc'] = {}
+		self.updatedata['PoiDesc']['columns'] = {}
+		self.updatedata['PoiDesc']['columns']['csv_missing'] = poi_descs_columns - csv_headers
+		self.updatedata['PoiDesc']['columns']['csv_extra'] = csv_headers - poi_descs_columns
+		CSV.foreach(file, headers: true, header_converters: :downcase) do |row|
+			row_count = row_count + 1
+			logger.info "row = #{row}"
+			next if (row.to_s =~ /^source/)
+			#logger.info "this row = #{row}"
+			poi_desc_item = PoiDesc.find_or_initialize_by(poi_desc_id: row['poi_desc_id'])
+		 
+			ids_in_csv.push(row['poi_desc_id'])
+			poi_desc_attrs = {}
+			row.headers.each do |header|
+				value = row[header]
+				next if header == "id"
+				unless value.nil?
+					value = value.squish
+					if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+						value = "y"
+					end
+					if value.to_s.downcase == "no" || value == "N" || value == "f"
+						value = "n"
+					end
+				end
+				# Build poi Info Attrs
+				if poi_desc_item.attributes.has_key? header
+					poi_desc_attrs[header] = value
+				else
+					#p "Field not in trails_info_attrs: #{header}"
+				end
+			end
+				# Determine adds + changes for trails_info
+				poi_desc_item.assign_attributes(poi_desc_attrs)
+			parsed_item = {}
+			parsed_item['id'] = poi_desc_item.id
+			parsed_item['changes'] = poi_desc_item.changes
+			if poi_desc_item.new_record?
+				parsed_item['type'] = "Add"
+				to_update.push(parsed_item)
+			elsif poi_desc_item.changed?
+				parsed_item['type'] = "Update"
+				to_update.push(parsed_item)
+			end
+		end
+
+		ids_in_csv.uniq!
+		PoiDesc.where.not(poi_desc_id: ids_in_csv).find_each(batch_size: 20000) do |poi_desc|
+			parsed_item = {}
+			parsed_item['id'] = poi_desc.poi_desc_id
+			parsed_item['type'] = "Delete"
+			to_update.push(parsed_item)
+		end
+
+		self.updatedata['PoiDesc']['records'] = to_update.uniq
+		self.save
+		File.delete(file)
+		return self.updatedata
+	end
 
 	def perform_update
 		self.updatedata.each do |this_model, records|
+			records = records.uniq
 			records.each do |record|
 				new_updates = {}
 				if record['changes'].present?
@@ -356,7 +660,7 @@ end
 					record['result'] = change_result
 				elsif record['type'] == 'Add'
 					logger.info "Add placeholder"
-					to_change = Pointsofinterest.new
+					to_change = this_model.classify.constantize.new
 					change_result = to_change.update_attributes(new_updates)
 					record['result'] = change_result ? "Created" : "Not Created"
 				end

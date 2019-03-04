@@ -13,7 +13,7 @@
   <% end %>
   <div class='form-group'>
     <label for="data_type" class="col-sm-2 control-label">File Type: </label>
-    <%= f.select :data_type, [ ['Pois', 'Pointsofinterest']], {}, { class: "form-control col-sm-14" } %>
+    <%= f.select :data_type, [ ['Pois', 'Pointsofinterest'], ['Trails', 'Trail'], ['Trails Desc', 'TrailsDesc'], ['Activities', 'Activity'], ['Parking Entrances', 'ParkingEntrance'], ['Picnicgrove', 'Picnicgrofe'], ['PoiDesc', 'PoiDesc']], {}, { class: "form-control col-sm-14" } %>
   </div>
   <div class='form-group'>
     Upload File: <%= f.file_field :file, accept: 'text/csv', required: true %>
