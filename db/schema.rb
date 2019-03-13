@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190116214651) do
+ActiveRecord::Schema.define(version: 20190304233026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 20190116214651) do
 
   create_table "activities", id: :serial, force: :cascade do |t|
     t.string "activities_id"
-    t.string "nameid"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "atype"
@@ -95,18 +94,15 @@ ActiveRecord::Schema.define(version: 20190116214651) do
   end
 
   create_table "parking_entrances", id: :serial, force: :cascade do |t|
-    t.integer "parking_entrance_id"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "nameid"
     t.string "entrance_closed"
     t.integer "parking_info_id"
     t.string "name"
     t.string "web_street_addr"
     t.string "web_muni_addr"
     t.string "web_poi"
-    t.index ["parking_entrance_id"], name: "index_parking_entrances_on_parking_entrance_id", unique: true
   end
 
   create_table "photorecords", id: :serial, force: :cascade do |t|

@@ -16,7 +16,7 @@ class Update < ApplicationRecord
 			update.parse_activities(path)
 		elsif data_type == 'ParkingEntrance'
 			update.parse_parking_entrances(path)
-		elsif data_type == 'Picnicgrove'
+		elsif data_type == 'Picnicgrofe'
 			update.parse_picnicgroves(path)
 		elsif data_type == 'PoiDesc'
 			update.parse_poi_descs(path)
