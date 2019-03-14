@@ -43,25 +43,25 @@ class Update < ApplicationRecord
 		all_updates = {}
 		
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		trails_info_columns = TrailsInfo.column_names - ["created_at", "updated_at"]
+		trails_info_columns = TrailsInfo.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['TrailsInfo'] = {}
 		self.updatedata['TrailsInfo']['columns'] = {}
 		self.updatedata['TrailsInfo']['columns']['csv_missing'] = trails_info_columns - csv_headers
 		self.updatedata['TrailsInfo']['columns']['csv_extra'] = csv_headers - trails_info_columns
 
-		newtrail_columns = NewTrail.column_names - ["created_at", "updated_at"]
+		newtrail_columns = NewTrail.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['NewTrail'] = {}
 		self.updatedata['NewTrail']['columns'] = {}
 		self.updatedata['NewTrail']['columns']['csv_missing'] = newtrail_columns - csv_headers
 		self.updatedata['NewTrail']['columns']['csv_extra'] = csv_headers - newtrail_columns
 
-		trail_system_columns = TrailSystem.column_names - ["created_at", "updated_at"]
+		trail_system_columns = TrailSystem.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['TrailSystem'] = {}
 		self.updatedata['TrailSystem']['columns'] = {}
 		self.updatedata['TrailSystem']['columns']['csv_missing'] = trail_system_columns - csv_headers
 		self.updatedata['TrailSystem']['columns']['csv_extra'] = csv_headers - trail_system_columns
 
-		trail_subtrail_columns = TrailSubtrail.column_names - ["created_at", "updated_at"]
+		trail_subtrail_columns = TrailSubtrail.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['TrailSubtrail'] = {}
 		self.updatedata['TrailSubtrail']['columns'] = {}
 		self.updatedata['TrailSubtrail']['columns']['csv_missing'] = trail_subtrail_columns - csv_headers
@@ -241,7 +241,7 @@ class Update < ApplicationRecord
 		ids_in_csv = []
 
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		poi_columns = Pointsofinterest.column_names - ["created_at", "updated_at"]
+		poi_columns = Pointsofinterest.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['Pointsofinterest'] = {}
 		self.updatedata['Pointsofinterest']['columns'] = {}
 		self.updatedata['Pointsofinterest']['columns']['csv_missing'] = poi_columns - csv_headers
@@ -311,7 +311,7 @@ class Update < ApplicationRecord
 		all_updates = {}
 
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		trails_desc_columns = TrailsDesc.column_names - ["created_at", "updated_at"]
+		trails_desc_columns = TrailsDesc.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['TrailsDesc'] = {}
 		self.updatedata['TrailsDesc']['columns'] = {}
 		self.updatedata['TrailsDesc']['columns']['csv_missing'] = trails_desc_columns - csv_headers
@@ -377,7 +377,7 @@ class Update < ApplicationRecord
 		ids_in_csv = []
 		row_count = 0
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		activity_columns = Activity.column_names - ["created_at", "updated_at"]
+		activity_columns = Activity.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['Activity'] = {}
 		self.updatedata['Activity']['columns'] = {}
 		self.updatedata['Activity']['columns']['csv_missing'] = activity_columns - csv_headers
@@ -444,7 +444,7 @@ class Update < ApplicationRecord
 		ids_in_csv = []
 		row_count = 0
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		parking_entrances_columns = ParkingEntrance.column_names - ["created_at", "updated_at"]
+		parking_entrances_columns = ParkingEntrance.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['ParkingEntrance'] = {}
 		self.updatedata['ParkingEntrance']['columns'] = {}
 		self.updatedata['ParkingEntrance']['columns']['csv_missing'] = parking_entrances_columns - csv_headers
@@ -510,7 +510,7 @@ class Update < ApplicationRecord
 		ids_in_csv = []
 		row_count = 0
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		picnicgroves_columns = Picnicgrofe.column_names - ["created_at", "updated_at"]
+		picnicgroves_columns = Picnicgrofe.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['Picnicgrofe'] = {}
 		self.updatedata['Picnicgrofe']['columns'] = {}
 		self.updatedata['Picnicgrofe']['columns']['csv_missing'] = picnicgroves_columns - csv_headers
@@ -576,7 +576,7 @@ class Update < ApplicationRecord
 		ids_in_csv = []
 		row_count = 0
 		csv_headers = CSV.foreach(file, headers: true, header_converters: :downcase).first.headers
-		poi_descs_columns = PoiDesc.column_names - ["created_at", "updated_at"]
+		poi_descs_columns = PoiDesc.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['PoiDesc'] = {}
 		self.updatedata['PoiDesc']['columns'] = {}
 		self.updatedata['PoiDesc']['columns']['csv_missing'] = poi_descs_columns - csv_headers
