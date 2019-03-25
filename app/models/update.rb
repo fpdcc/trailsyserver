@@ -666,13 +666,15 @@ class Update < ApplicationRecord
 						end
 						if record['type'] == 'Update'
 							to_change = this_model.classify.constantize.find(record['id'])
-							change_result = to_change.update!(new_updates)
-							if to_change.errors
+							change_result = to_change.update(new_updates)
+							logger.info "[perform_update] to_change.errors = #{to_change.errors}"
+							if to_change.errors.size > 0
+								logger.info "[perform_update] to_change.errors.full_messages = #{to_change.errors.full_messages}"
 								error_count += to_change.errors.size
 								error_messages = to_change.errors.full_messages.join(', ')
 								record['result'] = "Not Updated because of these errors: " + error_messages
 							else
-								record['result'] = change_result ? "Updated" : "Not Updated"
+								record['result'] = "Updated"
 							end
 							#change_result
 						elsif record['type'] == 'Delete'
@@ -684,7 +686,7 @@ class Update < ApplicationRecord
 							to_change = this_model.classify.constantize.new
 							change_result = to_change.update(new_updates)
 							logger.info "to_change.errors = #{to_change.errors.full_messages}"
-							if to_change.errors
+							if to_change.errors.size > 0
 								error_count += to_change.errors.size
 								error_messages = to_change.errors.full_messages.join(', ')
 								record['result'] = "Not Created because of these errors: " + error_messages
