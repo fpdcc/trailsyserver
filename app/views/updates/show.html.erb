@@ -1,10 +1,17 @@
+<div class="row col-6">
+  <div>Filename: <%= @update.filename %></div>
+  <div>Status: <%= @update.status %></div>
+  <div>Created By: <%= @created_by %></div>
+  <div>Approved: <%= @update.approved %></div>
+  <div>Approved By: <%= @approved_by %></div>
+  <div>Run at: <%= @update.run_at %></div>
+  </div>
 
-Filename: <%= @update.filename %>
-<div id='testdiv'></div>
-<br>
+
 <%= render partial: "update_info" %>
 
 <%= render partial: "form_approval" %>
 
 <%= link_to 'Edit', edit_update_path(@update) %> |
 <%= link_to 'Back', updates_path %>
+

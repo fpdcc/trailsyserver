@@ -22,7 +22,7 @@ class Update < ApplicationRecord
 		elsif data_type == 'PoiDesc'
 			update.parse_poi_descs(path)
 		end
-		update.status = "created"
+		update.status = "staged"
 		update.save
 		# ApplicationController.renderer.render(
 		# 	partial: 'updates/status',

@@ -12,6 +12,8 @@ class UpdatesController < ApplicationController
   # GET /updates/1.json
   def show
     authorize @update
+    @created_by = @update.created_by.present? ? User.find(@update.created_by).email : ""
+    @approved_by = @update.approved_by.present? ? User.find(@update.approved_by).email : ""
   end
 
   # GET /updates/new
@@ -52,8 +54,9 @@ class UpdatesController < ApplicationController
     end
     @update.status = "created"
     respond_to do |format|
-      if @update.save
-        ImportFileJob.perform_later(path, data_type, @update)
+      if @update.with_user(current_user).save
+        #ImportFileJob.perform_later(path, data_type, @update)
+        Update.parse_csv(path, data_type, @update)
         # logger.info "data_type = #{data_type}"
         # if data_type == 'trails'
         #   @update.parse_trails(contents)
