@@ -11,41 +11,45 @@
 			<% if val['columns']['csv_extra'].present? %>
 			<li class="alert alert-warning" role="alert">The CSV has these extra columns: <%= val['columns']['csv_extra'] %>. They will be ignored for this update.</li>
 			<% end %>
-			<table class='table-striped table-bordered table-hover'>
-				<thead>
-					<th>ID</th>
-					<th>Change Type</th>
-					<th>Changes</th>
-					<th>Updated?</th>
-				</thead>
-				<tbody>
-				<% val['records'].each do |record| %>
-					<tr>
-						<td><%= record['id'] %></td>
-						<td><%= record['type'] %></td>
-						<td>
-							<% if record['changes'].present? %>
-								<table>
-								<thead>
-									<th>Field</th>
-									<th>Value Change</th>
-								</thead>
-								<tbody>
-								<% record['changes'].each do |change| %>
-									<tr>
-										<td><%= change[0] %></td>
-										<td><%= change[1] %></td>
-									</tr>
+			<% if val['records'].present? %>
+				<table class='table-striped table-bordered table-hover'>
+					<thead>
+						<th>ID</th>
+						<th>Change Type</th>
+						<th>Changes</th>
+						<th>Updated?</th>
+					</thead>
+					<tbody>
+					<% val['records'].each do |record| %>
+						<tr>
+							<td><%= record['id'] %></td>
+							<td><%= record['type'] %></td>
+							<td>
+								<% if record['changes'].present? %>
+									<table>
+									<thead>
+										<th>Field</th>
+										<th>Value Change</th>
+									</thead>
+									<tbody>
+									<% record['changes'].each do |change| %>
+										<tr>
+											<td><%= change[0] %></td>
+											<td><%= change[1] %></td>
+										</tr>
+									<% end %>
+									</tbody>
+									</table>
 								<% end %>
-								</tbody>
-								</table>
-							<% end %>
-						</td>
-						<td><%= record['result'] %></td>
-					</tr>
-				<% end %>
-				</tbody>
-			<table>
+							</td>
+							<td><%= record['result'] %></td>
+						</tr>
+					<% end %>
+					</tbody>
+				<table>
+			<% else %>
+				<li>This update would not change any records in the <%= key %> data.</li>
+			<% end %>
 		<% end %>
 	<% end %>
 </ul>
