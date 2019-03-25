@@ -4,7 +4,7 @@ class ImportFileJob < ApplicationJob
   after_perform do |job|
     logger.info "job arguments = #{job.arguments}"
     update = job.arguments[2]
-    update.status = "success"
+    update.status = "staged"
     #update.job = job
     update.save
     
