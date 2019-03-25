@@ -6,48 +6,50 @@ Run at: <%= @update.run_at %>
 <br>
 <h2>Data to Update:</h2>
 <ul class="list-unstyled">
-	<% @update.updatedata.each do |key, val| %>
-		<li><h3><%= key %></h3></li>
-		<% if val['columns']['csv_missing'].present? %>
-		<li class="alert alert-warning" role="alert">The CSV is missing these columns: <%= val['columns']['csv_missing'] %>. They will be unchanged in the database.</li>
-		<% end %>
-		<% if val['columns']['csv_extra'].present? %>
-		<li class="alert alert-warning" role="alert">The CSV has these extra columns: <%= val['columns']['csv_extra'] %>. They will be ignored for this update.</li>
-		<% end %>
-		<table class='table-striped table-bordered table-hover'>
-			<thead>
-				<th>ID</th>
-				<th>Change Type</th>
-				<th>Changes</th>
-				<th>Updated?</th>
-			</thead>
-			<tbody>
-			<% val['records'].each do |record| %>
-				<tr>
-					<td><%= record['id'] %></td>
-					<td><%= record['type'] %></td>
-					<td>
-						<% if record['changes'].present? %>
-							<table>
-							<thead>
-								<th>Field</th>
-								<th>Value Change</th>
-							</thead>
-							<tbody>
-							<% record['changes'].each do |change| %>
-								<tr>
-									<td><%= change[0] %></td>
-									<td><%= change[1] %></td>
-								</tr>
-							<% end %>
-							</tbody>
-							</table>
-						<% end %>
-					</td>
-					<td><%= record['result'] %></td>
-				</tr>
+	<% if @update.status != "created" %>
+		<% @update.updatedata.each do |key, val| %>
+			<li><h3><%= key %></h3></li>
+			<% if val['columns']['csv_missing'].present? %>
+			<li class="alert alert-warning" role="alert">The CSV is missing these columns: <%= val['columns']['csv_missing'] %>. They will be unchanged in the database.</li>
 			<% end %>
-			</tbody>
-		<table>
+			<% if val['columns']['csv_extra'].present? %>
+			<li class="alert alert-warning" role="alert">The CSV has these extra columns: <%= val['columns']['csv_extra'] %>. They will be ignored for this update.</li>
+			<% end %>
+			<table class='table-striped table-bordered table-hover'>
+				<thead>
+					<th>ID</th>
+					<th>Change Type</th>
+					<th>Changes</th>
+					<th>Updated?</th>
+				</thead>
+				<tbody>
+				<% val['records'].each do |record| %>
+					<tr>
+						<td><%= record['id'] %></td>
+						<td><%= record['type'] %></td>
+						<td>
+							<% if record['changes'].present? %>
+								<table>
+								<thead>
+									<th>Field</th>
+									<th>Value Change</th>
+								</thead>
+								<tbody>
+								<% record['changes'].each do |change| %>
+									<tr>
+										<td><%= change[0] %></td>
+										<td><%= change[1] %></td>
+									</tr>
+								<% end %>
+								</tbody>
+								</table>
+							<% end %>
+						</td>
+						<td><%= record['result'] %></td>
+					</tr>
+				<% end %>
+				</tbody>
+			<table>
+		<% end %>
 	<% end %>
 </ul>

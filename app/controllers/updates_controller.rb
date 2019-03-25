@@ -50,7 +50,7 @@ class UpdatesController < ApplicationController
     elsif data_type == 'trails_descs'
       @update.updatedata['TrailsDesc'] = []
     end
-    @update.status = "Starting..."
+    @update.status = "created"
     respond_to do |format|
       if @update.save
         ImportFileJob.perform_later(path, data_type, @update)

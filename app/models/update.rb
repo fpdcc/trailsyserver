@@ -2,6 +2,7 @@ require 'csv'
 
 class Update < ApplicationRecord
 	serialize :updatedata
+	enum status: [:created, :staged, :approved, :success, :failure]
 
 	attr_accessor :data_file, :data_type, :path, :file
 
@@ -21,7 +22,7 @@ class Update < ApplicationRecord
 		elsif data_type == 'PoiDesc'
 			update.parse_poi_descs(path)
 		end
-		update.status = "Changes Staged"
+		update.status = "created"
 		update.save
 		# ApplicationController.renderer.render(
 		# 	partial: 'updates/status',
@@ -230,6 +231,7 @@ class Update < ApplicationRecord
 		self.updatedata['NewTrail']['records'] = trails_to_update.uniq
 		self.updatedata['TrailSystem']['records'] = trail_systems_to_update.uniq
 		self.updatedata['TrailSubtrail']['records'] = trail_subtrails_to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -300,6 +302,7 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['Pointsofinterest']['records'] = pois_to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -433,6 +436,7 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['Activity']['records'] = to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -500,6 +504,7 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['ParkingEntrance']['records'] = to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -566,6 +571,7 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['Picnicgrofe']['records'] = to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
@@ -632,42 +638,52 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['PoiDesc']['records'] = to_update.uniq
+		self.status = "staged"
 		self.save
 		File.delete(file)
 		return self.updatedata
 	end
 
 	def perform_update
-		self.updatedata.each do |this_model, records|
-			records = records.uniq
-			records.each do |record|
-				new_updates = {}
-				if record['changes'].present?
-					record['changes'].each do |change|
-						new_updates[change[0]] = change[1][1]
+		Update.transaction do
+			self.updatedata.each do |this_model, details|
+				this_model.classify.constantize.transaction do
+					records = details['records'].uniq
+					#records = records.uniq
+					records_count = records.length
+					#logger.info "[perform_update] records count = #{records_count}"
+					#logger.info "[perform_update] records = #{records}"
+					records.each do |record|
+						new_updates = {}
+						logger.info "[perform_update] record = #{record}"
+						if record['changes'].present?
+							record['changes'].each do |change|
+								new_updates[change[0]] = change[1][1]
+							end
+							logger.info record['id']
+							logger.info new_updates
+						end
+						if record['type'] == 'Update'
+							to_change = this_model.classify.constantize.find(record['id'])
+							change_result = to_change.update!(new_updates)
+							record['result'] = change_result ? "Updated" : "Not Updated"
+							#change_result
+						elsif record['type'] == 'Delete'
+							to_change = this_model.classify.constantize.find(record['id'])
+							change_result = to_change.destroy
+							record['result'] = change_result
+						elsif record['type'] == 'Add'
+							logger.info "Add placeholder"
+							to_change = this_model.classify.constantize.new
+							change_result = to_change.update_attributes(new_updates)
+							record['result'] = change_result ? "Created" : "Not Created"
+						end
 					end
-					logger.info record['id']
-					logger.info new_updates
-				end
-				if record['type'] == 'Update'
-					to_change = this_model.classify.constantize.find(record['id'])
-					change_result = to_change.update!(new_updates)
-					record['result'] = change_result ? "Updated" : "Not Updated"
-					#change_result
-				elsif record['type'] == 'Delete'
-					to_change = this_model.classify.constantize.find(record['id'])
-					change_result = to_change.destroy
-					record['result'] = change_result
-				elsif record['type'] == 'Add'
-					logger.info "Add placeholder"
-					to_change = this_model.classify.constantize.new
-					change_result = to_change.update_attributes(new_updates)
-					record['result'] = change_result ? "Created" : "Not Created"
 				end
 			end
 		end
 		self.run_at = Time.now
-		self.status = "Changes Completed"
+		self.status = "success"
 		self.save
 	end
 
