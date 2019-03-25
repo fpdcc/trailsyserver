@@ -645,6 +645,7 @@ class Update < ApplicationRecord
 	end
 
 	def perform_update
+		error_count = 0
 		Update.transaction do
 			self.updatedata.each do |this_model, details|
 				this_model.classify.constantize.transaction do
@@ -666,7 +667,13 @@ class Update < ApplicationRecord
 						if record['type'] == 'Update'
 							to_change = this_model.classify.constantize.find(record['id'])
 							change_result = to_change.update!(new_updates)
-							record['result'] = change_result ? "Updated" : "Not Updated"
+							if to_change.errors
+								error_count += to_change.errors.size
+								error_messages = to_change.errors.full_messages.join(', ')
+								record['result'] = "Not Updated because of these errors: " + error_messages
+							else
+								record['result'] = change_result ? "Updated" : "Not Updated"
+							end
 							#change_result
 						elsif record['type'] == 'Delete'
 							to_change = this_model.classify.constantize.find(record['id'])
@@ -675,15 +682,23 @@ class Update < ApplicationRecord
 						elsif record['type'] == 'Add'
 							logger.info "Add placeholder"
 							to_change = this_model.classify.constantize.new
-							change_result = to_change.update_attributes(new_updates)
-							record['result'] = change_result ? "Created" : "Not Created"
+							change_result = to_change.update(new_updates)
+							logger.info "to_change.errors = #{to_change.errors.full_messages}"
+							if to_change.errors
+								error_count += to_change.errors.size
+								error_messages = to_change.errors.full_messages.join(', ')
+								record['result'] = "Not Created because of these errors: " + error_messages
+							else
+								record['result'] = change_result ? "Created" : "Not Created"
+							end
 						end
 					end
 				end
 			end
 		end
+		logger.info "[perform_update] error_count = #{error_count}"
 		self.run_at = Time.now
-		self.status = "success"
+		self.status = error_count == 0 ? "success" : "failure"
 		self.save
 	end
 

@@ -67,7 +67,7 @@ class UpdatesController < ApplicationController
         # elsif data_type == 'trails_descs'
         #   @update.parse_trails_descs(contents)
         # end
-        format.html { redirect_to @update, notice: 'Update was successfully created.' }
+        format.html { redirect_to @update, notice: 'Update was successfully staged. Review details below.' }
         format.json { render action: 'show', status: :created, location: @update }
       else
         format.html { render action: 'new' }
@@ -89,9 +89,16 @@ class UpdatesController < ApplicationController
             @update.approved_by = current_user.id
             @update.save
             @update.perform_update
+            # if @update.status == 'failure'
+            #   format.html { redirect_to @update, error: 'There was an error with this update. See below for details.' }
+            # end
           end
         end
-        format.html { redirect_to @update, notice: 'Update was successfully updated.' }
+        if @update.failure?
+          format.html { redirect_to @update, alert: 'There was an error with this update. See below for details.' }
+        else
+          format.html { redirect_to @update, notice: 'Update was successfully updated.' }
+        end
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

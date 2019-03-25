@@ -11,7 +11,7 @@
       </ul>
     </div>
   <% end %>
-  <% if !@update.approved %>
+  <% if !@update.success? %>
     <div class='field-group'>
         Perform this update?: <%= f.check_box :approved %>
     </div>
