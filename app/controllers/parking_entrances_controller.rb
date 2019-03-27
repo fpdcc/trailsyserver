@@ -1,6 +1,7 @@
 class ParkingEntrancesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_parking_entrance, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
 
   # GET /parking_entrances
   # GET /parking_entrances.json
@@ -63,6 +64,12 @@ class ParkingEntrancesController < ApplicationController
   end
 
   private
+
+    def expire_this_json
+      expire_page("/pointsofinterests.json")
+      expire_page("/pointsofinterests.json.gz")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_parking_entrance
       @parking_entrance = ParkingEntrance.find(params[:id])

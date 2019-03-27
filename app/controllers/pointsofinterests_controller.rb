@@ -215,6 +215,7 @@ class PointsofinterestsController < ApplicationController
 
     def expire_this_json
       expire_page("/pointsofinterests.json")
+      expire_page("/pointsofinterests.json.gz")
     end
 
     def set_pointsofinterests_cache_key

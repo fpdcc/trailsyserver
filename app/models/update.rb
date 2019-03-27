@@ -644,6 +644,28 @@ class Update < ApplicationRecord
 		return self.updatedata
 	end
 
+	def self.expire_cache
+		ActionController::Base::expire_page("/")
+    ActionController::Base::expire_page("/activities.json")
+    ActionController::Base::expire_page("/activities.json.gz")
+    ActionController::Base::expire_page("/picnicgroves.json")
+    ActionController::Base::expire_page("/picnicgroves.json.gz")
+    ActionController::Base::expire_page("/poi_infos.json")
+    ActionController::Base::expire_page("/poi_infos.json.gz")
+    ActionController::Base::expire_page("/pointsofinterests.json")
+    ActionController::Base::expire_page("/pointsofinterests.json.gz")
+    ActionController::Base::expire_page("/trails_infos.json")
+    ActionController::Base::expire_page("/trails_infos.json.gz")
+    ActionController::Base::expire_page("/new_trails.json")
+		ActionController::Base::expire_page("/new_trails.json.gz")
+		ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+    app = ActionDispatch::Integration::Session.new Rails.application
+    app.get("https://#{ENV['SERVER']}/alerts.json")
+    app.get("https://#{ENV['SERVER']}/alerts/list.json")
+		
+	end
+
 	def perform_update
 		error_count = 0
 		Update.transaction do

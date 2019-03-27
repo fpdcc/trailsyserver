@@ -1,6 +1,7 @@
 class PoiDescsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_poi_desc, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
 
   # GET /poi_descs
   # GET /poi_descs.json
@@ -63,6 +64,11 @@ class PoiDescsController < ApplicationController
   end
 
   private
+    def expire_this_json
+      expire_page("/pointsofinterests.json")
+      expire_page("/pointsofinterests.json.gz")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_poi_desc
       @poi_desc = PoiDesc.find(params[:id])

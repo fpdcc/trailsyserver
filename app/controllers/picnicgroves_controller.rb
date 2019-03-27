@@ -117,6 +117,7 @@ class PicnicgrovesController < ApplicationController
   private
     def expire_this_json
       expire_page("/picnicgroves.json")
+      expire_page("/picnicgroves.json.gz")
     end
 
     # Use callbacks to share common setup or constraints between actions.

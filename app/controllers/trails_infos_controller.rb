@@ -115,6 +115,7 @@ class TrailsInfosController < ApplicationController
 
     def expire_this_json
       expire_page("/trails_infos.json")
+      expire_page("/trails_infos.json.gz")
     end
 
     
