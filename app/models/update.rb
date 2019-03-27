@@ -702,7 +702,11 @@ class Update < ApplicationRecord
 						elsif record['type'] == 'Delete'
 							to_change = this_model.classify.constantize.find(record['id'])
 							change_result = to_change.destroy
-							record['result'] = change_result
+							if change_result
+								record['result'] = "Deleted"
+							else
+								record['result'] = change_result
+							end
 						elsif record['type'] == 'Add'
 							logger.info "Add placeholder"
 							to_change = this_model.classify.constantize.new
