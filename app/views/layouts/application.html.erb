@@ -31,7 +31,10 @@
             <%= menu_item "Trails Info", trails_infos_path %>
             <%= menu_item "Trails Desc", trails_descs_path %>
           <% end %>
-          <%= menu_item "PointsofInterest", pointsofinterests_path %>
+          <%= drop_down "POIs" do %>
+            <%= menu_item "PointsofInterest", pointsofinterests_path %>
+            <%= menu_item "Parking Entrances", parking_entrances_path %>
+          <% end %>
           <%= drop_down "Activities" do %>
             <%= menu_item "Activities", activities_path %>
             <%= menu_item "Picnic Groves", picnicgroves_path %>

@@ -6,7 +6,7 @@ class ParkingEntrancesController < ApplicationController
   # GET /parking_entrances
   # GET /parking_entrances.json
   def index
-    @parking_entrances = ParkingEntrance.all
+    @parking_entrances = ParkingEntrance.all.paginate(page: params[:page])
   end
 
   # GET /parking_entrances/1

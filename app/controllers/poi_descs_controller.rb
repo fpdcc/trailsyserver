@@ -6,7 +6,7 @@ class PoiDescsController < ApplicationController
   # GET /poi_descs
   # GET /poi_descs.json
   def index
-    @poi_descs = PoiDesc.all
+    @poi_descs = PoiDesc.all.paginate(page: params[:page])
   end
 
   # GET /poi_descs/1

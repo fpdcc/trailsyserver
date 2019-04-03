@@ -1,28 +1,29 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Listing Parking Entrances</h1>
-
-<table>
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>Parking entrance</th>
-      <th>Geom</th>
-      <th colspan="3"></th>
+      <% for column in ParkingEntrance.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
     <% @parking_entrances.each do |parking_entrance| %>
       <tr>
-        <td><%= parking_entrance.parking_entrance_id %></td>
-        <td><%= parking_entrance.geom %></td>
+        <% parking_entrance.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
         <td><%= link_to 'Show', parking_entrance %></td>
         <td><%= link_to 'Edit', edit_parking_entrance_path(parking_entrance) %></td>
         <td><%= link_to 'Destroy', parking_entrance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+<%= will_paginate @parking_entrances, renderer: BootstrapPagination::Rails %>
 
 <br>
 

@@ -6,7 +6,7 @@ class TrailSubtrailsController < ApplicationController
   # GET /trail_subtrails.json
   def index
     authorize TrailSubtrail
-    @trail_subtrails = TrailSubtrail.all
+    @trail_subtrails = TrailSubtrail.all.paginate(page: params[:page])
   end
 
   # GET /trail_subtrails/1

@@ -6,7 +6,7 @@ class TrailSystemsController < ApplicationController
   # GET /trail_systems.json
   def index
     authorize TrailSystem
-    @trail_systems = TrailSystem.all
+    @trail_systems = TrailSystem.all.paginate(page: params[:page])
   end
 
   # GET /trail_systems/1

@@ -1,24 +1,33 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Listing Trail Subtrails</h1>
 
-<table>
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th colspan="3"></th>
+      <% for column in TrailSubtrail.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
     <% @trail_subtrails.each do |trail_subtrail| %>
       <tr>
+        <% trail_subtrail.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
         <td><%= link_to 'Show', trail_subtrail %></td>
         <td><%= link_to 'Edit', edit_trail_subtrail_path(trail_subtrail) %></td>
         <td><%= link_to 'Destroy', trail_subtrail, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+
+<%= will_paginate @trail_subtrails, renderer: BootstrapPagination::Rails %>
+
+
 
 <br>
 
