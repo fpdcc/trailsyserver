@@ -224,11 +224,13 @@ class AlertsController < ApplicationController
   end
 
   def self.expire_alerts_json
+    logger.info "starting Alert Controller self.expire_alerts_json"
     expire_page("alerts/list.json")
     expire_page("alerts.json")
   end
 
   def expire_alerts_json
+    logger.info "starting Alert Controller expire_alerts_json"
     AlertsController.expire_alerts_json
   end
 

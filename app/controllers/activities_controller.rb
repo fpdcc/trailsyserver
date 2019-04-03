@@ -3,7 +3,7 @@ class ActivitiesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_show_all_param
   before_action :check_for_cancel, only: [:update]
-  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
+  after_action :expire_cache, only: [:create, :destroy, :update, :upload]
 
 
   def upload
@@ -178,11 +178,13 @@ class ActivitiesController < ApplicationController
     json_attributes
   end
 
+  def expire_cache
+    ActionController::Base::expire_page("/activities.json")
+    ActionController::Base::expire_page("/activities.json.gz")
+  end
+
   private
-    def expire_this_json
-      expire_page("/activities.json")
-      expire_page("/activities.json.gz")
-    end
+    
 
     def set_activity
       @activity = Activity.find(params[:id])

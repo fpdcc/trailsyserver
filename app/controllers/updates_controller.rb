@@ -1,6 +1,8 @@
 class UpdatesController < ApplicationController
   before_action :set_update, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  after_action :expire_cache, only: [:update]
+
   # GET /updates
   # GET /updates.json
   def index
@@ -117,6 +119,24 @@ class UpdatesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def expire_cache
+		ActionController::Base::expire_page("/")
+    ActionController::Base::expire_page("/activities.json")
+    ActionController::Base::expire_page("/activities.json.gz")
+    ActionController::Base::expire_page("/picnicgroves.json")
+    ActionController::Base::expire_page("/picnicgroves.json.gz")
+    ActionController::Base::expire_page("/poi_infos.json")
+    ActionController::Base::expire_page("/poi_infos.json.gz")
+    ActionController::Base::expire_page("/pointsofinterests.json")
+    ActionController::Base::expire_page("/pointsofinterests.json.gz")
+    ActionController::Base::expire_page("/trails_infos.json")
+    ActionController::Base::expire_page("/trails_infos.json.gz")
+    ActionController::Base::expire_page("/new_trails.json")
+		ActionController::Base::expire_page("/new_trails.json.gz")
+		ActionController::Base::expire_page("alerts/list.json")
+    ActionController::Base::expire_page("alerts.json")
+	end
 
   private
     # Use callbacks to share common setup or constraints between actions.
