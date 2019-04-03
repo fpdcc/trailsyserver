@@ -127,6 +127,7 @@ class PicnicgrovesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def picnicgrofe_params
-      params.require(:picnicgrofe).permit(:picnicgrove_id, :preserve_name, :grove, :division, :capacity, :large_capacity, :grove_type, :location, :status, :fpd_uid, :poi_info_id, :geom)
+      #params.require(:picnicgrofe).permit(:picnicgrove_id, :preserve_name, :grove, :division, :capacity, :large_capacity, :grove_type, :location, :status, :fpd_uid, :poi_info_id, :geom)
+      params.require(:picnicgrofe).permit(Picnicgrofe.column_names - ["created_at", "updated_at"])
     end
 end

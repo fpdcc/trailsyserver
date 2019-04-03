@@ -76,6 +76,6 @@ class TrailSubtrailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trail_subtrail_params
-      params[:trail_subtrail]
+      params.require(:trail_subtrail).permit(TrailSubtrail.column_names - ["created_at", "updated_at"])
     end
 end

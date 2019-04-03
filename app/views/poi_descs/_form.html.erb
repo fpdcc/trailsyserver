@@ -11,86 +11,12 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :poi_info_id %><br>
-    <%= f.number_field :poi_info_id %>
+<% @poi_desc.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
   </div>
-  <div class="field">
-    <%= f.label :hours1 %><br>
-    <%= f.text_field :hours1 %>
-  </div>
-  <div class="field">
-    <%= f.label :hours2 %><br>
-    <%= f.text_field :hours2 %>
-  </div>
-  <div class="field">
-    <%= f.label :phone %><br>
-    <%= f.text_field :phone %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :web_link %><br>
-    <%= f.text_field :web_link %>
-  </div>
-  <div class="field">
-    <%= f.label :map_link %><br>
-    <%= f.text_field :map_link %>
-  </div>
-  <div class="field">
-    <%= f.label :map_link_spanish %><br>
-    <%= f.text_field :map_link_spanish %>
-  </div>
-  <div class="field">
-    <%= f.label :vol_link %><br>
-    <%= f.text_field :vol_link %>
-  </div>
-  <div class="field">
-    <%= f.label :vol_link2 %><br>
-    <%= f.text_field :vol_link2 %>
-  </div>
-  <div class="field">
-    <%= f.label :picnic_link %><br>
-    <%= f.text_field :picnic_link %>
-  </div>
-  <div class="field">
-    <%= f.label :event_link %><br>
-    <%= f.text_field :event_link %>
-  </div>
-  <div class="field">
-    <%= f.label :custom_link %><br>
-    <%= f.text_field :custom_link %>
-  </div>
-  <div class="field">
-    <%= f.label :season1 %><br>
-    <%= f.text_field :season1 %>
-  </div>
-  <div class="field">
-    <%= f.label :season2 %><br>
-    <%= f.text_field :season2 %>
-  </div>
-  <div class="field">
-    <%= f.label :special_hours %><br>
-    <%= f.text_field :special_hours %>
-  </div>
-  <div class="field">
-    <%= f.label :special_description %><br>
-    <%= f.text_field :special_description %>
-  </div>
-  <div class="field">
-    <%= f.label :special_link %><br>
-    <%= f.text_field :special_link %>
-  </div>
-  <div class="field">
-    <%= f.label :photo_link %><br>
-    <%= f.text_field :photo_link %>
-  </div>
-  <div class="field">
-    <%= f.label :poi_desc_id %><br>
-    <%= f.number_field :poi_desc_id %>
-  </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

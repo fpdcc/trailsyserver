@@ -77,6 +77,6 @@ class ParkingEntrancesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def parking_entrance_params
-      params.require(:parking_entrance).permit(:parking_entrance_id, :geom)
+      params.require(:parking_entrance).permit(ParkingEntrance.column_names - ["created_at", "updated_at"])
     end
 end

@@ -173,6 +173,6 @@ class NewTrailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def new_trail_params
-      params.require(:new_trail).permit(:trails_id, :geom)
+      params.require(:new_trail).permit(NewTrail.column_names - ["created_at", "updated_at"])
     end
 end

@@ -1,9 +1,10 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Trail subsystem:</strong>
-  <%= @trail_system.trail_subsystem %>
-</p>
+<% @trail_system.attributes.each do |attribute| %>
+  <p>
+    <strong><%= attribute[0] %></strong>
+    <%= attribute[1] %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_trail_system_path(@trail_system) %> |
 <%= link_to 'Back', :back %>

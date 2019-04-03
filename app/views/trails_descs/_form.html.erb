@@ -10,31 +10,13 @@
       </ul>
     </div>
   <% end %>
+<% @trails_desc.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
+  </div>
+  <% end %>
 
-  <div class="field">
-    <%= f.label :trail_desc_id %><br>
-    <%= f.number_field :trail_desc_id %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_subsystem %><br>
-    <%= f.text_field :trail_subsystem %>
-  </div>
-  <div class="field">
-    <%= f.label :alt_name %><br>
-    <%= f.text_field :alt_name %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_desc %><br>
-    <%= f.text_field :trail_desc %>
-  </div>
-  <div class="field">
-    <%= f.label :map_link %><br>
-    <%= f.text_field :map_link %>
-  </div>
-  <div class="field">
-    <%= f.label :map_link_spanish %><br>
-    <%= f.text_field :map_link_spanish %>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

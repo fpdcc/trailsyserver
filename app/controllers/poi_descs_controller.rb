@@ -76,6 +76,7 @@ class PoiDescsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poi_desc_params
-      params.require(:poi_desc).permit(:poi_info_id, :fish_map, :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish, :vol_link, :vol_link2, :picnic_link, :event_link, :custom_link, :season1, :season2, :special_hours, :special_description, :special_link, :photo_link, :poi_desc_id)
+      params.require(:poi_desc).permit(PoiDesc.column_names - ["created_at", "updated_at"])
+      #params.require(:poi_desc).permit(:poi_info_id, :fish_map, :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish, :vol_link, :vol_link2, :picnic_link, :event_link, :custom_link, :season1, :season2, :special_hours, :special_description, :special_link, :photo_link, :poi_desc_id)
     end
 end

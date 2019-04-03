@@ -10,55 +10,13 @@
       </ul>
     </div>
   <% end %>
+<% @picnicgrofe.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
+  </div>
+  <% end %>
 
-  <div class="field">
-    <%= f.label :picnicgrove_id %><br>
-    <%= f.text_field :picnicgrove_id %>
-  </div>
-  <div class="field">
-    <%= f.label :preserve_name %><br>
-    <%= f.text_field :preserve_name %>
-  </div>
-  <div class="field">
-    <%= f.label :grove %><br>
-    <%= f.number_field :grove %>
-  </div>
-  <div class="field">
-    <%= f.label :division %><br>
-    <%= f.text_field :division %>
-  </div>
-  <div class="field">
-    <%= f.label :capacity %><br>
-    <%= f.number_field :capacity %>
-  </div>
-  <div class="field">
-    <%= f.label :large_capacity %><br>
-    <%= f.text_field :large_capacity %>
-  </div>
-  <div class="field">
-    <%= f.label :grove_type %><br>
-    <%= f.text_field :grove_type %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br>
-    <%= f.text_field :location %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
-  </div>
-  <div class="field">
-    <%= f.label :fpd_uid %><br>
-    <%= f.text_field :fpd_uid %>
-  </div>
-  <div class="field">
-    <%= f.label :poi_info_id %><br>
-    <%= f.number_field :poi_info_id %>
-  </div>
-  <div class="field">
-    <%= f.label :geom %><br>
-    <%= f.text_field :geom %>
-  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

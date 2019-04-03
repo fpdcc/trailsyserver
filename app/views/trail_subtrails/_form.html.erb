@@ -11,6 +11,13 @@
     </div>
   <% end %>
 
+  <% @trail_subtrail.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
+  </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

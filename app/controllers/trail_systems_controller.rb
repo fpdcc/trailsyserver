@@ -83,6 +83,7 @@ class TrailSystemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trail_system_params
-      params.require(:trail_system).permit(:trail_subsystem)
+      params.require(:trail_system).permit(TrailSystem.column_names - ["created_at", "updated_at"])
+      #params.require(:trail_system).permit(:trail_subsystem)
     end
 end

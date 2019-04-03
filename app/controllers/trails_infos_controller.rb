@@ -126,6 +126,7 @@ class TrailsInfosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trails_info_params
-      params.require(:trails_info).permit(:direct_trail_id, :direct_trail_name, :segment_type, :direction, :trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
+      params.require(:trails_info).permit(TrailsInfo.column_names - ["created_at", "updated_at"])
+      #params.require(:trails_info).permit(:direct_trail_id, :direct_trail_name, :segment_type, :direction, :trail_system, :trail_subsystem, :trail_color, :trail_surface, :trail_type, :trail_difficulty, :regional_trail_name, :trail_desc, :gps, :comment, :alt_name, :cambr_name, :on_street, :crossing_type, :unrecognized, :length_mi, :trails_id, :off_fpdcc, :web_trail, :maintenance, :length_ft, :trail_info_id)
     end
 end
