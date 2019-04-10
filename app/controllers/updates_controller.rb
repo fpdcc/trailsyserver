@@ -37,7 +37,10 @@ class UpdatesController < ApplicationController
     original_filename = update_params[:file].original_filename
     new_filename = Time.now.to_formatted_s(:number) + original_filename
     path = File.join(Rails.root, 'tmp', 'upload', new_filename)
-    file = File.write(path, update_params[:file].read)
+    file_contents = update_params[:file].read
+    file_contents = file_contents.force_encoding('UTF-8')
+    logger.info "[updates_controller] file_contents #{file_contents}"
+    file = File.write(path, file_contents)
     data_type = update_params.delete(:data_type)
     #logger.info "original_filename = #{original_filename}"
     logger.info "path = #{path}"
@@ -136,7 +139,19 @@ class UpdatesController < ApplicationController
 		ActionController::Base::expire_page("/new_trails.json.gz")
 		ActionController::Base::expire_page("alerts/list.json")
     ActionController::Base::expire_page("alerts.json")
-	end
+  end
+  
+  def clean_upload(string)
+    replace_list = {}
+    replace_list["’"] = "'" 
+    replace_list["—"] = "-" 
+    string = string.force_encoding('UTF-8')
+    # replace_list.each do |key, value|
+    #   logger.info "[clean_upload] key = #{key} and value = #{value}"
+    #   string = string.gsub(key, value)
+    # end
+    return string
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
