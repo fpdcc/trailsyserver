@@ -1,10 +1,10 @@
 class TrailsInfo < ApplicationRecord
 	self.primary_key = 'trail_info_id'
 	#belongs_to :new_trail, foreign_key: :trails_id, primary_key: :trail_info_id
-	has_one  :trails_desc, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
-	has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+	has_one  :trails_desc, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
+	has_many :trails_infos, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
 	has_many :subsystem_trails, class_name: "TrailsInfo",
-                          foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+                          foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
 	
 	has_many :activities, foreign_key: :trail_info_id, primary_key: :trail_info_id
 	has_many :pointsofinterests, through: :activities
@@ -20,7 +20,7 @@ class TrailsInfo < ApplicationRecord
       direct_trail_id = self.trail_subsystem + "-"
       items_array = [self.trail_color, trail_type, segment_type, direction, off_fpdcc]
       items_array.each do |item|
-          if item.present?
+        if item.present?
           direct_trail_id = direct_trail_id + item
         end
         direct_trail_id = direct_trail_id + "-"
@@ -33,7 +33,7 @@ class TrailsInfo < ApplicationRecord
       segment_name = ""
       items_array = [trail_color, trail_type, segment_type]
       items_array.each do |item|
-          if item.present?
+        if item.present?
           segment_name += ' ' + item
         end
       end

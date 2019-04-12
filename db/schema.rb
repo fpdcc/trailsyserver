@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190401200321) do
+ActiveRecord::Schema.define(version: 20190412003255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,7 +231,6 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.integer "driving_range"
     t.string "maintenance_div"
     t.integer "pavilion"
-    t.integer "recreation_center"
     t.integer "bathroom_building_winter"
     t.integer "bathroom_building_summer"
     t.integer "bathroom_building_ada"
@@ -245,6 +244,7 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.integer "sanitation_station", default: 0
     t.integer "camp_store", default: 0
     t.integer "no_dogs", default: 0
+    t.integer "fitness_stairs", default: 0
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
   end
 
@@ -260,6 +260,7 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "length_mi"
+    t.string "trail_subsystem_id"
     t.index ["subtrail_id"], name: "index_trail_subtrails_on_subtrail_id", unique: true
     t.index ["trail_subsystem"], name: "index_trail_subtrails_on_trail_subsystem"
   end
@@ -268,7 +269,7 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.string "trail_subsystem"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["trail_subsystem"], name: "index_trail_systems_on_trail_subsystem", unique: true
+    t.string "trail_subsystem_id"
   end
 
   create_table "trails", id: :serial, force: :cascade do |t|
@@ -308,6 +309,12 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.string "map_link_spanish"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "hours1"
+    t.string "hours2"
+    t.string "season1"
+    t.string "season2"
+    t.string "special_hours"
+    t.string "trail_subsystem_id"
     t.index ["trail_desc_id"], name: "index_trails_descs_on_trail_desc_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_descs_on_trail_subsystem"
   end
@@ -327,7 +334,6 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.string "cambr_name"
     t.string "on_street"
     t.string "crossing_type"
-    t.string "unrecognized", null: false
     t.decimal "length_mi"
     t.integer "trails_id", null: false
     t.string "off_fpdcc", null: false
@@ -341,6 +347,14 @@ ActiveRecord::Schema.define(version: 20190401200321) do
     t.string "segment_type"
     t.string "direct_trail_id"
     t.string "direct_trail_name"
+    t.integer "hiking", default: 0
+    t.integer "biking", default: 0
+    t.integer "equestrian", default: 0
+    t.integer "cross_country", default: 0
+    t.integer "no_dogs", default: 0
+    t.integer "dog_leash", default: 0
+    t.string "trail_subsystem_id"
+    t.string "trail_name"
     t.index ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_infos_on_trail_subsystem"
     t.index ["trails_id"], name: "index_trails_infos_on_trails_id"

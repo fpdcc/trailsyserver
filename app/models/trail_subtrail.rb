@@ -2,7 +2,7 @@ class TrailSubtrail < ApplicationRecord
 	self.primary_key = 'subtrail_id'
 	before_save :create_subtrail_id
   	before_save :create_subtrail_name
-  	belongs_to :trail_system, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+  	belongs_to :trail_system, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
   	has_many :trails_infos, foreign_key: :direct_trail_id, primary_key: :subtrail_id
 	has_many :activities, through: :trails_infos
 	has_many :pointsofinterests, through: :activities

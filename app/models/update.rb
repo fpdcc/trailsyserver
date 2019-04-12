@@ -77,7 +77,7 @@ class Update < ApplicationRecord
 		  #logger.info "this row = #{row}"
 		  trails_info_item = TrailsInfo.find_or_initialize_by(trail_info_id: row['trail_info_id'])
 		  trails_item = NewTrail.find_or_initialize_by(trails_id: row['trail_info_id'])
-		  trail_system_item = TrailSystem.find_or_initialize_by(trail_subsystem: row['trail_subsystem'])
+		  trail_system_item = TrailSystem.find_or_initialize_by(trail_subsystem_id: row['trail_subsystem_id'])
 
 		  value = row['off_fpdcc']
 		  unless value.nil?
@@ -89,9 +89,10 @@ class Update < ApplicationRecord
 	            value = "n"
 	          end
 	      end
-		  trail_subtrail_item = TrailSubtrail.find_or_initialize_by(trail_subsystem: row['trail_subsystem'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
+			trail_subtrail_item = TrailSubtrail.find_or_initialize_by(trail_subsystem: row['trail_subsystem'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
+			
 		  ids_in_csv.push(row['trail_info_id'])
-		  systems_in_csv.push(row['trail_subsystem'])
+		  systems_in_csv.push(row['trail_subsystem_id'])
 		  trail_subtrails_in_csv.push(trail_subtrail_item.create_subtrail_id)
 		  trails_info_attrs = {}
 		  trails_attrs = {}
@@ -175,7 +176,8 @@ class Update < ApplicationRecord
 		  	trail_systems_to_update.push(parsed_item)
 		  end
 
-		  # Determine adds + changes for Trail Subtrail
+			# Determine adds + changes for Trail Subtrail
+			logger.info "trail_subtrail_attrs = #{trail_subtrail_attrs}"
 		  trail_subtrail_item.assign_attributes(trail_subtrail_attrs)
 		  parsed_item = {}
 		  parsed_item['id'] = trail_subtrail_item.id
@@ -207,11 +209,11 @@ class Update < ApplicationRecord
 		  	trails_to_update.push(parsed_item)
 		end
 		# Find TrailSystems that could be deleted
-		TrailSystem.find_each(batch_size: 5000) do |trailsystem|
-		  if !(systems_in_csv.include?(trailsystem.trail_subsystem))
+		TrailSystem.all.each do |trailsystem|
+		  if !(systems_in_csv.include?(trailsystem.trail_subsystem_id))
 		  	parsed_item = {}
 			parsed_item['trail_subsystem'] = trailsystem.trail_subsystem
-			parsed_item['id'] = parsed_item['trail_subsystem']
+			parsed_item['id'] = parsed_item['trail_subsystem_id']
 		  	parsed_item['type'] = "Delete"
 		  	trail_systems_to_update.push(parsed_item)
 		  end
