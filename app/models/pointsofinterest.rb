@@ -20,7 +20,7 @@ class Pointsofinterest < ApplicationRecord
   include Alertable
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
-  scope :has_trail_access, -> { joins(:activities).where("activities.atype = 'trailhead'") }
+  scope :has_trail_access, -> { joins(:activities).where.not(activities: {trail_info_id: nil}) }
   scope :has_parking, -> { where("parking_info_id > 0") }
   scope :with_active_alerts, -> { references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
   scope :no_active_alerts, -> { references(:alerts).where(
@@ -100,7 +100,7 @@ class Pointsofinterest < ApplicationRecord
   # end
   
   def has_trail_access    
-    this_trailheads = self.activities.where(atype: "trailhead")   
+    this_trailheads = self.activities.where.not(trail_info_id: nil)   
     if this_trailheads.length > 0   
       return true   
     end   
@@ -167,6 +167,10 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("equestrian")
         searchTags.push("horse riding", "horse")
       end
+      if (fitness_stairs == 1)
+        panelTags.push("fitness_stairs")
+        searchTags.push("fitness stairs")
+      end
       if (fishing == 1)
         panelTags.push("fishing")
       end
@@ -230,9 +234,6 @@ class Pointsofinterest < ApplicationRecord
       end
       if ( (picnic_grove == 1) or (shelter == 1) )
         searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
-      end
-      if (recreation_center == 1)
-        panelTags.push("recreation_center")
       end
       if (skating_ice == 1)
         panelTags.push("skating_ice")
