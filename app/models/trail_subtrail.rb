@@ -14,6 +14,7 @@ class TrailSubtrail < ApplicationRecord
 	include Alertable
 
 	def self.generate_cached_values
+		logger.info "Beginning TrailSubtrail.generate_cached_values"
 		TrailSubtrail.all.each do |trail_subtrail|
 			subtrails = trail_subtrail.trails_infos
 			trail_subtrail.length_mi = subtrails.sum(:length_mi)

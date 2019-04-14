@@ -38,7 +38,13 @@ class UpdatesController < ApplicationController
     new_filename = Time.now.to_formatted_s(:number) + original_filename
     path = File.join(Rails.root, 'tmp', 'upload', new_filename)
     file_contents = update_params[:file].read
-    file_contents = file_contents.force_encoding('UTF-8')
+    
+    # unless file_contents.valid_encoding?
+      
+    # end
+    #file_contents = file_contents.force_encoding('UTF-8')
+    file_contents.encode!("utf-8", "utf-8", :invalid => :replace)
+    #file_contents = file_contents.force_encoding('UTF-8')
     logger.info "[updates_controller] file_contents #{file_contents}"
     file = File.write(path, file_contents)
     data_type = update_params.delete(:data_type)
