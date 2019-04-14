@@ -40,7 +40,8 @@ class TrailSystem < ApplicationRecord
   end
 
   def map_id
-    self.trail_subsystem
+    #self.trail_subsystem
+    self.id + '-' + self.name
   end
 
   def subtrails

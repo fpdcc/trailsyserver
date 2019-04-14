@@ -12,7 +12,7 @@ if @global
 end
 
 json.locations do
-	json.array!(@pointsofinterests) do |pointsofinterest|
+	json.array!(@locations) do |pointsofinterest|
 		# json.array! pointsofinterest do
 			json.extract! pointsofinterest, :id, :name
 			json.map_id pointsofinterest.map_id
