@@ -290,9 +290,9 @@ class Pointsofinterest < ApplicationRecord
       if (natureplay == 1)
         panelTags.push('natureplay')
       end
-      # if (no_dogs == 1)
-      #   panelTags.push('no_dogs')
-      # end
+      if (no_dogs == 1)
+        panelTags.push('no_dogs')
+      end
     if (self.has_trail_access)
       panelTags.push("trailhead")
     end
