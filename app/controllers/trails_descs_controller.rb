@@ -7,7 +7,7 @@ class TrailsDescsController < ApplicationController
   # GET /trails_descs.json
   def index
     authorize TrailsDesc
-    @trails_descs = TrailsDesc.all.paginate(page: params[:page])
+    @trails_descs = TrailsDesc.all #.paginate(page: params[:page])
   end
 
   # GET /trails_descs/1
