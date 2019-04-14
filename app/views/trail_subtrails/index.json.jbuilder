@@ -1,5 +1,5 @@
 json.array!(@trail_subtrails) do |trail_subtrail|
-  json.extract! trail_subtrail, :subtrail_id, :subtrail_name, :tags, :trail_subsystem, :direction, :segment_type, :trail_color, :trail_type
+  json.extract! trail_subtrail, :subtrail_id, :subtrail_name, :tags, :trail_subsystem, :direction, :segment_type, :trail_color, :trail_type, :off_fpdcc
 
   json.subtrail_length_mi trail_subtrail.length_mi
 
