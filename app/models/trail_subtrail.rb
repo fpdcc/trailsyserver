@@ -48,6 +48,7 @@ class TrailSubtrail < ApplicationRecord
 			searchTags = searchTags.uniq
 			tags['panel'] = panelTags
 			trail_subtrail.tags = tags
+			trail_subtrail.create_subtrail_name
 			trail_subtrail.save
 		end
 	end
@@ -80,13 +81,16 @@ class TrailSubtrail < ApplicationRecord
 						segment_name += ' ' + item
 					end
 				end
+				segment_name = segment_name.strip.titlecase
 				if ( off_fpdcc === 'y' )
 					segment_name += ' (Non-FPCC)'
 				elsif direction
-					segment_name += ' (' + direction + ')'
+					direction_t = direction.titlecase
+					segment_name += ' (' + direction_t + ')'
+					segment_name.titlecase
 				end 
 			end
-      self.subtrail_name = segment_name.strip.titlecase
+      self.subtrail_name = segment_name.strip
 		end
 
     def self.parse_csv(file)
