@@ -35,7 +35,7 @@ class Update < ApplicationRecord
 	    # logger.info "file_ident = #{file_ident}"
 	    # contents = File.read(file_ident)
 		trails_infos_to_update = []
-		trails_to_update = []
+		#trails_to_update = []
 		trail_systems_to_update = []
 		trail_subtrails_to_update = []
 		ids_in_csv = []
@@ -50,19 +50,13 @@ class Update < ApplicationRecord
 		self.updatedata['TrailsInfo']['columns']['csv_missing'] = trails_info_columns - csv_headers
 		self.updatedata['TrailsInfo']['columns']['csv_extra'] = csv_headers - trails_info_columns
 
-		newtrail_columns = NewTrail.column_names - ["created_at", "updated_at", "id"]
-		self.updatedata['NewTrail'] = {}
-		self.updatedata['NewTrail']['columns'] = {}
-		self.updatedata['NewTrail']['columns']['csv_missing'] = newtrail_columns - csv_headers
-		self.updatedata['NewTrail']['columns']['csv_extra'] = csv_headers - newtrail_columns
-
 		trail_system_columns = TrailSystem.column_names - ["created_at", "updated_at", "id"]
 		self.updatedata['TrailSystem'] = {}
 		self.updatedata['TrailSystem']['columns'] = {}
 		self.updatedata['TrailSystem']['columns']['csv_missing'] = trail_system_columns - csv_headers
 		self.updatedata['TrailSystem']['columns']['csv_extra'] = csv_headers - trail_system_columns
 
-		trail_subtrail_columns = TrailSubtrail.column_names - ["created_at", "updated_at", "id"]
+		trail_subtrail_columns = TrailSubtrail.column_names - ["created_at", "updated_at", "id", "tags", "length_mi"]
 		self.updatedata['TrailSubtrail'] = {}
 		self.updatedata['TrailSubtrail']['columns'] = {}
 		self.updatedata['TrailSubtrail']['columns']['csv_missing'] = trail_subtrail_columns - csv_headers
@@ -76,7 +70,7 @@ class Update < ApplicationRecord
 		  next if (row.to_s =~ /^source/)
 		  #logger.info "this row = #{row}"
 		  trails_info_item = TrailsInfo.find_or_initialize_by(trail_info_id: row['trail_info_id'])
-		  trails_item = NewTrail.find_or_initialize_by(trails_id: row['trail_info_id'])
+		  #trails_item = NewTrail.find_or_initialize_by(trails_id: row['trail_info_id'])
 		  trail_system_item = TrailSystem.find_or_initialize_by(trail_subsystem_id: row['trail_subsystem_id'])
 
 		  value = row['off_fpdcc']
@@ -89,13 +83,13 @@ class Update < ApplicationRecord
 	            value = "n"
 	          end
 	      end
-			trail_subtrail_item = TrailSubtrail.find_or_initialize_by(trail_subsystem: row['trail_subsystem'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
+			trail_subtrail_item = TrailSubtrail.find_or_initialize_by(trail_subsystem_id: row['trail_subsystem_id'], trail_name: row['trail_name'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
 			
 		  ids_in_csv.push(row['trail_info_id'])
 		  systems_in_csv.push(row['trail_subsystem_id'])
 		  trail_subtrails_in_csv.push(trail_subtrail_item.create_subtrail_id)
 		  trails_info_attrs = {}
-		  trails_attrs = {}
+		  #trails_attrs = {}
 		  trail_system_attrs = {}
 		  trail_subtrail_attrs = {}
 		  row.headers.each do |header|
@@ -116,12 +110,7 @@ class Update < ApplicationRecord
 		    else
 		      #p "Field not in trails_info_attrs: #{header}"
 		    end
-		    # Build Trails Attrs
-		    if trails_item.attributes.has_key? header
-		      trails_attrs[header] = value
-		    else
-		      #p "Field not in trails_attrs: #{header}"
-		    end
+		    
 		    # Build Trail System Attrs
 		    if trail_system_item.attributes.has_key? header
 		      trail_system_attrs[header] = value
@@ -136,7 +125,7 @@ class Update < ApplicationRecord
 		    end
 		    if header == 'trail_info_id'
 		      trails_info_attrs['trails_id'] = value
-		      trails_attrs['trails_id'] = value
+		      #trails_attrs['trails_id'] = value
 		    end
 	  	end
 	  	# Determine adds + changes for trails_info
@@ -151,18 +140,7 @@ class Update < ApplicationRecord
 		  	parsed_item['type'] = "Update"
 		  	trails_infos_to_update.push(parsed_item)
 		  end
-		  # Determine adds + changes for New Trails
-		  trails_item.assign_attributes(trails_attrs)
-		  parsed_item = {}
-		  parsed_item['id'] = trails_item.id
-		  parsed_item['changes'] = trails_item.changes
-		  if trails_item.new_record?
-		  	parsed_item['type'] = "Add"
-		  	trails_to_update.push(parsed_item)
-		  elsif trails_item.changed?
-		  	parsed_item['type'] = "Update"
-		  	trails_to_update.push(parsed_item)
-		  end
+		 
 		  # Determine adds + changes for Trail System
 		  trail_system_item.assign_attributes(trail_system_attrs)
 		  parsed_item = {}
@@ -201,19 +179,13 @@ class Update < ApplicationRecord
 		  	parsed_item['type'] = "Delete"
 		  	trails_infos_to_update.push(parsed_item)
 		end
-		# Find Trails that could be deleted
-		NewTrail.where.not(trails_id: ids_in_csv).find_each(batch_size: 20000) do |trail|
-			parsed_item = {}
-		  	parsed_item['id'] = trail.trails_id
-		  	parsed_item['type'] = "Delete"
-		  	trails_to_update.push(parsed_item)
-		end
+	
 		# Find TrailSystems that could be deleted
 		TrailSystem.all.each do |trailsystem|
 		  if !(systems_in_csv.include?(trailsystem.trail_subsystem_id))
 		  	parsed_item = {}
-			parsed_item['trail_subsystem'] = trailsystem.trail_subsystem
-			parsed_item['id'] = parsed_item['trail_subsystem_id']
+				parsed_item['trail_subsystem'] = trailsystem.trail_subsystem
+				parsed_item['id'] = parsed_item['trail_subsystem_id']
 		  	parsed_item['type'] = "Delete"
 		  	trail_systems_to_update.push(parsed_item)
 		  end
@@ -222,15 +194,15 @@ class Update < ApplicationRecord
 		TrailSubtrail.find_each(batch_size: 10000) do |trailsubtrail|
 		  if !(trail_subtrails_in_csv.include?(trailsubtrail.create_subtrail_id))
 		  	parsed_item = {}
-			parsed_item['subtrail_id'] = trailsubtrail.create_subtrail_id
-			parsed_item['id'] = parsed_item['subtrail_id']
+			  parsed_item['subtrail_id'] = trailsubtrail.create_subtrail_id
+			  parsed_item['id'] = parsed_item['subtrail_id']
 		  	parsed_item['type'] = "Delete"
 		  	trail_subtrails_to_update.push(parsed_item)
 		  end
 		end
 
 		self.updatedata['TrailsInfo']['records'] = trails_infos_to_update.uniq
-		self.updatedata['NewTrail']['records'] = trails_to_update.uniq
+		#self.updatedata['NewTrail']['records'] = trails_to_update.uniq
 		self.updatedata['TrailSystem']['records'] = trail_systems_to_update.uniq
 		self.updatedata['TrailSubtrail']['records'] = trail_subtrails_to_update.uniq
 		self.status = "staged"
@@ -703,6 +675,7 @@ class Update < ApplicationRecord
 					end
 				end
 			end
+			TrailSubtrail.generate_cached_values
 		end
 		logger.info "[perform_update] error_count = #{error_count}"
 		self.run_at = Time.now

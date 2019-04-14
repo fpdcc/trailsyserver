@@ -2,6 +2,7 @@ class TrailsInfosController < ApplicationController
   before_action :set_trails_info, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
   before_action :authenticate_user!, except: [:index, :show]
+  caches_page :index, gzip: true, except: -> { request.format.html? }
  
   # GET /trails_infos
   # GET /trails_infos.json
@@ -18,28 +19,26 @@ class TrailsInfosController < ApplicationController
 
       end
       format.json do
-        #@trailheads = cached_all_by_name
-        #@trails_infos = TrailsInfo.joins(:trails_desc).select(:trail_subsystem, :trail_color, :trail_type, trails_desc.traiL_desc_id).distinct
-        
-        @trails_infos = TrailsInfo.left_joins(:trails_desc).select(:direct_trail_id, :trail_subsystem, :trail_color, :trail_type, :segment_type, :direction, :off_fpdcc, :trail_name, :'trails_descs.trail_desc_id', :'trails_descs.map_link', :'trails_descs.map_link_spanish',:'trails_descs.trail_desc', :'trails_descs.alt_name').distinct.sort_by(&:subtrail_length_mi).reverse
-
+        @trails = TrailsInfo.select(:id, :direct_trail_id, :geom)
         entity_factory = ::RGeo::GeoJSON::EntityFactory.instance
+        line_factory = ::RGeo::Geographic.spherical_factory(:srid => 4326)
         
         features = []
-        @trails_infos.each do |trails_info|
-
-          json_attributes = create_json_attributes(trails_info)
-          feature = entity_factory.feature(RGeo::Geographic.spherical_factory.point(0,0), 
-           trails_info.id, 
-           json_attributes)
+        @trails.each do |trail|
+          merged_geom = trail.attributes["geom"]
+          json_attributes = create_json_attributes(trail)
+          feature = entity_factory.feature(trail.geom, 
+            trail.trail_info_id, 
+            json_attributes)
           features.push(feature)
         end
+
         collection = entity_factory.feature_collection(features)
         my_geojson = RGeo::GeoJSON::encode(collection)
         ojDump = Oj.dump(my_geojson)
         #if stale?(ojDump, public: true)
           render json: ojDump
-          cache_page(@response, "/trails_infos.json")
+          #cache_page(@response, "/trails_infos.json")
         #end
       end
     end
@@ -104,10 +103,9 @@ class TrailsInfosController < ApplicationController
     end
   end
 
-  def create_json_attributes(trails_info)
-    json_attributes = trails_info.attributes.except('created_at', 'updated_at', 'trail_info_id')
-    json_attributes["subtrail_length_mi"] = trails_info.subtrail_length_mi
-    #json_attributes["direct_trail_id"] = trails_info.direct_trail_id
+  def create_json_attributes(trail)
+    json_attributes = {}
+    json_attributes["direct_trail_id"] = trail.direct_trail_id
     json_attributes
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190412003255) do
+ActiveRecord::Schema.define(version: 20190414050858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,8 @@ ActiveRecord::Schema.define(version: 20190412003255) do
     t.datetime "updated_at", null: false
     t.decimal "length_mi"
     t.string "trail_subsystem_id"
+    t.string "trail_name"
+    t.text "tags"
     t.index ["subtrail_id"], name: "index_trail_subtrails_on_subtrail_id", unique: true
     t.index ["trail_subsystem"], name: "index_trail_subtrails_on_trail_subsystem"
   end
@@ -355,6 +357,7 @@ ActiveRecord::Schema.define(version: 20190412003255) do
     t.integer "dog_leash", default: 0
     t.string "trail_subsystem_id"
     t.string "trail_name"
+    t.geography "geom", limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
     t.index ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_infos_on_trail_subsystem"
     t.index ["trails_id"], name: "index_trails_infos_on_trails_id"

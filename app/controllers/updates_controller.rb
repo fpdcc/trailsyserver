@@ -50,7 +50,7 @@ class UpdatesController < ApplicationController
     if data_type == 'Trail'
       @update.updatedata['TrailsInfo'] = []
       @update.updatedata['TrailSystem'] =  []
-      @update.updatedata['NewTrail'] =  []
+      #@update.updatedata['NewTrail'] =  []
       @update.updatedata['TrailSubtrail'] =  []
     elsif data_type == 'Pointsofinterest'
       @update.updatedata['Pointsofinterest'] =  []
@@ -135,8 +135,8 @@ class UpdatesController < ApplicationController
     ActionController::Base::expire_page("/pointsofinterests.json.gz")
     ActionController::Base::expire_page("/trails_infos.json")
     ActionController::Base::expire_page("/trails_infos.json.gz")
-    ActionController::Base::expire_page("/new_trails.json")
-		ActionController::Base::expire_page("/new_trails.json.gz")
+    ActionController::Base::expire_page("/trail_subtrails.json")
+		ActionController::Base::expire_page("/trail_subtrails.json.gz")
 		ActionController::Base::expire_page("alerts/list.json")
     ActionController::Base::expire_page("alerts.json")
   end

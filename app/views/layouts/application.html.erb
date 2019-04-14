@@ -27,8 +27,9 @@
             <%= menu_item "Alert Change History", history_alerts_path %>
           <% end %>
           <%= drop_down "Trails" do %>
-            <%= menu_item "Trails Geometry", new_trails_path %>
             <%= menu_item "Trails Info", trails_infos_path %>
+            <%= menu_item "Trail Subtrails", trail_subtrails_path %>
+            <%= menu_item "Trail Subsystems", trail_systems_path %>
             <%= menu_item "Trails Desc", trails_descs_path %>
           <% end %>
           <%= drop_down "POIs" do %>
