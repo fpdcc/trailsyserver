@@ -1,2 +1,0 @@
-class NewTrailPolicy < DataPolicy
-end

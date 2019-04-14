@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   end
   resources :parking_entrances
   resources :poi_descs
-  resources :new_trails
   resources :trails_descs
   resources :trails_infos
   resources :alertings

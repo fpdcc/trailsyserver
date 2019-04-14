@@ -70,7 +70,6 @@ class Update < ApplicationRecord
 		  next if (row.to_s =~ /^source/)
 		  #logger.info "this row = #{row}"
 		  trails_info_item = TrailsInfo.find_or_initialize_by(trail_info_id: row['trail_info_id'])
-		  #trails_item = NewTrail.find_or_initialize_by(trails_id: row['trail_info_id'])
 		  trail_system_item = TrailSystem.find_or_initialize_by(trail_subsystem_id: row['trail_subsystem_id'])
 
 		  value = row['off_fpdcc']
@@ -202,7 +201,6 @@ class Update < ApplicationRecord
 		end
 
 		self.updatedata['TrailsInfo']['records'] = trails_infos_to_update.uniq
-		#self.updatedata['NewTrail']['records'] = trails_to_update.uniq
 		self.updatedata['TrailSystem']['records'] = trail_systems_to_update.uniq
 		self.updatedata['TrailSubtrail']['records'] = trail_subtrails_to_update.uniq
 		self.status = "staged"
