@@ -1,27 +1,27 @@
 source 'https://rubygems.org'
 
-ruby '2.4.5'
+ruby '2.4.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.1.7'
 
 gem 'actionpack-page_caching'
 
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', '~> 1.1.4'
 
 #gem 'left_join'
 #gem 'active_record_union'
 
 # bootstrap
-gem "twitter-bootstrap-rails"
-gem 'momentjs-rails'
+gem 'twitter-bootstrap-rails', '~> 4.0'
+gem 'momentjs-rails', '~> 2.17', '>= 2.17.1'
 gem 'bootstrap3-datetimepicker-rails'
 #gem 'bootstrap-datepicker-rails'
-gem 'will_paginate', '~> 3.1.1'
-gem 'will_paginate-bootstrap'
+gem 'will_paginate', '~> 3.1', '>= 3.1.7'
+gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.2'
 
-gem 'validates_overlap' # Date overlap
+gem 'validates_overlap', '~> 0.8.6' # Date overlap
 
 gem 'rack-cors', :require => 'rack/cors'
 
@@ -69,28 +69,28 @@ end
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'activerecord-postgis-adapter'
-gem 'rgeo'
-gem 'rgeo-geojson'
-gem 'oj'
-gem 'unicorn'
-gem 'devise'
+gem 'activerecord-postgis-adapter', '~> 5.2', '>= 5.2.2'
+gem 'rgeo', '~> 2.0', '>= 2.0.1'
+gem 'rgeo-geojson', '~> 2.1', '>= 2.1.1'
+gem 'oj', '~> 3.7', '>= 3.7.12'
+gem 'unicorn', '~> 5.4'
+gem 'devise', '~> 4.6', '>= 4.6.2'
 # Current released version of devise_security_extension does not work with 5.1. Need to use master
 gem 'devise_security_extension', git: 'https://github.com/phatworx/devise_security_extension.git'
 gem 'rails_email_validator'
-gem 'pundit'
+gem 'pundit', '~> 2.0', '>= 2.0.1'
 gem 'rubyzip'
 gem 'paperclip', '~> 3.0'
 gem 'aws-sdk'
-gem 'ransack'
+gem 'ransack', '~> 2.1', '>= 2.1.1'
 gem 'rack-attack'
-gem 'paper_trail'
-gem 'paper_trail-association_tracking'
+gem 'paper_trail', '~> 10.3'
+gem 'paper_trail-association_tracking', '~> 2.0'
 
 #gem 'delayed_job_active_record'
 gem "daemons"
 # cron jobs for backups and sending reminders
-gem 'whenever', require: false
+gem 'whenever', '~> 0.10.0', require: false
 
 group :development do
   gem 'sshkit', '~> 1.13.1'
