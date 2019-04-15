@@ -2,7 +2,7 @@ class TrailsInfosController < ApplicationController
   before_action :set_trails_info, only: [:show, :edit, :update, :destroy]
   after_action :expire_this_json, only: [:destroy, :update, :upload]
   before_action :authenticate_user!, except: [:index, :show]
-  caches_page :index, gzip: true, except: -> { request.format.html? }
+  caches_page :index, gzip: true, if: -> { request.format.json? }
  
   # GET /trails_infos
   # GET /trails_infos.json

@@ -1,7 +1,7 @@
 class TrailSubtrailsController < ApplicationController
   before_action :set_trail_subtrail, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index]
-  caches_page :index, gzip: true, except: -> { request.format.html? }
+  caches_page :index, gzip: true, if: -> { request.format.json? }
 
   # GET /trail_subtrails
   # GET /trail_subtrails.json
