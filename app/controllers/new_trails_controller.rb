@@ -1,6 +1,6 @@
 class NewTrailsController < ApplicationController
   before_action :set_new_trail, only: [:show, :edit, :update, :destroy]
-  after_action :expire_this_json, only: [:destroy, :update, :upload]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
   before_action :authenticate_user!, except: [:index]
 
   # GET /new_trails
@@ -163,6 +163,7 @@ class NewTrailsController < ApplicationController
   private
     def expire_this_json
       expire_page("/new_trails.json")
+      expire_page("/new_trails.json.gz")
     end
 
     # Use callbacks to share common setup or constraints between actions.
@@ -172,6 +173,6 @@ class NewTrailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def new_trail_params
-      params.require(:new_trail).permit(:trails_id, :geom)
+      params.require(:new_trail).permit(NewTrail.column_names - ["created_at", "updated_at"])
     end
 end

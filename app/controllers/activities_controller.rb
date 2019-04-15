@@ -2,8 +2,8 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_show_all_param
-  before_action :check_for_cancel, only: [:update]
-  after_action :expire_this_json, only: [:destroy, :update, :upload]
+  #before_action :check_for_cancel, only: [:update]
+  after_action :expire_cache, only: [:create, :destroy, :update, :upload]
 
 
   def upload
@@ -15,7 +15,7 @@ class ActivitiesController < ApplicationController
     #redirect_to trails_url, notice: "Please enter a source organization code for uploading activities data." if params[:source_id].empty?
     source_id = params[:source_id]
     #source_id = "FPDCC"
-    @source = Organization.find(source_id)
+    #@source = Organization.find(source_id)
     parsed_activities = Activity.parse(params[:activities])
     if parsed_activities.nil?
       redirect_to activities_url, notice: "Unable to parse file #{params[:activities].original_filename}. Make sure it is a valid GeoJSON file or zipped shapefile."
@@ -126,28 +126,33 @@ class ActivitiesController < ApplicationController
 
   def edit
     authorize @activity
-    unless authorized?
-      redirect_to trailsegments_path, notice: 'Authorization failure.'
-    end
+    # unless authorized?
+    #   redirect_to activities_path, notice: 'Authorization failure.'
+    # end
   end
 
   def create
     @activity = Activity.new(activity_params)
     authorize @activity
     @activity.save
-    respond_with(@activity)
   end
 
   def update
     authorize @activity
-    @activity.update(activity_params)
-    respond_with(@activity)
+    respond_to do |format|
+      if @activity.update(activity_params)
+        format.html { redirect_to @activity, notice: 'Activity was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @activity.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def destroy
     authorize @activity
     @activity.destroy
-    respond_with(@activity)
   end
 
   def default_url_options
@@ -174,20 +179,25 @@ class ActivitiesController < ApplicationController
     # end
     #json_attributes["distance"] = activity.distance
     json_attributes["id"] = activity.activities_id
-    json_attributes["name"] = activity.aname
+    json_attributes["name"] = activity.name
     json_attributes
   end
 
+  def expire_cache
+    ActionController::Base::expire_page("/activities.json")
+    ActionController::Base::expire_page("/activities.json.gz")
+  end
+
   private
-    def expire_this_json
-      expire_page("/activities.json")
-    end
+    
 
     def set_activity
       @activity = Activity.find(params[:id])
     end
 
     def activity_params
-      params.require(:activity).permit(:activities_id, :nameid, :atype, :aname, :poi_info_id, :trail_info_id, :parking_info_id, :geom)
+      #params.require(:activity).permit(:activities_id, :nameid, :atype, :aname, :poi_info_id, :trail_info_id, :parking_info_id, :geom)
+      params.require(:activity).permit(Activity.column_names - ["created_at", "updated_at"])
+
     end
 end

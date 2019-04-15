@@ -1,13 +1,13 @@
 class TrailSystem < ApplicationRecord
-  self.primary_key = 'trail_subsystem'
+  self.primary_key = 'trail_subsystem_id'
   self.per_page = 30
 
   has_many :alertings, :as => :alertable
   has_many :alerts, :through => :alertings
   #has_many :current_future_alerts, :through => :alertings
-  has_many :trails_infos, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+  has_many :trails_infos, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
   has_many :pointsofinterests, -> { distinct }, through: :trails_infos
-  has_many :trail_subtrails, -> { order(length_mi: :desc) }, foreign_key: :trail_subsystem, primary_key: :trail_subsystem
+  has_many :trail_subtrails, -> { order(length_mi: :desc) }, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
   accepts_nested_attributes_for :alertings
   accepts_nested_attributes_for :alerts
 
@@ -16,7 +16,7 @@ class TrailSystem < ApplicationRecord
   scope :with_current_or_future_alerts,  ->  { references(:alerts).where('alerts.starts_at is not null and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now).order('trail_systems.trail_subsystem asc')}
 
   scope :no_current_or_future_alerts, -> { where(
-    "trail_systems.trail_subsystem NOT IN (
+    "trail_systems.trail_subsystem_id NOT IN (
     SELECT DISTINCT(alertings.alertable_id) 
     FROM alertings, alerts
     where 
@@ -40,7 +40,8 @@ class TrailSystem < ApplicationRecord
   end
 
   def map_id
-    self.trail_subsystem
+    #self.trail_subsystem
+    self.id + '-' + self.name
   end
 
   def subtrails

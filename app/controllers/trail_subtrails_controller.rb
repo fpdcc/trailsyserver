@@ -1,12 +1,22 @@
 class TrailSubtrailsController < ApplicationController
   before_action :set_trail_subtrail, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:index]
+  caches_page :index, gzip: true, except: -> { request.format.html? }
 
   # GET /trail_subtrails
   # GET /trail_subtrails.json
   def index
-    authorize TrailSubtrail
-    @trail_subtrails = TrailSubtrail.all
+    respond_to do |format|
+      format.html do 
+        authenticate_user!
+        authorize TrailSubtrail
+        @trail_subtrails = TrailSubtrail.all.paginate(page: params[:page])
+      end
+      format.json do
+        @trail_subtrails = TrailSubtrail.order(length_mi: :desc)
+        #cache_page( "/trail_subtrails.json")
+      end
+    end
   end
 
   # GET /trail_subtrails/1
@@ -76,6 +86,6 @@ class TrailSubtrailsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trail_subtrail_params
-      params[:trail_subtrail]
+      params.require(:trail_subtrail).permit(TrailSubtrail.column_names - ["created_at", "updated_at"])
     end
 end

@@ -1,0 +1,5 @@
+<% Rails.logger.warn("In the status.js.erb file") %>
+$("<%= escape_javascript(render partial: 'updates/update_info', locals: { update: @update } ) %>").prependTo("#testdiv");
+
+$('#status').html("YesCompleted");
+console.log("Status js run!");

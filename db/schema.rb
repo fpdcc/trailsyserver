@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190116214651) do
+ActiveRecord::Schema.define(version: 20190414050858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 20190116214651) do
 
   create_table "activities", id: :serial, force: :cascade do |t|
     t.string "activities_id"
-    t.string "nameid"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "atype"
@@ -95,18 +94,15 @@ ActiveRecord::Schema.define(version: 20190116214651) do
   end
 
   create_table "parking_entrances", id: :serial, force: :cascade do |t|
-    t.integer "parking_entrance_id"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "nameid"
     t.string "entrance_closed"
     t.integer "parking_info_id"
     t.string "name"
     t.string "web_street_addr"
     t.string "web_muni_addr"
     t.string "web_poi"
-    t.index ["parking_entrance_id"], name: "index_parking_entrances_on_parking_entrance_id", unique: true
   end
 
   create_table "photorecords", id: :serial, force: :cascade do |t|
@@ -171,7 +167,6 @@ ActiveRecord::Schema.define(version: 20190116214651) do
   end
 
   create_table "pointsofinterests", id: :serial, force: :cascade do |t|
-    t.integer "pointsofinterest_id"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -236,7 +231,6 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.integer "driving_range"
     t.string "maintenance_div"
     t.integer "pavilion"
-    t.integer "recreation_center"
     t.integer "bathroom_building_winter"
     t.integer "bathroom_building_summer"
     t.integer "bathroom_building_ada"
@@ -250,8 +244,8 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.integer "sanitation_station", default: 0
     t.integer "camp_store", default: 0
     t.integer "no_dogs", default: 0
+    t.integer "fitness_stairs", default: 0
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
-    t.index ["pointsofinterest_id"], name: "index_pointsofinterests_on_pointsofinterest_id", unique: true
   end
 
   create_table "trail_subtrails", id: :serial, force: :cascade do |t|
@@ -266,6 +260,9 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.decimal "length_mi"
+    t.string "trail_subsystem_id"
+    t.string "trail_name"
+    t.text "tags"
     t.index ["subtrail_id"], name: "index_trail_subtrails_on_subtrail_id", unique: true
     t.index ["trail_subsystem"], name: "index_trail_subtrails_on_trail_subsystem"
   end
@@ -274,7 +271,7 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.string "trail_subsystem"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["trail_subsystem"], name: "index_trail_systems_on_trail_subsystem", unique: true
+    t.string "trail_subsystem_id"
   end
 
   create_table "trails", id: :serial, force: :cascade do |t|
@@ -314,6 +311,12 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.string "map_link_spanish"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "hours1"
+    t.string "hours2"
+    t.string "season1"
+    t.string "season2"
+    t.string "special_hours"
+    t.string "trail_subsystem_id"
     t.index ["trail_desc_id"], name: "index_trails_descs_on_trail_desc_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_descs_on_trail_subsystem"
   end
@@ -333,7 +336,6 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.string "cambr_name"
     t.string "on_street"
     t.string "crossing_type"
-    t.string "unrecognized", null: false
     t.decimal "length_mi"
     t.integer "trails_id", null: false
     t.string "off_fpdcc", null: false
@@ -347,6 +349,15 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.string "segment_type"
     t.string "direct_trail_id"
     t.string "direct_trail_name"
+    t.integer "hiking", default: 0
+    t.integer "biking", default: 0
+    t.integer "equestrian", default: 0
+    t.integer "cross_country", default: 0
+    t.integer "no_dogs", default: 0
+    t.integer "dog_leash", default: 0
+    t.string "trail_subsystem_id"
+    t.string "trail_name"
+    t.geography "geom", limit: {:srid=>4326, :type=>"line_string", :geographic=>true}
     t.index ["trail_info_id"], name: "index_trails_infos_on_trail_info_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_infos_on_trail_subsystem"
     t.index ["trails_id"], name: "index_trails_infos_on_trails_id"
@@ -358,12 +369,12 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.text "updatedata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.string "job"
     t.integer "created_by"
     t.integer "approved_by"
     t.boolean "approved", default: false
     t.datetime "run_at"
+    t.integer "status"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -396,6 +407,7 @@ ActiveRecord::Schema.define(version: 20190116214651) do
     t.integer "version_id"
     t.string "foreign_key_name", null: false
     t.integer "foreign_key_id"
+    t.string "foreign_type"
     t.index ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key"
     t.index ["version_id"], name: "index_version_associations_on_version_id"
   end

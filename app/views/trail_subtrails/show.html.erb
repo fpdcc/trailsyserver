@@ -1,4 +1,10 @@
-<p id="notice"><%= notice %></p>
+
+<% @trail_subtrail.attributes.each do |attribute| %>
+  <p>
+    <strong><%= attribute[0] %></strong>
+    <%= attribute[1] %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_trail_subtrail_path(@trail_subtrail) %> |
 <%= link_to 'Back', trail_subtrails_path %>

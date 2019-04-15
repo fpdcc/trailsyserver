@@ -1,0 +1,38 @@
+<h1>Data Updates</h1>
+
+<%= link_to 'New Update', new_update_path, class: "btn btn-default" %>
+<br>
+<table class='table-striped table-bordered table-hover col-md-12 '>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Created</th>
+      <th>Status</th>
+      <th>Approved</th>
+      <th>Run at</th>
+      <th>filename</th>
+      <th>Updated at</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @updates.each do |update| %>
+      <tr>
+        <td><%= update.id %></td>
+        <td><%= update.created_at %></td>
+        <td><%= update.status %></td>
+        <td><%= update.approved %></td>
+        <td><%= update.run_at %></td>
+        <td><%= update.filename %></td>
+        <td><%= update.updated_at %></td>
+        <td><%= link_to 'Show', update %></td>
+        
+        <td><%= link_to 'Destroy', update, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

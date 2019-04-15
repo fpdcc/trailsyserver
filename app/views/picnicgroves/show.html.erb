@@ -1,64 +1,10 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Picnicgrove:</strong>
-  <%= @picnicgrofe.picnicgrove_id %>
-</p>
-
-<p>
-  <strong>Preserve name:</strong>
-  <%= @picnicgrofe.preserve_name %>
-</p>
-
-<p>
-  <strong>Grove:</strong>
-  <%= @picnicgrofe.grove %>
-</p>
-
-<p>
-  <strong>Division:</strong>
-  <%= @picnicgrofe.division %>
-</p>
-
-<p>
-  <strong>Capacity:</strong>
-  <%= @picnicgrofe.capacity %>
-</p>
-
-<p>
-  <strong>Large capacity:</strong>
-  <%= @picnicgrofe.large_capacity %>
-</p>
-
-<p>
-  <strong>Type:</strong>
-  <%= @picnicgrofe.grove_type %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @picnicgrofe.location %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @picnicgrofe.status %>
-</p>
-
-<p>
-  <strong>Fpd uid:</strong>
-  <%= @picnicgrofe.fpd_uid %>
-</p>
-
-<p>
-  <strong>Poi info:</strong>
-  <%= @picnicgrofe.poi_info_id %>
-</p>
-
-<p>
-  <strong>Geom:</strong>
-  <%= @picnicgrofe.geom %>
-</p>
+<% @picnicgrofe.attributes.each do |attribute| %>
+  <p>
+    <strong><%= attribute[0] %></strong>
+    <%= attribute[1] %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_picnicgrofe_path(@picnicgrofe) %> |
 <%= link_to 'Back', picnicgroves_path %>

@@ -11,14 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :parking_entrance_id %><br>
-    <%= f.number_field :parking_entrance_id %>
+<% @parking_entrance.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
   </div>
-  <div class="field">
-    <%= f.label :geom %><br>
-    <%= f.text_field :geom %>
-  </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,11 +1,12 @@
 class ParkingEntrancesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_parking_entrance, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
 
   # GET /parking_entrances
   # GET /parking_entrances.json
   def index
-    @parking_entrances = ParkingEntrance.all
+    @parking_entrances = ParkingEntrance.all.paginate(page: params[:page])
   end
 
   # GET /parking_entrances/1
@@ -63,6 +64,12 @@ class ParkingEntrancesController < ApplicationController
   end
 
   private
+
+    def expire_this_json
+      expire_page("/pointsofinterests.json")
+      expire_page("/pointsofinterests.json.gz")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_parking_entrance
       @parking_entrance = ParkingEntrance.find(params[:id])
@@ -70,6 +77,6 @@ class ParkingEntrancesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def parking_entrance_params
-      params.require(:parking_entrance).permit(:parking_entrance_id, :geom)
+      params.require(:parking_entrance).permit(ParkingEntrance.column_names - ["created_at", "updated_at"])
     end
 end

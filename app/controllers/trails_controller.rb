@@ -2,7 +2,7 @@ class TrailsController < ApplicationController
   before_action :set_trail, only: [:show, :edit, :destroy, :update]
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_show_all_param
-  before_action :check_for_cancel, only: [:update]
+  #before_action :check_for_cancel, only: [:update]
 
   after_action :set_trails_cache_key , only: [:destroy, :update, :upload]
 
@@ -279,9 +279,9 @@ class TrailsController < ApplicationController
     end
 
 
-    def check_for_cancel
-      if params[:commit] == "Cancel"
-        redirect_to trailheads_path
-      end
-    end
+    # def check_for_cancel
+    #   if params[:commit] == "Cancel"
+    #     redirect_to trailheads_path
+    #   end
+    # end
 end

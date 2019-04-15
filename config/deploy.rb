@@ -29,7 +29,7 @@ set :repo_url, ENV['GIT_REPOSITORY']
 append :linked_files, "config/database.yml", "config/local_env.yml", "config/secrets.yml"
 
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "lib/data", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", "public/map", "public/page_cache", '.bundle'
+append :linked_dirs, "log", "lib/data", "tmp/pids", "tmp/cache", "tmp/sockets", "tmp/upload", "public/system", "public/map", "public/page_cache", '.bundle'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -67,7 +67,7 @@ ENV['GEM'] = "bundler"
 before "rvm1:install:rvm", "app:update_rvm_key"
 after "rvm1:install:rvm", "app:rvm_trust"
 before 'deploy', 'rvm1:install:ruby'  # install/update Ruby
-after 'rvm1:install:ruby', 'rvm1:install_bundler'
+#after 'rvm1:install:ruby', 'rvm1:install_bundler'
 #before 'deploy', 'rvm1:install:gems'  # install/update gems from Gemfile into gemset
 after 'deploy:publishing', 'deploy:restart'
 namespace :deploy do

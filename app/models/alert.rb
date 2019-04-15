@@ -156,6 +156,7 @@ class Alert < ApplicationRecord
   end
 
   def self.expire_alerts_json
+    logger.info "starting Alert Model self.expire_alerts_json"
     ActionController::Base::expire_page("alerts/list.json")
     ActionController::Base::expire_page("alerts.json")
     app = ActionDispatch::Integration::Session.new Rails.application

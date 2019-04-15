@@ -1,8 +1,6 @@
 class ParkingEntrance < ApplicationRecord
 	self.primary_key='parking_info_id'
 
-	has_one :parking_entrance_info, foreign_key: :parking_entrance_id, primary_key: :parking_entrance_id
-
 	def self.parse_csv(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile

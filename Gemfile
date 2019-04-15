@@ -87,10 +87,12 @@ gem 'rack-attack'
 gem 'paper_trail'
 gem 'paper_trail-association_tracking'
 
+#gem 'delayed_job_active_record'
+gem "daemons"
 # cron jobs for backups and sending reminders
 gem 'whenever', require: false
 
-group :development, :development_fpcc do
+group :development do
   gem 'sshkit', '~> 1.13.1'
   gem "capistrano", "~> 3.7"
   gem 'capistrano-rails', '~> 1.2'
@@ -100,7 +102,6 @@ group :development, :development_fpcc do
   gem 'capistrano-bundler', '~> 1.2', require: false
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-rake', require: false
-  #gem 'capistrano-bundler', '~> 1.2'
   gem 'capistrano3-unicorn'
 
   # this whole group makes finding performance issues much friendlier
@@ -126,7 +127,7 @@ group :development, :development_fpcc do
 end
 
 
-group :testing do
+group :test do
   # mock tests w/mocha
   gem 'mocha', :require => false
 
@@ -140,9 +141,10 @@ group :testing do
   gem 'faker'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
+  
 end
 
-group :development, :development_fpcc, :test do
+group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'guard'
   gem 'guard-rspec', require: false
@@ -157,6 +159,7 @@ group :development, :development_fpcc, :test do
   gem 'shoulda-matchers', '~> 3.1.1', require: false
   gem 'database_cleaner'
   gem 'poltergeist'
+  gem "json_matchers"
 end
 
 

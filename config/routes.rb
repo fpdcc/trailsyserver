@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :trail_subtrails
   resources :trail_systems
-  get 'dashboard/index'
+  resources :updates
+  # get 'dashboard/index'
 
   resources :picnicgroves
   resources :pointsofinterests do 

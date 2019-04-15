@@ -11,94 +11,13 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :trail_system %><br>
-    <%= f.text_field :trail_system %>
+<% @trails_info.attributes.each do |attribute| %>
+    <div class="field">
+      <%= f.label attribute[0] %><br>
+      <%= f.text_field attribute[0] %>
   </div>
-  <div class="field">
-    <%= f.label :trail_subsystem %><br>
-    <%= f.text_field :trail_subsystem %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_color %><br>
-    <%= f.text_field :trail_color %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_surface %><br>
-    <%= f.text_field :trail_surface %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_type %><br>
-    <%= f.text_field :trail_type %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_difficulty %><br>
-    <%= f.text_field :trail_difficulty %>
-  </div>
-  <div class="field">
-    <%= f.label :regional_trail_name %><br>
-    <%= f.text_field :regional_trail_name %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_desc %><br>
-    <%= f.text_field :trail_desc %>
-  </div>
-  <div class="field">
-    <%= f.label :gps %><br>
-    <%= f.text_field :gps %>
-  </div>
-  <div class="field">
-    <%= f.label :comment %><br>
-    <%= f.text_field :comment %>
-  </div>
-  <div class="field">
-    <%= f.label :alt_name %><br>
-    <%= f.text_field :alt_name %>
-  </div>
-  <div class="field">
-    <%= f.label :cambr_name %><br>
-    <%= f.text_field :cambr_name %>
-  </div>
-  <div class="field">
-    <%= f.label :on_street %><br>
-    <%= f.text_field :on_street %>
-  </div>
-  <div class="field">
-    <%= f.label :crossing_type %><br>
-    <%= f.text_field :crossing_type %>
-  </div>
-  <div class="field">
-    <%= f.label :unrecognized %><br>
-    <%= f.text_field :unrecognized %>
-  </div>
-  <div class="field">
-    <%= f.label :length_mi %><br>
-    <%= f.text_field :length_mi %>
-  </div>
-  <div class="field">
-    <%= f.label :trails_id %><br>
-    <%= f.number_field :trails_id %>
-  </div>
-  <div class="field">
-    <%= f.label :off_fpdcc %><br>
-    <%= f.text_field :off_fpdcc %>
-  </div>
-  <div class="field">
-    <%= f.label :web_trail %><br>
-    <%= f.text_field :web_trail %>
-  </div>
-  <div class="field">
-    <%= f.label :maintenance %><br>
-    <%= f.text_field :maintenance %>
-  </div>
-  <div class="field">
-    <%= f.label :length_ft %><br>
-    <%= f.text_field :length_ft %>
-  </div>
-  <div class="field">
-    <%= f.label :trail_info_id %><br>
-    <%= f.number_field :trail_info_id %>
-  </div>
+  <% end %>
+
   <div class="actions">
     <%= f.submit %>
   </div>

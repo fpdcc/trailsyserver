@@ -7,7 +7,7 @@ class TrailsDescsController < ApplicationController
   # GET /trails_descs.json
   def index
     authorize TrailsDesc
-    @trails_descs = TrailsDesc.all
+    @trails_descs = TrailsDesc.all #.paginate(page: params[:page])
   end
 
   # GET /trails_descs/1
@@ -77,6 +77,7 @@ class TrailsDescsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trails_desc_params
-      params.require(:trails_desc).permit(:trail_desc_id, :trail_subsystem, :alt_name, :trail_desc, :map_link, :map_link_spanish)
+      params.require(:trails_desc).permit(TrailsDesc.column_names - ["created_at", "updated_at"])
+      #params.require(:trails_desc).permit(:trail_desc_id, :trail_subsystem, :alt_name, :trail_desc, :map_link, :map_link_spanish)
     end
 end

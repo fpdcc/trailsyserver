@@ -1,26 +1,34 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Listing Trail Systems</h1>
 
-<table>
+
+<table class="table-striped table-bordered table-hover">
   <thead>
     <tr>
-      <th>Trail subsystem</th>
-      <th colspan="3"></th>
+      <% for column in TrailSystem.column_names %>
+        <th><%= column %></th>
+      <% end %>
+      <th colspan="3">Make Changes</th>
     </tr>
   </thead>
-
   <tbody>
     <% @trail_systems.each do |trail_system| %>
       <tr>
-        <td><%= trail_system.trail_subsystem %></td>
+        <% trail_system.attributes.each do |attribute| %>
+          <td><%= attribute[1] %></td>
+        <% end %>
         <td><%= link_to 'Show', trail_system %></td>
         <td><%= link_to 'Edit', edit_trail_system_path(trail_system) %></td>
         <td><%= link_to 'Destroy', trail_system, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
+
+<%= will_paginate @trail_systems, renderer: BootstrapPagination::Rails %>
+
+
 
 <br>
 

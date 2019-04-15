@@ -20,7 +20,7 @@ class Pointsofinterest < ApplicationRecord
   include Alertable
 
   scope :web_poi, -> { includes(:poi_desc, :activities).where(web_poi: 'y') }
-  scope :has_trail_access, -> { joins(:activities).where("activities.atype = 'trailhead'") }
+  scope :has_trail_access, -> { joins(:activities).where.not(activities: {trail_info_id: nil}) }
   scope :has_parking, -> { where("parking_info_id > 0") }
   scope :with_active_alerts, -> { references(:alerts).where('alerts.starts_at <= ? and (alerts.ends_at >= ? or alerts.ends_at is null)', Time.now, Time.now) }
   scope :no_active_alerts, -> { references(:alerts).where(
@@ -100,7 +100,7 @@ class Pointsofinterest < ApplicationRecord
   # end
   
   def has_trail_access    
-    this_trailheads = self.activities.where(atype: "trailhead")   
+    this_trailheads = self.activities.where.not(trail_info_id: nil)   
     if this_trailheads.length > 0   
       return true   
     end   
@@ -167,6 +167,10 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("equestrian")
         searchTags.push("horse riding", "horse")
       end
+      if (fitness_stairs == 1)
+        panelTags.push("fitness_stairs")
+        searchTags.push("fitness stairs")
+      end
       if (fishing == 1)
         panelTags.push("fishing")
       end
@@ -231,9 +235,6 @@ class Pointsofinterest < ApplicationRecord
       if ( (picnic_grove == 1) or (shelter == 1) )
         searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
       end
-      if (recreation_center == 1)
-        panelTags.push("recreation_center")
-      end
       if (skating_ice == 1)
         panelTags.push("skating_ice")
         searchTags.push("ice skating", "ice skate")
@@ -289,9 +290,9 @@ class Pointsofinterest < ApplicationRecord
       if (natureplay == 1)
         panelTags.push('natureplay')
       end
-      # if (no_dogs == 1)
-      #   panelTags.push('no_dogs')
-      # end
+      if (no_dogs == 1)
+        panelTags.push('no_dogs')
+      end
     if (self.has_trail_access)
       panelTags.push("trailhead")
     end
@@ -302,7 +303,60 @@ class Pointsofinterest < ApplicationRecord
     tags
   end
 
-	def self.parse_csv(file)
+  def self.parse_csv(contents)
+      pois_to_update = []
+      ids_in_csv = []
+      CSV.parse(contents, headers: true, header_converters: :downcase) do |row|
+        next if (row.to_s =~ /^source/)
+        #logger.info "this row = #{row}"
+        poi_item = Pointsofinterest.find_or_initialize_by(poi_info_id: row['poi_info_id'])
+       
+        ids_in_csv.push(row['poi_info_id'])
+        poi_attrs = {}
+        row.headers.each do |header|
+          value = row[header]
+          next if header == "id"
+          unless value.nil?
+            value = value.squish
+            if value.to_s.downcase == "yes" || value == "Y" || value == "t"
+              value = "y"
+            end
+            if value.to_s.downcase == "no" || value == "N" || value == "f"
+              value = "n"
+            end
+          end
+          # Build poi Info Attrs
+          if poi_item.attributes.has_key? header
+            poi_attrs[header] = value
+          else
+            #p "Field not in trails_info_attrs: #{header}"
+          end
+          end
+          # Determine adds + changes for trails_info
+        poi_item.assign_attributes(poi_attrs)
+        parsed_item = {}
+        parsed_item['id'] = poi_item.id
+        parsed_item['changes'] = poi_item.changes
+        if poi_item.new_record?
+          parsed_item['type'] = "Add"
+          pois_to_update.push(parsed_item)
+        elsif poi_item.changed?
+          parsed_item['type'] = "Update"
+          pois_to_update.push(parsed_item)
+        end
+      end
+
+      ids_in_csv.uniq!
+      Pointsofinterest.where.not(poi_info_id: ids_in_csv).find_each(batch_size: 20000) do |poi|
+        parsed_item = {}
+        parsed_item['id'] = poi.poi_info_id
+        parsed_item['type'] = "Delete"
+        pois_to_update.push(parsed_item)
+      end
+      return pois_to_update
+  end
+
+	def self.parse_csv_old(file)
 	    parsed_items = []
 	    if file.class == ActionDispatch::Http::UploadedFile
 	      file_ident = file.path

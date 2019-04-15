@@ -1,11 +1,12 @@
 class PoiDescsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_poi_desc, only: [:show, :edit, :update, :destroy]
+  after_action :expire_this_json, only: [:create, :destroy, :update, :upload]
 
   # GET /poi_descs
   # GET /poi_descs.json
   def index
-    @poi_descs = PoiDesc.all
+    @poi_descs = PoiDesc.all.paginate(page: params[:page])
   end
 
   # GET /poi_descs/1
@@ -63,6 +64,11 @@ class PoiDescsController < ApplicationController
   end
 
   private
+    def expire_this_json
+      expire_page("/pointsofinterests.json")
+      expire_page("/pointsofinterests.json.gz")
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_poi_desc
       @poi_desc = PoiDesc.find(params[:id])
@@ -70,6 +76,7 @@ class PoiDescsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poi_desc_params
-      params.require(:poi_desc).permit(:poi_info_id, :fish_map, :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish, :vol_link, :vol_link2, :picnic_link, :event_link, :custom_link, :season1, :season2, :special_hours, :special_description, :special_link, :photo_link, :poi_desc_id)
+      params.require(:poi_desc).permit(PoiDesc.column_names - ["created_at", "updated_at"])
+      #params.require(:poi_desc).permit(:poi_info_id, :fish_map, :hours1, :hours2, :phone, :description, :web_link, :map_link, :map_link_spanish, :vol_link, :vol_link2, :picnic_link, :event_link, :custom_link, :season1, :season2, :special_hours, :special_description, :special_link, :photo_link, :poi_desc_id)
     end
 end
