@@ -18,11 +18,7 @@ json.locations do
 			json.extract! pointsofinterest, :id, :name
 			json.map_id pointsofinterest.map_id
 			json.type pointsofinterest.type
-			if pointsofinterest.poi_desc.present?
-				json.web_link(pointsofinterest.poi_desc.web_link)
-			else
-				json.web_link("")
-			end
+			json.web_link pointsofinterest.web_link
 			json.alerts pointsofinterest.alerts.current_or_near_future do |alert|
 				json.cache! alert do
 					json.id alert.id

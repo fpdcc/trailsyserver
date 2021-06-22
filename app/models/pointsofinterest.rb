@@ -70,6 +70,14 @@ class Pointsofinterest < ApplicationRecord
     end
   end
 
+  def web_link
+    if self.poi_desc
+      return self.poi_desc.web_link
+    else
+      return ""
+    end
+  end
+
   def map_id
     self.id + '-' + self.name
   end

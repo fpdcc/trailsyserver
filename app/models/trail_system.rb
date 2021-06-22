@@ -39,6 +39,16 @@ class TrailSystem < ApplicationRecord
   	self.trails_infos.pluck(:maintenance).uniq
   end
 
+  def web_link
+    # Temporary until web_link is added to schema
+    return ""
+		# if self.trails_desc
+		# 	return self.trails_desc.web_link
+		# else
+		# 	return ""
+		# end
+	end
+
   def map_id
     #self.trail_subsystem
     self.id + '-' + self.name
