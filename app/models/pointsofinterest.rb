@@ -240,6 +240,9 @@ class Pointsofinterest < ApplicationRecord
       if (shelter == 1)
         panelTags.push("shelter")
       end
+      if (accessible_shelter == true)
+        panelTags.push("accessible_shelter")
+      end
       if ( (picnic_grove == 1) or (shelter == 1) )
         searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")
       end

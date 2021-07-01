@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190414050858) do
+ActiveRecord::Schema.define(version: 20210701154602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,10 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "grove_type"
+    t.boolean "accessible"
+    t.decimal "parking_to_shelter"
+    t.decimal "shelter_to_bathroom"
+    t.string "bathroom_type"
     t.index ["picnicgrove_id"], name: "index_picnicgroves_on_picnicgrove_id", unique: true
     t.index ["poi_info_id"], name: "index_picnicgroves_on_poi_info_id"
     t.index ["status"], name: "index_picnicgroves_on_status"
@@ -245,6 +249,7 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.integer "camp_store", default: 0
     t.integer "no_dogs", default: 0
     t.integer "fitness_stairs", default: 0
+    t.boolean "accessible_shelter"
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
   end
 
