@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210701154602) do
+ActiveRecord::Schema.define(version: 20210701164101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20210701154602) do
     t.integer "trail_info_id"
     t.integer "parking_info_id"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.boolean "accessible"
     t.index ["activities_id"], name: "index_activities_on_activities_id", unique: true
     t.index ["poi_info_id"], name: "index_activities_on_poi_info_id"
     t.index ["trail_info_id"], name: "index_activities_on_trail_info_id"
@@ -250,6 +251,10 @@ ActiveRecord::Schema.define(version: 20210701154602) do
     t.integer "no_dogs", default: 0
     t.integer "fitness_stairs", default: 0
     t.boolean "accessible_shelter"
+    t.boolean "accessible_canoe"
+    t.boolean "accessible_fishing"
+    t.boolean "accessible_campsite"
+    t.boolean "accessible_boat"
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
   end
 
