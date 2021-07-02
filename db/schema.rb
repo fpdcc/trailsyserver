@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210702153409) do
+ActiveRecord::Schema.define(version: 20210702161420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,7 @@ ActiveRecord::Schema.define(version: 20210702153409) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fish_map"
+    t.string "accessibility_description"
     t.index ["poi_desc_id"], name: "index_poi_descs_on_poi_desc_id", unique: true
     t.index ["poi_info_id"], name: "index_poi_descs_on_poi_info_id", unique: true
   end
