@@ -119,6 +119,10 @@ class Pointsofinterest < ApplicationRecord
     tags = {}
     panelTags = [];
     searchTags = [];
+    if (accessible == 1)
+      panelTags.push("accessible")
+      searchTags.push("accessible")
+    end
       if (bike_rental == 1)
         panelTags.push("bike_rental")
         searchTags.push("bike rental", "bicycle rental")
