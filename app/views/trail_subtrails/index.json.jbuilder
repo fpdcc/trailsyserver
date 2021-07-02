@@ -12,6 +12,8 @@ json.array!(@trail_subtrails) do |trail_subtrail|
 
   json.trail_desc trail_subtrail.trails_desc.trail_desc if trail_subtrail.trails_desc.trail_desc.present?
 
+  json.web_link trail_subtrail.trails_desc.web_link if trail_subtrail.trails_desc.web_link.present?
+
   json.map_link trail_subtrail.trails_desc.map_link if trail_subtrail.trails_desc.map_link.present?
 
   json.map_link_spanish trail_subtrail.trails_desc.map_link_spanish if trail_subtrail.trails_desc.map_link_spanish.present?

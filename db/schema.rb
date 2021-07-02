@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210702145620) do
+ActiveRecord::Schema.define(version: 20210702153409) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 20210702145620) do
     t.string "season2"
     t.string "special_hours"
     t.string "trail_subsystem_id"
+    t.string "web_link"
     t.index ["trail_desc_id"], name: "index_trails_descs_on_trail_desc_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_descs_on_trail_subsystem"
   end

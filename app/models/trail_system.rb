@@ -40,13 +40,11 @@ class TrailSystem < ApplicationRecord
   end
 
   def web_link
-    # Temporary until web_link is added to schema
-    return ""
-		# if self.trails_desc
-		# 	return self.trails_desc.web_link
-		# else
-		# 	return ""
-		# end
+		if self.trails_desc
+			return self.trails_desc.web_link
+		else
+			return ""
+		end
 	end
 
   def map_id
