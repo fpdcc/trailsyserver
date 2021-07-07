@@ -44,7 +44,7 @@
         <td><%= alert.link %></td>
         <td><%= alert.pointsofinterests.pluck(:name).to_sentence %></td>
         <td><%= alert.trail_systems.pluck(:trail_subsystem).to_sentence %> - <%= alert.trail_subtrails.pluck(:subtrail_name).to_sentence %></td>
-        <td><% if alert.created_by.present? %><%= User.find(alert.created_by).email %><% end %></td>
+        <td><% if User.exists?(alert.created_by) %><%= User.find(alert.created_by).email %><% end %></td>
         <td><%= alert.created_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
         <td><%= alert.updated_at.try(:strftime, '%m/%d/%Y %I:%M %p') %></td>
         <!-- <td><%= link_to 'Show', alert %></td>
