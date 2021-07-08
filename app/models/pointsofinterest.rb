@@ -141,7 +141,7 @@ class Pointsofinterest < ApplicationRecord
       if (canoe == 1)
         panelTags.push("canoe")
       end
-      if (canoe == true)
+      if (accessible_canoe == true)
         panelTags.push("accessible_canoe")
       end
       if (boat_rental == 1)
