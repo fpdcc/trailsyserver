@@ -131,11 +131,18 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("birding")
         searchTags.push("birdwatching", "bird")
       end
+
+      if (accessible_boat == true)
+        panelTags.push("accessible_boat")
+      end
       if (boat_ramp == 1)
         panelTags.push("boat_ramp")
       end
       if (canoe == 1)
         panelTags.push("canoe")
+      end
+      if (canoe == true)
+        panelTags.push("accessible_canoe")
       end
       if (boat_rental == 1)
         panelTags.push("boat_rental")
@@ -148,6 +155,10 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("camping")
         searchTags.push("camp","campground")
       end
+      if (accessible_campsite == true)
+        panelTags.push("accessible_campsite")
+      end
+      
       if (cross_country == 1)
         panelTags.push("cross_country")
         searchTags.push("cross-country skiing","ski")
@@ -192,6 +203,9 @@ class Pointsofinterest < ApplicationRecord
       if (ice_fishing == 1)
         panelTags.push("ice_fishing")
         searchTags.push("ice fishing")
+      end
+      if (accessible_fishing == true)
+        panelTags.push("accessible_fishing")
       end
       if (golf == 1)
         panelTags.push("golf")
