@@ -92,7 +92,7 @@ class Pointsofinterest < ApplicationRecord
   end
 
   def self.maintenance_divs
-    maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.sort
+    maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.compact.sort
   end
 
   def parking_connection_poi
