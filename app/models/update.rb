@@ -82,8 +82,8 @@ class Update < ApplicationRecord
 	            value = "n"
 	          end
 	      end
-			trail_subtrail_item = TrailSubtrail.find_or_initialize_by(trail_subsystem_id: row['trail_subsystem_id'], trail_name: row['trail_name'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
-			
+		  trail_subtrail_id = TrailSubtrail.create_subtrail_id(trail_subsystem_id: row['trail_subsystem_id'], trail_name: row['trail_name'], trail_color: row['trail_color'],trail_type: row['trail_type'], segment_type: row['segment_type'], direction: row['direction'], off_fpdcc: value)
+		  trail_subtrail_item = TrailSubtrail.find_or_initialize_by(subtrail_id: trail_subtrail_id)
 		  ids_in_csv.push(row['trail_info_id'])
 		  systems_in_csv.push(row['trail_subsystem_id'])
 		  trail_subtrails_in_csv.push(trail_subtrail_item.create_subtrail_id)
