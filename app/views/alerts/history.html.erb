@@ -25,7 +25,7 @@
         <td><%= version.id %></td>
         <td><%= version.event %></td>
         <td><%= l version.created_at %></td>
-        <td><% unless version.whodunnit.blank? %><%= User.find(version.whodunnit).email %><% end %></td>
+        <td><% if version.whodunnit and User.exists?(version.whodunnit) %><%= User.find(version.whodunnit).email %><% end %></td>
         <td><%= version.item_id %></td>
         <td><%= version.changeset %></td>
         <td><%= version.full_desc %></td>

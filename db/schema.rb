@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190414050858) do
+ActiveRecord::Schema.define(version: 20210702161420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.integer "trail_info_id"
     t.integer "parking_info_id"
     t.geography "geom", limit: {:srid=>4326, :type=>"st_point", :geographic=>true}
+    t.boolean "accessible"
     t.index ["activities_id"], name: "index_activities_on_activities_id", unique: true
     t.index ["poi_info_id"], name: "index_activities_on_poi_info_id"
     t.index ["trail_info_id"], name: "index_activities_on_trail_info_id"
@@ -133,6 +134,10 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "grove_type"
+    t.boolean "accessible"
+    t.decimal "parking_to_shelter"
+    t.decimal "shelter_to_bathroom"
+    t.string "bathroom_type"
     t.index ["picnicgrove_id"], name: "index_picnicgroves_on_picnicgrove_id", unique: true
     t.index ["poi_info_id"], name: "index_picnicgroves_on_poi_info_id"
     t.index ["status"], name: "index_picnicgroves_on_status"
@@ -162,6 +167,7 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fish_map"
+    t.string "accessibility_description"
     t.index ["poi_desc_id"], name: "index_poi_descs_on_poi_desc_id", unique: true
     t.index ["poi_info_id"], name: "index_poi_descs_on_poi_info_id", unique: true
   end
@@ -183,7 +189,7 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.string "alt_name"
     t.string "alt2_name"
     t.string "name"
-    t.integer "ada"
+    t.integer "accessible"
     t.integer "bike_parking"
     t.integer "bike_rental"
     t.integer "birding"
@@ -245,6 +251,11 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.integer "camp_store", default: 0
     t.integer "no_dogs", default: 0
     t.integer "fitness_stairs", default: 0
+    t.boolean "accessible_shelter"
+    t.boolean "accessible_canoe"
+    t.boolean "accessible_fishing"
+    t.boolean "accessible_campsite"
+    t.boolean "accessible_boat"
     t.index ["poi_info_id"], name: "index_pointsofinterests_on_poi_info_id", unique: true
   end
 
@@ -317,6 +328,7 @@ ActiveRecord::Schema.define(version: 20190414050858) do
     t.string "season2"
     t.string "special_hours"
     t.string "trail_subsystem_id"
+    t.string "web_link"
     t.index ["trail_desc_id"], name: "index_trails_descs_on_trail_desc_id", unique: true
     t.index ["trail_subsystem"], name: "index_trails_descs_on_trail_subsystem"
   end

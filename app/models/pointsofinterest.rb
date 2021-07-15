@@ -70,6 +70,14 @@ class Pointsofinterest < ApplicationRecord
     end
   end
 
+  def web_link
+    if self.poi_desc
+      return self.poi_desc.web_link
+    else
+      return ""
+    end
+  end
+
   def map_id
     self.id + '-' + self.name
   end
@@ -84,7 +92,7 @@ class Pointsofinterest < ApplicationRecord
   end
 
   def self.maintenance_divs
-    maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.sort
+    maintenance_divs = Pointsofinterest.all.pluck('maintenance_div').uniq.compact.sort
   end
 
   def parking_connection_poi
@@ -111,6 +119,10 @@ class Pointsofinterest < ApplicationRecord
     tags = {}
     panelTags = [];
     searchTags = [];
+    if (accessible == 1)
+      panelTags.push("accessible")
+      searchTags.push("accessible")
+    end
       if (bike_rental == 1)
         panelTags.push("bike_rental")
         searchTags.push("bike rental", "bicycle rental")
@@ -119,11 +131,18 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("birding")
         searchTags.push("birdwatching", "bird")
       end
+
+      if (accessible_boat == true)
+        panelTags.push("accessible_boat")
+      end
       if (boat_ramp == 1)
         panelTags.push("boat_ramp")
       end
       if (canoe == 1)
         panelTags.push("canoe")
+      end
+      if (accessible_canoe == true)
+        panelTags.push("accessible_canoe")
       end
       if (boat_rental == 1)
         panelTags.push("boat_rental")
@@ -136,6 +155,10 @@ class Pointsofinterest < ApplicationRecord
         panelTags.push("camping")
         searchTags.push("camp","campground")
       end
+      if (accessible_campsite == true)
+        panelTags.push("accessible_campsite")
+      end
+      
       if (cross_country == 1)
         panelTags.push("cross_country")
         searchTags.push("cross-country skiing","ski")
@@ -180,6 +203,9 @@ class Pointsofinterest < ApplicationRecord
       if (ice_fishing == 1)
         panelTags.push("ice_fishing")
         searchTags.push("ice fishing")
+      end
+      if (accessible_fishing == true)
+        panelTags.push("accessible_fishing")
       end
       if (golf == 1)
         panelTags.push("golf")
@@ -231,6 +257,9 @@ class Pointsofinterest < ApplicationRecord
       end
       if (shelter == 1)
         panelTags.push("shelter")
+      end
+      if (accessible_shelter == true)
+        panelTags.push("accessible_shelter")
       end
       if ( (picnic_grove == 1) or (shelter == 1) )
         searchTags.push("picnic_grove","shelter", "picnic", "event space", "grove", "bbq", "grill")

@@ -18,7 +18,7 @@
               <% end %>
             <% if poi.try(:picnicgroves) %>
               <% if poi.picnicgroves.pluck(:grove).count > 0 %>
-                <br>Groves: <%= poi.picnicgroves.pluck(:grove).sort.to_sentence %>
+                <br>Groves: <%= poi.picnicgroves.pluck(:grove).compact.sort.to_sentence %>
               <% end %>
             <% end %>
           </td>

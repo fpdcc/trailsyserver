@@ -212,7 +212,9 @@ class AlertsController < ApplicationController
             csv << fields.map do |f|
               field_value = version[f]
               if f == 'whodunnit'
-                field_value = User.find(version[f]).email unless version[f].blank?
+                if version[f].present? and User.exists?(version[f])
+                  field_value = User.find(version[f]).email unless version[f].blank?
+                end
               end
               field_value
             end
