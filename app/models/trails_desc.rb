@@ -1,7 +1,7 @@
 class TrailsDesc < ApplicationRecord
 	self.primary_key = 'trail_desc_id'
 
-	belongs_to :trail_system, primary_key: :trail_subsystem_id
+	belongs_to :trail_system, foreign_key: :trail_subsystem_id, primary_key: :trail_subsystem_id
 
 	def self.parse_csv(file)
 	    parsed_items = []
